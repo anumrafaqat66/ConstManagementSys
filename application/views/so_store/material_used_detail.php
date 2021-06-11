@@ -25,11 +25,12 @@
                                          <thead>
                                              <tr>
                                                  <th scope="col">ID</th>
+                                                 <th scope="col">Date</th>
                                                  <th scope="col">Project Name</th>
                                                  <th scope="col">Material</th>
                                                  <th scope="col">Quantity</th>
                                                  <th scope="col">Price</th>
-                                                 <th scope="col">delivery Date</th>
+                                                 
                                                  <th scope="col">Status</th>
                                              </tr>
                                          </thead>
@@ -38,11 +39,11 @@
                                                 foreach ($material_detail_records as $data) { ?>
                                                  <tr>
                                                      <td scope="row"><?= ++$count ?></td>
+                                                     <td scope="row"><?= $data['delivery_date']; ?></td>
                                                      <td scope="row"><?= $data['Name']; ?></td>
                                                         <td scope="row"><?= $data['Material_Name']; ?></td>
                                                      <td  class="quant" scope="row"><?= $data['Quantity_used']; ?></td>
                                                      <td scope="row">PKR. <?= $data['Price']; ?></td>
-                                                     <td scope="row"><?= $data['delivery_date']; ?></td>
                                                      <td scope="row"><?= $data['Status']; ?></td>
                                                  </tr>
                                              <?php } ?>

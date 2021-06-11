@@ -124,7 +124,7 @@
                                                  </div>
 
                                                  <div class="col-sm-2">
-                                                     <h6>&nbsp;Quantity:</h6>
+                                                     <h6>&nbsp;Quantity Used:</h6>
                                                  </div>
 
                                                  <div class="col-sm-2">
