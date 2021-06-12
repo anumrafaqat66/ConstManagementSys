@@ -29,7 +29,7 @@
                                      </div>
 
                                      <div class="card-body bg-custom3">
-                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_STORE/insert_inventory">
+                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_STORE/project_material">
                                              <div class="form-group row">
                                                  <div class="col-sm-3">
                                                      <h6>&nbsp;Material:</h6>
@@ -109,7 +109,7 @@
                                      </div>
 
                                      <div class="card-body bg-custom3">
-                                         <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>SO_STORE/edit_inventory">
+                                         <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>SO_STORE/project_material">
                                              <div class="form-group row">
                                                  <div class="col-sm-3">
                                                      <h6>&nbsp;Project Name:</h6>
@@ -233,7 +233,7 @@
                                                      <td scope="row">PKR. <?= $data['Total_Cost']; ?></td>
                                                      <td scope="row"><?= $data['Status']; ?></td>
                                                      <td type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 75px;" class="fas fa-edit"></i></td>
-                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 65px;" class="fas fa-eye"></i></a></td>
+                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_material_detail/<?=  $data['ID']?>" style="color:black"><i style="margin-left: 65px;" class="fas fa-eye"></i></a></td>
 
                                                  </tr>
                                              <?php } ?>

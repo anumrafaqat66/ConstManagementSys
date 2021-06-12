@@ -48,12 +48,29 @@ class SO_STORE extends CI_Controller
             $this->db->select('id.id, i.Material_Name, id.Quantity, id.Price,i.Unit, id.stock_date, id.Status');
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
-            $this->db->where('id.Material_ID', $id);
+            $this->db->where('Material_id', $id);
             
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_store/inventory_detail', $data);
         }
     }
+
+      public function view_material_detail($id = NULL)
+    {
+
+        if ($this->session->has_userdata('user_id')) {
+
+             $this->db->select('inventory_used.*,projects.*,inventory.Material_Name');
+             $this->db->from('inventory_used');
+             $this->db->join('projects', 'projects.ID = inventory_used.Material_used_by_Project');
+            $this->db->join('inventory', 'inventory.ID = inventory_used.Material_id');
+             $this->db->where('Material_used_by_Project', $id);
+             $data['material_detail_records'] = $this->db->get()->result_array();
+            // print_r( $data['material_detail_records'] );
+            $this->load->view('so_store/material_used_detail',$data);
+        }
+    }
+
 
     public function insert_inventory()
     {
@@ -94,6 +111,45 @@ class SO_STORE extends CI_Controller
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
             redirect('SO_STORE');
+        }
+    }
+
+    public function project_material()
+    {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
+
+            $name = $postData['project_name'];
+            $date = $postData['delivery_date'];
+            $material = $postData['material'];
+            $quantity = $postData['quantity'];
+            $price = $postData['price'];
+            
+            $material=$this->db->where('Material_name',$material)->get('inventory')->row_array();
+            $project=$this->db->where('Name',$name)->get('projects')->row_array();
+           // echo $project['ID'];exit;
+
+            $insert_array = array(
+                'Material_id' => $material['ID'],
+                 'Material_used_by_Project' => $project['ID'],
+                 'Quantity_used' => $quantity,
+                'price'=>$price,
+                'delivery_date' => $date,
+                'status'=>"Pending"
+            );
+          //  print_r($insert_array);exit;
+            $insert = $this->db->insert('inventory_used', $insert_array);
+
+            if (!empty($insert)) {
+                $this->session->set_flashdata('success', 'Data Submitted successfully');
+                redirect('SO_STORE/view_projects');
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+                   redirect('SO_STORE/view_projects');
+            }
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+            redirect('SO_STORE/view_projects');
         }
     }
 
