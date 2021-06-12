@@ -74,6 +74,7 @@
                                                          <!-- <i class="fab fa-google fa-fw"></i>  -->
                                                          Submit Data
                                                      </button>
+                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                  </div>
                                              </div>
                                          </form>
@@ -147,10 +148,11 @@
 
                                              <div class="form-group row justify-content-center">
                                                  <div class="col-sm-4">
-                                                     <button type="submit" class="btn btn-primary btn-user btn-block" id="edit_btn">
+                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="edit_btn">
                                                          <!-- <i class="fab fa-google fa-fw"></i>  -->
                                                          Update Material
                                                      </button>
+                                                     <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                  </div>
                                              </div>
                                          </form>
@@ -245,42 +247,85 @@
          $('#add_btn').attr('disabled', true);
          var validate = 0;
 
-         var controller_type = $('#controller_type').val();
-         var eswb = $('#eswb').val();
-         var name = $('#controller_name').val();
-         var comission_date = $('#comission_date').val();
-         var ship_id = $('#Ship_ID').val();
-         var total_equipped = $('#Total_Equipped').val();
+         var material_name = $('#material_name').val();
+         var quantity = $('#quantity').val();
+         var price = $('#price').val();
+         var unit = $('#unit').val();
+         
+         if (material_name == '') {
+             validate = 1;
+             $('#material_name').addClass('red-border');
+         }
+         if (quantity == '') {
+             validate = 1;
+             $('#quantity').addClass('red-border');
+         }
+         if (price == '') {
+             validate = 1;
+             $('#price').addClass('red-border');
+         }
+         if (unit == '') {
+             validate = 1;
+             $('#unit').addClass('red-border');
+         }
 
-         if (eswb == '') {
-             validate = 1;
-             $('#eswb').addClass('red-border');
+         if(!$.isNumeric(quantity)){
+         validate = 1;
+             $('#quantity').addClass('red-border');
          }
-         if (name == '') {
-             validate = 1;
-             $('#controller_name').addClass('red-border');
-         }
-         if (controller_type == '') {
-             validate = 1;
-             $('#controller_type').addClass('red-border');
-         }
-         if (comission_date == '') {
-             validate = 1;
-             $('#comission_date').addClass('red-border');
-         }
-         if (ship_id == '') {
-             validate = 1;
-             $('#Ship_ID').addClass('red-border');
-         }
-         if (total_equipped == '') {
-             validate = 1;
-             $('#Total_Equipped').addClass('red-border');
+
+         if(!$.isNumeric(price)){
+         validate = 1;
+             $('#price').addClass('red-border');
          }
 
          if (validate == 0) {
              $('#add_form')[0].submit();
+             $('#show_error_new').hide();
          } else {
              $('#add_btn').removeAttr('disabled');
+             $('#show_error_new').show();
+         }
+     });
+
+     $('#edit_btn').on('click', function() {
+         //alert('javascript working');
+         $('#edit_btn').attr('disabled', true);
+         var validate = 0;
+
+         var material_name = $('#material_name_edit').val();
+         var quantity = $('#new_quantity').val();
+         var price = $('#new_price').val();
+         
+         if (material_name == '') {
+             validate = 1;
+             $('#material_name_edit').addClass('red-border');
+         }
+         if (quantity == '') {
+             validate = 1;
+             $('#new_quantity').addClass('red-border');
+         }
+         if (price == '') {
+             validate = 1;
+             $('#new_price').addClass('red-border');
+         }         
+
+         if(!$.isNumeric(quantity)){
+         validate = 1;
+             $('#new_quantity').addClass('red-border');
+         }
+
+         if(!$.isNumeric(price)){
+         validate = 1;
+             $('#new_price').addClass('red-border');
+         }
+
+         if (validate == 0) {
+             $('#edit_form')[0].submit();
+             $('#show_error_update').hide();
+         } else {
+             $('#edit_btn').removeAttr('disabled');
+             $('#show_error_update').show();
          }
      });
 

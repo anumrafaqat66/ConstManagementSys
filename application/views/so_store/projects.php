@@ -8,88 +8,6 @@
 
  <div class="container">
      <div class="card o-hidden my-4 border-0 shadow-lg">
-         <div class="modal fade" id="new_material">
-             <!-- <div class="row"> -->
-             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
-                 <div class="modal-content bg-custom3" style="width:1000px;">
-                     <div class="modal-header" style="width:1000px;">
-                         <!-- <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5> -->
-                         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                         </button> -->
-                     </div>
-                     <div class="card-body bg-custom3">
-                         <!-- Nested Row within Card Body -->
-                         <div class="row">
-                             <div class="col-lg-12">
-
-                                 <div class="card">
-                                     <div class="card-header bg-custom1">
-                                         <h1 class="h4">Add New Material</h1>
-                                     </div>
-
-                                     <div class="card-body bg-custom3">
-                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_STORE/project_material">
-                                             <div class="form-group row">
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Material:</h6>
-                                                 </div>
-
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Quantity:</h6>
-                                                 </div>
-
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Price:</h6>
-                                                 </div>
-
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Unit:</h6>
-                                                 </div>
-
-                                             </div>
-
-                                             <div class="form-group row">
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="material_name" id="material_name" placeholder="Material">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="price" id="price" placeholder="Price">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="unit" id="unit" placeholder="Unit">
-                                                 </div>
-                                             </div>
-
-
-                                             <div class="form-group row justify-content-center">
-                                                 <div class="col-sm-4">
-                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
-                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                         Submit Data
-                                                     </button>
-                                                 </div>
-                                             </div>
-                                         </form>
-                                     </div>
-                                 </div>
-
-
-                             </div>
-                         </div>
-                     </div>
-                     <div class="modal-footer">
-                         <!-- <button type="button" class="btn btn-primary rounded-pill" data-dismiss="modal">Close</button> -->
-                     </div>
-                 </div>
-             </div>
-         </div>
 
          <div class="modal fade" id="edit_material">
              <!-- <div class="row"> -->
@@ -152,13 +70,15 @@
                                                          <option class="form-control form-control-user small" value="">Select Material</option>
                                                          <?php $material_data = $this->db->get('inventory')->result_array(); ?>
                                                          <?php foreach ($material_data as $data) { ?>
-                                                             <option class="form-control form-control-user small"  value="<?= $data['Material_Name'] ?>"><?= $data['Material_Name']; ?></option>
+                                                             <option class="form-control form-control-user small" value="<?= $data['ID'] ?>"><?= $data['Material_Name']; ?></option>
                                                          <?php } ?>
                                                      </select>
+                                                     <span id="show_material" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Select Material First:</span>
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
                                                      <input type="text" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
+                                                     <span id="show_quantity" style="font-size:10px; color:red; display:none">Available Quantity:</span>
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
@@ -169,10 +89,11 @@
 
                                              <div class="form-group row justify-content-center">
                                                  <div class="col-sm-4">
-                                                     <button type="submit" class="btn btn-primary btn-user btn-block" id="edit_btn">
+                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
                                                          <!-- <i class="fab fa-google fa-fw"></i>  -->
                                                          Add Record
                                                      </button>
+                                                     <span id="show_error" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                  </div>
                                              </div>
                                          </form>
@@ -215,7 +136,7 @@
                                                  <th scope="col">Project Name</th>
                                                  <th scope="col">Start Date</th>
                                                  <th scope="col">End Date</th>
-                                                 <th scope="col">Total Cost</th>
+                                                 <!-- <th scope="col">Total Cost</th> -->
                                                  <th scope="col">Status</th>
                                                  <th scope="col">Add Material Record</th>
                                                  <th scope="col">View Material Details</th>
@@ -230,10 +151,10 @@
                                                      <td id="project<?= $data['ID']; ?>" scope="row"><?= $data['Name']; ?></td>
                                                      <td scope="row"><?= $data['Start_date']; ?></td>
                                                      <td scope="row"><?= $data['End_date']; ?></td>
-                                                     <td scope="row">PKR. <?= $data['Total_Cost']; ?></td>
+                                                     <!-- <td scope="row">PKR. <?= $data['Total_Cost']; ?></td> -->
                                                      <td scope="row"><?= $data['Status']; ?></td>
                                                      <td type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 75px;" class="fas fa-edit"></i></td>
-                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_material_detail/<?=  $data['ID']?>" style="color:black"><i style="margin-left: 65px;" class="fas fa-eye"></i></a></td>
+                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_material_detail/<?= $data['ID'] ?>" style="color:black"><i style="margin-left: 65px;" class="fas fa-eye"></i></a></td>
 
                                                  </tr>
                                              <?php } ?>
@@ -262,45 +183,87 @@
          $('#add_btn').attr('disabled', true);
          var validate = 0;
 
-         var controller_type = $('#controller_type').val();
-         var eswb = $('#eswb').val();
-         var name = $('#controller_name').val();
-         var comission_date = $('#comission_date').val();
-         var ship_id = $('#Ship_ID').val();
-         var total_equipped = $('#Total_Equipped').val();
+         var delivery_date = $('#delivery_date').val();
+         var material = $('#material').val();
+         var quantity = $('#quantity').val();
+         var price = $('#price').val();
+         
 
-         if (eswb == '') {
+         if (delivery_date == '') {
              validate = 1;
-             $('#eswb').addClass('red-border');
+             $('#delivery_date').addClass('red-border');
          }
-         if (name == '') {
+         if (material == '') {
              validate = 1;
-             $('#controller_name').addClass('red-border');
+             $('#material').addClass('red-border');
          }
-         if (controller_type == '') {
+         if (quantity == '') {
              validate = 1;
-             $('#controller_type').addClass('red-border');
+             $('#quantity').addClass('red-border');
          }
-         if (comission_date == '') {
+         if (price == '') {
              validate = 1;
-             $('#comission_date').addClass('red-border');
-         }
-         if (ship_id == '') {
-             validate = 1;
-             $('#Ship_ID').addClass('red-border');
-         }
-         if (total_equipped == '') {
-             validate = 1;
-             $('#Total_Equipped').addClass('red-border');
+             $('#price').addClass('red-border');
          }
 
+         if(!$.isNumeric(quantity)){
+         validate = 1;
+             $('#quantity').addClass('red-border');
+         }
+
+         if(!$.isNumeric(price)){
+         validate = 1;
+             $('#price').addClass('red-border');
+         }
+         
          if (validate == 0) {
-             $('#add_form')[0].submit();
+             $('#edit_form')[0].submit();
+             $('#show_error').hide();
          } else {
              $('#add_btn').removeAttr('disabled');
+             $('#show_error').show();
          }
      });
 
+     $('#quantity').on('focusout', function() {
+         //alert('abc');
+         var cur_val = $(this).val();
+         var id = $('#material').val();
+         if(id == '' ){
+            //  alert('Please select material first');
+             $( "#material").focus();
+             $( "#material").addClass('red-border');
+             $( "#show_material").show();
+             $('#quantity').val('');
+             return;
+         } else {
+            $( "#material" ).removeClass('red-border');
+            $( "#show_material").hide();
+         }
+
+         $.ajax({
+             url: '<?= base_url(); ?>SO_STORE/get_total_material_available',
+             method: 'POST',
+             data: {
+                 'material_id': id,
+             },
+             success: function(data) {
+                
+                if (parseInt(cur_val) > parseInt(data)) {
+                    $('#show_quantity').html('&nbsp;Available quantity: ' + data);
+                    $('#show_quantity').show();
+                    $('#quantity').addClass('red-border');
+                }
+                else {
+                    $('#quantity').removeClass('red-border');
+                    $('#show_quantity').hide();
+                }
+                
+             },
+             async: true
+         });
+
+     })
 
      $('#table_rows').find('tr').click(function() {
          var $columns = $(this).find('td');

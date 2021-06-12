@@ -16,6 +16,7 @@ class Admin extends CI_Controller
             $this->load->view('Admin/login');
         }
     }
+
     public function add_users(){
         $this->load->view('Admin/create_user');
     }
@@ -43,7 +44,7 @@ class Admin extends CI_Controller
                     $this->session->set_flashdata('failure', 'No such user exist. Kindly create New User using Admin panel');
                     redirect('Admin');
                 }
-                print_r($query); exit; 
+                //print_r($query); exit; 
             } else {
                 $this->session->set_flashdata('failure', 'Login failed');
                 redirect('Admin');
