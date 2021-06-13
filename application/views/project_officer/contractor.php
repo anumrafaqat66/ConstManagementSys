@@ -106,7 +106,7 @@
 
                                  <div class="card">
                                      <div class="card-header bg-custom1">
-                                         <h1 class="h4">Update/Edit Material</h1>
+                                         <h1 class="h4">Edit Contactor</h1>
                                      </div>
 
                                      <div class="card-body bg-custom3">
@@ -190,12 +190,14 @@
                                          <thead>
                                              <tr>
                                                  <th scope="col">ID</th>
-                                                 <th scope="col">Contractor Name</th>
+                                                 <th scope="col">Full Name</th>
                                                  <th scope="col">Contact No</th>
                                                  <th scope="col">Email</th>
                                                  <th scope="col">Register Date</th>
-                                                 <!-- <th scope="col">Edit/Update Quantity</th>
-                                                 <th scope="col">View Details</th> -->
+                                                 <th scope="col">Assigned Projects</th>
+                                                 <th scope="col">Completed Projects</th>
+                                                 <th scope="col">Edit Record</th>
+                                                 <!-- <th scope="col">View Details</th> -->
                                                  
                                              </tr>
                                          </thead>
@@ -204,11 +206,13 @@
                                                 foreach ($contractor_records as $data) { ?>
                                                  <tr>
                                                      <td scope="row"><?= $data['ID']; ?></td>
-                                                     <td id="material<?= $data['ID']; ?>" scope="row"><?= $data['Name']; ?></td>
+                                                     <td style="width:150px" id="cont<?= $data['ID']; ?>" scope="row"><?= $data['Name']; ?></td>
                                                      <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Contact_no']; ?></td>
-                                                     <td scope="row">PKR. <?= $data['Email_id']; ?></td>
-                                                     <td scope="row"><?= $data['Start_date']; ?></td>
-                                                     <!-- <td type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 70px;" class="fas fa-edit"></i></td> -->
+                                                     <td scope="row"><?= $data['Email_id']; ?></td>
+                                                     <td style="width:150px" scope="row"><?= $data['Start_date']; ?></td>
+                                                     <td scope="row" style="text-align:center; background-color:darksalmon"><?= $data['Assigned_Projects']; ?></td>
+                                                     <td scope="row" style="text-align:center; background-color:darksalmon"><?= $data['Completed_Projects']; ?></td>
+                                                     <td style="width:120px" type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
                                                      <!-- <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 40px;" class="fas fa-eye"></i></a></td> -->
                                                      
                                                  </tr>

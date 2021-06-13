@@ -36,8 +36,17 @@ CREATE TABLE IF NOT EXISTS `contractors` (
   `Email_id` varchar(100) DEFAULT NULL,
   `Description` varchar(250) DEFAULT NULL,
   `Start_date` date DEFAULT NULL,
+  `Assigned_Projects` int(20) DEFAULT 0,
+  `Completed_Projects` int(20) DEFAULT 0,
   `Status` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `contractors`
+--
+
+INSERT INTO `contractors` ( `ID`, `Name`, `Contact_no`, `Email_id`, `Description`, `Start_date`,`Status`) VALUES
+(1, 'Contractor-1', '03312344532', 'contractor_one@gmail.com', 'Verified contractor by department', '2021-06-13', 'Verified');
 
 -- --------------------------------------------------------
 
@@ -119,6 +128,8 @@ CREATE TABLE `projects` (
   `End_date` date DEFAULT NULL,
   `Total_Cost` decimal(8,2) DEFAULT NULL,
   `Created_by` varchar(100) DEFAULT NULL,
+  `contractor_id` bigint(20) DEFAULT NULL,
+  `bid_id` int(20) DEFAULT NULL,
   `Status` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
