@@ -118,6 +118,7 @@ CREATE TABLE `projects` (
   `Start_date` date DEFAULT NULL,
   `End_date` date DEFAULT NULL,
   `Total_Cost` decimal(8,2) DEFAULT NULL,
+  `Created_by` varchar(100) DEFAULT NULL,
   `Status` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
