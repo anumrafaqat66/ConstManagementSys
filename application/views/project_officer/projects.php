@@ -4,19 +4,115 @@
      .red-border {
          border: 1px solid red !important;
      }
+
+     .modal {
+         display: none;
+         position: fixed;
+         padding-top: 100px;
+         left: 0;
+         right: 0;
+         top: 0;
+         bottom: 0;
+         overflow: auto;
+         z-index: 9999;
+     }
  </style>
 
  <div class="container">
      <div class="card o-hidden my-4 border-0 shadow-lg">
+
+         <div class="modal fade" id="new_bids">
+             <!-- <div class="row"> -->
+             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
+                 <div class="modal-content bg-custom3" style="width:1000px;">
+                     <div class="modal-header" style="width:1000px;">
+
+                     </div>
+                     <div class="card-body bg-custom3">
+                         <!-- Nested Row within Card Body -->
+                         <div class="row">
+                             <div class="col-lg-12">
+
+                                 <div class="card">
+                                     <div class="card-header bg-custom1">
+                                         <h1 class="h4">Enter Project Bids</h1>
+                                     </div>
+
+                                     <div class="card-body bg-custom3">
+                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_project">
+
+                                             <div class="add_rows" id="add_bid_rows">
+                                                 <div class="form-group row">
+                                                     <div class="col-sm-3">
+                                                         <h6>&nbsp;Contractor:</h6>
+                                                     </div>
+
+                                                     <div class="col-sm-3">
+                                                         <h6>&nbsp;Bid Amount</h6>
+                                                     </div>
+
+                                                     <div class="col-sm-3">
+
+                                                     </div>
+
+                                                     <div class="col-sm-2">
+                                                         Add New Row
+                                                     </div>
+                                                     <div class="col-sm-1">
+                                                         <i id="add_row" type="button" class="far fa-plus-square" style="font-size:25px; margin-top:2px"></i>
+                                                     </div>
+
+                                                 </div>
+
+
+                                                 <div class="form-group row">
+                                                     <div class="col-sm-3 mb-1">
+                                                         <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                             <option class="form-control form-control-user" value="">Select Contractor Name</option>
+                                                             <?php foreach ($contractor_name as $contractor) { ?>
+                                                                 <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
+                                                             <?php } ?>
+                                                         </select>
+                                                     </div>
+
+                                                     <div class="col-sm-3 mb-1">
+                                                         <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Bid Amount">
+                                                     </div>
+
+
+                                                 </div>
+                                             </div>
+
+                                             <div class="form-group row justify-content-center">
+                                                 <div class="col-sm-4">
+                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
+                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
+                                                         Submit Bids
+                                                     </button>
+                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
+                                                 </div>
+                                             </div>
+                                         </form>
+                                     </div>
+                                 </div>
+
+
+                             </div>
+                         </div>
+                     </div>
+                     <div class="modal-footer">
+                         <!-- <button type="button" class="btn btn-primary rounded-pill" data-dismiss="modal">Close</button> -->
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+
          <div class="modal fade" id="new_contractor">
              <!-- <div class="row"> -->
              <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                  <div class="modal-content bg-custom3" style="width:1000px;">
                      <div class="modal-header" style="width:1000px;">
-                         <!-- <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5> -->
-                         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                         </button> -->
                      </div>
                      <div class="card-body bg-custom3">
                          <!-- Nested Row within Card Body -->
@@ -44,7 +140,7 @@
                                                  </div>
 
                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;End Date:</h6>
+                                                     <h6>&nbsp;Assigned Bid:</h6>
                                                  </div>
 
                                              </div>
@@ -53,6 +149,7 @@
                                              <div class="form-group row">
                                                  <div class="col-sm-3 mb-1">
                                                      <input type="text" class="form-control form-control-user" name="project_name" id="project_name" placeholder="Project Name">
+                                                     <span id="show_project_name_error" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please enter project name & code first</span>
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
@@ -61,17 +158,21 @@
 
                                                  <div class="col-sm-3 mb-1">
                                                      <input type="date" class="form-control form-control-user" name="start_date" id="start_date" placeholder="Start Date">
-                                                    <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
+                                                     <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="date" class="form-control form-control-user" name="end_date" id="end_date" placeholder="End Date*" value="">
+                                                 <div class="col-sm-2 mb-1">
+                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Select Bids">
+                                                 </div>
+
+                                                 <div class="col-sm-1 mb-1">
+                                                     <span><a href="#"><i class="fas fa-folder-plus" type="" data-toggle="modal" data-target="#new_bids" id="add_bids"  style="font-size: 40px; margin-top:2px; color:black"></i></a></span>
                                                  </div>
                                              </div>
 
                                              <div class="form-group row">
-                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Contractor:</h6>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Assigned Contractor:</h6>
                                                  </div>
                                                  <div class="col-sm-3">
                                                      <h6>&nbsp;Created By:</h6>
@@ -84,45 +185,46 @@
                                                      <h6>&nbsp;Status:</h6>
                                                  </div>
 
-                                                
+
                                              </div>
 
                                              <div class="form-group row">
                                                  <div class="col-sm-3">
-                                                <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
-                                                     <option class="form-control form-control-user" value="">Select Contractor Name</option>
-                                                <?php foreach($contractor_name as $contractor){ ?>
-                                                    <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
-                                                <?php } ?>
-                                                </select>
+                                                     <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                         <option class="form-control form-control-user" value="">Select Contractor Name</option>
+                                                         <?php foreach ($contractor_name as $contractor) { ?>
+                                                             <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
+                                                         <?php } ?>
+                                                     </select>
                                                  </div>
 
-                                                <div class="col-sm-3 mb-1">
+                                                 <div class="col-sm-3 mb-1">
                                                      <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By.">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
                                                      <input type="number" class="form-control form-control-user" name="total_cost" id="total_cost" placeholder="Total Cost">
-                                                    <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
+                                                     <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                    <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
-                                                     <option class="form-control form-control-user" value="">Select Status</option>
-                                                    <option class="form-control form-control-user" value="On-going">On_going</option>
-                                                      <option class="form-control form-control-user" value="Initiated">Initiated</option>
-                                                        <option class="form-control form-control-user" value="closed">Closed</option>
-                                                </select>
+                                                     <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                         <option class="form-control form-control-user" value="">Select Status</option>
+                                                         <option class="form-control form-control-user" value="On-going">On_going</option>
+                                                         <option class="form-control form-control-user" value="Initiated">Initiated</option>
+                                                         <option class="form-control form-control-user" value="Closed">Closed</option>
+                                                         <option class="form-control form-control-user" value="Completed">Completed</option>
+                                                     </select>
                                                  </div>
-                                                   
+
                                              </div>
 
-                                           <!--  <div class="form-group row">
+                                             <!--  <div class="form-group row">
                                                   <div class="col-sm-3">
                                                      <h6>&nbsp;Status:</h6>
                                                  </div>
                                              </div> -->
-                                                <!--  <div class="form-group row">
+                                             <!--  <div class="form-group row">
                                                  <div class="col-sm-12">
                                                   <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                                      <option class="form-control form-control-user" value="">Select Status</option>
@@ -207,7 +309,6 @@
 
                                                  <div class="col-sm-3 mb-1">
                                                      <input type="date" class="form-control form-control-user" name="start_date" id="start_date" placeholder="Start Date">
-                                                    <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
@@ -216,7 +317,7 @@
                                              </div>
 
                                              <div class="form-group row">
-                                                  <div class="col-sm-3">
+                                                 <div class="col-sm-3">
                                                      <h6>&nbsp;Contractor:</h6>
                                                  </div>
                                                  <div class="col-sm-3">
@@ -230,45 +331,45 @@
                                                      <h6>&nbsp;Status:</h6>
                                                  </div>
 
-                                                
+
                                              </div>
 
                                              <div class="form-group row">
                                                  <div class="col-sm-3">
-                                                <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
-                                                     <option class="form-control form-control-user" value="">Select Contractor Name</option>
-                                                <?php foreach($contractor_name as $contractor){ ?>
-                                                    <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
-                                                <?php } ?>
-                                                </select>
+                                                     <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                         <option class="form-control form-control-user" value="">Select Contractor Name</option>
+                                                         <?php foreach ($contractor_name as $contractor) { ?>
+                                                             <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
+                                                         <?php } ?>
+                                                     </select>
                                                  </div>
 
-                                                <div class="col-sm-3 mb-1">
+                                                 <div class="col-sm-3 mb-1">
                                                      <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By.">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
                                                      <input type="number" class="form-control form-control-user" name="total_cost" id="total_cost" placeholder="Total Cost">
-                                                    <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
+                                                     <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                    <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
-                                                     <option class="form-control form-control-user" value="">Select Status</option>
-                                                    <option class="form-control form-control-user" value="On-going">On_going</option>
-                                                      <option class="form-control form-control-user" value="Initiated">Initiated</option>
-                                                        <option class="form-control form-control-user" value="closed">Closed</option>
-                                                </select>
+                                                     <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                         <option class="form-control form-control-user" value="">Select Status</option>
+                                                         <option class="form-control form-control-user" value="On-going">On_going</option>
+                                                         <option class="form-control form-control-user" value="Initiated">Initiated</option>
+                                                         <option class="form-control form-control-user" value="closed">Closed</option>
+                                                     </select>
                                                  </div>
-                                                   
+
                                              </div>
 
-                                           <!--  <div class="form-group row">
+                                             <!--  <div class="form-group row">
                                                   <div class="col-sm-3">
                                                      <h6>&nbsp;Status:</h6>
                                                  </div>
                                              </div> -->
-                                                <!--  <div class="form-group row">
+                                             <!--  <div class="form-group row">
                                                  <div class="col-sm-12">
                                                   <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                                      <option class="form-control form-control-user" value="">Select Status</option>
@@ -288,54 +389,6 @@
                                                      <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                  </div>
                                              </div>
-                                         </form>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="modal-footer">
-                         <!-- <button type="button" class="btn btn-primary rounded-pill" data-dismiss="modal">Close</button> -->
-                     </div>
-                 </div>
-             </div>
-         </div>
-
-
-         <div class="modal fade" id="assigned_projects">
-             <!-- <div class="row"> -->
-             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
-                 <div class="modal-content bg-custom3" style="width:1000px;">
-                     <div class="modal-header" style="width:1000px;">
-
-                     </div>
-                     <div class="card-body bg-custom3">
-                         <!-- Nested Row within Card Body -->
-                         <div class="row">
-                             <div class="col-lg-12">
-
-                                 <div class="card">
-                                     <div class="card-header bg-custom1">
-                                         <h1 id="contractor_head" class="h4">Assigned Projects of </h1>
-                                     </div>
-
-                                     <div class="card-body bg-custom3">
-                                         <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/edit_contractor">
-                                             <div class="form-group row">
-                                                 <div class="col-sm-12">
-                                                     <h3 id="contractor_heading"></h3>
-                                                 </div>
-                                             </div>
-                                             <div class="form-group row">
-                                                 <div class="col-sm-12">
-                                                     <h4>List of Projects:</h4>
-                                                 </div>
-                                                 <div id="show_list" class="col-sm-12">
-
-                                                 </div>
-
-                                             </div>
-
                                          </form>
                                      </div>
                                  </div>
@@ -377,8 +430,8 @@
                                                  <th scope="col">Tota Cost</th>
                                                  <th scope="col">Created By</th>
                                                  <th scope="col">Status</th>
-                                                     <th scope="col">Edit Project</th>
-                                           
+                                                 <th scope="col">Edit Project</th>
+
                                                  <!-- <th scope="col">View Details</th> -->
 
                                              </tr>
@@ -392,10 +445,10 @@
                                                      <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Start_date']; ?></td>
                                                      <td scope="row"><?= $data['End_date']; ?></td>
                                                      <td style="width:150px" scope="row"><?= $data['Total_Cost']; ?></td>
-                                                      <td style="width:150px" scope="row"><?= $data['Created_by']; ?></td>
-                                                       <td style="width:150px" scope="row"><?= $data['Status']; ?></td>
+                                                     <td style="width:150px" scope="row"><?= $data['Created_by']; ?></td>
+                                                     <td style="width:150px" scope="row"><?= $data['Status']; ?></td>
                                                      <td style="width:120px" type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
-                                        
+
                                                  </tr>
                                              <?php
                                                     $count++;
@@ -477,6 +530,73 @@
          });
      }
 
+     $('#add_bids').on('click', function() {
+         var name = $('#project_name').val();
+         var code = $('#code').val();
+         if (name == '') {
+             validate = 1;
+             $('#project_name').addClass('red-border');
+             $('#show_project_name_error').show();
+         } else {
+             $('#project_name').removeClass('red-border');
+             $('#show_project_name_error').hide();
+         }
+         if (code == '') {
+             validate = 1;
+             $('#code').addClass('red-border');
+         } else {
+             $('#code').removeClass('red-border');
+         }
+
+         if (validate == 1) {
+            // $(this).attr("style","display:none");
+         } else {
+            // $(this).show();
+         }
+
+     });
+
+     var loop = 1;
+
+     $("#add_row").click(function() {
+
+         $("#add_bid_rows").append(`<div class="form-group row" id="add_bid_rows${loop}">
+                    <div class="col-sm-3">
+                        <h6>&nbsp;Contractor:</h6>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <h6>&nbsp;Bid Amount</h6>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-3 mb-1">
+                        <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                            <option class="form-control form-control-user" value="">Select Contractor Name</option>
+                            <?php foreach ($contractor_name as $contractor) { ?>
+                                <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 mb-1">
+                        <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Bid Amount">
+                    </div>
+
+                    <div class="col-sm-3 mb-1">
+                        <span><a href="#" type="button" id="delete_row"><i class="fas fa-trash-alt" style="margin-top:15px; color:black"></i></a></span>
+                    </div>
+                    
+                </div>`);
+         loop++;
+     });
+
+     $('#delete_row').on('click', function() {
+         alert('delete row clicked');
+     });
+
      $('#add_btn').on('click', function() {
          //alert('javascript working');
          $('#add_btn').attr('disabled', true);
@@ -486,7 +606,7 @@
          var code = $('#code').val();
          var start_date = $('#start_date').val();
          var end_date = $('#end_date').val();
-        var contractor_name = $('#contractor').val();
+         var contractor_name = $('#contractor').val();
          var created_by = $('#created_by').val();
          var cost = $('#total_cost').val();
          var status = $('#status').val();
@@ -508,7 +628,7 @@
              $('#end_date').addClass('red-border');
          }
 
-             if (contractor_name == '') {
+         if (contractor_name == '') {
              validate = 1;
              $('#contractor').addClass('red-border');
          }
@@ -520,11 +640,10 @@
              validate = 1;
              $('#total_cost').addClass('red-border');
          }
-         if (status== '') {
+         if (status == '') {
              validate = 1;
              $('#status').addClass('red-border');
-         }
-        else {
+         } else {
              validate = 0;
              $('#email').removeClass('red-border');
              $('#show_error_email').hide();
@@ -607,7 +726,7 @@
                      var plist = document.getElementById("show_list")
                      var innerhtml = "";
                      for (var i in result) {
-                         innerhtml = innerhtml + "<li>"+result[i].Name+"</li>";
+                         innerhtml = innerhtml + "<li>" + result[i].Name + "</li>";
                      }
                      plist.innerHTML = innerhtml;
                      $('#contractor_head').html("Assigned Projects of " + $columns[1].innerHTML);
@@ -615,6 +734,18 @@
                  async: true
              });
          }
+     });
+
+     $(document).ready(function() {
+         $('[data-toggle="tooltip"]').tooltip();
+     });
+
+     $(document).on('show.bs.modal', '.modal', function() {
+         var zIndex = 1040 + (10 * $('.modal:visible').length);
+         $(this).css('z-index', zIndex);
+         setTimeout(function() {
+             $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+         }, 0);
      });
  </script>
  <!-- <script type="text/javascript">
