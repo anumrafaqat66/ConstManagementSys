@@ -30,6 +30,18 @@ class Project_Officer extends CI_Controller
             $this->load->view('project_officer/contractor', $data);
         }
     }
+   public function add_projects()
+    {
+
+        if ($this->session->has_userdata('user_id')) {
+            $data['project_records'] = $this->db->get('projects')->result_array();
+               $data['contractor_name'] = $this->db->get('contractors')->result_array();
+            $this->load->view('project_officer/projects', $data);
+        }
+    }
+
+
+
 
     public function view_projects()
     {
@@ -131,6 +143,48 @@ class Project_Officer extends CI_Controller
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
         }
     }
+    public function insert_project()
+    {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
+
+            $name = $postData['project_name'];
+            $code = $postData['code'];
+            $start_date = $postData['start_date'];
+            $end_date = $postData['end_date'];
+            $total_cost = $postData['total_cost'];
+            $contractor = $postData['contractor'];
+            $created_by = $postData['created_by'];
+            $status = $postData['status'];
+           
+
+            $insert_array = array(
+                'Name' => $name,
+                'Code' => $code,
+                'Start_date' => $start_date,
+                'End_date' => $end_date,
+                'Total_Cost' => $total_cost,
+                'contractor_id' => $contractor,
+                'Created_by' => $created_by,
+                'status' => $status
+            );
+
+            $insert = $this->db->insert('projects', $insert_array);
+            //$last_id = $this->db->insert_id();
+
+            if (!empty($insert)) {
+                $this->session->set_flashdata('success', 'Data Submitted successfully');
+                redirect('Project_Officer/add_projects');
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+                 redirect('Project_Officer/add_projects');
+            }
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+             redirect('Project_Officer/add_projects');
+        }
+    }
+
 
     public function get_total_projects_assigned()
     {

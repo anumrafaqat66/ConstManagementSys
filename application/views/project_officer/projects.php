@@ -25,26 +25,26 @@
 
                                  <div class="card">
                                      <div class="card-header bg-custom1">
-                                         <h1 class="h4">Add New Contractor</h1>
+                                         <h1 class="h4">Add New Project</h1>
                                      </div>
 
                                      <div class="card-body bg-custom3">
-                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_contractor">
+                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_project">
                                              <div class="form-group row">
                                                  <div class="col-sm-3">
                                                      <h6>&nbsp;Name:</h6>
                                                  </div>
 
                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Contact:</h6>
+                                                     <h6>&nbsp;Code:</h6>
                                                  </div>
 
                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Email:</h6>
+                                                     <h6>&nbsp;Start Date:</h6>
                                                  </div>
 
                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Registration Date:</h6>
+                                                     <h6>&nbsp;End Date:</h6>
                                                  </div>
 
                                              </div>
@@ -52,35 +52,86 @@
 
                                              <div class="form-group row">
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="contractor_name" id="contractor_name" placeholder="Contactor Name">
+                                                     <input type="text" class="form-control form-control-user" name="project_name" id="project_name" placeholder="Project Name">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="contact" id="contact" placeholder="Contact No.">
+                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Project Code.">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="email" id="email" placeholder="Email ID">
-                                                     <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span>
+                                                     <input type="date" class="form-control form-control-user" name="start_date" id="start_date" placeholder="Start Date">
+                                                    <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="date" class="form-control form-control-user" name="reg_date" id="reg_date" placeholder="Select Date*" value="">
+                                                     <input type="date" class="form-control form-control-user" name="end_date" id="end_date" placeholder="End Date*" value="">
                                                  </div>
                                              </div>
 
                                              <div class="form-group row">
+                                                  <div class="col-sm-3">
+                                                     <h6>&nbsp;Contractor:</h6>
+                                                 </div>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Created By:</h6>
+                                                 </div>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Total Cost:</h6>
+                                                 </div>
+
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Status:</h6>
+                                                 </div>
+
+                                                
+                                             </div>
+
+                                             <div class="form-group row">
+                                                 <div class="col-sm-3">
+                                                <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                     <option class="form-control form-control-user" value="">Select Contractor Name</option>
+                                                <?php foreach($contractor_name as $contractor){ ?>
+                                                    <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
+                                                <?php } ?>
+                                                </select>
+                                                 </div>
+
+                                                <div class="col-sm-3 mb-1">
+                                                     <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By.">
+                                                 </div>
+
+                                                 <div class="col-sm-3 mb-1">
+                                                     <input type="number" class="form-control form-control-user" name="total_cost" id="total_cost" placeholder="Total Cost">
+                                                    <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
+                                                 </div>
+
+                                                 <div class="col-sm-3 mb-1">
+                                                    <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                     <option class="form-control form-control-user" value="">Select Status</option>
+                                                    <option class="form-control form-control-user" value="On-going">On_going</option>
+                                                      <option class="form-control form-control-user" value="Initiated">Initiated</option>
+                                                        <option class="form-control form-control-user" value="closed">Closed</option>
+                                                </select>
+                                                 </div>
+                                                   
+                                             </div>
+
+                                           <!--  <div class="form-group row">
+                                                  <div class="col-sm-3">
+                                                     <h6>&nbsp;Status:</h6>
+                                                 </div>
+                                             </div> -->
+                                                <!--  <div class="form-group row">
                                                  <div class="col-sm-12">
-                                                     <h6>Contractor Detailed Remarks (optional):</h6>
-                                                 </div>
-                                             </div>
-
-                                             <div class="form-group row">
-                                                 <div class="col-sm-12">
-                                                     <input type="text" class="form-control form-control-user" name="desc" id="desc" placeholder="Enter Detail about contractor...">
-                                                 </div>
-                                             </div>
-
+                                                  <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                     <option class="form-control form-control-user" value="">Select Status</option>
+                                                    <option class="form-control form-control-user" value="On-going">On_going</option>
+                                                      <option class="form-control form-control-user" value="Initiated">Initiated</option>
+                                                        <option class="form-control form-control-user" value="closed">Closed</option>
+                                                </select>
+                                            </div>
+                                        </div> -->
 
                                              <div class="form-group row justify-content-center">
                                                  <div class="col-sm-4">
@@ -106,7 +157,7 @@
              </div>
          </div>
 
-         <div class="modal fade" id="edit_material">
+         <div class="modal fade" id="edit_project">
              <!-- <div class="row"> -->
              <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                  <div class="modal-content bg-custom3" style="width:1000px;">
@@ -120,67 +171,121 @@
 
                                  <div class="card">
                                      <div class="card-header bg-custom1">
-                                         <h1 class="h4">Edit Contactor</h1>
+                                         <h1 class="h4">Edit Project</h1>
                                      </div>
 
                                      <div class="card-body bg-custom3">
                                          <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/edit_contractor">
                                              <div class="form-group row">
-                                                 <div class="col-sm-12">
-                                                     <h3 id="contractor_name_heading"></h3>
-                                                 </div>
-                                             </div>
-                                             <div class="form-group row">
-                                                 <div class="col-sm-3" style="display:none">
+                                                 <div class="col-sm-3">
                                                      <h6>&nbsp;Name:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-4">
-                                                     <h6>&nbsp;Contact No:</h6>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Code:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-4">
-                                                     <h6>&nbsp;Email ID:</h6>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Start Date:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-4">
-                                                     <h6>&nbsp;Registration Date:</h6>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;End Date:</h6>
                                                  </div>
 
+                                             </div>
+
+
+                                             <div class="form-group row">
+                                                 <div class="col-sm-3 mb-1">
+                                                     <input type="text" class="form-control form-control-user" name="project_name" id="project_name" placeholder="Project Name">
+                                                 </div>
+
+                                                 <div class="col-sm-3 mb-1">
+                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Project Code.">
+                                                 </div>
+
+                                                 <div class="col-sm-3 mb-1">
+                                                     <input type="date" class="form-control form-control-user" name="start_date" id="start_date" placeholder="Start Date">
+                                                    <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
+                                                 </div>
+
+                                                 <div class="col-sm-3 mb-1">
+                                                     <input type="date" class="form-control form-control-user" name="end_date" id="end_date" placeholder="End Date*" value="">
+                                                 </div>
                                              </div>
 
                                              <div class="form-group row">
-
-                                                 <div class="col-sm-4 mb-1" style="display:none">
-                                                     <input type="text" class="form-control form-control-user" name="id_edit" id="id_edit" placeholder="id" readonly="readonly" style="color:black; font-size:medium; background-color:lightgray; border:1px solid black;">
+                                                  <div class="col-sm-3">
+                                                     <h6>&nbsp;Contractor:</h6>
+                                                 </div>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Created By:</h6>
+                                                 </div>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Total Cost:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-4 mb-1" style="display:none">
-                                                     <input type="text" class="form-control form-control-user" name="contractor_name_edit" id="contractor_name_edit" placeholder="Contactor Name">
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Status:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-4 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="contact_edit" id="contact_edit" placeholder="Contact No.">
-                                                 </div>
-
-                                                 <div class="col-sm-4 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="email_edit" id="email_edit" placeholder="Email ID">
-                                                     <span id="show_error_email_edit" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span>
-                                                 </div>
-
-                                                 <div class="col-sm-4 mb-1">
-                                                     <input type="date" class="form-control form-control-user" name="reg_date_edit" id="reg_date_edit" placeholder="Select Date*" value="">
-                                                 </div>
-
+                                                
                                              </div>
+
+                                             <div class="form-group row">
+                                                 <div class="col-sm-3">
+                                                <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                     <option class="form-control form-control-user" value="">Select Contractor Name</option>
+                                                <?php foreach($contractor_name as $contractor){ ?>
+                                                    <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
+                                                <?php } ?>
+                                                </select>
+                                                 </div>
+
+                                                <div class="col-sm-3 mb-1">
+                                                     <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By.">
+                                                 </div>
+
+                                                 <div class="col-sm-3 mb-1">
+                                                     <input type="number" class="form-control form-control-user" name="total_cost" id="total_cost" placeholder="Total Cost">
+                                                    <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
+                                                 </div>
+
+                                                 <div class="col-sm-3 mb-1">
+                                                    <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                     <option class="form-control form-control-user" value="">Select Status</option>
+                                                    <option class="form-control form-control-user" value="On-going">On_going</option>
+                                                      <option class="form-control form-control-user" value="Initiated">Initiated</option>
+                                                        <option class="form-control form-control-user" value="closed">Closed</option>
+                                                </select>
+                                                 </div>
+                                                   
+                                             </div>
+
+                                           <!--  <div class="form-group row">
+                                                  <div class="col-sm-3">
+                                                     <h6>&nbsp;Status:</h6>
+                                                 </div>
+                                             </div> -->
+                                                <!--  <div class="form-group row">
+                                                 <div class="col-sm-12">
+                                                  <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                     <option class="form-control form-control-user" value="">Select Status</option>
+                                                    <option class="form-control form-control-user" value="On-going">On_going</option>
+                                                      <option class="form-control form-control-user" value="Initiated">Initiated</option>
+                                                        <option class="form-control form-control-user" value="closed">Closed</option>
+                                                </select>
+                                            </div>
+                                        </div> -->
 
                                              <div class="form-group row justify-content-center">
                                                  <div class="col-sm-4">
-                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="edit_btn">
+                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
                                                          <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                         Update
+                                                         Submit Data
                                                      </button>
-                                                     <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
+                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                  </div>
                                              </div>
                                          </form>
@@ -256,41 +361,41 @@
 
                      <div class="card bg-custom3">
                          <div class="card-header bg-custom1">
-                             <h1 class="h4">Contractors</h1>
+                             <h1 class="h4">Projects</h1>
                          </div>
 
                          <div class="card-body">
                              <div id="table_div">
-                                 <?php if (count($contractor_records) > 0) { ?>
+                                 <?php if (count($project_records) > 0) { ?>
                                      <table id="datatable" class="table table-striped" style="color:black">
                                          <thead>
                                              <tr>
                                                  <th scope="col">ID</th>
-                                                 <th scope="col">Full Name</th>
-                                                 <th scope="col">Contact No</th>
-                                                 <th scope="col">Email</th>
-                                                 <th scope="col">Register Date</th>
-                                                 <th scope="col">Assigned Projects</th>
-                                                 <th scope="col">Completed Projects</th>
-                                                 <th scope="col">Edit Record</th>
+                                                 <th scope="col">Project Name</th>
+                                                 <th scope="col">Start Date</th>
+                                                 <th scope="col">End Date</th>
+                                                 <th scope="col">Tota Cost</th>
+                                                 <th scope="col">Created By</th>
+                                                 <th scope="col">Status</th>
+                                                     <th scope="col">Edit Project</th>
+                                           
                                                  <!-- <th scope="col">View Details</th> -->
 
                                              </tr>
                                          </thead>
                                          <tbody id="table_rows_cont">
                                              <?php $count = 0;
-                                                foreach ($contractor_records as $data) { ?>
+                                                foreach ($project_records as $data) { ?>
                                                  <tr>
-                                                     <td scope="row" id="cont<?= $count; ?>"><?= $data['ID']; ?></td>
+                                                     <td scope="row" id="cont<?= $count; ?>"><?= $count ?></td>
                                                      <td style="width:150px" scope="row"><?= $data['Name']; ?></td>
-                                                     <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Contact_no']; ?></td>
-                                                     <td scope="row"><?= $data['Email_id']; ?></td>
-                                                     <td style="width:150px" scope="row"><?= $data['Start_date']; ?></td>
-                                                     <td scope="row" id="assigned_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#assigned_projects"><?= $data['Assigned_Projects']; ?></td>
-                                                     <td scope="row" id="completed_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#completed_projects"><?= $data['Completed_Projects']; ?></td>
-                                                     <td style="width:120px" type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
-                                                     <!-- <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 40px;" class="fas fa-eye"></i></a></td> -->
-
+                                                     <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Start_date']; ?></td>
+                                                     <td scope="row"><?= $data['End_date']; ?></td>
+                                                     <td style="width:150px" scope="row"><?= $data['Total_Cost']; ?></td>
+                                                      <td style="width:150px" scope="row"><?= $data['Created_by']; ?></td>
+                                                       <td style="width:150px" scope="row"><?= $data['Status']; ?></td>
+                                                     <td style="width:120px" type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
+                                        
                                                  </tr>
                                              <?php
                                                     $count++;
@@ -308,7 +413,7 @@
                              <div class="col-sm-4">
                                  <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn" data-toggle="modal" data-target="#new_contractor">
                                      <i class="fas fa-plus"></i>
-                                     Add new Contractor
+                                     Add new Project
                                  </button>
                              </div>
                          </div>
@@ -377,32 +482,49 @@
          $('#add_btn').attr('disabled', true);
          var validate = 0;
 
-         var contractor_name = $('#contractor_name').val();
-         var contact = $('#contact').val();
-         var email = $('#email').val();
-         var reg_date = $('#reg_date').val();
+         var name = $('#project_name').val();
+         var code = $('#code').val();
+         var start_date = $('#start_date').val();
+         var end_date = $('#end_date').val();
+        var contractor_name = $('#contractor').val();
+         var created_by = $('#created_by').val();
+         var cost = $('#total_cost').val();
+         var status = $('#status').val();
 
-         if (contractor_name == '') {
+         if (name == '') {
              validate = 1;
-             $('#contractor_name').addClass('red-border');
+             $('#project_name').addClass('red-border');
          }
-         if (contact == '') {
+         if (code == '') {
              validate = 1;
-             $('#contact').addClass('red-border');
+             $('#code').addClass('red-border');
          }
-         if (email == '') {
+         if (start_date == '') {
              validate = 1;
-             $('#email').addClass('red-border');
+             $('#start_date').addClass('red-border');
          }
-         if (reg_date == '') {
+         if (end_date == '') {
              validate = 1;
-             $('#reg_date').addClass('red-border');
+             $('#end_date').addClass('red-border');
          }
-         if (!isEmail(email)) {
+
+             if (contractor_name == '') {
              validate = 1;
-             $('#email').addClass('red-border');
-             $('#show_error_email').show();
-         } else {
+             $('#contractor').addClass('red-border');
+         }
+         if (created_by == '') {
+             validate = 1;
+             $('#created_by').addClass('red-border');
+         }
+         if (cost == '') {
+             validate = 1;
+             $('#total_cost').addClass('red-border');
+         }
+         if (status== '') {
+             validate = 1;
+             $('#status').addClass('red-border');
+         }
+        else {
              validate = 0;
              $('#email').removeClass('red-border');
              $('#show_error_email').hide();
