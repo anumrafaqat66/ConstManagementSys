@@ -72,140 +72,88 @@ class Project_Officer extends CI_Controller
     }
 
 
-    public function insert_inventory()
+    public function insert_contractor()
     {
         if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
 
-            $material = $postData['material_name'];
-            $quantity = $postData['quantity'];
-            $price = $postData['price'];
-            $unit = $postData['unit'];
+            $contractor_name = $postData['contractor_name'];
+            $contact = $postData['contact'];
+            $email = $postData['email'];
+            $reg_date = $postData['reg_date'];
+            $desc = $postData['desc'];
 
             $insert_array = array(
-                'Material_Name' => $material,
-                'Material_Total_Quantity' => $quantity,
-                'Material_Total_Price' => $price,
-                'Unit' => $unit
+                'Name' => $contractor_name,
+                'Contact_no' => $contact,
+                'Email_id' => $email,
+                'start_date' => $reg_date,
+                'description' => $desc
             );
 
-            $insert = $this->db->insert('inventory', $insert_array);
-            $last_id = $this->db->insert_id();
-
-            $insert_array_detail = array(
-                'Material_ID' => $last_id,
-                'Quantity' => $quantity,
-                'Price' => $price,
-                'stock_date' => date('Y-m-d'),
-                'Status' => 'Delivered'
-            );
-
-            $insert_detail = $this->db->insert('inventory_detail', $insert_array_detail);
-
-            if (!empty($insert) && !empty($insert_detail)) {
-                $this->session->set_flashdata('success', 'Data Submitted successfully');
-                redirect('SO_STORE/add_inventory');
-            } else {
-                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
-            }
-        } else {
-            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
-            redirect('SO_STORE');
-        }
-    }
-
-    public function project_material()
-    {
-        if ($this->input->post()) {
-            $postData = $this->security->xss_clean($this->input->post());
-
-            $name = $postData['project_name'];
-            $date = $postData['delivery_date'];
-            $material_id = $postData['material'];
-            $quantity = $postData['quantity'];
-            $price = $postData['price'];
-
-            //$material=$this->db->where('Material_name',$material_id)->get('inventory')->row_array();
-            $project = $this->db->where('Name', $name)->get('projects')->row_array();
-
-            $insert_array = array(
-                'Material_id' => $material_id,
-                'Material_used_by_Project' => $project['ID'],
-                'Quantity_used' => $quantity,
-                'price' => $price,
-                'delivery_date' => $date,
-                'status' => "Delivered"
-            );
-            //  print_r($insert_array);exit;
-            $insert = $this->db->insert('inventory_used', $insert_array);
-
-            //Update Invetory - minus material used
-            $this->update_inventory($material_id, -$quantity, -$price);
+            $insert = $this->db->insert('contractors', $insert_array);
+            //$last_id = $this->db->insert_id();
 
             if (!empty($insert)) {
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
-                redirect('SO_STORE/view_projects');
+                redirect('Project_Officer/add_contractors');
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');
-                redirect('SO_STORE/view_projects');
             }
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
-            redirect('SO_STORE/view_projects');
+            redirect('Project_Officer');
         }
     }
 
-    public function update_inventory($material_id = NULL, $material_qty = NULL, $material_price = NULL)
+    
+    public function edit_contractor()
     {
-        $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $material_id)->get('inventory')->row_array();
-        $getPrice = $this->db->select('Material_Total_Price')->where('ID', $material_id)->get('inventory')->row_array();
+        $id =  $_POST['id_edit'];
+        $contact = $_POST['contact_edit'];
+        $email = $_POST['email_edit'];
+        $date = $_POST['reg_date_edit'];
 
-        $total_quantity = $getQty['Material_Total_Quantity'] + $material_qty;
-        $total_price = $getPrice['Material_Total_Price'] + $material_price;
-
-        $cond  = ['ID' => $material_id];
+        $cond  = ['ID' => $id];
         $data_update = [
-            'Material_Total_Quantity' => $total_quantity,
-            'Material_Total_Price' => $total_price,
+            'Contact_no' => $contact,
+            'Email_id' => $email,
+            'Start_date' => $date,
         ];
 
         $this->db->where($cond);
-        $this->db->update('inventory', $data_update);
-    }
-
-    public function edit_inventory()
-    {
-        $id =  $_POST['id_edit'];
-        $quantity = $_POST['new_quantity'];
-        $price = $_POST['new_price'];
-
-        $insert_array_detail = array(
-            'Material_ID' => $id,
-            'Quantity' => $quantity,
-            'Price' => $price,
-            'stock_date' => date('Y-m-d'),
-            'Status' => 'Delivered'
-        );
-
-        $insert_detail = $this->db->insert('inventory_detail', $insert_array_detail);
-
-        $this->update_inventory($id, $quantity, $price);
-       
-        if (!empty($insert_detail)) {
-            $this->session->set_flashdata('success', 'Material Updated successfully');
-            redirect('SO_STORE/add_inventory');
+        $this->db->update('contractors', $data_update);
+              
+        if (!empty($id)) {
+            $this->session->set_flashdata('success', 'Record Updated successfully');
+            redirect('Project_Officer/add_contractors');
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
         }
     }
 
-    public function get_total_material_available()
+    public function get_total_projects_assigned()
     {
-
         if ($this->session->has_userdata('user_id')) {
-            $id = $_POST['material_id'];
-            $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $id)->get('inventory')->row_array();
-            echo $getQty['Material_Total_Quantity'];
+            $getQty = $this->db->select('count(*) as count, contractor_id')->group_by('contractor_id')->get('projects')->result_array();
+            echo json_encode($getQty);
+        }
+    }
+
+    public function get_total_projects_completed()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $getQty = $this->db->select('count(*) as count, contractor_id')->where('Status', 'Completed')->group_by('contractor_id')->get('projects')->result_array();
+            echo json_encode($getQty);
+        }
+    }
+
+    public function get_list_of_projects()
+    {
+        $cont_id = $_POST['contractor_id'];
+        if ($this->session->has_userdata('user_id')) {
+            $projectsList = $this->db->where('contractor_id', $cont_id)->get('projects')->result_array();
+            echo json_encode($projectsList);
         }
     }
 }
