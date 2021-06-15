@@ -39,7 +39,7 @@
                                      </div>
 
                                      <div class="card-body bg-custom3">
-                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_project">
+                                         <form class="user" role="form" method="post" id="add_form_bids" action="<?= base_url(); ?>Project_Officer/insert_project_bids">
 
                                              <div class="add_rows" id="add_bid_rows">
                                                  <div class="form-group row">
@@ -67,7 +67,7 @@
 
                                                  <div class="form-group row">
                                                      <div class="col-sm-3 mb-1">
-                                                         <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                         <select class="form-control rounded-pill" name="contractor[]" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                                              <option class="form-control form-control-user" value="">Select Contractor Name</option>
                                                              <?php foreach ($contractor_name as $contractor) { ?>
                                                                  <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
@@ -76,16 +76,16 @@
                                                      </div>
 
                                                      <div class="col-sm-3 mb-1">
-                                                         <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Bid Amount">
+                                                         <input type="text" class="form-control form-control-user" name="bid_amount[]" id="bid_amount" placeholder="Bid Amount">
                                                      </div>
 
 
                                                  </div>
                                              </div>
-
+                                             <input type="hidden" name="Name_of_Project" id="Name_of_Project" value="">
                                              <div class="form-group row justify-content-center">
                                                  <div class="col-sm-4">
-                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
+                                                     <button type="submit" class="btn btn-primary btn-user btn-block" id="add_btn_bids">
                                                          <!-- <i class="fab fa-google fa-fw"></i>  -->
                                                          Submit Bids
                                                      </button>
@@ -153,7 +153,7 @@
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Project Code.">
+                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Project Code." >
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
@@ -162,7 +162,7 @@
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Select Bids">
+                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Select Bids"disabled="true">
                                                  </div>
 
                                                  <div class="col-sm-1 mb-1">
@@ -565,6 +565,8 @@
                      'project_code': code
                  },
              success: function(data) {
+                document.getElementById("Name_of_Project").value = name;
+                //alert(name);
                 //  var result = jQuery.parseJSON(data);
                 //  $count = 0;
                 //  $('#table_rows_cont > tr').each(function(index, tr) {
@@ -606,7 +608,7 @@
 
                                     <div class="form-group row" id="add_bid_rows${loop}">
                                         <div class="col-sm-3 mb-1">
-                                            <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                            <select class="form-control rounded-pill" name="contractor[]" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                                 <option class="form-control form-control-user" value="">Select Contractor Name</option>
                                                 <?php foreach ($contractor_name as $contractor) { ?>
                                                     <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
@@ -615,7 +617,7 @@
                                         </div>
 
                                         <div class="col-sm-3 mb-1">
-                                            <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Bid Amount">
+                                            <input type="text" class="form-control form-control-user" name="bid_amount[]" id="bid_amount" placeholder="Bid Amount">
                                         </div>
 
                                         <div class="col-sm-3 mb-1">
