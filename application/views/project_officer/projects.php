@@ -166,7 +166,7 @@
                                                  </div>
 
                                                  <div class="col-sm-1 mb-1">
-                                                     <span><a href="#"><i class="fas fa-folder-plus" type="" data-toggle="modal" data-target="#new_bids" id="add_bids"  style="font-size: 40px; margin-top:2px; color:black"></i></a></span>
+                                                     <span><a href="#"><i class="fas fa-folder-plus" type="" data-toggle="modal" data-target="#new_bids1" id="add_bids" style="font-size: 40px; margin-top:2px; color:black"></i></a></span>
                                                  </div>
                                              </div>
 
@@ -483,6 +483,7 @@
  <?php $this->load->view('common/footer'); ?>
  <script>
      window.onload = function() {
+
          $.ajax({
              url: '<?= base_url(); ?>Project_Officer/get_total_projects_assigned',
              method: 'POST',
@@ -538,6 +539,7 @@
              $('#project_name').addClass('red-border');
              $('#show_project_name_error').show();
          } else {
+             validate = 0;
              $('#project_name').removeClass('red-border');
              $('#show_project_name_error').hide();
          }
@@ -545,57 +547,65 @@
              validate = 1;
              $('#code').addClass('red-border');
          } else {
+             validate = 0;
              $('#code').removeClass('red-border');
          }
 
          if (validate == 1) {
-            // $(this).attr("style","display:none");
+
          } else {
-            // $(this).show();
+             var btn = document.getElementById('add_bids');
+             btn.dataset.target = "#new_bids";
          }
 
      });
 
      var loop = 1;
+     //  var row_count
 
      $("#add_row").click(function() {
 
-         $("#add_bid_rows").append(`<div class="form-group row" id="add_bid_rows${loop}">
-                    <div class="col-sm-3">
-                        <h6>&nbsp;Contractor:</h6>
-                    </div>
+         loop = parseInt(document.getElementById('add_bid_rows').childNodes.length / 3);
 
-                    <div class="col-sm-3">
-                        <h6>&nbsp;Bid Amount</h6>
-                    </div>
+         $("#add_bid_rows").append(`<div class="form-group row" id="add_bid_head${loop}">
+                                        <div class="col-sm-3">
+                                            <h6>&nbsp;Contractor:</h6>
+                                        </div>
 
-                </div>
+                                        <div class="col-sm-3">
+                                            <h6>&nbsp;Bid Amount</h6>
+                                        </div>
 
-                <div class="form-group row">
-                    <div class="col-sm-3 mb-1">
-                        <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
-                            <option class="form-control form-control-user" value="">Select Contractor Name</option>
-                            <?php foreach ($contractor_name as $contractor) { ?>
-                                <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
+                                    </div>
 
-                    <div class="col-sm-3 mb-1">
-                        <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Bid Amount">
-                    </div>
+                                    <div class="form-group row" id="add_bid_rows${loop}">
+                                        <div class="col-sm-3 mb-1">
+                                            <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                <option class="form-control form-control-user" value="">Select Contractor Name</option>
+                                                <?php foreach ($contractor_name as $contractor) { ?>
+                                                    <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
 
-                    <div class="col-sm-3 mb-1">
-                        <span><a href="#" type="button" id="delete_row"><i class="fas fa-trash-alt" style="margin-top:15px; color:black"></i></a></span>
-                    </div>
-                    
-                </div>`);
+                                        <div class="col-sm-3 mb-1">
+                                            <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Bid Amount">
+                                        </div>
+
+                                        <div class="col-sm-3 mb-1">
+                                            <span><a href="#" type="button" onclick="deleteRow(${loop})" id="delete_row${loop}"><i class="fas fa-trash-alt" style="margin-top:15px; color:black"></i></a></span>
+                                        </div>
+                                        
+                                    </div>`);
          loop++;
      });
 
-     $('#delete_row').on('click', function() {
-         alert('delete row clicked');
-     });
+     function deleteRow(elmnt) {
+         var elh = document.getElementById('add_bid_head' + elmnt);
+         var elr = document.getElementById('add_bid_rows' + elmnt);
+         elh.remove();
+         elr.remove();
+     }
 
      $('#add_btn').on('click', function() {
          //alert('javascript working');
