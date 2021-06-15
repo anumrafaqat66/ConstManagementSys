@@ -556,6 +556,32 @@
          } else {
              var btn = document.getElementById('add_bids');
              btn.dataset.target = "#new_bids";
+
+             $.ajax({
+             url: '<?= base_url(); ?>Project_Officer/insert_project_initial',
+             method: 'POST',
+             data: {
+                     'project_name': name,
+                     'project_code': code
+                 },
+             success: function(data) {
+                //  var result = jQuery.parseJSON(data);
+                //  $count = 0;
+                //  $('#table_rows_cont > tr').each(function(index, tr) {
+                //      var cp = document.getElementById("completed_project" + $count);
+                //      var cont_id = document.getElementById("cont" + $count);
+
+                //      for (var i in result) {
+                //          if (cont_id.innerHTML == result[i].contractor_id) {
+                //              cp.innerHTML = result[i].count;
+                //          }
+                //      }
+                //      $count++;
+                //  });
+             },
+             async: true
+         });
+
          }
 
      });

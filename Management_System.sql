@@ -26,8 +26,21 @@ USE `management_system`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `project_bids`
+--
+
+CREATE TABLE `project_bids` (
+  `id` bigint(20) NOT NULL,
+  `project_id` int(20) NOT NULL,
+  `contractor_id` int(20) NOT NULL,
+  `bid_amount` varchar(100) DEFAULT NULL,
+  `Status` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `contractors`
 --
+
 
 CREATE TABLE IF NOT EXISTS `contractors` (
   `ID` bigint(20) NOT NULL,
