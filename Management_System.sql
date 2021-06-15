@@ -212,6 +212,13 @@ ALTER TABLE `security_info`
   ADD PRIMARY KEY (`id`);
   
 --
+-- Indexes for table `project_bids`
+--
+ALTER TABLE `project_bids`
+  ADD PRIMARY KEY (`id`);
+    
+  
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -243,7 +250,14 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `security_info`
 --
 ALTER TABLE `security_info`
-  MODIFY `id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  
+--
+-- AUTO_INCREMENT for table `project_bids`
+--
+ALTER TABLE `project_bids`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  
 
 --
 -- Constraints for dumped tables

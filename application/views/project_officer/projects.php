@@ -108,7 +108,7 @@
          </div>
 
 
-         <div class="modal fade" id="new_contractor">
+         <div class="modal fade" id="new_project">
              <!-- <div class="row"> -->
              <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                  <div class="modal-content bg-custom3" style="width:1000px;">
@@ -153,7 +153,7 @@
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Project Code." >
+                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Project Code.">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
@@ -162,7 +162,7 @@
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Select Bids"disabled="true">
+                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Select Bids" disabled="true">
                                                  </div>
 
                                                  <div class="col-sm-1 mb-1">
@@ -273,70 +273,75 @@
 
                                  <div class="card">
                                      <div class="card-header bg-custom1">
-                                         <h1 class="h4">Edit Project</h1>
+                                         <h1 class="h4">Update Project</h1>
                                      </div>
 
                                      <div class="card-body bg-custom3">
-                                         <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/edit_contractor">
+                                         <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/edit_project">
                                              <div class="form-group row">
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Name:</h6>
+                                                 <div class="col-sm-12">
+                                                     <h3 id="project_name_heading"></h3>
                                                  </div>
-
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Code:</h6>
-                                                 </div>
-
-                                                 <div class="col-sm-3">
+                                             </div>
+                                             <div class="form-group row">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Start Date:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;End Date:</h6>
                                                  </div>
 
-                                             </div>
-
-
-                                             <div class="form-group row">
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="project_name" id="project_name" placeholder="Project Name">
+                                                 <div class="col-sm-4">
+                                                     <h6>&nbsp;Assigned Bid</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Project Code.">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="date" class="form-control form-control-user" name="start_date" id="start_date" placeholder="Start Date">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="date" class="form-control form-control-user" name="end_date" id="end_date" placeholder="End Date*" value="">
-                                                 </div>
                                              </div>
 
                                              <div class="form-group row">
-                                                 <div class="col-sm-3">
+
+                                                 <div class="col-sm-3 mb-1" style="display:none">
+                                                     <input type="text" class="form-control form-control-user" name="project_id_edit" id="project_id_edit" >
+                                                 </div>
+
+                                                 <div class="col-sm-4 mb-1">
+                                                     <input type="date" class="form-control form-control-user" name="project_start_date_edit" id="project_start_date_edit" placeholder="Start Date">
+                                                 </div>
+
+                                                 <div class="col-sm-4 mb-1">
+                                                     <input type="date" class="form-control form-control-user" name="project_end_date_edit" id="project_end_date_edit" placeholder="End Date*" value="">
+                                                 </div>
+
+                                                 <div class="col-sm-4 mb-1">
+                                                     <select class="form-control rounded-pill" name="project_bid_edit" id="project_bid_edit" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                         <option class="form-control form-control-user" value="">Select Bid</option>
+                                                         <?php $bids = $this->db->where('project_id',4)->get('project_bids')->result_array(); ?>
+                                                         <?php foreach ($bids as $data) { ?>
+                                                             <option class="form-control form-control-user" value="<?= $data['id'] ?>"><?= $data['bid_amount'] ?></option>
+                                                         <?php } ?>
+                                                     </select>
+                                                 </div>
+                                             </div>
+
+                                             <div class="form-group row">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Contractor:</h6>
                                                  </div>
-                                                 <div class="col-sm-3">
+                                                 <!-- <div class="col-sm-3">
                                                      <h6>&nbsp;Created By:</h6>
-                                                 </div>
-                                                 <div class="col-sm-3">
+                                                 </div> -->
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Total Cost:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Status:</h6>
                                                  </div>
-
-
                                              </div>
 
                                              <div class="form-group row">
-                                                 <div class="col-sm-3">
-                                                     <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                 <div class="col-sm-4">
+                                                     <select class="form-control rounded-pill" name="contractor_edit" id="contractor_edit" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                                          <option class="form-control form-control-user" value="">Select Contractor Name</option>
                                                          <?php foreach ($contractor_name as $contractor) { ?>
                                                              <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
@@ -344,49 +349,30 @@
                                                      </select>
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By.">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="number" class="form-control form-control-user" name="total_cost" id="total_cost" placeholder="Total Cost">
+                                                 <div class="col-sm-4 mb-1">
+                                                     <input type="number" class="form-control form-control-user" name="total_cost_edit" id="total_cost_edit" placeholder="Total Cost">
                                                      <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
-                                                     <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                 <div class="col-sm-4 mb-1">
+                                                     <select class="form-control rounded-pill" name="status_edit" id="status_edit" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                                          <option class="form-control form-control-user" value="">Select Status</option>
-                                                         <option class="form-control form-control-user" value="On-going">On_going</option>
+                                                         <option class="form-control form-control-user" value="On-going">On Going</option>
                                                          <option class="form-control form-control-user" value="Initiated">Initiated</option>
-                                                         <option class="form-control form-control-user" value="closed">Closed</option>
+                                                         <option class="form-control form-control-user" value="Closed">Closed</option>
+                                                         <option class="form-control form-control-user" value="Completed">Completed</option>
                                                      </select>
                                                  </div>
 
                                              </div>
 
-                                             <!--  <div class="form-group row">
-                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Status:</h6>
-                                                 </div>
-                                             </div> -->
-                                             <!--  <div class="form-group row">
-                                                 <div class="col-sm-12">
-                                                  <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
-                                                     <option class="form-control form-control-user" value="">Select Status</option>
-                                                    <option class="form-control form-control-user" value="On-going">On_going</option>
-                                                      <option class="form-control form-control-user" value="Initiated">Initiated</option>
-                                                        <option class="form-control form-control-user" value="closed">Closed</option>
-                                                </select>
-                                            </div>
-                                        </div> -->
-
                                              <div class="form-group row justify-content-center">
                                                  <div class="col-sm-4">
-                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
+                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="edit_btn">
                                                          <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                         Submit Data
+                                                         Update Project
                                                      </button>
-                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
+                                                     <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                  </div>
                                              </div>
                                          </form>
@@ -427,27 +413,27 @@
                                                  <th scope="col">Project Name</th>
                                                  <th scope="col">Start Date</th>
                                                  <th scope="col">End Date</th>
-                                                 <th scope="col">Tota Cost</th>
-                                                 <th scope="col">Created By</th>
+                                                 <th scope="col">Total Cost</th>
                                                  <th scope="col">Status</th>
                                                  <th scope="col">Edit Project</th>
-
-                                                 <!-- <th scope="col">View Details</th> -->
-
+                                                 <th scope="col" style="display:none">Contractor ID</th>
+                                                 <th scope="col" style="display:none">Bid ID</th>
                                              </tr>
                                          </thead>
-                                         <tbody id="table_rows_cont">
+                                         <tbody id="table_rows_project">
                                              <?php $count = 0;
                                                 foreach ($project_records as $data) { ?>
                                                  <tr>
-                                                     <td scope="row" id="cont<?= $count; ?>"><?= $count ?></td>
+                                                     <td scope="row" id="cont<?= $count; ?>"><?= $data['ID']; ?></td>
                                                      <td style="width:150px" scope="row"><?= $data['Name']; ?></td>
                                                      <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Start_date']; ?></td>
                                                      <td scope="row"><?= $data['End_date']; ?></td>
                                                      <td style="width:150px" scope="row"><?= $data['Total_Cost']; ?></td>
-                                                     <td style="width:150px" scope="row"><?= $data['Created_by']; ?></td>
                                                      <td style="width:150px" scope="row"><?= $data['Status']; ?></td>
                                                      <td style="width:120px" type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
+                                                     <td  scope="row" style="display:none;"><?= $data['contractor_id']; ?></td>
+                                                     <td  scope="row" style="display:none;"><?= $data['bid_id']; ?></td>
+                                                     
 
                                                  </tr>
                                              <?php
@@ -464,7 +450,7 @@
                      <form class="user" role="form" method="post" id="add_form" action="">
                          <div class="form-group row my-2 justify-content-center">
                              <div class="col-sm-4">
-                                 <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn" data-toggle="modal" data-target="#new_contractor">
+                                 <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn" data-toggle="modal" data-target="#new_project">
                                      <i class="fas fa-plus"></i>
                                      Add new Project
                                  </button>
@@ -484,52 +470,21 @@
  <script>
      window.onload = function() {
 
-         $.ajax({
-             url: '<?= base_url(); ?>Project_Officer/get_total_projects_assigned',
-             method: 'POST',
-             success: function(data) {
-
-                 var result = jQuery.parseJSON(data);
-                 $count = 0;
-                 $('#table_rows_cont > tr').each(function(index, tr) {
-                     var cp = document.getElementById("assigned_project" + $count);
-                     var cont_id = document.getElementById("cont" + $count);
-
-                     for (var i in result) {
-                         if (cont_id.innerHTML == result[i].contractor_id) {
-                             cp.innerHTML = result[i].count;
-                         }
-                     }
-                     $count++;
-                 });
-             },
-             async: true
-         });
-
-         $.ajax({
-             url: '<?= base_url(); ?>Project_Officer/get_total_projects_completed',
-             method: 'POST',
-             success: function(data) {
-
-                 var result = jQuery.parseJSON(data);
-                 $count = 0;
-                 $('#table_rows_cont > tr').each(function(index, tr) {
-                     var cp = document.getElementById("completed_project" + $count);
-                     var cont_id = document.getElementById("cont" + $count);
-
-                     for (var i in result) {
-                         if (cont_id.innerHTML == result[i].contractor_id) {
-                             cp.innerHTML = result[i].count;
-                         }
-                     }
-                     $count++;
-                 });
-
-
-             },
-             async: true
-         });
      }
+
+     $('#table_rows_project').find('tr').click(function(e) {
+         var $columns = $(this).find('td');
+         
+         $('#project_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
+         $('#project_id_edit').val($columns[0].innerHTML);
+         $('#project_start_date_edit').val($columns[2].innerHTML);
+         $('#project_end_date_edit').val($columns[3].innerHTML);
+         $('#total_cost_edit').val($columns[4].innerHTML);
+         $('#status_edit').val($columns[5].innerHTML);
+         $('#contractor_edit').val($columns[7].innerHTML);
+         $('#project_bid_edit').val($columns[8].innerHTML);
+
+     });
 
      $('#add_bids').on('click', function() {
          var name = $('#project_name').val();
@@ -558,31 +513,17 @@
              btn.dataset.target = "#new_bids";
 
              $.ajax({
-             url: '<?= base_url(); ?>Project_Officer/insert_project_initial',
-             method: 'POST',
-             data: {
+                 url: '<?= base_url(); ?>Project_Officer/insert_project_initial',
+                 method: 'POST',
+                 data: {
                      'project_name': name,
                      'project_code': code
                  },
-             success: function(data) {
-                document.getElementById("Name_of_Project").value = name;
-                //alert(name);
-                //  var result = jQuery.parseJSON(data);
-                //  $count = 0;
-                //  $('#table_rows_cont > tr').each(function(index, tr) {
-                //      var cp = document.getElementById("completed_project" + $count);
-                //      var cont_id = document.getElementById("cont" + $count);
-
-                //      for (var i in result) {
-                //          if (cont_id.innerHTML == result[i].contractor_id) {
-                //              cp.innerHTML = result[i].count;
-                //          }
-                //      }
-                //      $count++;
-                //  });
-             },
-             async: true
-         });
+                 success: function(data) {
+                     document.getElementById("Name_of_Project").value = name;
+                 },
+                 async: true
+             });
 
          }
 
@@ -703,36 +644,36 @@
      }
 
      $('#edit_btn').on('click', function() {
-         //alert('javascript working');
+        //  alert('javascript working');
          $('#edit_btn').attr('disabled', true);
          var validate = 0;
 
-         //  var material_name = $('#material_name_edit').val();
-         var contact_edit = $('#contact_edit').val();
-         var email_edit = $('#email_edit').val();
-         var reg_date_edit = $('#reg_date_edit').val();
+         var start_end = $('#project_start_date_edit').val();
+         var end_date = $('#project_end_date_edit').val();
+         var cost = $('#total_cost_edit').val();
+         var status = $('#status_edit').val();
+         var contractor = $('#contractor_edit').val();
+         var bid_id = $('#project_bid_edit').val();
 
-         if (contact_edit == '') {
+         if (start_end == '') {
              validate = 1;
-             $('#contact_edit').addClass('red-border');
+             $('#project_start_date_edit').addClass('red-border');
          }
-         if (email_edit == '') {
+         if (end_date == '') {
              validate = 1;
-             $('#email_edit').addClass('red-border');
+             $('#project_end_date_edit').addClass('red-border');
          }
-         if (reg_date_edit == '') {
+         if (cost == '') {
              validate = 1;
-             $('#reg_date_edit').addClass('red-border');
+             $('#total_cost_edit').addClass('red-border');
          }
-
-         if (!isEmail(email_edit)) {
+         if (status == '') {
              validate = 1;
-             $('#email_edit').addClass('red-border');
-             $('#show_error_email_edit').show();
-         } else {
-             validate = 0;
-             $('#email_edit').removeClass('red-border');
-             $('#show_error_email_edit').hide();
+             $('#status_edit').addClass('red-border');
+         }
+         if (contractor == '') {
+             validate = 1;
+             $('#contractor_edit').addClass('red-border');
          }
 
          if (validate == 0) {
@@ -741,36 +682,6 @@
          } else {
              $('#edit_btn').removeAttr('disabled');
              $('#show_error_update').show();
-         }
-     });
-
-
-     $('#table_rows_cont').find('tr').click(function(e) {
-         var $columns = $(this).find('td');
-
-         $('#contractor_name_edit').val($columns[1].innerHTML);
-         $('#contractor_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
-         $('#id_edit').val($columns[0].innerHTML);
-
-         if (e.target.id.substr(0, 16) == "assigned_project") {
-             $.ajax({
-                 url: '<?= base_url(); ?>Project_Officer/get_list_of_projects',
-                 method: 'POST',
-                 data: {
-                     'contractor_id': $columns[0].innerHTML
-                 },
-                 success: function(data) {
-                     var result = jQuery.parseJSON(data);
-                     var plist = document.getElementById("show_list")
-                     var innerhtml = "";
-                     for (var i in result) {
-                         innerhtml = innerhtml + "<li>" + result[i].Name + "</li>";
-                     }
-                     plist.innerHTML = innerhtml;
-                     $('#contractor_head').html("Assigned Projects of " + $columns[1].innerHTML);
-                 },
-                 async: true
-             });
          }
      });
 
@@ -786,64 +697,3 @@
          }, 0);
      });
  </script>
- <!-- <script type="text/javascript">
-     $(function() {
-         $(".edit").click(function(event) {
-             var a = $(this).attr('ID');
-             //alert(a);
-             var id = a.substr(4, 5);
-             var res = "#quant".concat(id);
-             //alert(res);
-
-             if ($(this).children("input").length > 0)
-                 return false;
-
-             var tdObj = $(res);
-             var preText = tdObj.html();
-             var inputObj = $("<input type='text' style='width:60px' />");
-             tdObj.html("");
-
-             inputObj.css({
-                     border: "0px",
-                     fontSize: "15px"
-                 })
-                 .val(preText)
-                 .appendTo(tdObj)
-                 .trigger("focus")
-                 .trigger("select");
-
-             inputObj.keyup(function(event) {
-                 if (13 == event.which) { // press ENTER-key
-                     var text = $(this).val(); // alert(text);
-
-                     $.ajax({
-                         url: '<?= base_url(); ?>SO_STORE/update_inventory',
-                         method: 'POST',
-                         data: {
-                             'id': id,
-                             'quantity': text
-                         },
-                         success: function(data) {
-                             tdObj.html(text);
-
-                             $(".alert").show();
-                             window.setTimeout(function() {
-                                 $(".alert").fadeTo(500, 0).slideUp(500, function() {
-                                     $(this).remove();
-                                 });
-                             }, 2000);
-                         },
-                         async: false
-                     });
-
-                 } else if (27 == event.which) { // press ESC-key
-                     tdObj.html(preText);
-                 }
-             });
-
-             inputObj.click(function() {
-                 return false;
-             });
-         });
-     });
- </script> -->

@@ -24,23 +24,19 @@ class Project_Officer extends CI_Controller
 
     public function add_contractors()
     {
-
         if ($this->session->has_userdata('user_id')) {
             $data['contractor_records'] = $this->db->get('contractors')->result_array();
             $this->load->view('project_officer/contractor', $data);
         }
     }
-   public function add_projects($project_name=null)
+    public function add_projects($project_name = null)
     {
         if ($this->session->has_userdata('user_id')) {
-                 $data['project_records'] = $this->db->get('projects')->result_array();
-               $data['contractor_name'] = $this->db->get('contractors')->result_array();
+            $data['project_records'] = $this->db->get('projects')->result_array();
+            $data['contractor_name'] = $this->db->get('contractors')->result_array();
             $this->load->view('project_officer/projects', $data);
         }
     }
-
-
-
 
     public function view_projects()
     {
@@ -117,27 +113,33 @@ class Project_Officer extends CI_Controller
         }
     }
 
-    
-    public function edit_contractor()
-    {
-        $id =  $_POST['id_edit'];
-        $contact = $_POST['contact_edit'];
-        $email = $_POST['email_edit'];
-        $date = $_POST['reg_date_edit'];
 
+    public function edit_project()
+    {
+        $id =  $_POST['project_id_edit'];
+        $start_date = $_POST['project_start_date_edit'];
+        $end_date = $_POST['project_end_date_edit'];
+        $cost = $_POST['total_cost_edit'];
+        $status = $_POST['status_edit'];
+        $contractor_id = $_POST['contractor_edit'];
+        $bid_id = $_POST['project_bid_edit'];
+        
         $cond  = ['ID' => $id];
         $data_update = [
-            'Contact_no' => $contact,
-            'Email_id' => $email,
-            'Start_date' => $date,
+            'Start_date' => $start_date,
+            'End_date' => $end_date,
+            'Total_Cost' => $cost,
+            'Contractor_id' => $contractor_id,
+            'bid_id' => $bid_id,
+            'Status' => $status,
         ];
 
         $this->db->where($cond);
-        $this->db->update('contractors', $data_update);
-              
+        $this->db->update('projects', $data_update);
+
         if (!empty($id)) {
             $this->session->set_flashdata('success', 'Record Updated successfully');
-            redirect('Project_Officer/add_contractors');
+            redirect('Project_Officer/add_projects');
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
         }
@@ -155,7 +157,6 @@ class Project_Officer extends CI_Controller
             $contractor = $postData['contractor'];
             $created_by = $postData['created_by'];
             $status = $postData['status'];
-           
 
             $insert_array = array(
                 'Name' => $name,
@@ -176,15 +177,17 @@ class Project_Officer extends CI_Controller
                 redirect('Project_Officer/add_projects');
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');
-                 redirect('Project_Officer/add_projects');
+                redirect('Project_Officer/add_projects');
             }
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
-             redirect('Project_Officer/add_projects');
+            redirect('Project_Officer/add_projects');
         }
     }
-     public function insert_project_initial(){
-         if ($this->input->post()) {
+
+    public function insert_project_initial()
+    {
+        if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
 
             $name = $postData['project_name'];
@@ -194,40 +197,38 @@ class Project_Officer extends CI_Controller
                 'Name' => $name,
                 'Code' => $code
             );
-            print_r($insert_array);
-             $insert = $this->db->insert('projects', $insert_array);
-
-        }else{
-   $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
-             redirect('Project_Officer/add_projects');
+            //print_r($insert_array);
+            $insert = $this->db->insert('projects', $insert_array);
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+            redirect('Project_Officer/add_projects');
         }
-     }
- public function insert_project_bids(){
-  if ($this->input->post()) {
+    }
+    public function insert_project_bids()
+    {
+        if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
 
-            $project_name=$postData['Name_of_Project'];
+            $project_name = $postData['Name_of_Project'];
             $contractor = $postData['contractor'];
             $bid_amount = $postData['bid_amount'];
-            
-            $project=$this->db->where('Name',$project_name)->get('projects')->row_array();
 
-            for($i=0;$i<count($contractor);$i++){
-                 $insert_array = array(
-                'project_id' => $project['ID'],
-                'contractor_id' => $contractor[$i],
-                'bid_amount' => $bid_amount[$i]
-            );
-                  $insert = $this->db->insert('project_bids', $insert_array);
+            $project = $this->db->where('Name', $project_name)->get('projects')->row_array();
+
+            for ($i = 0; $i < count($contractor); $i++) {
+                $insert_array = array(
+                    'project_id' => $project['ID'],
+                    'contractor_id' => $contractor[$i],
+                    'bid_amount' => $bid_amount[$i]
+                );
+                $insert = $this->db->insert('project_bids', $insert_array);
             }
-             redirect('Project_Officer/add_projects/'+$project_name);
-        }
-         else {
+            redirect('Project_Officer/add_projects/' + $project_name);
+        } else {
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
-             redirect('Project_Officer/add_projects');
+            redirect('Project_Officer/add_projects');
         }
-
- }
+    }
 
     public function get_total_projects_assigned()
     {
