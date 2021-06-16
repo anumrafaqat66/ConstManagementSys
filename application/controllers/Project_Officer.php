@@ -113,7 +113,13 @@ class Project_Officer extends CI_Controller
         }
     }
 
-
+   public function add_bids_values()
+    {
+        $name=$postData['name'];
+        echo $name;exit;
+        $bids= $this->db->where('project_id',$ID)->get('project_bids')->result_array();
+        echo json_encode($users_arr);
+    }
     public function edit_project()
     {
         $id =  $_POST['project_id_edit'];
@@ -223,7 +229,7 @@ class Project_Officer extends CI_Controller
                 );
                 $insert = $this->db->insert('project_bids', $insert_array);
             }
-            redirect('Project_Officer/add_projects/' + $project_name);
+            redirect('Project_Officer/add_projects/');
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
             redirect('Project_Officer/add_projects');

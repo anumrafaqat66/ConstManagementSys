@@ -85,7 +85,7 @@
                                              <input type="hidden" name="Name_of_Project" id="Name_of_Project" value="">
                                              <div class="form-group row justify-content-center">
                                                  <div class="col-sm-4">
-                                                     <button type="submit" class="btn btn-primary btn-user btn-block" id="add_btn_bids">
+                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn_bids">
                                                          <!-- <i class="fab fa-google fa-fw"></i>  -->
                                                          Submit Bids
                                                      </button>
@@ -162,7 +162,11 @@
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Select Bids" disabled="true">
+                                                    <!--  <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Select Bids" disabled="true"> -->
+
+                                                     <select class="form-control rounded-pill" name="bid_amount" id="bid_amount" data-placeholder="Select Bid" style="font-size: 0.8rem; height:50px;" disabled="true">
+                                                         <option class="form-control form-control-user" value="">Select Bid</option>
+                                                     </select>
                                                  </div>
 
                                                  <div class="col-sm-1 mb-1">
@@ -575,6 +579,59 @@
          elh.remove();
          elr.remove();
      }
+
+ $('#add_btn_bids').on('click', function() {
+         //alert('javascript working');
+         $('#add_btn_bids').attr('disabled', true);
+         var validate = 0;
+
+         var name=$('Name_of_Project').val();
+         var contractor = $('#contractor').val();
+         var bid_amount = $('#bid_amount').val();
+
+          if (contractor == '') {
+             validate = 1;
+             $('#contractor').addClass('red-border');
+         }
+         if (bid_amount == '') {
+             validate = 1;
+             $('#bid_amount').addClass('red-border');
+         }
+
+          if (validate == 0) {
+                      $.ajax({
+               url: '<?= base_url(); ?>Project_Officer/add_bids_values',
+                 method: 'POST',
+                 type:'json',
+                 data: {
+                'name' : name
+                 },
+                     success: function(response) {
+                      var len = response.length;
+
+                        $("#bid_amount").empty();
+                        for( var i = 0; i<len; i++){
+                            var id = response[i]['id'];
+                            var name = response[i]['name'];
+                            $("#bid_amount").append("<option value='"+id+"'>"+name+"</option>");
+
+                        }
+                 },
+                 async: true
+               
+
+             });
+             $('#add_form_bids')[0].submit();
+             $('#show_error_new').hide();
+
+             $('$bid_amount').removeAttr('disabled');
+   
+}
+          else {
+             $('#add_btn_bids').removeAttr('disabled');
+             $('#show_error_new').show();
+         }
+     });
 
      $('#add_btn').on('click', function() {
          //alert('javascript working');
