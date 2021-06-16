@@ -76,7 +76,7 @@
                                                      </div>
 
                                                      <div class="col-sm-3 mb-1">
-                                                         <input type="text" class="form-control form-control-user" name="bid_amount[]" id="bid_amount" placeholder="Bid Amount">
+                                                         <input type="number" class="form-control form-control-user" name="bid_amount[]" id="bid_amount" placeholder="Bid Amount">
                                                      </div>
 
                                                      <div class="col-sm-3 mb-1" style="display:none">
@@ -144,7 +144,7 @@
                                                  </div>
 
                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Assigned Bid:</h6>
+                                                     <h6>&nbsp;End Date:</h6>
                                                  </div>
 
                                              </div>
@@ -165,22 +165,17 @@
                                                      <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
-                                                 <div class="col-sm-2 mb-1">
-                                                     <!--  <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Select Bids" disabled="true"> -->
-
-                                                     <select class="form-control rounded-pill" name="assign_bid_amount" id="assign_bid_amount" data-placeholder="Select Bid" style="font-size: 0.8rem; height:50px;">
-                                                         <option class="form-control form-control-user" value="">Select Bid</option>
-                                                     </select>
+                                                  <div class="col-sm-3 mb-1">
+                                                     <input type="date" class="form-control form-control-user" name="end_date" id="end_date" placeholder="End Date">
+                                                     <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
-                                                 <div class="col-sm-1 mb-1">
-                                                     <span><a href="#"><i class="fas fa-folder-plus" type="" data-toggle="modal" data-target="#new_bids1" id="add_bids" style="font-size: 40px; margin-top:2px; color:black"></i></a></span>
-                                                 </div>
+                                                
                                              </div>
 
                                              <div class="form-group row">
                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Assigned Contractor:</h6>
+                                                     <h6>&nbsp;Assigned Bid:</h6>
                                                  </div>
                                                  <div class="col-sm-3">
                                                      <h6>&nbsp;Created By:</h6>
@@ -197,17 +192,28 @@
                                              </div>
 
                                              <div class="form-group row">
-                                                 <div class="col-sm-3">
+                                                <!--  <div class="col-sm-3">
                                                      <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                                          <option class="form-control form-control-user" value="">Select Contractor Name</option>
                                                          <?php foreach ($contractor_name as $contractor) { ?>
                                                              <option class="form-control form-control-user" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
                                                          <?php } ?>
                                                      </select>
+                                                 </div> -->
+                                                  <div class="col-sm-2 mb-1">
+                                                     <!--  <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Select Bids" disabled="true"> -->
+
+                                                     <select class="form-control rounded-pill" name="assign_bid" id="assign_bid" data-placeholder="Select Bid" style="font-size: 0.8rem; height:50px;">
+                                                         <option class="form-control form-control-user" value="">Select Bid</option>
+                                                     </select>
+                                                 </div>
+
+                                                 <div class="col-sm-1 mb-1">
+                                                     <span><a href="#"><i class="fas fa-folder-plus" type="" data-toggle="modal" data-target="#new_bids1" id="add_bids" style="font-size: 40px; margin-top:2px; color:black"></i></a></span>
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By.">
+                                                     <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By." value="<?= $this->session->userdata('username'); ?>" readonly="true">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
@@ -591,6 +597,7 @@
 
          //  var name = $('#project_name_heading').val();
          var project_id = $('#project_id_on_bid').val();
+         //alert(project_id);
          var contractor = $('#contractor').val();
          var bid_amount = $('#bid_amount').val();
 
@@ -643,11 +650,11 @@
                      $('#bid_amount').removeAttr('disabled');
 
                      for (var i = 0; i < len; i++) {
-                         var id = result[i]['id'];
-                         var amount = result[i]['bid_amount'];
+                         var ID = result[i]['id'];
+                         var contractor_name = result[i]['Name'];
                          //  alert(id + '---' + amount);
-                         $("#assign_bid_amount").append(`<option value="${id}">
-                                                        ${amount}
+                         $("#assign_bid").append(`<option value="${ID}">
+                                                        ${contractor_name}
                                                     </option>`);
 
                      }
@@ -675,7 +682,8 @@
          var code = $('#code').val();
          var start_date = $('#start_date').val();
          var end_date = $('#end_date').val();
-         var contractor_name = $('#contractor').val();
+         var assigned_bid=$('#assign_bid');
+         //var contractor_name = $('#contractor').val();
          var created_by = $('#created_by').val();
          var cost = $('#total_cost').val();
          var status = $('#status').val();
@@ -692,14 +700,14 @@
              validate = 1;
              $('#start_date').addClass('red-border');
          }
+         if (assigned_bid == '') {
+             validate = 1;
+             $('#assign_bid').addClass('red-border');
+         }
+
          if (end_date == '') {
              validate = 1;
              $('#end_date').addClass('red-border');
-         }
-
-         if (contractor_name == '') {
-             validate = 1;
-             $('#contractor').addClass('red-border');
          }
          if (created_by == '') {
              validate = 1;
@@ -712,10 +720,6 @@
          if (status == '') {
              validate = 1;
              $('#status').addClass('red-border');
-         } else {
-             validate = 0;
-             $('#email').removeClass('red-border');
-             $('#show_error_email').hide();
          }
 
 

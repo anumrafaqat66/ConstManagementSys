@@ -116,7 +116,13 @@ class Project_Officer extends CI_Controller
     public function add_bids_values()
     {
         $id = $_POST['id'];
-        $bids = $this->db->where('project_id', $id)->get('project_bids')->result_array();
+       // echo $id;
+         $this->db->select('project_bids.*,contractors.Name');
+            $this->db->from('project_bids');
+            $this->db->join('contractors', 'contractors.ID = project_bids.contractor_id');
+            $this->db->where('project_bids.project_id', $id);
+        $bids = $this->db->get()->result_array();
+       // print_r($bids);exit;
         echo json_encode($bids);
     }
     public function edit_project()
@@ -158,23 +164,32 @@ class Project_Officer extends CI_Controller
             $code = $postData['code'];
             $start_date = $postData['start_date'];
             $end_date = $postData['end_date'];
+            $assigned_bid= $postData['assign_bid'];
             $total_cost = $postData['total_cost'];
-            $contractor = $postData['contractor'];
+
+            $data=$this->db->where('id',$assigned_bid)->get('project_bids')->row_array();
+            $contractor=$this->db->where('ID',$data['contractor_id'])->get('contractors')->row_array();
+            //echo $contractor['ID'];exit;
+
             $created_by = $postData['created_by'];
             $status = $postData['status'];
 
-            $insert_array = array(
+            $project= $this->db->where('Name',$name)->get('projects')->row_array();
+
+            $cond  = ['ID' => $project['ID']];
+            $update_array = array(
                 'Name' => $name,
                 'Code' => $code,
                 'Start_date' => $start_date,
                 'End_date' => $end_date,
                 'Total_Cost' => $total_cost,
-                'contractor_id' => $contractor,
-                'Created_by' => $created_by,
+                 'Created_by' => $created_by,
+                'contractor_id' => $contractor['ID'],
+                'bid_id'=>$assigned_bid,
                 'status' => $status
             );
-
-            $insert = $this->db->insert('projects', $insert_array);
+            $this->db->where($cond);
+            $insert = $this->db->update('projects', $update_array);
             //$last_id = $this->db->insert_id();
 
             if (!empty($insert)) {
