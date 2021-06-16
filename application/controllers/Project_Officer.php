@@ -47,6 +47,29 @@ class Project_Officer extends CI_Controller
         }
     }
 
+    
+    public function overview($project_id = NULL)
+    {
+
+        if ($this->session->has_userdata('user_id')) {
+            $data['project_records'] = $this->db->where('ID',$project_id)->get('projects')->row_array();
+
+            $this->db->select('pb.*,c.*');
+            $this->db->from('project_bids pb');
+            $this->db->join('contractors c', 'c.ID = pb.contractor_id');
+            $this->db->where('pb.project_id', $project_id);
+            $data['project_bids'] = $this->db->get()->result_array();
+
+            $this->db->select('p.Name as project_name, c.Name as contractor_name,p.*,c.*');
+            $this->db->from('projects p');
+            $this->db->join('contractors c', 'p.contractor_id = c.ID');
+            $this->db->where('p.ID', $project_id);
+            $data['project_contractor'] = $this->db->get()->result_array();
+
+            $this->load->view('project_officer/project_overview', $data);
+        }
+    }
+
     public function view_inventory_detail($id = NULL)
     {
 

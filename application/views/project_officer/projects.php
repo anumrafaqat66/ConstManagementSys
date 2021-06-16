@@ -131,64 +131,62 @@
                                      <div class="card-body bg-custom3">
                                          <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_project">
                                              <div class="form-group row">
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Name:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Code:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Start Date:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3">
+                                                 <!-- <div class="col-sm-3">
                                                      <h6>&nbsp;End Date:</h6>
-                                                 </div>
+                                                 </div> -->
 
                                              </div>
 
 
                                              <div class="form-group row">
-                                                 <div class="col-sm-3 mb-1">
+                                                 <div class="col-sm-4 mb-1">
                                                      <input type="text" class="form-control form-control-user" name="project_name" id="project_name" placeholder="Project Name">
                                                      <span id="show_project_name_error" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please enter project name & code first</span>
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
+                                                 <div class="col-sm-4 mb-1">
                                                      <input type="text" class="form-control form-control-user" name="code" id="code" placeholder="Project Code.">
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
+                                                 <div class="col-sm-4 mb-1">
                                                      <input type="date" class="form-control form-control-user" name="start_date" id="start_date" placeholder="Start Date">
                                                      <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
-                                                  <div class="col-sm-3 mb-1">
+                                                  <!-- <div class="col-sm-3 mb-1">
                                                      <input type="date" class="form-control form-control-user" name="end_date" id="end_date" placeholder="End Date">
-                                                     <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
-                                                 </div>
+                                                      <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span>
+                                                 </div> -->
 
                                                 
                                              </div>
 
                                              <div class="form-group row">
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Assigned Bid:</h6>
                                                  </div>
-                                                 <div class="col-sm-3">
+                                                 <!-- <div class="col-sm-3">
                                                      <h6>&nbsp;Created By:</h6>
-                                                 </div>
-                                                 <div class="col-sm-3">
+                                                 </div> -->
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Total Cost:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-4">
                                                      <h6>&nbsp;Status:</h6>
                                                  </div>
-
-
                                              </div>
 
                                              <div class="form-group row">
@@ -200,7 +198,7 @@
                                                          <?php } ?>
                                                      </select>
                                                  </div> -->
-                                                  <div class="col-sm-2 mb-1">
+                                                  <div class="col-sm-3 mb-1">
                                                      <!--  <input type="text" class="form-control form-control-user" name="bid_amount" id="bid_amount" placeholder="Select Bids" disabled="true"> -->
 
                                                      <select class="form-control rounded-pill" name="assign_bid" id="assign_bid" data-placeholder="Select Bid" style="font-size: 0.8rem; height:50px;">
@@ -212,16 +210,16 @@
                                                      <span><a href="#"><i class="fas fa-folder-plus" type="" data-toggle="modal" data-target="#new_bids1" id="add_bids" style="font-size: 40px; margin-top:2px; color:black"></i></a></span>
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
+                                                 <!-- <div class="col-sm-4 mb-1">
                                                      <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By." value="<?= $this->session->userdata('username'); ?>" readonly="true">
-                                                 </div>
+                                                 </div> -->
 
-                                                 <div class="col-sm-3 mb-1">
+                                                 <div class="col-sm-4 mb-1">
                                                      <input type="number" class="form-control form-control-user" name="total_cost" id="total_cost" placeholder="Total Cost">
                                                      <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
+                                                 <div class="col-sm-4 mb-1">
                                                      <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                                          <option class="form-control form-control-user" value="">Select Status</option>
                                                          <option class="form-control form-control-user" value="On-going">On going</option>
@@ -439,7 +437,7 @@
                                                 foreach ($project_records as $data) { ?>
                                                  <tr>
                                                      <td scope="row" id="cont<?= $count; ?>"><?= $data['ID']; ?></td>
-                                                     <td style="width:150px" scope="row"><?= $data['Name']; ?></td>
+                                                     <td style="width:150px;" scope="row" ><a style="color:black; font-weight:800;" href="<?= base_url()?>/Project_Officer/overview/<?= $data['ID'] ?>"><?= $data['Name']; ?></a></td>
                                                      <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Start_date']; ?></td>
                                                      <td scope="row"><?= $data['End_date']; ?></td>
                                                      <td style="width:150px" scope="row"><?= $data['Total_Cost']; ?></td>
@@ -652,9 +650,11 @@
                      for (var i = 0; i < len; i++) {
                          var ID = result[i]['id'];
                          var contractor_name = result[i]['Name'];
+                         var bid_amount = result[i]['bid_amount'];
+                         var str = contractor_name + ' : ' + bid_amount;
                          //  alert(id + '---' + amount);
                          $("#assign_bid").append(`<option value="${ID}">
-                                                        ${contractor_name}
+                                                        ${str}
                                                     </option>`);
 
                      }
