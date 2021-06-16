@@ -29,11 +29,16 @@ class Project_Officer extends CI_Controller
             $this->load->view('project_officer/contractor', $data);
         }
     }
+    
     public function add_projects($project_name = null)
     {
         if ($this->session->has_userdata('user_id')) {
             $data['project_records'] = $this->db->get('projects')->result_array();
             $data['contractor_name'] = $this->db->get('contractors')->result_array();
+            $this->db->select('pb.*,c.*');
+            $this->db->from('project_bids pb');
+            $this->db->join('contractors c', 'c.ID = pb.contractor_id');
+            $data['bids'] = $this->db->get()->result_array();
             $this->load->view('project_officer/projects', $data);
         }
     }
@@ -136,6 +141,13 @@ class Project_Officer extends CI_Controller
         }
     }
 
+    public function delete_project()
+    {
+        $id = $_POST['id'];
+        $this -> db -> where('ID', $id);
+        $this -> db -> delete('projects');
+    }
+
     public function add_bids_values()
     {
         $id = $_POST['id'];
@@ -148,6 +160,7 @@ class Project_Officer extends CI_Controller
        // print_r($bids);exit;
         echo json_encode($bids);
     }
+    
     public function edit_project()
     {
         $id =  $_POST['project_id_edit'];

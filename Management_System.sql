@@ -38,6 +38,15 @@ CREATE TABLE `project_bids` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Dumping data for table `project_bids`
+--
+
+INSERT INTO `project_bids` ( `id`, `project_id`, `contractor_id`, `bid_amount`, `Status`) VALUES
+(1, 1, 1, 100000, 'Verified'),
+(2, 2, 2, 2500000, 'Verified'),
+(3, 3, 3, 5000000, 'Verified');
+
+--
 -- Table structure for table `contractors`
 --
 
@@ -59,7 +68,9 @@ CREATE TABLE IF NOT EXISTS `contractors` (
 --
 
 INSERT INTO `contractors` ( `ID`, `Name`, `Contact_no`, `Email_id`, `Description`, `Start_date`,`Status`) VALUES
-(1, 'Contractor-1', '03312344532', 'contractor_one@gmail.com', 'Verified contractor by department', '2021-06-13', 'Verified');
+(1, 'Contractor-1', '03312344532', 'contractor_one@gmail.com', 'Verified contractor by department', '2021-06-13', 'Verified'),
+(2, 'Contractor-2', '03312344532', 'contractor_two@gmail.com', 'Verified contractor by department', '2021-07-13', 'Verified'),
+(3, 'Contractor-3', '03312344532', 'contractor_three@gmail.com', 'Verified contractor by department', '2021-08-13', 'Verified');
 
 -- --------------------------------------------------------
 
@@ -150,10 +161,10 @@ CREATE TABLE `projects` (
 -- Dumping data for table `projects`
 --
 
-INSERT INTO `projects` (`ID`, `Name`, `Code`, `Start_date`, `End_date`, `Total_Cost`, `Status`) VALUES
-(1, 'Project-32C', '32C', '2021-06-08', '2021-06-08', 2300.00, 'On-going'),
-(2, 'Project-42C', '42C', '2021-06-08', '2021-06-08', 5400.00, 'On-going'),
-(3, 'Project-42B', '42B', '2021-06-08', '2021-06-08', 56400.00, 'Initiated');
+INSERT INTO `projects` (`ID`, `Name`, `Code`, `Start_date`, `End_date`, `Total_Cost`, `Status`, `contractor_id`,`bid_id`) VALUES
+(1, 'Project-32C', '32C', '2021-06-08', '2021-06-08', 2300.00, 'On-going', 1, 1),
+(2, 'Project-42C', '42C', '2021-06-08', '2021-06-08', 5400.00, 'On-going', 2, 2),
+(3, 'Project-42B', '42B', '2021-06-08', '2021-06-08', 56400.00, 'Initiated', 3, 3);
 
 -- --------------------------------------------------------
 
