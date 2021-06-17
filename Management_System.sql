@@ -187,6 +187,42 @@ CREATE TABLE `security_info` (
 INSERT INTO `security_info` (`id`, `username`, `password`, `reg_data`, `acct_type`) VALUES
 (1, 'admin', '$2y$10$uVajLuVrXeV2S4TWWuH4a.CLTS4LW92nmGiitB94akkA6pAWMJyI2', '2021-05-21 19:00:00', 'admin');
 
+
+
+--
+-- Table structure for table `project_progress`
+--
+
+CREATE TABLE `project_progress` (
+  `id` bigint(20) NOT NULL,
+  `project_id` int(20) NOT NULL,
+  `progress_date` date DEFAULT NULL,
+  `progress_percentage` decimal(5,2) DEFAULT NULL,
+  `progress_description` varchar(500) DEFAULT NULL,
+  `Status` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_schedule`
+--
+
+CREATE TABLE `project_schedule` (
+  `id` bigint(20) NOT NULL,
+  `project_id` int(20) NOT NULL,
+  `schedule_date` date DEFAULT NULL,
+  `schedule_name` varchar(100) DEFAULT NULL,
+  `schedule_description` varchar(500) DEFAULT NULL,
+  `schedule_start_date` date DEFAULT NULL,
+  `schedule_end_date` date DEFAULT NULL,
+  `schedule_cost` decimal(8,2) DEFAULT NULL,
+  `Status` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 --
 -- Indexes for dumped tables
 --
@@ -226,6 +262,19 @@ ALTER TABLE `security_info`
 -- Indexes for table `project_bids`
 --
 ALTER TABLE `project_bids`
+  ADD PRIMARY KEY (`id`);
+  
+
+--
+-- Indexes for table `project_progress`
+--
+ALTER TABLE `project_progress`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `project_schedule`
+--
+ALTER TABLE `project_schedule`
   ADD PRIMARY KEY (`id`);
     
   
@@ -269,6 +318,19 @@ ALTER TABLE `security_info`
 ALTER TABLE `project_bids`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
   
+
+--
+-- AUTO_INCREMENT for table `project_progress`
+--
+ALTER TABLE `project_progress`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `project_schedule`
+--
+ALTER TABLE `project_schedule`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
 
 --
 -- Constraints for dumped tables

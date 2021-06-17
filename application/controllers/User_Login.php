@@ -17,7 +17,9 @@ class User_Login extends CI_Controller
 				redirect('SO_STORE');
 			} elseif ($acct_type == "PO") {
 				redirect('Project_Officer');
-			} else {
+			} elseif ($acct_type == "SO_CW") {
+				redirect('SO_CW');
+			}else {
 				$this->load->view('login');
 			}
 
