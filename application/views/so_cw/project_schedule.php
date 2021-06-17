@@ -14,6 +14,7 @@
      .red-border {
          border: 1px solid red !important;
      }
+
  </style>
 
  <div class="container">
@@ -34,7 +35,7 @@
                                  </div>
 
                                  <div class="card-body bg-custom3">
-                                     <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_CW/insert_schedule/<?=$project_id?>">
+                                     <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_CW/insert_schedule/<?= $project_id ?>">
                                          <div class="form-group row">
                                              <div class="col-sm-3">
                                                  <h6>&nbsp;Schedule Date:</h6>
@@ -70,11 +71,11 @@
                                                  <input type="date" class="form-control form-control-user" name="end_date" id="end_date" placeholder="Select Date*" value="">
                                              </div>
 
-                                            
+
                                          </div>
 
                                          <div class="form-group row">
-                                         <div class="col-sm-6">
+                                             <div class="col-sm-6">
                                                  <h6>&nbsp;Enter Schedule Tasks Details:</h6>
                                              </div>
                                          </div>
@@ -100,7 +101,7 @@
                          </div>
                      </div>
                  </div>
-                 
+
              </div>
          </div>
      </div>
@@ -173,7 +174,6 @@
          </div>
      </form>
 
-
  </div>
 
  </div>
@@ -182,7 +182,12 @@
  <?php $this->load->view('common/footer'); ?>
 
  <script>
- $('#add_btn').on('click', function() {
+     window.onload = function() {
+
+     }
+
+
+     $('#add_btn').on('click', function() {
          //alert('javascript working');
          $('#add_btn').attr('disabled', true);
          var validate = 0;
@@ -213,7 +218,7 @@
              validate = 1;
              $('#desc').addClass('red-border');
          }
-        
+
          if (validate == 0) {
              $('#add_form')[0].submit();
              $('#show_error').hide();

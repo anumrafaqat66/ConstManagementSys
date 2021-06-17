@@ -52,6 +52,34 @@ class SO_CW extends CI_Controller
         }
     }
 
+    public function fetch_event()
+    {
+        // $json = array();
+        $eventArray = array();
+        // $sqlQuery = "SELECT * FROM tbl_events ORDER BY id";
+        $eventArray = $this->db->get('project_schedule')->result_array();
+        //$result = mysqli_query($conn, $sqlQuery);
+        // while ($row = mysqli_fetch_assoc($result)) {
+        //     array_push($eventArray, $row);
+        // }
+        // mysqli_free_result($result);
+        // mysqli_close($conn);
+        // print_r($eventArray); exit;
+        echo json_encode($eventArray);
+    }
+
+    public function add_event()
+    {
+
+        $title = isset($_POST['title']) ? $_POST['title'] : "";
+        $start = isset($_POST['start']) ? $_POST['start'] : "";
+        $end = isset($_POST['end']) ? $_POST['end'] : "";
+
+        //$sqlInsert = "INSERT INTO tbl_events (title,start,end) VALUES ('" . $title . "','" . $start . "','" . $end . "')";
+
+    }
+
+
     public function insert_schedule($project_id = NULL)
     {
         if ($this->input->post()) {
@@ -74,11 +102,10 @@ class SO_CW extends CI_Controller
             );
 
             $insert = $this->db->insert('project_schedule', $insert_array);
-            
+
             if (!empty($insert)) {
                 $this->session->set_flashdata('success', 'Project Schedule Created successfully');
-                redirect('SO_CW/view_project_schedule/'.$project_id);
-                
+                redirect('SO_CW/view_project_schedule/' . $project_id);
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');
             }
