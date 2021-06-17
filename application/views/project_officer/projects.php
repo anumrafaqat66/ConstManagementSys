@@ -431,10 +431,10 @@
                                              </tr>
                                          </thead>
                                          <tbody id="table_rows_project">
-                                             <?php $count = 0;
+                                             <?php $count = 1;
                                                 foreach ($project_records as $data) { ?>
                                                  <tr>
-                                                     <td scope="row" id="cont<?= $count; ?>"><?= $data['ID']; ?></td>
+                                                     <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                      <td style="width:150px;" scope="row"><a style="color:black; font-weight:800;" href="<?= base_url() ?>Project_Officer/overview/<?= $data['ID'] ?>"><?= $data['Name']; ?></a></td>
                                                      <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Start_date']; ?></td>
                                                      <td scope="row"><?= $data['End_date']; ?></td>
@@ -806,5 +806,38 @@
          setTimeout(function() {
              $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
          }, 0);
+     });
+   $(document).on('hide.bs.modal', '#new_project', function() {
+    var project_id = $('#project_id_on_bid').val();
+    //alert(project_id);
+         var name = $('#project_name').val();
+         var code = $('#code').val();
+         var start_date = $('#start_date').val();
+         var end_date = $('#end_date').val();
+         var assigned_bid = $('#assign_bid');
+         //var contractor_name = $('#contractor').val();
+         var created_by = $('#created_by').val();
+         var cost = $('#total_cost').val();
+         var status = $('#status').val();
+
+         if(name == null || code == null || start_date ==null|| end_date ==null 
+            || assign_bid==null || created_by==null ||cost==null || status==null){
+            
+            alert('something null');
+            $.ajax({
+                 url: '<?= base_url(); ?>Project_Officer/delete_project',
+                 method: 'POST',
+                 //  type:'json',
+                 data: {
+                     'id': project_id
+                 },
+                 success: function(response) {
+
+                 },
+                 async: false
+             });
+         }else{
+            //alert('all okay');
+         }
      });
  </script>
