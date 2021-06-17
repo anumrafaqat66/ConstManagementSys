@@ -61,8 +61,8 @@
                                                      <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Code']; ?></td>
                                                      <td scope="row"><?= $data['Start_date']; ?></td>
                                                      <td style="width:150px" scope="row"><?= $data['Status']; ?></td>
-                                                     <td style="width:120px" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_schedule/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 40px; font-size:30px" class="fas fa-calendar-alt"></i></a></td>
-                                                     <td style="width:150px" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_progress/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 40px; font-size:30px" class="fas fa-chart-line"></i></a></td>
+                                                     <td style="width:150px" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_schedule/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 50px; font-size:30px" class="fas fa-calendar-alt"></i></a></td>
+                                                     <td style="width:150px" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_progress/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 50px; font-size:30px" class="fas fa-chart-line"></i></a></td>
                                                      <td scope="row" style="display:none;"><?= $data['contractor_id']; ?></td>
                                                      <td scope="row" style="display:none;"><?= $data['bid_id']; ?></td>
                                                  </tr>

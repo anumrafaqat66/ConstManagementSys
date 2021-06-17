@@ -8,7 +8,6 @@
          height: 250px;
          filter: blur(1px);
          border-radius: 25px;
-
      }
 
      .red-border {
@@ -17,7 +16,6 @@
  </style>
 
  <div class="container">
-
      <h2 class="my-4">Welcome, Project officer!</h2>
 
      <div class="col-md-12 img">

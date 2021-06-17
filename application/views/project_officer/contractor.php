@@ -224,8 +224,57 @@
                                              <div class="form-group row">
                                                  <div class="col-sm-12">
                                                      <h4>List of Projects:</h4>
+                                                     <br>
                                                  </div>
                                                  <div id="show_list" class="col-sm-12">
+
+                                                 </div>
+
+                                             </div>
+
+                                         </form>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="modal-footer">
+                         <!-- <button type="button" class="btn btn-primary rounded-pill" data-dismiss="modal">Close</button> -->
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+         <div class="modal fade" id="completed_projects">
+             <!-- <div class="row"> -->
+             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
+                 <div class="modal-content bg-custom3" style="width:1000px;">
+                     <div class="modal-header" style="width:1000px;">
+
+                     </div>
+                     <div class="card-body bg-custom3">
+                         <!-- Nested Row within Card Body -->
+                         <div class="row">
+                             <div class="col-lg-12">
+
+                                 <div class="card">
+                                     <div class="card-header bg-custom1">
+                                         <h1 id="contractor_head_completed" class="h4">Completed Projects of </h1>
+                                     </div>
+
+                                     <div class="card-body bg-custom3">
+                                         <form class="user" role="form" method="post" id="edit_form" action="">
+                                             <div class="form-group row">
+                                                 <div class="col-sm-12">
+                                                     <h3 id="contractor_heading"></h3>
+                                                 </div>
+                                             </div>
+                                             <div class="form-group row">
+                                                 <div class="col-sm-12">
+                                                     <h4>List of Projects:</h4>
+                                                     <br>
+                                                 </div>
+                                                 <div id="show_list_completed" class="col-sm-12">
 
                                                  </div>
 
@@ -248,11 +297,6 @@
              <!-- Nested Row within Card Body -->
              <div class="row">
                  <div class="col-lg-12">
-
-                     <div class="alert alert-success" role="alert" style="display:none">
-                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                         <strong>Success!</strong> Material Quantity updated successfully!
-                     </div>
 
                      <div class="card bg-custom3">
                          <div class="card-header bg-custom1">
@@ -370,6 +414,7 @@
              },
              async: true
          });
+
      }
 
      $('#add_btn').on('click', function() {
@@ -473,22 +518,52 @@
          $('#contractor_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
          $('#id_edit').val($columns[0].innerHTML);
 
-         if (e.target.id.substr(0, 16) == "assigned_project") {
+
+         if ((e.target.id.substr(0, 16) == "assigned_project") || (e.target.id.substr(0, 17) == "completed_project")) {
+
+             var status;
+             if (e.target.id.substr(0, 16) == "assigned_project") {
+                 status = 'ALL';
+             } else if (e.target.id.substr(0, 17) == "completed_project") {
+                 status = 'Completed';
+             }
+
              $.ajax({
                  url: '<?= base_url(); ?>Project_Officer/get_list_of_projects',
                  method: 'POST',
                  data: {
-                     'contractor_id': $columns[0].innerHTML
+                     'contractor_id': $columns[0].innerHTML,
+                     'status': status
                  },
                  success: function(data) {
                      var result = jQuery.parseJSON(data);
-                     var plist = document.getElementById("show_list")
-                     var innerhtml = "";
-                     for (var i in result) {
-                         innerhtml = innerhtml + "<li>"+result[i].Name+"</li>";
+
+                     if (status == 'ALL') {
+                         var plist = document.getElementById("show_list")
+                         var innerhtml = "";
+                         for (var i in result) {
+                             innerhtml = innerhtml + `<li><strong><a style="color:black" href=<?php echo base_url(); ?>Project_Officer/overview/${result[i].ID}>${result[i].Name}</a></strong></li>`;
+                         }
+                         
+                         if (result.length != 0) {
+                            plist.innerHTML = innerhtml;    
+                         } else {
+                            plist.innerHTML = `<p>No projects Assigned</p>`;
+                         } 
+                         $('#contractor_head').html("Assigned Projects of " + $columns[1].innerHTML);
+                     } else {
+                         var plistc = document.getElementById("show_list_completed")
+                         var innerhtml = "";
+                         for (var i in result) {
+                             innerhtml = innerhtml + `<li><strong><a style="color:black" href=<?php echo base_url(); ?>Project_Officer/overview/${result[i].ID}>${result[i].Name}</a></strong></li>`;
+                         }
+                         if (result.length != 0) {
+                            plistc.innerHTML = innerhtml;    
+                         } else {
+                            plistc.innerHTML = `<p>No projects Completed</p>`;
+                         } 
+                         $('#contractor_head_completed').html("Completed Projects of " + $columns[1].innerHTML);
                      }
-                     plist.innerHTML = innerhtml;
-                     $('#contractor_head').html("Assigned Projects of " + $columns[1].innerHTML);
                  },
                  async: true
              });

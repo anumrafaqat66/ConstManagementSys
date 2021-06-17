@@ -231,10 +231,6 @@ CREATE TABLE `project_drawing` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-
-
-
-
 --
 -- Indexes for dumped tables
 --
@@ -288,6 +284,12 @@ ALTER TABLE `project_progress`
 --
 ALTER TABLE `project_schedule`
   ADD PRIMARY KEY (`id`);
+  
+--
+-- Indexes for table `project_schedule`
+--
+ALTER TABLE `project_drawing`
+  ADD PRIMARY KEY (`id`);  
     
   
 --
@@ -341,6 +343,12 @@ ALTER TABLE `project_progress`
 -- AUTO_INCREMENT for table `project_schedule`
 --
 ALTER TABLE `project_schedule`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `project_schedule`
+--
+ALTER TABLE `project_drawing`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 

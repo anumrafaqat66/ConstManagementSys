@@ -14,7 +14,7 @@
          color: black;
          font-weight: bold;
          position: absolute;
-         top: 28%;
+         top: 20%;
          left: 80%;
          transform: translate(-50%, -50%);
          z-index: 2;
@@ -35,7 +35,7 @@
 
      <div class="col-md-12 img">
      </div>
-     <div class="bg-text">Project Overview</div>
+     <div class="bg-text"><?php echo $project_records['Name'] ?> Overview</div>
 
 
      <div class="modal fade" id="project_name">
@@ -225,13 +225,13 @@
              </div>
 
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_contractors'">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="">
                      <h4 style="font-weight: bold;">Work Breakdown Structure</h4>
                  </button>
              </div>
 
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_contractors'">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="">
                      <h4 style="font-weight: bold;">Project Progress</h4>
                  </button>
              </div>
@@ -240,19 +240,19 @@
 
          <div class="form-group row justify-content-center" style="margin-top:50px; margin-bottom:50px">
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_projects'">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="">
                      <h4 style="font-weight: bold;">Project Schedule</h4>
                  </button>
              </div>
 
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_contractors'">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="">
                      <h4 style="font-weight: bold;">Project Chart</h4>
                  </button>
              </div>
 
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_contractors'">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="">
                      <h4 style="font-weight: bold;">Project Report</h4>
                  </button>
              </div>

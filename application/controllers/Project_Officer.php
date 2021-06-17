@@ -29,11 +29,11 @@ class Project_Officer extends CI_Controller
             $this->load->view('project_officer/contractor', $data);
         }
     }
-    
+
     public function add_projects($project_name = null)
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->where('Created_by',$this->session->userdata('username'))->get('projects')->result_array();
+            $data['project_records'] = $this->db->where('Created_by', $this->session->userdata('username'))->get('projects')->result_array();
             $data['contractor_name'] = $this->db->get('contractors')->result_array();
             $this->db->select('pb.*,c.*');
             $this->db->from('project_bids pb');
@@ -52,12 +52,12 @@ class Project_Officer extends CI_Controller
         }
     }
 
-    
+
     public function overview($project_id = NULL)
     {
 
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->where('ID',$project_id)->get('projects')->row_array();
+            $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
 
             $this->db->select('pb.*,c.*');
             $this->db->from('project_bids pb');
@@ -70,55 +70,50 @@ class Project_Officer extends CI_Controller
             $this->db->join('contractors c', 'p.contractor_id = c.ID');
             $this->db->where('p.ID', $project_id);
             $data['project_contractor'] = $this->db->get()->result_array();
-            $data['id']=$project_id;
+            $data['id'] = $project_id;
 
-//print_r( $data['project_contractor']);exit;
+            //print_r( $data['project_contractor']);exit;
             $this->load->view('project_officer/project_overview', $data);
         }
     }
 
-public function drawing($project_id = NULL)
+    public function drawing($project_id = NULL)
     {
 
         if ($this->session->has_userdata('user_id')) {
-            $data['project']=$project_id;
-            $data['drawing']=$this->db->where('project_id',$project_id)->get('project_drawing')->result_array();
-            $this->load->view('project_officer/project_drawing',$data);
+            $data['project'] = $project_id;
+            $data['drawing'] = $this->db->where('project_id', $project_id)->get('project_drawing')->result_array();
+            $this->load->view('project_officer/project_drawing', $data);
         }
     }
-    public function upload_drawing(){
+    public function upload_drawing()
+    {
         $postData = $this->security->xss_clean($this->input->post());
-         //print_r($_FILES);exit;
-           $project_id=$postData['project_id'];
-            $upload1 = $this->upload_reg($_FILES['project_drawing']); 
-            //print_r($upload1);
-            //exit;
-            //print_r(count($upload1));exit;
-            if (count($upload1) >= 1) {
-                
-                for($i=0;$i<count($upload1);$i++){
-                $insert_array = array(
-                'name' => $upload1[$i],
-                'project_id' => $project_id,
-                'date_added' => date('Y-m-d')
-            );
-               // print_r($insert_array);exit;
 
-            $insert = $this->db->insert('project_drawing', $insert_array);
+        $project_id = $postData['project_id'];
+        $upload1 = $this->upload_reg($_FILES['project_drawing']);
+
+        if (count($upload1) >= 1) {
+
+            for ($i = 0; $i < count($upload1); $i++) {
+                $insert_array = array(
+                    'name' => $upload1[$i],
+                    'project_id' => $project_id,
+                    'date_added' => date('Y-m-d')
+                );
+                $insert = $this->db->insert('project_drawing', $insert_array);
+            }
+        }
+
+        if (!empty($insert)) {
+            $this->session->set_flashdata('success', 'Data Submitted successfully');
+            redirect('Project_Officer/drawing/' . $project_id);
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            redirect('Project_Officer/drawing/' . $project_id);
         }
     }
-            //$last_id = $this->db->insert_id();
 
-            if (!empty($insert)) {
-                $this->session->set_flashdata('success', 'Data Submitted successfully');
-                redirect('Project_Officer/drawing/'.$project_id);
-            } else {
-                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
-                   redirect('Project_Officer/drawing/'.$project_id);
-            }
-
-                }
-            
 
 
     public function view_inventory_detail($id = NULL)
@@ -190,23 +185,23 @@ public function drawing($project_id = NULL)
     public function delete_project()
     {
         $id = $_POST['id'];
-        $this -> db -> where('ID', $id);
-        $this -> db -> delete('projects');
+        $this->db->where('ID', $id);
+        $this->db->delete('projects');
     }
 
     public function add_bids_values()
     {
         $id = $_POST['id'];
-       // echo $id;
-         $this->db->select('project_bids.*,contractors.Name');
-            $this->db->from('project_bids');
-            $this->db->join('contractors', 'contractors.ID = project_bids.contractor_id');
-            $this->db->where('project_bids.project_id', $id);
+        // echo $id;
+        $this->db->select('project_bids.*,contractors.Name');
+        $this->db->from('project_bids');
+        $this->db->join('contractors', 'contractors.ID = project_bids.contractor_id');
+        $this->db->where('project_bids.project_id', $id);
         $bids = $this->db->get()->result_array();
-       // print_r($bids);exit;
+        // print_r($bids);exit;
         echo json_encode($bids);
     }
-    
+
     public function edit_project()
     {
         $id =  $_POST['project_id_edit'];
@@ -246,17 +241,17 @@ public function drawing($project_id = NULL)
             $code = $postData['code'];
             $start_date = $postData['start_date'];
             $end_date = $postData['end_date'];
-            $assigned_bid= $postData['assign_bid'];
+            $assigned_bid = $postData['assign_bid'];
             $total_cost = $postData['total_cost'];
 
-            $data=$this->db->where('id',$assigned_bid)->get('project_bids')->row_array();
-            $contractor=$this->db->where('ID',$data['contractor_id'])->get('contractors')->row_array();
+            $data = $this->db->where('id', $assigned_bid)->get('project_bids')->row_array();
+            $contractor = $this->db->where('ID', $data['contractor_id'])->get('contractors')->row_array();
             //echo $contractor['ID'];exit;
 
             $created_by = $postData['created_by'];
             $status = $postData['status'];
 
-            $project= $this->db->where('Name',$name)->get('projects')->row_array();
+            $project = $this->db->where('Name', $name)->get('projects')->row_array();
 
             $cond  = ['ID' => $project['ID']];
             $update_array = array(
@@ -265,9 +260,9 @@ public function drawing($project_id = NULL)
                 'Start_date' => $start_date,
                 'End_date' => $end_date,
                 'Total_Cost' => $total_cost,
-                 'Created_by' => $created_by,
+                'Created_by' => $created_by,
                 'contractor_id' => $contractor['ID'],
-                'bid_id'=>$assigned_bid,
+                'bid_id' => $assigned_bid,
                 'status' => $status
             );
             $this->db->where($cond);
@@ -355,8 +350,13 @@ public function drawing($project_id = NULL)
     public function get_list_of_projects()
     {
         $cont_id = $_POST['contractor_id'];
+        $status = $_POST['status'];
         if ($this->session->has_userdata('user_id')) {
-            $projectsList = $this->db->where('contractor_id', $cont_id)->get('projects')->result_array();
+            if ($status != 'ALL') {
+                $projectsList = $this->db->where('contractor_id', $cont_id)->where('status', $status)->get('projects')->result_array();
+            } else {
+                $projectsList = $this->db->where('contractor_id', $cont_id)->get('projects')->result_array();
+            }
             echo json_encode($projectsList);
         }
     }
