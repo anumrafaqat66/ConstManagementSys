@@ -61,7 +61,7 @@ class Project_Officer extends CI_Controller
 
             $this->db->select('pb.*,c.*');
             $this->db->from('project_bids pb');
-            $this->db->join('contractors c', 'c.ID = pb.contractor_id');
+            $this->db->join('contractors c', 'c.ID = pb.contractor_ID');
             $this->db->where('pb.project_id', $project_id);
             $data['project_bids'] = $this->db->get()->result_array();
 
@@ -70,10 +70,56 @@ class Project_Officer extends CI_Controller
             $this->db->join('contractors c', 'p.contractor_id = c.ID');
             $this->db->where('p.ID', $project_id);
             $data['project_contractor'] = $this->db->get()->result_array();
+            $data['id']=$project_id;
 
+//print_r( $data['project_contractor']);exit;
             $this->load->view('project_officer/project_overview', $data);
         }
     }
+
+public function drawing($project_id = NULL)
+    {
+
+        if ($this->session->has_userdata('user_id')) {
+            $data['project']=$project_id;
+            $data['drawing']=$this->db->where('project_id',$project_id)->get('project_drawing')->result_array();
+            $this->load->view('project_officer/project_drawing',$data);
+        }
+    }
+    public function upload_drawing(){
+        $postData = $this->security->xss_clean($this->input->post());
+         //print_r($_FILES);exit;
+           $project_id=$postData['project_id'];
+            $upload1 = $this->upload_reg($_FILES['project_drawing']); 
+            //print_r($upload1);
+            //exit;
+            //print_r(count($upload1));exit;
+            if (count($upload1) >= 1) {
+                
+                for($i=0;$i<count($upload1);$i++){
+                $insert_array = array(
+                'name' => $upload1[$i],
+                'project_id' => $project_id,
+                'date_added' => date('Y-m-d')
+            );
+               // print_r($insert_array);exit;
+
+            $insert = $this->db->insert('project_drawing', $insert_array);
+        }
+    }
+            //$last_id = $this->db->insert_id();
+
+            if (!empty($insert)) {
+                $this->session->set_flashdata('success', 'Data Submitted successfully');
+                redirect('Project_Officer/drawing/'.$project_id);
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+                   redirect('Project_Officer/drawing/'.$project_id);
+            }
+
+                }
+            
+
 
     public function view_inventory_detail($id = NULL)
     {
@@ -313,5 +359,38 @@ class Project_Officer extends CI_Controller
             $projectsList = $this->db->where('contractor_id', $cont_id)->get('projects')->result_array();
             echo json_encode($projectsList);
         }
+    }
+    public function upload_reg($fieldname)
+    {
+        //$data = NULL;
+        //echo $fieldname;exit;
+        $filesCount = count($_FILES['project_drawing']['name']);
+        //print_r($_FILES['reg_cert']['name']);exit;
+        for ($i = 0; $i < $filesCount; $i++) {
+            $_FILES['file']['name']     = $_FILES['project_drawing']['name'][$i];
+            $_FILES['file']['type']     = $_FILES['project_drawing']['type'][$i];
+            $_FILES['file']['tmp_name'] = $_FILES['project_drawing']['tmp_name'][$i];
+            $_FILES['file']['error']     = $_FILES['project_drawing']['error'][$i];
+            $_FILES['file']['size']     = $_FILES['project_drawing']['size'][$i];
+
+            $config['upload_path'] = 'uploads/project_drawing';
+            $config['allowed_types']        = 'gif|jpg|png|doc|xls|pdf|xlsx|docx|ppt|pptx';
+
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            //$data['upload_data'] = '';
+            if (!$this->upload->do_upload('file')) {
+                $data = array('msg' => $this->upload->display_errors());
+                //echo "here";exit;
+            } else {
+                //echo $filesCount;exit;
+                $data = array('msg' => "success");
+                $data['upload_data'] = $this->upload->data();
+                $count[$i] = $data['upload_data']['file_name'];
+            }
+        } //end of for
+        //print_r($count);exit();
+        return $count;
     }
 }

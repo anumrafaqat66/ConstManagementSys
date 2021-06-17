@@ -221,6 +221,18 @@ CREATE TABLE `project_schedule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+-- Table structure for table "project drawing"
+CREATE TABLE `project_drawing` (
+  `id` bigint(20) NOT NULL ,
+  `project_id` int(20) NOT NULL,
+  `name` varchar(500) DEFAULT NULL,
+  `date_added` DATE DEFAULT NULL
+  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 
 
 --
