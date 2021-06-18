@@ -15,6 +15,28 @@
          border: 1px solid red !important;
      }
 
+     /* body {
+         margin-top: 50px;
+         text-align: center;
+         font-size: 12px;
+         font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+     } */
+
+     #calendar {
+         width: 700px;
+         margin: 0 auto;
+     }
+
+     .response {
+         height: 60px;
+     }
+
+     .success {
+         background: #cdf3cd;
+         padding: 10px 60px;
+         border: #c3e6c3 1px solid;
+         display: inline-block;
+     }
  </style>
 
  <div class="container">
@@ -174,16 +196,106 @@
          </div>
      </form>
 
- </div>
+     <div class="response"></div>
+     <div id='calendar'></div>
 
  </div>
 
+ </div>
 
  <?php $this->load->view('common/footer'); ?>
 
  <script>
-     window.onload = function() {
+     $(document).ready(function() {
+         var calendar = $('#calendar').fullCalendar({
+             editable: true,
+             plugins: ['interaction', 'dayGrid'],
+             //  defaultDate: '2020-02-12',
+             editable: true,
+             eventLimit: true, // allow "more" link when too many events
+             events: {
+                 url: '<?= base_url(); ?>SO_CW/fetch_event',
+                 color: '#ca9e0c', 
+                 textColor: '#3c3d3d' 
+             }, 
+             displayEventTime: false,
+             async: false,
+             eventRender: function(event, element, view) {
+                 if (event.allDay === 'true') {
+                     event.allDay = true;
+                 } else {
+                     event.allDay = false;
+                 }
+             },
+             selectable: true,
+             selectHelper: true,
+             select: function(start, end, allDay) {
+                 var title = prompt('Event Title:');
+                 //  var desc = prompt('Add Event Details:');
+                 //  $('#new_schedule').modal('show');
 
+                 if (title) {
+                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+                     var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+
+                     $.ajax({
+                         url: '<?= base_url(); ?>SO_CW/add_event',
+                         data: 'title=' + title + '&start=' + start + '&end=' + end + '&project_id=' + <?php echo json_encode($project_id, JSON_NUMERIC_CHECK); ?> + '&desc=' + desc,
+                         type: "POST",
+                         success: function(data) {
+                             displayMessage("Added Successfully");
+                         }
+                     });
+                     calendar.fullCalendar('renderEvent', {
+                             title: title,
+                             start: start,
+                             end: end,
+                             allDay: allDay
+                         },
+                         true
+                     );
+                 }
+                 calendar.fullCalendar('unselect');
+             },
+
+             editable: true,
+             eventDrop: function(event, delta) {
+                 var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                 var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                 $.ajax({
+                     url: 'edit-event.php',
+                     data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
+                     type: "POST",
+                     success: function(response) {
+                         displayMessage("Updated Successfully");
+                     }
+                 });
+             },
+             eventClick: function(event) {
+                 var deleteMsg = confirm("Do you really want to delete?");
+                 if (deleteMsg) {
+                     $.ajax({
+                         type: "POST",
+                         url: "delete-event.php",
+                         data: "&id=" + event.id,
+                         success: function(response) {
+                             if (parseInt(response) > 0) {
+                                 $('#calendar').fullCalendar('removeEvents', event.id);
+                                 displayMessage("Deleted Successfully");
+                             }
+                         }
+                     });
+                 }
+             }
+
+         });
+     });
+
+     function displayMessage(message) {
+         $(".response").html("<div class='success'>" + message + "</div>");
+         setInterval(function() {
+             $(".success").fadeOut();
+         }, 3000);
      }
 
 

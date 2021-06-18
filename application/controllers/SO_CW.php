@@ -54,29 +54,35 @@ class SO_CW extends CI_Controller
 
     public function fetch_event()
     {
-        // $json = array();
         $eventArray = array();
-        // $sqlQuery = "SELECT * FROM tbl_events ORDER BY id";
-        $eventArray = $this->db->get('project_schedule')->result_array();
-        //$result = mysqli_query($conn, $sqlQuery);
-        // while ($row = mysqli_fetch_assoc($result)) {
-        //     array_push($eventArray, $row);
-        // }
-        // mysqli_free_result($result);
-        // mysqli_close($conn);
-        // print_r($eventArray); exit;
+        $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->get('project_schedule')->result_array();
+        // print_r($eventArray);
         echo json_encode($eventArray);
     }
 
     public function add_event()
     {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
 
-        $title = isset($_POST['title']) ? $_POST['title'] : "";
-        $start = isset($_POST['start']) ? $_POST['start'] : "";
-        $end = isset($_POST['end']) ? $_POST['end'] : "";
+            $title = isset($_POST['title']) ? $_POST['title'] : "";
+            $start = isset($_POST['start']) ? $_POST['start'] : "";
+            $end = isset($_POST['end']) ? $_POST['end'] : "";
+            $project_id = isset($_POST['project_id']) ? $_POST['project_id'] : "";
+            $desc = $postData['desc'];
 
-        //$sqlInsert = "INSERT INTO tbl_events (title,start,end) VALUES ('" . $title . "','" . $start . "','" . $end . "')";
+            $insert_array = array(
+                'project_id' => $project_id,
+                'schedule_date' => date('y-m-d'),
+                'schedule_name' => $title,
+                'schedule_description' => $title,
+                'schedule_start_date' => $start,
+                'schedule_end_date' => $end,
+                'Status' => 'Created'
+            );
 
+            $insert = $this->db->insert('project_schedule', $insert_array);
+        }
     }
 
 
