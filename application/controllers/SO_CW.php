@@ -56,7 +56,7 @@ class SO_CW extends CI_Controller
     {
         $eventArray = array();
         $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->get('project_schedule')->result_array();
-        // print_r($eventArray);
+        //print_r($eventArray);
         echo json_encode($eventArray);
     }
 

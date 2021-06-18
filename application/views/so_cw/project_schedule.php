@@ -23,8 +23,12 @@
      } */
 
      #calendar {
-         width: 700px;
+         width: 800px;
          margin: 0 auto;
+         background-color: white ;
+         padding: 20px;
+         border-radius: 20px;
+         box-shadow: 10px 15px #888888;
      }
 
      .response {
@@ -133,6 +137,10 @@
      <!-- <div class="col-md-12 img">
      </div> -->
 
+     <!-- <div class="response"></div> -->
+     <div id='calendar'></div>
+
+
      <form class="user" role="form" method="post" id="add_form">
 
          <div class="card-body bg-custom3 my-4">
@@ -142,7 +150,7 @@
 
                      <div class="card bg-custom3">
                          <div class="card-header bg-custom1">
-                             <h1 class="h4">Schedule</h1>
+                             <h1 class="h4">Existing Schedules</h1>
                          </div>
 
                          <div class="card-body">
@@ -152,9 +160,9 @@
                                          <thead>
                                              <tr>
                                                  <th scope="col">ID</th>
-                                                 <th scope="col">Schedule Date</th>
+                                                 <th scope="col">Schedule Creation Date</th>
                                                  <th scope="col">Schedule Name</th>
-                                                 <th scope="col">Schedule Description</th>
+                                                 <th scope="col">Schedule Start Date</th>
                                                  <th scope="col">Status</th>
 
                                              </tr>
@@ -166,7 +174,7 @@
                                                      <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                      <td scope="row"><?= $data['schedule_date']; ?></td>
                                                      <td scope="row"><?= $data['schedule_name']; ?></td>
-                                                     <td scope="row"><?= $data['schedule_description']; ?></td>
+                                                     <td scope="row"><?= $data['schedule_start_date']; ?></td>
                                                      <td scope="row"><?= $data['Status']; ?></td>
                                                  </tr>
                                              <?php
@@ -180,8 +188,7 @@
                              </div>
                          </div>
                      </div>
-
-                     <div class="form-group row my-3 justify-content-center">
+                     <!-- <div class="form-group row my-3 justify-content-center">
                          <div class="col-sm-4">
                              <button type="button" class="btn btn-primary btn-user btn-block" id="add_sch_btn" data-toggle="modal" data-target="#new_schedule">
                                  <i class="fas fa-plus"></i>
@@ -189,16 +196,14 @@
                              </button>
                              <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                          </div>
-                     </div>
+                     </div> -->
 
                  </div>
              </div>
          </div>
      </form>
 
-     <div class="response"></div>
-     <div id='calendar'></div>
-
+   
  </div>
 
  </div>

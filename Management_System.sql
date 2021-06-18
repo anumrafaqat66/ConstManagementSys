@@ -161,10 +161,10 @@ CREATE TABLE `projects` (
 -- Dumping data for table `projects`
 --
 
-INSERT INTO `projects` (`ID`, `Name`, `Code`, `Start_date`, `End_date`, `Total_Cost`, `Status`, `contractor_id`,`bid_id`) VALUES
-(1, 'Project-32C', '32C', '2021-06-08', '2021-06-08', 2300.00, 'On-going', 1, 1),
-(2, 'Project-42C', '42C', '2021-06-08', '2021-06-08', 5400.00, 'On-going', 2, 2),
-(3, 'Project-42B', '42B', '2021-06-08', '2021-06-08', 56400.00, 'Initiated', 3, 3);
+INSERT INTO `projects` (`ID`, `Name`, `Code`, `Start_date`, `End_date`, `Total_Cost`, `Status`, `contractor_id`,`bid_id`, `Created_by`) VALUES
+(1, 'Project-32C', '32C', '2021-06-08', '2021-06-08', 2300.00, 'On-going', 1, 1, 'po'),
+(2, 'Project-42C', '42C', '2021-06-08', '2021-06-08', 5400.00, 'On-going', 2, 2, 'po'),
+(3, 'Project-42B', '42B', '2021-06-08', '2021-06-08', 56400.00, 'Initiated', 3, 3, 'po');
 
 -- --------------------------------------------------------
 
@@ -185,9 +185,10 @@ CREATE TABLE `security_info` (
 --
 
 INSERT INTO `security_info` (`id`, `username`, `password`, `reg_data`, `acct_type`) VALUES
-(1, 'admin', '$2y$10$uVajLuVrXeV2S4TWWuH4a.CLTS4LW92nmGiitB94akkA6pAWMJyI2', '2021-05-21 19:00:00', 'admin');
-
-
+(1, 'admin', '$2y$10$uVajLuVrXeV2S4TWWuH4a.CLTS4LW92nmGiitB94akkA6pAWMJyI2', '2021-05-21 19:00:00', 'admin'),
+(2, 'po', '$2y$10$8XgyqXPz2fE5n2NwGsx6ZuB22QMZpd77S6vz76.I6Ws4CAID08zu.', '2021-06-17 10:41:33', 'PO'),
+(3, 'socw', '$2y$10$9g4nuznoQ8ChNs8VAbaeBeRx3QXTK.6Z5vi5.ErutktI2/5l2O1D6', '2021-06-17 10:41:46', 'SO_CW'),
+(4, 'sostore', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_STORE');
 
 --
 -- Table structure for table `project_progress`

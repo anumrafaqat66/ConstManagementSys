@@ -209,9 +209,9 @@
                                                      <span><a href="#"><i class="fas fa-folder-plus" type="" data-toggle="modal" data-target="#new_bids1" id="add_bids" style="font-size: 40px; margin-top:2px; color:black"></i></a></span>
                                                  </div>
 
-                                                 <!-- <div class="col-sm-4 mb-1">
+                                                 <div class="col-sm-4 mb-1" style="display:none">
                                                      <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By." value="<?= $this->session->userdata('username'); ?>" readonly="true">
-                                                 </div> -->
+                                                 </div>
 
                                                  <div class="col-sm-4 mb-1">
                                                      <input type="number" class="form-control form-control-user" name="total_cost" id="total_cost" placeholder="Total Cost">
@@ -823,7 +823,6 @@
          if(name == null || code == null || start_date ==null|| end_date ==null 
             || assign_bid==null || created_by==null ||cost==null || status==null){
             
-            alert('something null');
             $.ajax({
                  url: '<?= base_url(); ?>Project_Officer/delete_project',
                  method: 'POST',
