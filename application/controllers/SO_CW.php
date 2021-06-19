@@ -75,7 +75,7 @@ class SO_CW extends CI_Controller
                 'project_id' => $project_id,
                 'schedule_date' => date('y-m-d'),
                 'schedule_name' => $title,
-                'schedule_description' => $title,
+                'schedule_description' => $desc,
                 'schedule_start_date' => $start,
                 'schedule_end_date' => $end,
                 'Status' => 'Created'
@@ -84,7 +84,6 @@ class SO_CW extends CI_Controller
             $insert = $this->db->insert('project_schedule', $insert_array);
         }
     }
-
 
     public function insert_schedule($project_id = NULL)
     {
@@ -118,6 +117,47 @@ class SO_CW extends CI_Controller
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
             redirect('Project_Officer');
+        }
+    }
+
+
+    public function update_schedule($project_id = NULL)
+    {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
+
+            $schedule_id = $postData['schedule_id'];
+            // $schedule_date = $postData['schedule_date'];
+            $schedule_name = $postData['schedule_name'];
+            $start_date = $postData['start_date'];
+            $end_date = $postData['end_date'];
+            $desc = $postData['desc'];
+
+
+            $cond  = [
+                'id' => $schedule_id,
+                'project_id' => $project_id
+            ];
+
+            $data_update = [
+                'schedule_name' => $schedule_name,
+                'schedule_start_date' => $start_date,
+                'schedule_end_date' => $end_date,
+                'schedule_description	' => $desc,
+            ];
+
+            $this->db->where($cond);
+            $update = $this->db->update('project_schedule', $data_update);
+
+            if (!empty($update)) {
+                $this->session->set_flashdata('success', 'Schedule updated successfully');
+                redirect('SO_CW/view_project_schedule/' . $project_id);
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            }
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+            redirect('SO_CW');
         }
     }
 }

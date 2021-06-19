@@ -25,7 +25,7 @@
      #calendar {
          width: 800px;
          margin: 0 auto;
-         background-color: white ;
+         background-color: white;
          padding: 20px;
          border-radius: 20px;
          box-shadow: 10px 15px #888888;
@@ -57,11 +57,16 @@
 
                              <div class="card">
                                  <div class="card-header bg-custom1">
-                                     <h1 class="h4">Add New Schedule</h1>
+                                     <h1 class="h4">Update Schedule</h1>
                                  </div>
 
                                  <div class="card-body bg-custom3">
-                                     <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_CW/insert_schedule/<?= $project_id ?>">
+                                     <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_CW/update_schedule/<?= $project_id ?>">
+                                         <div class="form-group row">
+                                             <div class="col-sm-12">
+                                                 <h3 id="schedule_name_heading"></h3>
+                                             </div>
+                                         </div>
                                          <div class="form-group row">
                                              <div class="col-sm-3">
                                                  <h6>&nbsp;Schedule Date:</h6>
@@ -71,11 +76,11 @@
                                                  <h6>&nbsp;Schedule Name:</h6>
                                              </div>
                                              <div class="col-sm-3">
-                                                 <h6>&nbsp;Expected Start Date:</h6>
+                                                 <h6>&nbsp;Start Date:</h6>
                                              </div>
 
                                              <div class="col-sm-3">
-                                                 <h6>&nbsp;Expected Completion Date:</h6>
+                                                 <h6>&nbsp;Completion Date:</h6>
                                              </div>
 
                                          </div>
@@ -83,7 +88,11 @@
 
                                          <div class="form-group row">
                                              <div class="col-sm-3 mb-1">
-                                                 <input type="date" class="form-control form-control-user" name="schedule_date" id="schedule_date" placeholder="Select Date" value="">
+                                                 <input type="date" class="form-control form-control-user" name="schedule_date" id="schedule_date" placeholder="Select Date" value="" readonly>
+                                             </div>
+
+                                             <div class="col-sm-3 mb-1" style="display:none">
+                                                 <input type="text" class="form-control form-control-user" name="schedule_id" id="schedule_id" placeholder="Schedule Name">
                                              </div>
 
                                              <div class="col-sm-3 mb-1">
@@ -96,7 +105,6 @@
                                              <div class="col-sm-3">
                                                  <input type="date" class="form-control form-control-user" name="end_date" id="end_date" placeholder="Select Date*" value="">
                                              </div>
-
 
                                          </div>
 
@@ -116,7 +124,7 @@
                                              <div class="col-sm-4">
                                                  <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
                                                      <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                     Create Project Schedule
+                                                     Update Project Schedule
                                                  </button>
                                                  <span id="show_error" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors</span>
                                              </div>
@@ -162,20 +170,27 @@
                                                  <th scope="col">ID</th>
                                                  <th scope="col">Schedule Creation Date</th>
                                                  <th scope="col">Schedule Name</th>
+                                                 <th scope="col">Schedule Details</th>
                                                  <th scope="col">Schedule Start Date</th>
                                                  <th scope="col">Status</th>
+                                                 <th scope="col" style="text-align:center">Edit</th>
+                                                 <th scope="col">Delete</th>
 
                                              </tr>
                                          </thead>
-                                         <tbody id="table_rows_project">
+                                         <tbody id="table_rows_schedule">
                                              <?php $count = 1;
                                                 foreach ($project_schedule as $data) { ?>
                                                  <tr>
                                                      <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                      <td scope="row"><?= $data['schedule_date']; ?></td>
                                                      <td scope="row"><?= $data['schedule_name']; ?></td>
+                                                     <td scope="row"><?= $data['schedule_description']; ?></td>
                                                      <td scope="row"><?= $data['schedule_start_date']; ?></td>
+                                                     <td scope="row" style="display:none"><?= $data['schedule_end_date']; ?></td>
                                                      <td scope="row"><?= $data['Status']; ?></td>
+                                                     <td style="width:120px" id="edit<?= $data['id']; ?>" onclick="editSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px; cursor:pointer" class="fas fa-edit"></i></td>
+                                                     <td style="width:120px" id="delete<?= $data['id']; ?>" onclick="deleteSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 20px; cursor:pointer" class="fas fa-trash-alt"></i></td>
                                                  </tr>
                                              <?php
                                                     $count++;
@@ -203,7 +218,7 @@
          </div>
      </form>
 
-   
+
  </div>
 
  </div>
@@ -211,6 +226,57 @@
  <?php $this->load->view('common/footer'); ?>
 
  <script>
+     function editSchedule(sch_id) {
+         $('#new_schedule').modal('show');
+
+         $('#table_rows_schedule').find('tr').click(function(e) {
+
+             var $columns = $(this).find('td');
+
+             $('#schedule_date').val($columns[1].innerHTML);
+             $('#schedule_name').val($columns[2].innerHTML);
+             $('#start_date').val($columns[4].innerHTML);
+             $('#end_date').val($columns[5].innerHTML);
+             $('#desc').val($columns[3].innerHTML);
+             $('#schedule_name_heading').html('<strong>' + $columns[2].innerHTML + '</strong>');
+             $('#schedule_id').val($columns[0].innerHTML);
+         });
+
+         var schedule_name = $('#schedule_name').val();
+         var start_date = $('#start_date').val();
+         var end_date = $('#end_date').val();
+         var desc = $('#desc').val();
+
+         if (schedule_name == '') {
+             validate = 1;
+             $('#schedule_name').addClass('red-border');
+         }
+         if (start_date == '') {
+             validate = 1;
+             $('#start_date').addClass('red-border');
+         }
+         if (end_date == '') {
+             validate = 1;
+             $('#end_date').addClass('red-border');
+         }
+         if (desc == '') {
+             validate = 1;
+             $('#desc').addClass('red-border');
+         }
+
+         if (validate == 0) {
+             $('#add_form')[0].submit();
+             $('#show_error').hide();
+         } else {
+             $('#add_btn').removeAttr('disabled');
+             $('#show_error').show();
+         }
+     }
+
+     function deleteSchedule(sch_id) {
+         confirm('Are you sure want to delete the schedule');
+     }
+
      $(document).ready(function() {
          var calendar = $('#calendar').fullCalendar({
              editable: true,
@@ -220,9 +286,9 @@
              eventLimit: true, // allow "more" link when too many events
              events: {
                  url: '<?= base_url(); ?>SO_CW/fetch_event',
-                 color: '#ca9e0c', 
-                 textColor: '#3c3d3d' 
-             }, 
+                 color: '#ca9e0c',
+                 textColor: '#3c3d3d'
+             },
              displayEventTime: false,
              async: false,
              eventRender: function(event, element, view) {
@@ -236,12 +302,13 @@
              selectHelper: true,
              select: function(start, end, allDay) {
                  var title = prompt('Event Title:');
-                 //  var desc = prompt('Add Event Details:');
-                 //  $('#new_schedule').modal('show');
+                 $('#new_schedule').modal('show');
 
                  if (title) {
-                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
-                     var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
+                     var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
+
+                     var desc = prompt('Enter details of event ' + title + ' on date ' + start)
 
                      $.ajax({
                          url: '<?= base_url(); ?>SO_CW/add_event',
@@ -302,6 +369,8 @@
              $(".success").fadeOut();
          }, 3000);
      }
+
+
 
 
      $('#add_btn').on('click', function() {
