@@ -27,6 +27,7 @@ class SO_CW extends CI_Controller
         if ($this->session->has_userdata('user_id')) {
             $data['project_schedule'] = $this->db->where('project_id', $project_id)->get('project_schedule')->result_array();
             $data['project_id'] = $project_id;
+            $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
             $this->load->view('so_cw/project_schedule', $data);
         }
     }
@@ -37,6 +38,14 @@ class SO_CW extends CI_Controller
             $data['project_progress'] = $this->db->where('project_id', $project_id)->get('project_progress')->result_array();
             $this->load->view('so_cw/project_progress', $data);
         }
+    }
+
+    public function delete_schedule()
+    {
+        $id = $_POST['id'];
+        $this->db->where('ID', $id);
+        $success = $this->db->delete('project_schedule');
+        echo $success;
     }
 
     public function view_projects($project_name = null)
@@ -54,8 +63,9 @@ class SO_CW extends CI_Controller
 
     public function fetch_event()
     {
+        $project_id = isset($_POST['project_id']) ? $_POST['project_id'] : "";
         $eventArray = array();
-        $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->get('project_schedule')->result_array();
+        $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->where('project_id',$project_id)->get('project_schedule')->result_array();
         //print_r($eventArray);
         echo json_encode($eventArray);
     }

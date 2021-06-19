@@ -140,12 +140,14 @@
          </div>
      </div>
 
-     <h1 class="my-4"><strong>Project Schedule</strong></h1>
+     <h1 class="my-4"><strong>Project Schedule of <?php echo $project_records['Name']; ?></strong></h1>
 
      <!-- <div class="col-md-12 img">
      </div> -->
 
+
      <!-- <div class="response"></div> -->
+
      <div id='calendar'></div>
 
 
@@ -154,6 +156,12 @@
          <div class="card-body bg-custom3 my-4">
 
              <div class="row">
+                 <div class="col-lg-12">
+                     <div id="delete_alert" class="alert alert-success" role="alert" style="display:none">
+                         Schedule deleted successfully!!
+                     </div>
+                 </div>
+
                  <div class="col-lg-12">
 
                      <div class="card bg-custom3">
@@ -241,40 +249,30 @@
              $('#schedule_name_heading').html('<strong>' + $columns[2].innerHTML + '</strong>');
              $('#schedule_id').val($columns[0].innerHTML);
          });
-
-         var schedule_name = $('#schedule_name').val();
-         var start_date = $('#start_date').val();
-         var end_date = $('#end_date').val();
-         var desc = $('#desc').val();
-
-         if (schedule_name == '') {
-             validate = 1;
-             $('#schedule_name').addClass('red-border');
-         }
-         if (start_date == '') {
-             validate = 1;
-             $('#start_date').addClass('red-border');
-         }
-         if (end_date == '') {
-             validate = 1;
-             $('#end_date').addClass('red-border');
-         }
-         if (desc == '') {
-             validate = 1;
-             $('#desc').addClass('red-border');
-         }
-
-         if (validate == 0) {
-             $('#add_form')[0].submit();
-             $('#show_error').hide();
-         } else {
-             $('#add_btn').removeAttr('disabled');
-             $('#show_error').show();
-         }
      }
 
      function deleteSchedule(sch_id) {
-         confirm('Are you sure want to delete the schedule');
+         var result = confirm("Are you sure you Want to delete?");
+         if (result) {
+             $.ajax({
+                 url: '<?= base_url(); ?>SO_CW/delete_schedule',
+                 method: 'POST',
+                 //  type:'json',
+                 data: {
+                     'id': sch_id
+                 },
+                 success: function(response) {
+                     if (response == 1) {
+                         $('#delete_alert').show();
+                         setTimeout(function() {
+                             $('.alert').hide();
+                         }, 2000);
+                     }
+                 },
+                 async: false
+             });
+         }
+
      }
 
      $(document).ready(function() {
@@ -286,18 +284,22 @@
              eventLimit: true, // allow "more" link when too many events
              events: {
                  url: '<?= base_url(); ?>SO_CW/fetch_event',
+                 type: 'POST',
+                 data: {
+                     'project_id': <?php echo json_encode($project_id, JSON_NUMERIC_CHECK); ?>,
+                 },
                  color: '#ca9e0c',
                  textColor: '#3c3d3d'
              },
              displayEventTime: false,
              async: false,
-             eventRender: function(event, element, view) {
-                 if (event.allDay === 'true') {
-                     event.allDay = true;
-                 } else {
-                     event.allDay = false;
-                 }
-             },
+             //  eventRender: function(event, element, view) {
+             //      if (event.allDay === 'true') {
+             //          event.allDay = true;
+             //      } else {
+             //          event.allDay = false;
+             //      }
+             //  },
              selectable: true,
              selectHelper: true,
              select: function(start, end, allDay) {
@@ -370,24 +372,14 @@
          }, 3000);
      }
 
-
-
-
      $('#add_btn').on('click', function() {
          //alert('javascript working');
          $('#add_btn').attr('disabled', true);
-         var validate = 0;
-
-         var schedule_date = $('#schedule_date').val();
          var schedule_name = $('#schedule_name').val();
          var start_date = $('#start_date').val();
          var end_date = $('#end_date').val();
          var desc = $('#desc').val();
 
-         if (schedule_date == '') {
-             validate = 1;
-             $('#schedule_date').addClass('red-border');
-         }
          if (schedule_name == '') {
              validate = 1;
              $('#schedule_name').addClass('red-border');
