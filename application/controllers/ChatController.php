@@ -4,46 +4,25 @@ class ChatController extends CI_Controller {
  	public function __construct()
         {
                 parent::__construct();
-			//	$this->load->model(['ChatModel','OuthModel','UserModel']);
-               // $this->SeesionModel->not_logged_in();
-				//$this->load->helper('string');
+                $this->load->helper('string');
         }
 	public function index(){
 		
-		// $data['strTitle']='';
-		// $data['strsubTitle']='';
-		// $list=[];
-		// if($this->session->userdata['Admin']['role'] == 'Client_cs'){
-		// 	$list = $this->UserModel->VendorsList();
-		// 	$data['strTitle']='All Vendors';
-		// 	$data['strsubTitle']='Vendors';
-		// 	$data['chatTitle']='Select Vendor with Chat';
-		// }else{
-		// 	$list = $this->UserModel->ClientsListCs();
-		// 	$data['strTitle']='All Connected Clients';
-		// 	$data['strsubTitle']='Clients';
-		// 	$data['chatTitle']='Select Client with Chat';
- 
-		// }
-		// $vendorslist=[];
-		// foreach($list as $u){
-		// 	$vendorslist[]=
-		// 	[
-		// 		'id' => $this->OuthModel->Encryptor('encrypt', $u['id']),
-		// 		'name' => $u['name'],
-		// 		'picture_url' => $this->UserModel->PictureUrlById($u['id']),
-		// 	];
-		// }
-		// $data['vendorslist']=$vendorslist;
+		$data['strTitle']='';
+		$data['strsubTitle']='';
+	
+			$data['list'] = $this->ClientsListCs();
+			$data['strTitle']='All Connected Clients';
+			$data['strsubTitle']='Clients';
+			$data['chatTitle']='Select Client with Chat';
 		 
-		 
- 		//$this->parser->parse('construction_services/chat_template',$data);
- 		$this->load->view('chat/chat_template');
+ 		$this->load->view('chat/chat_template',$data);
     }
 	
 	
 	public function send_text_message(){
 		$post = $this->input->post();
+		//print_r($post);exit;
 		$messageTxt='NULL';
 		$attachment_name='';
 		$file_ext='';
@@ -61,8 +40,8 @@ class ChatController extends CI_Controller {
 		}	
 		 
 				$data=[
- 					'sender_id' => $this->session->userdata['Admin']['id'],
-					'receiver_id' => $this->OuthModel->Encryptor('decrypt', $post['receiver_id']),
+ 					'sender_id' => $this->session->userdata['user_id'],
+					'receiver_id' => $post['receiver_id'],
 					'message' =>   $messageTxt,
 					'attachment_name' => $attachment_name,
 					'file_ext' => $file_ext,
@@ -71,7 +50,7 @@ class ChatController extends CI_Controller {
 					'ip_address' => $this->input->ip_address(),
 				];
 		  
- 				$query = $this->ChatModel->SendTxtMessage($this->OuthModel->xss_clean($data)); 
+ 				$query = $this->db->insert('chat',$data);
  				$response='';
 				if($query == true){
 					$response = ['status' => 1 ,'message' => '' ];
@@ -108,18 +87,42 @@ class ChatController extends CI_Controller {
 	}
 	
 	public function get_chat_history_by_vendor(){
-		$receiver_id = $this->OuthModel->Encryptor('decrypt', $this->input->get('receiver_id') );
+		$receiver_id =  $this->input->get('receiver_id');
 		
-		$Logged_sender_id = $this->session->userdata['Admin']['id'];
-		 
-		$history = $this->ChatModel->GetReciverChatHistory($receiver_id);
+		$Logged_sender_id = $this->session->userdata['user_id'];
+
+		 $sender_id = $this->session->userdata['user_id'];
+		
+		//SELECT * FROM `chat` WHERE `sender_id`= 197 AND `receiver_id` = 184 OR `sender_id`= 184 AND `receiver_id` = 197
+		$condition= "`sender_id`= '$sender_id' AND `receiver_id` = '$receiver_id' OR `sender_id`= '$receiver_id' AND `receiver_id` = '$sender_id'";
+		
+		$this->db->select('*');
+		$this->db->from('chat');
+		$this->db->where($condition);
+   		$history = $this->db->get()->result_array();
+
+
+		//$history = $this->ChatModel->GetReciverChatHistory($receiver_id);
 		//print_r($history);
 		foreach($history as $chat):
 			
-			$message_id = $this->OuthModel->Encryptor('encrypt', $chat['id']);
+			$message_id = $chat['id'];
 			$sender_id = $chat['sender_id'];
-			$userName = $this->UserModel->GetName($chat['sender_id']);
-			$userPic = $this->UserModel->PictureUrlById($chat['sender_id']);
+
+
+ 		$this->db->select('id,username');
+
+		$this->db->from('security_info');
+
+		$this->db->where("id",$chat['sender_id']);
+
+		$this->db->limit(1);
+
+  		$query = $this->db->get();
+
+		$userName  = $query->row_array();
+
+			//$userPic = $this->UserModel->PictureUrlById($chat['sender_id']);
 			
 			$message = $chat['message'];
 			$messagedatetime = date('d M H:i A',strtotime($chat['message_date_time']));
@@ -165,11 +168,11 @@ class ChatController extends CI_Controller {
                   <!-- Message. Default to the left -->
                     <div class="direct-chat-msg">
                       <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name pull-left"><?=$userName;?></span>
+                        <span class="direct-chat-name pull-left"><?=$userName['username'];?></span>
                         <span class="direct-chat-timestamp pull-right"><?=$messagedatetime;?></span>
                       </div>
                       <!-- /.direct-chat-info -->
-                      <img class="direct-chat-img" src="<?=$userPic;?>" alt="<?=$userName;?>">
+                      <img class="direct-chat-img" src="<?=base_url();?>assets/img/user1.png" alt="<?=$userName['username'];?>">
                       <!-- /.direct-chat-img -->
                       <div class="direct-chat-text">
                          <?=$messageBody;?>
@@ -182,11 +185,11 @@ class ChatController extends CI_Controller {
                     <!-- Message to the right -->
                     <div class="direct-chat-msg right">
                       <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name pull-right"><?=$userName;?></span>
+                        <span class="direct-chat-name pull-right"><?=$userName['username'];?></span>
                         <span class="direct-chat-timestamp pull-left"><?=$messagedatetime;?></span>
                       </div>
                       <!-- /.direct-chat-info -->
-                      <img class="direct-chat-img" src="<?=$userPic;?>" alt="<?=$userName;?>">
+                      <img class="direct-chat-img" src="<?=base_url();?>assets/img/user1.png" alt="<?=$userName['username'];?>">
                       <!-- /.direct-chat-img -->
                       <div class="direct-chat-text">
                       	<?=$messageBody;?>
@@ -204,7 +207,7 @@ class ChatController extends CI_Controller {
  		
 	}
 	public function chat_clear_client_cs(){
-		$receiver_id = $this->OuthModel->Encryptor('decrypt', $this->input->get('receiver_id') );
+		$receiver_id = $this->input->get('receiver_id');
 		
 		$messagelist = $this->ChatModel->GetReciverMessageList($receiver_id);
 		
@@ -219,5 +222,16 @@ class ChatController extends CI_Controller {
  
  		
 	}
+
+		public function ClientsListCs() 
+	{  
+ 		$this->db->select('*');
+		$this->db->from('security_info');
+		$this->db->where("status","online");
+		$this->db->where_not_in('id',$this->session->userdata('user_id'));
+   		$query = $this->db->get();
+ 		$r=$query->result_array();
+		return $r;
+   	}
 	
 }

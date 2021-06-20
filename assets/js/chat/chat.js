@@ -6,12 +6,13 @@ $('.message').keypress(function(event){
     }
 });
 $('.btnSend').click(function(){
+alert('sendmessage*****');
        sendTxtMessage($('.message').val());
 });
 $('.selectVendor').click(function(){
 	ChatSection(1);
       var receiver_id = $(this).attr('id');
-	  //alert(receiver_id);
+	  alert(receiver_id);
 	  $('#ReciverId_txt').val(receiver_id);
 	  $('#ReciverName_txt').html($(this).attr('title'));
 	  
@@ -123,6 +124,7 @@ function DisplayMessage(message){
 
 function sendTxtMessage(message){
 	var messageTxt = message.trim();
+alert('sendmessage');
 	if(messageTxt!=''){
 		//console.log(message);
  		DisplayMessage(messageTxt);

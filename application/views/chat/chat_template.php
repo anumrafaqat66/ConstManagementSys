@@ -72,9 +72,9 @@
             <!-- DIRECT CHAT -->
             <div class="box box-warning direct-chat direct-chat-primary">
               <div class="box-header with-border">
-                <h3 class="box-title" id="ReciverName_txt">Anum</h3>
+                <h3 class="box-title" id="ReciverName_txt">Lets Chat</h3>
 
-                <div class="box-tools pull-right">
+              <!--   <div class="box-tools pull-right">
                   <span data-toggle="tooltip" title="Clear Chat" class="ClearChat"><i class="fa fa-comments"></i></span>
                   <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                   </button>
@@ -82,16 +82,14 @@
                     <i class="fa fa-comments"></i></button>
                   <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
                   </button>
-                </div>
+                </div> -->
               </div>
               <!-- /.box-header -->
               <div class="box-body">
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="content">
-                  <!-- /.direct-chat-msg -->
-
-                  <div id="dumppy"></div>
-
+                <!-- /.direct-chat-msg -->
+                <div id="dumppy"></div>
                 </div>
                 <!--/.direct-chat-messages-->
 
@@ -107,10 +105,10 @@
                   //$user=$obj->UserModel->GetUserData();
                   ?>
 
-                  <input type="hidden" id="Sender_Name" value="Hamza">
-                  <input type="hidden" id="Sender_ProfilePic" value="">
+                  <input type="hidden" id="Sender_Name" value="<?= $this->session->userdata('username');?>">
+                  <input type="hidden" id="Sender_ProfilePic" value="<?= base_url();?>assets/img/user.png">
 
-                  <input type="hidden" id="ReciverId_txt">
+                  <input type="hidden" id="ReciverId_txt" value="">
                   <input type="text" name="message" placeholder="Type Message ..." class="form-control message">
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-success btn-flat btnSend" id="nav_down">Send</button>
@@ -136,39 +134,33 @@
                 <h3 class="box-title">Chat</h3>
 
                 <div class="box-tools pull-right">
-                  <span class="label label-danger">Chat clients 10</span>
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  <span class="label label-success"><?= 'Online Users: '.count($list);?></span>
+                <!--   <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                   </button>
                   <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                  </button>
+                  </button> -->
                 </div>
               </div>
-              <!-- /.box-header -->
-              <div class="box-body no-padding">
+            
+              <!-- /.box-body -->
+               <div class="box-body no-padding">
                 <ul class="users-list clearfix">
-
-                  <?php if (!empty($vendorslist)) {
-                    foreach ($vendorslist as $v) :
+            <!--     <a href="javascript:void(0)" class="uppercase">View All Users</a> -->
+                  <?php if (!empty($list)) {
+                    foreach ($list as $userdata) :
                   ?>
-                      <li class="selectVendor" id="<?= $v['id']; ?>" title="<?= $v['name']; ?>">
-                        <img src="<?= $v['picture_url']; ?>" alt="<?= $v['name']; ?>" title="<?= $v['name']; ?>">
-                        <a class="users-list-name" href="#"><?= $v['name']; ?></a>
+                      <li class="selectVendor" id="<?= $userdata['id']; ?>" title="<?= $userdata['username']; ?>">
+                        <img src="<?= base_url(); ?>assets/img/user.png" alt="<?= $userdata['username']; ?>" title="<?= $userdata['username']; ?>">
+                        <a class="users-list-name" href="#"><?= $userdata['username']; ?></a>
                         <!--<span class="users-list-date">Yesterday</span>-->
                       </li>
                     <?php endforeach; ?>
                   <?php } else { ?>
                     <li>
-                      <a class="users-list-name" href="#">No Vendor's Find...</a>
+                      <a class="users-list-name" href="#">No User Found...</a>
                     </li>
                   <?php } ?>
-
-
                 </ul>
-                <!-- /.users-list -->
-              </div>
-              <!-- /.box-body -->
-              <div class="box-footer text-center">
-                <a href="javascript:void(0)" class="uppercase">View All Users</a>
               </div>
               <!-- /.box-footer -->
             </div>

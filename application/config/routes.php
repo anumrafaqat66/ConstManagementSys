@@ -51,6 +51,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 */
+$route['chat'] = 'ChatController/index';
+$route['send-message'] = 'ChatController/send_text_message';
+$route['chat-attachment/upload'] = 'ChatController/send_text_message';
+$route['get-chat-history-vendor'] = 'ChatController/get_chat_history_by_vendor';
+$route['chat-clear'] = 'ChatController/chat_clear_client_cs';
+
+
+
 $route['mission/(:any)']='Mission/mission/$1';
 $route['mission']='CO/mission';
 $route['get_values/(:any)']='Manager/Get_Values/$1';

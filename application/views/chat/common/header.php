@@ -21,7 +21,8 @@
     <link href="<?php echo base_url(); ?>assets/dist/css/AdminLTE.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/dist/css/AdminLTE.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/skins/_all-skins.min.css">
+  <!--   <link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/skins/_all-skins.min.css"> -->
+    <!--   <link rel="stylesheet" href="<?= base_url();?>assets/pace/pace.min.css"><style> -->
 
 </head>
 

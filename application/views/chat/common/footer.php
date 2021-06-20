@@ -40,18 +40,41 @@
 
  <!-- Bootstrap core JavaScript-->
  <!-- for chat / -->
- <!-- <script src="<?= base_url() ?>/assets/dist/js/adminlte.min.js"></script> -->
- <!-- <script src="<?= base_url() ?>/assets/dist/js/adminlte.js"></script> -->
- <!-- <script src="<?= base_url() ?>assets/components/jquery/dist/jquery.min.js"></script> -->
 
- <!-- <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script> -->
- <!-- <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+  <!-- jQuery 3 -->
+<!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+ <script src="<?= base_url() ?>assets/components/jquery/dist/jquery.min.js"></script>
+<!--  <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script> -->
+ <script src="<?= base_url() ?>/assets/dist/js/adminlte.min.js"></script>
+ <script src="<?= base_url() ?>/assets/dist/js/adminlte.js"></script>
+
+ <!-- SlimScroll -->
+<script src="<?=base_url()?>assets/components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="<?=base_url()?>assets/components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="<?=base_url()?>assets/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="<?=base_url()?>assets/dist/js/demo.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.sidebar-menu').tree()
+  })
+  <?php if($this->uri->segment(1) != 'ChatController'){?>
+  $(document).ajaxStart(function () {
+    Pace.restart();
+  });
+  <?php }?>
+</script>
+
+
+ <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
  <!-- Core plugin JavaScript-->
- <!-- <script src="<?php echo base_url(); ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script> -->
+  <script src="<?php echo base_url(); ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script> 
 
  <!-- Custom scripts for all pages-->
- <!-- <script src="<?php echo base_url(); ?>assets/js/sb-admin-2.min.js"></script> -->
+  <script src="<?php echo base_url(); ?>assets/js/sb-admin-2.min.js"></script> 
 
  <!-- Page level plugins -->
  <!-- <script src="<?php echo base_url(); ?>assets/vendor/chart.js/Chart.min.js"></script> -->
