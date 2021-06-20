@@ -197,6 +197,7 @@ INSERT INTO `security_info` (`id`, `username`, `password`, `reg_data`, `acct_typ
 CREATE TABLE `project_progress` (
   `id` bigint(20) NOT NULL,
   `project_id` int(20) NOT NULL,
+  `task_id` int(20) NOT NULL,
   `progress_date` date DEFAULT NULL,
   `progress_percentage` decimal(5,2) DEFAULT NULL,
   `progress_description` varchar(500) DEFAULT NULL,
@@ -230,6 +231,23 @@ CREATE TABLE `project_drawing` (
   `date_added` DATE DEFAULT NULL
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
+-- Table structure for table `chat`
+--
+
+CREATE TABLE `chat` (
+  `id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `attachment_name` text NOT NULL,
+  `file_ext` text NOT NULL,
+  `mime_type` text NOT NULL,
+  `message_date_time` text NOT NULL,
+  `ip_address` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 --
@@ -291,6 +309,13 @@ ALTER TABLE `project_schedule`
 --
 ALTER TABLE `project_drawing`
   ADD PRIMARY KEY (`id`);  
+  
+  
+--
+-- Indexes for table `chat`
+--
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`id`);
     
   
 --
@@ -351,6 +376,14 @@ ALTER TABLE `project_schedule`
 --
 ALTER TABLE `project_drawing`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  
+  
+--
+-- AUTO_INCREMENT for table `chat`
+--
+ALTER TABLE `chat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 
 
 --

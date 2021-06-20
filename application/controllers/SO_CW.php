@@ -35,7 +35,17 @@ class SO_CW extends CI_Controller
     public function view_project_progress($project_id = NULL)
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['project_progress'] = $this->db->where('project_id', $project_id)->get('project_progress')->result_array();
+
+            $this->db->select('pp.*,ps.schedule_name');
+            $this->db->from('project_progress pp');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
+            $this->db->where('pp.project_id = ps.project_id');
+            $this->db->where('pp.project_id',$project_id);
+
+            // $data['project_progress'] = $this->db->where('project_id', $project_id)->get('project_progress')->result_array();
+            $data['project_progress'] = $this->db->get()->result_array();
+            $data['project_id'] = $project_id;
+            $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
             $this->load->view('so_cw/project_progress', $data);
         }
     }
@@ -45,6 +55,15 @@ class SO_CW extends CI_Controller
         $id = $_POST['id'];
         $this->db->where('ID', $id);
         $success = $this->db->delete('project_schedule');
+        echo $success;
+    }
+
+
+    public function delete_progress()
+    {
+        $id = $_POST['id'];
+        $this->db->where('ID', $id);
+        $success = $this->db->delete('project_progress');
         echo $success;
     }
 
@@ -92,6 +111,17 @@ class SO_CW extends CI_Controller
             );
 
             $insert = $this->db->insert('project_schedule', $insert_array);
+            $task_id = $this->db->insert_id();
+
+            $insert_array_progress = array(
+                'project_id' => $project_id,
+                'task_id' => $task_id,
+                'progress_date' => date('y-m-d'),
+                'progress_percentage' => 0.00,
+                'progress_description' => '',
+                'Status' => 'Created'
+            );
+            $insert = $this->db->insert('project_progress', $insert_array_progress);
         }
     }
 
@@ -121,6 +151,39 @@ class SO_CW extends CI_Controller
             if (!empty($insert)) {
                 $this->session->set_flashdata('success', 'Project Schedule Created successfully');
                 redirect('SO_CW/view_project_schedule/' . $project_id);
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            }
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+            redirect('Project_Officer');
+        }
+    }
+
+
+    public function insert_progress($project_id = NULL)
+    {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
+
+            $progress_percentage = $postData['progress_percentage'];
+            $desc = $postData['desc'];
+            $task_id = $postData['task_id'];
+
+            $insert_array = array(
+                'project_id' => $project_id,
+                'task_id' => $task_id,
+                'progress_date' => date('y-m-d'),
+                'progress_percentage' => $progress_percentage,
+                'progress_description' => $desc,
+                'Status' => 'Created'
+            );
+
+            $insert = $this->db->insert('project_progress', $insert_array);
+
+            if (!empty($insert)) {
+                $this->session->set_flashdata('success', 'Project progress added successfully');
+                redirect('SO_CW/view_project_progress/' . $project_id);
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');
             }
@@ -162,6 +225,42 @@ class SO_CW extends CI_Controller
             if (!empty($update)) {
                 $this->session->set_flashdata('success', 'Schedule updated successfully');
                 redirect('SO_CW/view_project_schedule/' . $project_id);
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            }
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+            redirect('SO_CW');
+        }
+    }
+
+    public function update_progress($project_id = NULL)
+    {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
+
+            $progress_id = $postData['progress_id_update'];
+            $progress_percentage = $postData['progress_percentage_update'];
+            $desc = $postData['desc_update'];
+            
+
+
+            $cond  = [
+                'id' => $progress_id,
+                'project_id' => $project_id
+            ];
+
+            $data_update = [
+                'progress_percentage' => $progress_percentage,
+                'progress_description' => $desc
+            ];
+
+            $this->db->where($cond);
+            $update = $this->db->update('project_progress', $data_update);
+
+            if (!empty($update)) {
+                $this->session->set_flashdata('success', 'Progress updated successfully');
+                redirect('SO_CW/view_project_progress/' . $project_id);
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');
             }

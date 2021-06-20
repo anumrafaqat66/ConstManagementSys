@@ -267,6 +267,10 @@
                          setTimeout(function() {
                              $('.alert').hide();
                          }, 2000);
+
+                         setTimeout(function() {
+                            location.reload();
+                        }, 3000);
                      }
                  },
                  async: false
@@ -304,7 +308,7 @@
              selectHelper: true,
              select: function(start, end, allDay) {
                  var title = prompt('Event Title:');
-                 $('#new_schedule').modal('show');
+                //  $('#new_schedule').modal('show');
 
                  if (title) {
                      var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
@@ -332,35 +336,35 @@
                  calendar.fullCalendar('unselect');
              },
 
-             editable: true,
-             eventDrop: function(event, delta) {
-                 var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-                 var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-                 $.ajax({
-                     url: 'edit-event.php',
-                     data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
-                     type: "POST",
-                     success: function(response) {
-                         displayMessage("Updated Successfully");
-                     }
-                 });
-             },
-             eventClick: function(event) {
-                 var deleteMsg = confirm("Do you really want to delete?");
-                 if (deleteMsg) {
-                     $.ajax({
-                         type: "POST",
-                         url: "delete-event.php",
-                         data: "&id=" + event.id,
-                         success: function(response) {
-                             if (parseInt(response) > 0) {
-                                 $('#calendar').fullCalendar('removeEvents', event.id);
-                                 displayMessage("Deleted Successfully");
-                             }
-                         }
-                     });
-                 }
-             }
+            //  editable: true,
+            //  eventDrop: function(event, delta) {
+            //      var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+            //      var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+            //      $.ajax({
+            //          url: 'edit-event.php',
+            //          data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
+            //          type: "POST",
+            //          success: function(response) {
+            //              displayMessage("Updated Successfully");
+            //          }
+            //      });
+            //  },
+            //  eventClick: function(event) {
+            //      var deleteMsg = confirm("Do you really want to delete?");
+            //      if (deleteMsg) {
+            //          $.ajax({
+            //              type: "POST",
+            //              url: "delete-event.php",
+            //              data: "&id=" + event.id,
+            //              success: function(response) {
+            //                  if (parseInt(response) > 0) {
+            //                      $('#calendar').fullCalendar('removeEvents', event.id);
+            //                      displayMessage("Deleted Successfully");
+            //                  }
+            //              }
+            //          });
+            //      }
+            //  }
 
          });
      });

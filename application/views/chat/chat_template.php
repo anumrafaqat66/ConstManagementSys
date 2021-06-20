@@ -31,9 +31,7 @@
     text-align: right;
   }
 
-  .spiner {
-
-  }
+  .spiner {}
 
   .spiner .fa-spin {
     font-size: 24px;
@@ -74,7 +72,7 @@
               <div class="box-header with-border">
                 <h3 class="box-title" id="ReciverName_txt">Lets Chat</h3>
 
-              <!--   <div class="box-tools pull-right">
+                <!--   <div class="box-tools pull-right">
                   <span data-toggle="tooltip" title="Clear Chat" class="ClearChat"><i class="fa fa-comments"></i></span>
                   <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                   </button>
@@ -88,8 +86,8 @@
               <div class="box-body">
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="content">
-                <!-- /.direct-chat-msg -->
-                <div id="dumppy"></div>
+                  <!-- /.direct-chat-msg -->
+                  <div id="dumppy"></div>
                 </div>
                 <!--/.direct-chat-messages-->
 
@@ -105,8 +103,8 @@
                   //$user=$obj->UserModel->GetUserData();
                   ?>
 
-                  <input type="hidden" id="Sender_Name" value="<?= $this->session->userdata('username');?>">
-                  <input type="hidden" id="Sender_ProfilePic" value="<?= base_url();?>assets/img/user.png">
+                  <input type="hidden" id="Sender_Name" value="<?= $this->session->userdata('username'); ?>">
+                  <input type="hidden" id="Sender_ProfilePic" value="<?= base_url(); ?>assets/img/user.png">
 
                   <input type="hidden" id="ReciverId_txt" value="">
                   <input type="text" name="message" placeholder="Type Message ..." class="form-control message">
@@ -134,18 +132,18 @@
                 <h3 class="box-title">Chat</h3>
 
                 <div class="box-tools pull-right">
-                  <span class="label label-success"><?= 'Online Users: '.count($list);?></span>
-                <!--   <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  <span class="label label-success"><?= 'Online Users: ' . count($list); ?></span>
+                  <!--   <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                   </button>
                   <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
                   </button> -->
                 </div>
               </div>
-            
+
               <!-- /.box-body -->
-               <div class="box-body no-padding">
+              <div class="box-body no-padding">
                 <ul class="users-list clearfix">
-            <!--     <a href="javascript:void(0)" class="uppercase">View All Users</a> -->
+                  <!--     <a href="javascript:void(0)" class="uppercase">View All Users</a> -->
                   <?php if (!empty($list)) {
                     foreach ($list as $userdata) :
                   ?>
@@ -205,8 +203,12 @@
     </div>
     <!-- Modal -->
 
-    <?php $this->load->view('chat/common/footer'); ?>
-    <script src="<?= base_url('assets/js/chat/chat.js'); ?>"></script>
+  </div>
+
+  </div>
+
+  <?php $this->load->view('chat/common/footer'); ?>
+  <script src="<?= base_url('assets/js/chat/chat.js'); ?>"></script>
 
 </body>
 
