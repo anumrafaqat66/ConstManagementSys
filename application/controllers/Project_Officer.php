@@ -52,6 +52,21 @@ class Project_Officer extends CI_Controller
         }
     }
 
+    public function view_project_ganttchart($project_id = NULL)
+    {
+        if ($this->session->has_userdata('user_id')) {
+            // $data['project_schedule'] = $this->db->where('project_id',$project_id)->get('project_schedule')->result_array();
+            $this->db->select('pp.*,ps.*');
+            $this->db->from('project_progress pp');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
+            $this->db->where('pp.project_id = ps.project_id');
+            $this->db->where('pp.project_id',$project_id);
+
+            $data['project_schedule'] = $this->db->get()->result_array();
+            $this->load->view('project_officer/project_ganttchart', $data);
+        }
+    }
+
 
     public function overview($project_id = NULL)
     {

@@ -246,8 +246,8 @@
              </div>
 
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="">
-                     <h4 style="font-weight: bold;">Project Chart</h4>
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_chart" onclick="location.href='<?php echo base_url(); ?>Project_Officer/view_project_ganttchart/<?= $id; ?>'">
+                     <h4 style="font-weight: bold;">Project Gantt Chart</h4>
                  </button>
              </div>
 
