@@ -121,7 +121,6 @@
      g.DrawDependencies();
 
      if($('#table_rows_project').find('tr').length === 0) {
-         alert('awais');
          $('#nodata').show();
      }
 

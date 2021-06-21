@@ -1,4 +1,9 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class Project_Officer extends CI_Controller
 {
     public function __construct()
@@ -408,4 +413,48 @@ class Project_Officer extends CI_Controller
         //print_r($count);exit();
         return $count;
     }
+
+
+    public function progress_report($project_id = NULL)
+	{
+		if ($this->session->has_userdata('user_id')) {
+            
+			require_once $_SERVER['DOCUMENT_ROOT'] . 'ConstManagementSys/application/third_party/dompdf/vendor/autoload.php';
+			// require_once base_url().'application/third_party/dompdf/vendor/autoload.php';
+			//spl_autoload_register('DOMPDF_autoload');
+			$options = new Options();
+			$options->set('isRemoteEnabled', TRUE);
+			$options->set('enable_html5_parser', TRUE);
+			$options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+			$dompdf = new Dompdf($options);
+			$dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+			$id = $this->session->userdata('user_id');
+			$data['project_record'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            $this->db->select('pp.*,ps.schedule_name');
+            $this->db->from('project_progress pp');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
+            $this->db->where('pp.project_id = ps.project_id');
+            $this->db->where('pp.project_id',$project_id);
+            $data['project_progress'] = $this->db->get()->result_array();
+
+			$html = $this->load->view('project_officer/progress_report', $data, TRUE);//$graph, TRUE);
+			/**/
+			$dompdf->loadHtml($html);
+
+			// (Optional) Setup the paper size and orientation
+			// $dompdf->setPaper('A4', 'landscape');
+
+			// Render the HTML as PDF
+			$dompdf->render();
+
+			$output = $dompdf->output();
+			$doc_name = 'Project Report.pdf';
+			file_put_contents($doc_name, $output);
+			redirect($doc_name);
+			exit;
+		} else {
+			$this->load->view('userpanel/login');
+		}
+	}
 }
