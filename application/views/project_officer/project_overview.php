@@ -225,13 +225,13 @@
              </div>
 
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/view_project_breakdown/<?= $id; ?>'">
                      <h4 style="font-weight: bold;">Work Breakdown Structure</h4>
                  </button>
              </div>
 
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_show_progress" onclick="location.href='<?php echo base_url(); ?>SO_CW/view_project_progress/<?= $id; ?>'">
                      <h4 style="font-weight: bold;">Project Progress</h4>
                  </button>
              </div>
@@ -240,7 +240,7 @@
 
          <div class="form-group row justify-content-center" style="margin-top:50px; margin-bottom:50px">
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_show_schedule" onclick="location.href='<?php echo base_url(); ?>SO_CW/view_project_schedule/<?= $id; ?>'">
                      <h4 style="font-weight: bold;">Project Schedule</h4>
                  </button>
              </div>

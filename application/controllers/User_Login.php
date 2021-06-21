@@ -1,7 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 class User_Login extends CI_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -12,22 +11,21 @@ class User_Login extends CI_Controller
 		if ($this->session->has_userdata('user_id')) {
 			$id = $this->session->userdata('user_id');
 			$acct_type = $this->session->userdata('acct_type');
-
+			
 			if ($acct_type == "SO_STORE") {
 				redirect('SO_STORE');
 			} elseif ($acct_type == "PO") {
 				redirect('Project_Officer');
 			} elseif ($acct_type == "SO_CW") {
 				redirect('SO_CW');
-			}else {
+			} else {
 				$this->load->view('login');
 			}
-
 		} else {
 			$this->load->view('login');
 		}
 	}
-	
+
 	public function dashboard()
 	{
 		$this->load->view('dashboard');
@@ -51,8 +49,8 @@ class User_Login extends CI_Controller
 					$this->session->set_userdata('username', $query['username']);
 					$this->session->set_flashdata('success', 'Login successfully');
 
-                    $this->db->set('status','online');
-					$this->db->where('id',$query['id']);
+					$this->db->set('status', 'online');
+					$this->db->where('id', $query['id']);
 					$this->db->update('security_info');
 
 					redirect('User_Login');
@@ -70,8 +68,8 @@ class User_Login extends CI_Controller
 	public function logout()
 	{
 		$this->session->sess_destroy();
-		$this->db->set('status','offline');
-		$this->db->where('id',$this->session->userdata('user_id'));
+		$this->db->set('status', 'offline');
+		$this->db->where('id', $this->session->userdata('user_id'));
 		$this->db->update('security_info');
 		redirect('User_Login');
 	}

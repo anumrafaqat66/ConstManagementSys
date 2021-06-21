@@ -2,8 +2,8 @@
 
  <div class="form-group row my-4 mx-5">
      <div class="col-sm-12">
-         <h1 style="font-weight: bold;text-align: center;">Project Gantt Chart</h1>
-         <h1 style="font-weight: bold;text-align: center;"><?= $project_records['Name']?></h1>
+         <h1 style="font-weight: bold;text-align: center;">Project Breakdown Structure</h1>
+         <h1 id="project_name" style="font-weight: bold;text-align: center;"><?= $project_records['Name'] ?></h1>
      </div>
  </div>
 
@@ -12,12 +12,12 @@
          <div class="card-body bg-custom3">
              <div class="card bg-custom3">
                  <div class="card-header bg-custom1">
-                     <h1 class="h4">Project Gantt Chart</h1>
+                     <h1 class="h4">BreakDown Chart</h1>
                  </div>
 
                  <div class="card-body">
-                     <div style="position:relative" class="gantt" id="GanttChartDIV"></div>
-                     <div id="nodata" style="display:none"> There are no tasks scheduled yet.</div>
+                     <div id="chart_div"></div>
+                     <div id="nodata" style="display:none"> There are no tasks configured for this project yet.</div>
                  </div>
              </div>
          </div>
@@ -91,38 +91,61 @@
 
  <?php $this->load->view('common/footer'); ?>
 
- <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/jsgantt/jsgantt.css" />
- <script language="javascript" src="<?php echo base_url(); ?>assets/jsgantt/jsgantt.js"></script>
+ <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/jsgantt/jsgantt.css" /> -->
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <!-- <script language="javascript" src="<?php echo base_url(); ?>assets/jsgantt/jsgantt.js"></script> -->
 
  <script>
+     $project_name = $('#project_name').html();
+
      function toDate(dateStr) {
          var parts = dateStr.split("-")
          return parts[1] + "/" + parts[2] + "/" + parts[0];
      }
 
-     var g = new JSGantt.GanttChart('g', document.getElementById('GanttChartDIV'), 'day');
-     g.setShowRes(1); // Show/Hide Responsible (0/1)
-     g.setShowDur(1); // Show/Hide Duration (0/1)
-     g.setShowComp(1); // Show/Hide % Complete(0/1)
-     g.setCaptionType('Resource'); // Set to Show Caption
-
-     var count = 1;
-     $('#table_rows_project').find('tr').each(function(i, el) {
-         var $tds = $(this).find('td');
-
-         if (g) {
-             g.AddTaskItem(new JSGantt.TaskItem(31, $tds.eq(1).text(), toDate($tds.eq(2).text()), toDate($tds.eq(3).text()), 'ff00ff', '', 0, $tds.eq(5).text(), $tds.eq(4).text(), 0, 3, 1, 'Caption 1'));
-         } else {
-             alert("not defined");
-         }
-
-     });
-
-     g.Draw();
-     g.DrawDependencies();
-
-     if($('#table_rows_project').find('tr').length === 0) {
+     if ($('#table_rows_project').find('tr').length === 0) {
          $('#nodata').show();
-     }
+     } else {
+         google.charts.load('current', {
+             packages: ["orgchart"]
+         });
+         google.charts.setOnLoadCallback(drawChart);
 
+         function drawChart() {
+             var data = new google.visualization.DataTable();
+             data.addColumn('string', 'Name');
+             data.addColumn('string', 'Manager');
+             data.addColumn('string', 'ToolTip');
+
+             data.addRows([
+                 [{
+                         'v': $project_name,
+                         'f': $project_name + '<div style="color:red; font-style:italic">Project Name</div>'
+                     },
+                     '', 'Project Name'
+                 ]
+             ]);
+
+             // For each orgchart box, provide the name, manager, and tooltip to show.
+             $('#table_rows_project').find('tr').each(function(i, el) {
+                 var $tds = $(this).find('td');
+                 data.addRows([
+                     [{
+                             'v': $tds.eq(1).text(),
+                             'f': $tds.eq(1).text() + `<div style="color:black; font-style:italic">Start Date: ${$tds.eq(2).text()}</div>
+                                                    <div style="color:black; font-style:italic">Progress: ${$tds.eq(4).text()}%</div>`
+                         },
+                         $project_name, $tds.eq(1).text()
+                     ]
+                 ]);
+             });
+
+             // Create the chart.
+             var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+             // Draw the chart, setting the allowHtml option to true for the tooltips.
+             chart.draw(data, {
+                 'allowHtml': true
+             });
+         }
+     }
  </script>

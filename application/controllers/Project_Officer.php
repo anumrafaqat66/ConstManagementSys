@@ -68,7 +68,24 @@ class Project_Officer extends CI_Controller
             $this->db->where('pp.project_id',$project_id);
 
             $data['project_schedule'] = $this->db->get()->result_array();
+            $data['project_records'] = $this->db->where('ID',$project_id)->get('projects')->row_array();
             $this->load->view('project_officer/project_ganttchart', $data);
+        }
+    }
+
+    public function view_project_breakdown($project_id = NULL)
+    {
+        if ($this->session->has_userdata('user_id')) {
+            // $data['project_schedule'] = $this->db->where('project_id',$project_id)->get('project_schedule')->result_array();
+            $this->db->select('pp.*,ps.*');
+            $this->db->from('project_progress pp');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
+            $this->db->where('pp.project_id = ps.project_id');
+            $this->db->where('pp.project_id',$project_id);
+
+            $data['project_schedule'] = $this->db->get()->result_array();
+            $data['project_records'] = $this->db->where('ID',$project_id)->get('projects')->row_array();
+            $this->load->view('project_officer/project_breakdown', $data);
         }
     }
 
@@ -419,7 +436,8 @@ class Project_Officer extends CI_Controller
 	{
 		if ($this->session->has_userdata('user_id')) {
             
-			require_once $_SERVER['DOCUMENT_ROOT'] . 'ConstManagementSys/application/third_party/dompdf/vendor/autoload.php';
+			// require_once $_SERVER['DOCUMENT_ROOT'] . 'ConstManagementSys/application/third_party/dompdf/vendor/autoload.php';
+			require_once APPPATH.'third_party/dompdf/vendor/autoload.php';
 			// require_once base_url().'application/third_party/dompdf/vendor/autoload.php';
 			//spl_autoload_register('DOMPDF_autoload');
 			$options = new Options();
@@ -430,7 +448,15 @@ class Project_Officer extends CI_Controller
 			$dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
 
 			$id = $this->session->userdata('user_id');
-			$data['project_record'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+
+            $this->db->select('p.*,c.Name as contractor_name, pb.bid_amount');
+            $this->db->from('projects p');
+            $this->db->join('contractors c', 'p.contractor_id = c.ID');
+            $this->db->join('project_bids pb',  'p.bid_id = pb.id', 'p.ID = pb.project_id');
+            $this->db->where('p.ID',$project_id);
+			$data['project_record'] = $this->db->get()->row_array();
+
+
             $this->db->select('pp.*,ps.schedule_name');
             $this->db->from('project_progress pp');
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');

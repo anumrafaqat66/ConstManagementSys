@@ -13,38 +13,47 @@
     <h1><strong>Project Complete Report</strong></h1>
     <hr style="border-top: 1px solid black">
   </div>
-  <table class="table">
-    <thead>
+  <table class="table table-bordered" style="color:black">
+    <thead style="background-color:lightgray">
       <tr>
-        <th>Project Name:</th>
+        <th scope="col">Project Name:</th>
         <th><?= $project_record['Name'] ?></th>
       </tr>
     </thead>
     <thead>
       <tr>
-        <th>Project Start Date:</th>
-        <th><?= $project_record['Start_date'] ?></th>
+        <th scope="col">Project Start Date:</th>
+        <td><?= $project_record['Start_date'] ?></td>
       </tr>
     </thead>
     <thead>
       <tr>
-        <th>Project Status</th>
-        <th><?= $project_record['Status'] ?></th>
+        <th scope="col">Project Status</th>
+        <td><?= $project_record['Status'] ?></td>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th scope="col">Assigned Contractor</th>
+        <td><?= $project_record['contractor_name'] ?></td>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th scope="col">Assigned Bid</th>
+        <td>PKR. <?= $project_record['bid_amount'] ?>/-</td>
       </tr>
     </thead>
   </table>
 </div>
 
-<hr>
-
-<!-- <h5>Dear <?= $user_data['name'] . ' ' . $user_data['surname']; ?></h5> -->
 <p><br>Following are the current progress details of the project:</p>
-
+<hr>
 
 <div id="table_div">
   <?php if (count($project_progress) > 0) { ?>
-    <table id="datatable" class="table table-striped" style="color:black">
-      <thead>
+    <table id="datatable" class="table table-bordered" style="color:black">
+      <thead style="background-color:lightgray">
         <tr>
           <th scope="col">ID</th>
           <th scope="col" style="width:140px">Progress Date</th>
