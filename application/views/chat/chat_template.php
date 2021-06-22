@@ -213,3 +213,36 @@
 </body>
 
 </html>
+                 <script type="text/javascript">
+  window.onload = function exampleFunction() {
+           //alert('HIii');
+            $.ajax({
+                 url: '<?= base_url(); ?>Project_Officer/update_notification',
+                 method: 'POST',
+                 datatype:'json',
+                 data: {
+                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
+                 },
+                 success: function(data) {
+                     $('#notification').html(data);
+                 },
+                 async: true
+             });
+         
+         <?php if(isset($sender_id)){
+         $sender_name = $this->db->where('id',$sender_id)->get('security_info')->row_array(); ?>
+          var sender_id = '<?php echo $sender_id; ?>';
+          var sender_name='<?php echo $sender_name['username']; ?>';
+        
+
+            if( sender_id != null){
+             alert('from notification');
+            $('#ReciverName_txt').html(sender_name);
+    
+    GetChatHistory(receiver_id);
+            }
+          <?php } ?>
+        }
+
+       
+ </script>

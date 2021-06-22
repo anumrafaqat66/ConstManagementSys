@@ -14,7 +14,8 @@ class Project_Officer extends CI_Controller
     public function index()
     {
         if ($this->session->has_userdata('user_id')) {
-            $id = $this->session->userdata('user_id');
+          
+                    $id = $this->session->userdata('user_id');
             $acct_type = $this->session->userdata('acct_type');
 
             if ($acct_type == "PO" || $acct_type == "admin") {
@@ -22,9 +23,22 @@ class Project_Officer extends CI_Controller
             } else {
                 $this->load->view('login');
             }
+        
         } else {
             $this->load->view('login');
         }
+    }
+
+        public function update_notification(){
+
+        $id =$_POST['id'];
+       // echo $id;exit;
+        $data['chat_data']= $this->db->where('receiver_id',$id)->group_by('receiver_id')->get('chat')->result_array();
+        //print_r($chat_data);
+        $view_array=$this->load->view('chat/notification_ajax',$data,TRUE);
+        echo $view_array;
+        json_encode($view_array);
+
     }
 
     public function add_contractors()
@@ -478,7 +492,7 @@ class Project_Officer extends CI_Controller
 			$doc_name = 'Project Report.pdf';
 			file_put_contents($doc_name, $output);
 			redirect($doc_name);
-			exit;
+			//exit;
 		} else {
 			$this->load->view('userpanel/login');
 		}

@@ -9,15 +9,30 @@ class ChatController extends CI_Controller
 	}
 	public function index()
 	{
-		$data['strTitle'] = '';
+		
+			$data['strTitle'] = '';
 		$data['strsubTitle'] = '';
 		$data['list'] = $this->ClientsListCs();
 		$data['strTitle'] = 'All Connected Clients';
 		$data['strsubTitle'] = 'Clients';
 		$data['chatTitle'] = 'Select Client with Chat';
+		$data['list_count']=count($data['list']);
 
 		$this->load->view('chat/chat_template', $data);
+}
+
+	public function notification($sender_id=null){
+	$data['strTitle'] = '';
+		$data['strsubTitle'] = '';
+		 $data['list'] = $this->ClientsListCs();
+		$data['strTitle'] = 'All Connected Clients';
+		$data['strsubTitle'] = 'Clients';
+		$data['chatTitle'] = 'Select Client with Chat';
+		$data['sender_id']=$sender_id;
+		//$data['sender_name']=$data['list']['username'];
+	$this->load->view('chat/chat_template', $data);
 	}
+		
 
 	public function send_text_message()
 	{
@@ -221,4 +236,6 @@ class ChatController extends CI_Controller
 		$r = $query->result_array();
 		return $r;
 	}
+
+	
 }

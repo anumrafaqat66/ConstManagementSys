@@ -89,4 +89,21 @@
  </div>
 
 
- <?php $this->load->view('common/footer'); ?>
+ <?php $this->load->view('common/footer'); ?>                 
+ <script type="text/javascript">
+  window.onload = function exampleFunction() {
+           //alert('HIii');
+            $.ajax({
+                 url: '<?= base_url(); ?>Project_Officer/update_notification',
+                 method: 'POST',
+                 datatype:'json',
+                 data: {
+                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
+                 },
+                 success: function(data) {
+                     $('#notification').html(data);
+                 },
+                 async: true
+             });
+        }
+ </script>
