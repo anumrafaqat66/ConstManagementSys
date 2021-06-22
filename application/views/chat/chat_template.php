@@ -1,6 +1,19 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php $this->load->view('chat/common/header'); ?>
 <style>
+  .selectVendor {
+    position: relative;
+   }
+    .status-indicator {
+    background-color: #eaecf4;
+    height: .75rem;
+    width: .75rem;
+    border-radius: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: .125rem solid #fff;
+}
   .fileDiv {
     position: relative;
     overflow: hidden;
@@ -144,18 +157,24 @@
               <div class="box-body no-padding">
                 <ul class="users-list clearfix">
                   <!--     <a href="javascript:void(0)" class="uppercase">View All Users</a> -->
-                  <?php if (!empty($list)) {
-                    foreach ($list as $userdata) :
+                  <?php if (!empty($whole_list)) {
+                   // $i =0;
+                    foreach ($whole_list as $userdata) :
                   ?>
                       <li class="selectVendor" id="<?= $userdata['id']; ?>" title="<?= $userdata['username']; ?>">
                         <img src="<?= base_url(); ?>assets/img/user.png" alt="<?= $userdata['username']; ?>" title="<?= $userdata['username']; ?>">
+                         <?php if($userdata['status']=="online"){
+                          ?>
+                         <i style="margin: 0px 25px 40px 0px;" class="status-indicator bg-success"></i>
+                       <?php } ?>
+                      
                         <a class="users-list-name" href="#"><?= $userdata['username']; ?></a>
                         <!--<span class="users-list-date">Yesterday</span>-->
                       </li>
                     <?php endforeach; ?>
                   <?php } else { ?>
                     <li>
-                      <a class="users-list-name" href="#">No User Found...</a>
+                      <a class="users-list-name" style="width: 35%" href="#">No User Found...</a>
                     </li>
                   <?php } ?>
                 </ul>
@@ -229,19 +248,23 @@
                  async: true
              });
          
-         <?php if(isset($sender_id)){
-         $sender_name = $this->db->where('id',$sender_id)->get('security_info')->row_array(); ?>
-          var sender_id = '<?php echo $sender_id; ?>';
-          var sender_name='<?php echo $sender_name['username']; ?>';
         
+        }
 
-            if( sender_id != null){
-             alert('from notification');
-            $('#ReciverName_txt').html(sender_name);
-    
-    GetChatHistory(receiver_id);
-            }
-          <?php } ?>
+       function seen(data){
+      
+         // var receiver_id=$(this).attr('id');
+           $.ajax({
+                 url: '<?= base_url(); ?>ChatController/seen',
+                 method: 'POST',
+                 data: {
+                     'id': data 
+                 },
+                 success: function(data) {
+                     $('#notification').html(data);
+                 },
+                 async: true
+             });
         }
 
        

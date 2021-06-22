@@ -62,4 +62,19 @@
                  async: true
              });
         }
+
+          function seen(data){
+         // var receiver_id=$(this).attr('id');
+           $.ajax({
+                 url: '<?= base_url(); ?>ChatController/seen',
+                 method: 'POST',
+                 data: {
+                     'id': data 
+                 },
+                 success: function(data) {
+                     $('#notification').html(data);
+                 },
+                 async: true
+             });
+       }
  </script>

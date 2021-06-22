@@ -17,22 +17,27 @@ class ChatController extends CI_Controller
 		$data['strsubTitle'] = 'Clients';
 		$data['chatTitle'] = 'Select Client with Chat';
 		$data['list_count']=count($data['list']);
+		$data['whole_list']= $this->ClientsList();
 
+         //Fupdateprint_r($data['whole_list']);exit;
 		$this->load->view('chat/chat_template', $data);
 }
 
-	public function notification($sender_id=null){
-	$data['strTitle'] = '';
-		$data['strsubTitle'] = '';
-		 $data['list'] = $this->ClientsListCs();
-		$data['strTitle'] = 'All Connected Clients';
-		$data['strsubTitle'] = 'Clients';
-		$data['chatTitle'] = 'Select Client with Chat';
-		$data['sender_id']=$sender_id;
-		//$data['sender_name']=$data['list']['username'];
-	$this->load->view('chat/chat_template', $data);
-	}
 		
+public function seen(){
+       $id =$_POST['id'];
+       // echo $id;exit;
+        $this->db->set('seen','yes');
+        $this->db->where('sender_id',$id);
+        $this->db->where('receiver_id',$this->session->userdata('user_id'));
+        $this->db->update('chat');
+
+        $data['chat_data']= $this->db->where('receiver_id',$this->session->userdata('user_id'))->where('sender_id',$id)->where('seen','no')->group_by('receiver_id')->get('chat')->result_array();
+        //print_r($chat_data);
+        $view_array=$this->load->view('chat/notification_ajax',$data,TRUE);
+        echo $view_array;
+        json_encode($view_array);
+}
 
 	public function send_text_message()
 	{
@@ -102,6 +107,7 @@ class ChatController extends CI_Controller
 
 	public function get_chat_history_by_vendor()
 	{
+		//echo '1213';exit;
 		$receiver_id =  $this->input->get('receiver_id');
 
 		$Logged_sender_id = $this->session->userdata['user_id'];
@@ -118,7 +124,7 @@ class ChatController extends CI_Controller
 
 
 		//$history = $this->ChatModel->GetReciverChatHistory($receiver_id);
-		//print_r($history);
+		//print_r($history);exit;
 		foreach ($history as $chat) :
 
 			$message_id = $chat['id'];
@@ -230,8 +236,18 @@ class ChatController extends CI_Controller
 	{
 		$this->db->select('*');
 		$this->db->from('security_info');
-		$this->db->where("status", "online");
+		 $this->db->where("status", "online");
 		$this->db->where_not_in('id', $this->session->userdata('user_id'));
+		$query = $this->db->get();
+		$r = $query->result_array();
+		return $r;
+	}
+		public function ClientsList()
+	{
+		$this->db->select('*');
+		$this->db->from('security_info');
+		$this->db->where_not_in('id', $this->session->userdata('user_id'));
+		$this->db->where_not_in('username', 'admin');
 		$query = $this->db->get();
 		$r = $query->result_array();
 		return $r;

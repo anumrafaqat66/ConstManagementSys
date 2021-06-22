@@ -33,7 +33,7 @@ class Project_Officer extends CI_Controller
 
         $id =$_POST['id'];
        // echo $id;exit;
-        $data['chat_data']= $this->db->where('receiver_id',$id)->group_by('receiver_id')->get('chat')->result_array();
+        $data['chat_data']= $this->db->where('receiver_id',$id)->where('seen','no')->group_by('receiver_id')->get('chat')->result_array();
         //print_r($chat_data);
         $view_array=$this->load->view('chat/notification_ajax',$data,TRUE);
         echo $view_array;
