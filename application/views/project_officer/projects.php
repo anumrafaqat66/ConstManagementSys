@@ -807,9 +807,9 @@
              $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
          }, 0);
      });
-   $(document).on('hide.bs.modal', '#new_project', function() {
-    var project_id = $('#project_id_on_bid').val();
-    //alert(project_id);
+     $(document).on('hide.bs.modal', '#new_project', function() {
+         var project_id = $('#project_id_on_bid').val();
+         //alert(project_id);
          var name = $('#project_name').val();
          var code = $('#code').val();
          var start_date = $('#start_date').val();
@@ -820,10 +820,10 @@
          var cost = $('#total_cost').val();
          var status = $('#status').val();
 
-         if(name == null || code == null || start_date ==null|| end_date ==null 
-            || assign_bid==null || created_by==null ||cost==null || status==null){
-            
-            $.ajax({
+         if (name == null || code == null || start_date == null || end_date == null ||
+             assign_bid == null || created_by == null || cost == null || status == null) {
+
+             $.ajax({
                  url: '<?= base_url(); ?>Project_Officer/delete_project',
                  method: 'POST',
                  //  type:'json',
@@ -835,42 +835,26 @@
                  },
                  async: false
              });
-         }else{
-            //alert('all okay');
+         } else {
+             //alert('all okay');
          }
      });
  </script>
-                  <script type="text/javascript">
-  window.onload = function exampleFunction() {
-           //alert('HIii');
-            $.ajax({
-                 url: '<?= base_url(); ?>Project_Officer/update_notification',
-                 method: 'POST',
-                 datatype:'json',
-                 data: {
-                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-            
- 
-        }
+ <script type="text/javascript">
+    
 
-                     function seen(data){
+     function seen(data) {
          // var receiver_id=$(this).attr('id');
-           $.ajax({
-                 url: '<?= base_url(); ?>ChatController/seen',
-                 method: 'POST',
-                 data: {
-                     'id': data 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/seen',
+             method: 'POST',
+             data: {
+                 'id': data
+             },
+             success: function(data) {
+                 $('#notification').html(data);
+             },
+             async: true
+         });
+     }
  </script>

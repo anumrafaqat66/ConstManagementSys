@@ -176,7 +176,7 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <!-- <li class="nav-item dropdown no-arrow mx-1">
+                        <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle text-dark-500" href="#"> Home </a>
                         </li>
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -190,11 +190,11 @@
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                             <!--    <span class="badge badge-danger badge-counter">3+</span>
-                            </a>  -->
+                                <span class="badge badge-danger badge-counter"></span>
+                            </a>
                             <!-- Dropdown - Alerts -->
-                          <!--   <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown"> -->
-                  <!--               <h6 class="dropdown-header">
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown"> -->
+                                <h6 class="dropdown-header">
                                     Notifications
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -208,26 +208,16 @@
                                         <span class="font-weight-bold">A new monthly report is ready to download!</span>
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
+
 
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Notifications </a>
                             </div>
-                        </li> -->
+                        </li>
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1" id="notification">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
                                 <span class=""></span>
                             </a>
@@ -238,9 +228,9 @@
                                 </h6>
 
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                   <div>
-                                        <div style="padding:10px"><b>No New Notifications
-                                        </b></div>
+                                    <div>
+                                        <div style="padding:10px"><b>No New Messages
+                                            </b></div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
@@ -254,6 +244,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-white small"><?php echo $this->session->userdata('username'); ?></span>
+                                <span id="user_id" style="display:none"><?php echo $this->session->userdata('user_id'); ?></span>
                                 <img class="img-profile rounded-circle" src="<?php echo base_url(); ?>assets/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->

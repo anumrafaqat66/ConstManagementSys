@@ -196,7 +196,7 @@
                                                  <th scope="col">Unit</th>
                                                  <th scope="col">Edit/Update Quantity</th>
                                                  <th scope="col">View Details</th>
-                                                 
+
                                              </tr>
                                          </thead>
                                          <tbody id="table_rows">
@@ -210,7 +210,7 @@
                                                      <td scope="row"><?= $data['Unit']; ?></td>
                                                      <td type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 70px;" class="fas fa-edit"></i></td>
                                                      <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 40px;" class="fas fa-eye"></i></a></td>
-                                                     
+
                                                  </tr>
                                              <?php } ?>
                                          </tbody>
@@ -251,7 +251,7 @@
          var quantity = $('#quantity').val();
          var price = $('#price').val();
          var unit = $('#unit').val();
-         
+
          if (material_name == '') {
              validate = 1;
              $('#material_name').addClass('red-border');
@@ -269,13 +269,13 @@
              $('#unit').addClass('red-border');
          }
 
-         if(!$.isNumeric(quantity)){
-         validate = 1;
+         if (!$.isNumeric(quantity)) {
+             validate = 1;
              $('#quantity').addClass('red-border');
          }
 
-         if(!$.isNumeric(price)){
-         validate = 1;
+         if (!$.isNumeric(price)) {
+             validate = 1;
              $('#price').addClass('red-border');
          }
 
@@ -296,7 +296,7 @@
          var material_name = $('#material_name_edit').val();
          var quantity = $('#new_quantity').val();
          var price = $('#new_price').val();
-         
+
          if (material_name == '') {
              validate = 1;
              $('#material_name_edit').addClass('red-border');
@@ -308,15 +308,15 @@
          if (price == '') {
              validate = 1;
              $('#new_price').addClass('red-border');
-         }         
+         }
 
-         if(!$.isNumeric(quantity)){
-         validate = 1;
+         if (!$.isNumeric(quantity)) {
+             validate = 1;
              $('#new_quantity').addClass('red-border');
          }
 
-         if(!$.isNumeric(price)){
-         validate = 1;
+         if (!$.isNumeric(price)) {
+             validate = 1;
              $('#new_price').addClass('red-border');
          }
 
@@ -397,37 +397,21 @@
          });
      });
  </script> -->
-                  <script type="text/javascript">
-  window.onload = function exampleFunction() {
-           //alert('HIii');
-            $.ajax({
-                 url: '<?= base_url(); ?>Project_Officer/update_notification',
-                 method: 'POST',
-                 datatype:'json',
-                 data: {
-                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
-         function seen(data){
-      
-         // var receiver_id=$(this).attr('id');
-           $.ajax({
-                 url: '<?= base_url(); ?>ChatController/seen',
-                 method: 'POST',
-                 data: {
-                     'id': data 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
+ <script type="text/javascript">
+    
+     function seen(data) {
 
-       
+         // var receiver_id=$(this).attr('id');
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/seen',
+             method: 'POST',
+             data: {
+                 'id': data
+             },
+             success: function(data) {
+                 $('#notification').html(data);
+             },
+             async: true
+         });
+     }
  </script>

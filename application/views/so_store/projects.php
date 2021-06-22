@@ -187,7 +187,7 @@
          var material = $('#material').val();
          var quantity = $('#quantity').val();
          var price = $('#price').val();
-         
+
 
          if (delivery_date == '') {
              validate = 1;
@@ -206,16 +206,16 @@
              $('#price').addClass('red-border');
          }
 
-         if(!$.isNumeric(quantity)){
-         validate = 1;
+         if (!$.isNumeric(quantity)) {
+             validate = 1;
              $('#quantity').addClass('red-border');
          }
 
-         if(!$.isNumeric(price)){
-         validate = 1;
+         if (!$.isNumeric(price)) {
+             validate = 1;
              $('#price').addClass('red-border');
          }
-         
+
          if (validate == 0) {
              $('#edit_form')[0].submit();
              $('#show_error').hide();
@@ -229,16 +229,16 @@
          //alert('abc');
          var cur_val = $(this).val();
          var id = $('#material').val();
-         if(id == '' ){
-            //  alert('Please select material first');
-             $( "#material").focus();
-             $( "#material").addClass('red-border');
-             $( "#show_material").show();
+         if (id == '') {
+             //  alert('Please select material first');
+             $("#material").focus();
+             $("#material").addClass('red-border');
+             $("#show_material").show();
              $('#quantity').val('');
              return;
          } else {
-            $( "#material" ).removeClass('red-border');
-            $( "#show_material").hide();
+             $("#material").removeClass('red-border');
+             $("#show_material").hide();
          }
 
          $.ajax({
@@ -248,17 +248,16 @@
                  'material_id': id,
              },
              success: function(data) {
-                
-                if (parseInt(cur_val) > parseInt(data)) {
-                    $('#show_quantity').html('&nbsp;Available quantity: ' + data);
-                    $('#show_quantity').show();
-                    $('#quantity').addClass('red-border');
-                }
-                else {
-                    $('#quantity').removeClass('red-border');
-                    $('#show_quantity').hide();
-                }
-                
+
+                 if (parseInt(cur_val) > parseInt(data)) {
+                     $('#show_quantity').html('&nbsp;Available quantity: ' + data);
+                     $('#show_quantity').show();
+                     $('#quantity').addClass('red-border');
+                 } else {
+                     $('#quantity').removeClass('red-border');
+                     $('#show_quantity').hide();
+                 }
+
              },
              async: true
          });
@@ -332,37 +331,21 @@
          });
      });
  </script> -->
-                  <script type="text/javascript">
-  window.onload = function exampleFunction() {
-           //alert('HIii');
-            $.ajax({
-                 url: '<?= base_url(); ?>Project_Officer/update_notification',
-                 method: 'POST',
-                 datatype:'json',
-                 data: {
-                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
-         function seen(data){
-      
-         // var receiver_id=$(this).attr('id');
-           $.ajax({
-                 url: '<?= base_url(); ?>ChatController/seen',
-                 method: 'POST',
-                 data: {
-                     'id': data 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
+ <script type="text/javascript">
 
-       
+     function seen(data) {
+
+         // var receiver_id=$(this).attr('id');
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/seen',
+             method: 'POST',
+             data: {
+                 'id': data
+             },
+             success: function(data) {
+                 $('#notification').html(data);
+             },
+             async: true
+         });
+     }
  </script>

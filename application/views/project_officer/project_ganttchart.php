@@ -3,7 +3,7 @@
  <div class="form-group row my-4 mx-5">
      <div class="col-sm-12">
          <h1 style="font-weight: bold;text-align: center;">Project Gantt Chart</h1>
-         <h1 style="font-weight: bold;text-align: center;"><?= $project_records['Name']?></h1>
+         <h1 style="font-weight: bold;text-align: center;"><?= $project_records['Name'] ?></h1>
      </div>
  </div>
 
@@ -121,44 +121,26 @@
      g.Draw();
      g.DrawDependencies();
 
-     if($('#table_rows_project').find('tr').length === 0) {
+     if ($('#table_rows_project').find('tr').length === 0) {
          $('#nodata').show();
      }
-
  </script>
-                  <script type="text/javascript">
-  window.onload = function exampleFunction() {
-           //alert('HIii');
-            $.ajax({
-                 url: '<?= base_url(); ?>Project_Officer/update_notification',
-                 method: 'POST',
-                 datatype:'json',
-                 data: {
-                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
+ <script type="text/javascript">
 
-     
-        }
-               
-              function seen(data){
-          // alert('in');
-          // alert(data);
+     function seen(data) {
+         // alert('in');
+         // alert(data);
          // var receiver_id=$(this).attr('id');
-           $.ajax({
-                 url: '<?= base_url(); ?>ChatController/seen',
-                 method: 'POST',
-                 data: {
-                     'id': data 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/seen',
+             method: 'POST',
+             data: {
+                 'id': data
+             },
+             success: function(data) {
+                 $('#notification').html(data);
+             },
+             async: true
+         });
+     }
  </script>

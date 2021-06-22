@@ -100,7 +100,7 @@
         <script src='<?php echo base_url(); ?>assets/fullcalendar/packages/core/main.js'></script>
         <script src='<?php echo base_url(); ?>assets/fullcalendar/packages/interaction/main.js'></script>
         <script src='<?php echo base_url(); ?>assets/fullcalendar/packages/daygrid/main.js'></script>
-
+        <script src="<?= base_url('assets/js/chat/chat.js'); ?>"></script>
 
         <script src="<?php echo base_url(); ?>assets/swal/swal.all.min.js"></script>
         <?php if ($this->session->flashdata('success')) : ?>

@@ -334,7 +334,7 @@
             $('#progress_date_update').val($columns[1].innerHTML);
             $('#progress_percentage_update').val(parseFloat($columns[3].innerHTML));
             $('#desc_update').val($columns[5].innerHTML);
-             $('#task_name_heading').html('<strong>' + $columns[2].innerHTML + '</strong>');
+            $('#task_name_heading').html('<strong>' + $columns[2].innerHTML + '</strong>');
             $('#progress_id_update').val($columns[0].innerHTML);
             $('#task_id').val($columns[8].innerHTML);
         });
@@ -360,7 +360,7 @@
                         setTimeout(function() {
                             location.reload();
                         }, 3000);
-                        
+
                     }
                 },
                 async: false
@@ -463,38 +463,22 @@
     });
 </script>
 
-                 <script type="text/javascript">
-  window.onload = function exampleFunction() {
-           //alert('HIii');
-            $.ajax({
-                 url: '<?= base_url(); ?>Project_Officer/update_notification',
-                 method: 'POST',
-                 datatype:'json',
-                 data: {
-                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
- 
-        }
-                   
-              function seen(data){
-          // alert('in');
-          // alert(data);
-         // var receiver_id=$(this).attr('id');
-           $.ajax({
-                 url: '<?= base_url(); ?>ChatController/seen',
-                 method: 'POST',
-                 data: {
-                     'id': data 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
- </script>
+<script type="text/javascript">
+
+    function seen(data) {
+        // alert('in');
+        // alert(data);
+        // var receiver_id=$(this).attr('id');
+        $.ajax({
+            url: '<?= base_url(); ?>ChatController/seen',
+            method: 'POST',
+            data: {
+                'id': data
+            },
+            success: function(data) {
+                $('#notification').html(data);
+            },
+            async: true
+        });
+    }
+</script>

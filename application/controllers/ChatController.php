@@ -9,35 +9,36 @@ class ChatController extends CI_Controller
 	}
 	public function index()
 	{
-		
-			$data['strTitle'] = '';
+
+		$data['strTitle'] = '';
 		$data['strsubTitle'] = '';
 		$data['list'] = $this->ClientsListCs();
 		$data['strTitle'] = 'All Connected Clients';
 		$data['strsubTitle'] = 'Clients';
 		$data['chatTitle'] = 'Select Client with Chat';
-		$data['list_count']=count($data['list']);
-		$data['whole_list']= $this->ClientsList();
+		$data['list_count'] = count($data['list']);
+		$data['whole_list'] = $this->ClientsList();
 
-         //Fupdateprint_r($data['whole_list']);exit;
+		//Fupdateprint_r($data['whole_list']);exit;
 		$this->load->view('chat/chat_template', $data);
-}
+	}
 
-		
-public function seen(){
-       $id =$_POST['id'];
-       // echo $id;exit;
-        $this->db->set('seen','yes');
-        $this->db->where('sender_id',$id);
-        $this->db->where('receiver_id',$this->session->userdata('user_id'));
-        $this->db->update('chat');
 
-        $data['chat_data']= $this->db->where('receiver_id',$this->session->userdata('user_id'))->where('sender_id',$id)->where('seen','no')->group_by('receiver_id')->get('chat')->result_array();
-        //print_r($chat_data);
-        $view_array=$this->load->view('chat/notification_ajax',$data,TRUE);
-        echo $view_array;
-        json_encode($view_array);
-}
+	public function seen()
+	{
+		$id = $_POST['id'];
+		// echo $id;exit;
+		$this->db->set('seen', 'yes');
+		$this->db->where('sender_id', $id);
+		$this->db->where('receiver_id', $this->session->userdata('user_id'));
+		$this->db->update('chat');
+
+		$data['chat_data'] = $this->db->where('receiver_id', $this->session->userdata('user_id'))->where('sender_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
+		//print_r($chat_data);
+		$view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
+		echo $view_array;
+		json_encode($view_array);
+	}
 
 	public function send_text_message()
 	{
@@ -105,13 +106,31 @@ public function seen(){
 		}
 	}
 
+	public function check_notification()
+    {
+        $id = $_POST['id'];
+        $data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
+        // $view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
+        echo count($data['chat_data']);
+        // json_encode($view_array);
+    }
+
+	public function update_notification()
+    {
+        $id = $_POST['id'];
+        // echo $id;exit;
+        $data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
+        //print_r($chat_data);
+        $view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
+        echo $view_array;
+        json_encode($view_array);
+    }
+
 	public function get_chat_history_by_vendor()
 	{
-		//echo '1213';exit;
+		// echo '1213';exit;
 		$receiver_id =  $this->input->get('receiver_id');
-
 		$Logged_sender_id = $this->session->userdata['user_id'];
-
 		$sender_id = $this->session->userdata['user_id'];
 
 		//SELECT * FROM `chat` WHERE `sender_id`= 197 AND `receiver_id` = 184 OR `sender_id`= 184 AND `receiver_id` = 197
@@ -171,7 +190,7 @@ public function seen(){
 			} else {
 				$messageBody = $message;
 			}
-			?>
+?>
 
 
 
@@ -236,13 +255,13 @@ public function seen(){
 	{
 		$this->db->select('*');
 		$this->db->from('security_info');
-		 $this->db->where("status", "online");
+		$this->db->where("status", "online");
 		$this->db->where_not_in('id', $this->session->userdata('user_id'));
 		$query = $this->db->get();
 		$r = $query->result_array();
 		return $r;
 	}
-		public function ClientsList()
+	public function ClientsList()
 	{
 		$this->db->select('*');
 		$this->db->from('security_info');
@@ -252,6 +271,4 @@ public function seen(){
 		$r = $query->result_array();
 		return $r;
 	}
-
-	
 }

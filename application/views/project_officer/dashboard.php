@@ -44,37 +44,36 @@
 
  </div>
 
-
  <?php $this->load->view('common/footer'); ?>
  <script type="text/javascript">
-  window.onload = function exampleFunction() {
-           //alert('HIii');
-            $.ajax({
-                 url: '<?= base_url(); ?>Project_Officer/update_notification',
-                 method: 'POST',
-                 datatype:'json',
-                 data: {
-                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
+    //  window.onload = function exampleFunction() {
+    //      //alert('HIii');
+    //      $.ajax({
+    //          url: '<?= base_url(); ?>Project_Officer/update_notification',
+    //          method: 'POST',
+    //          datatype: 'json',
+    //          data: {
+                //  'id': '<?php echo $this->session->userdata('user_id'); ?>'
+    //          },
+    //          success: function(data) {
+    //              $('#notification').html(data);
+    //          },
+    //          async: true
+    //      });
+    //  }
 
-          function seen(data){
+     function seen(data) {
          // var receiver_id=$(this).attr('id');
-           $.ajax({
-                 url: '<?= base_url(); ?>ChatController/seen',
-                 method: 'POST',
-                 data: {
-                     'id': data 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-       }
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/seen',
+             method: 'POST',
+             data: {
+                 'id': data
+             },
+             success: function(data) {
+                 $('#notification').html(data);
+             },
+             async: true
+         });
+     }
  </script>

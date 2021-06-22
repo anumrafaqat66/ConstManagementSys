@@ -3,8 +3,9 @@
 <style>
   .selectVendor {
     position: relative;
-   }
-    .status-indicator {
+  }
+
+  .status-indicator {
     background-color: #eaecf4;
     height: .75rem;
     width: .75rem;
@@ -13,7 +14,8 @@
     bottom: 0;
     right: 0;
     border: .125rem solid #fff;
-}
+  }
+
   .fileDiv {
     position: relative;
     overflow: hidden;
@@ -57,8 +59,6 @@
   }
 </style>
 
-
-
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -72,10 +72,7 @@
 
       <!-- Content Header (Page header) -->
 
-
-
       <!-- Main content -->
-
       <section class="content">
         <div class="row">
 
@@ -158,16 +155,16 @@
                 <ul class="users-list clearfix">
                   <!--     <a href="javascript:void(0)" class="uppercase">View All Users</a> -->
                   <?php if (!empty($whole_list)) {
-                   // $i =0;
+                    // $i =0;
                     foreach ($whole_list as $userdata) :
                   ?>
                       <li class="selectVendor" id="<?= $userdata['id']; ?>" title="<?= $userdata['username']; ?>">
                         <img src="<?= base_url(); ?>assets/img/user.png" alt="<?= $userdata['username']; ?>" title="<?= $userdata['username']; ?>">
-                         <?php if($userdata['status']=="online"){
-                          ?>
-                         <i style="margin: 0px 25px 40px 0px;" class="status-indicator bg-success"></i>
-                       <?php } ?>
-                      
+                        <?php if ($userdata['status'] == "online") {
+                        ?>
+                          <i style="margin: 0px 25px 40px 0px;" class="status-indicator bg-success"></i>
+                        <?php } ?>
+
                         <a class="users-list-name" href="#"><?= $userdata['username']; ?></a>
                         <!--<span class="users-list-date">Yesterday</span>-->
                       </li>
@@ -187,13 +184,8 @@
         </div>
 
         <!-- /.row -->
-
-
-
       </section>
-
       <!-- /.content -->
-
     </div>
 
     <!-- /.content-wrapper -->
@@ -232,40 +224,57 @@
 </body>
 
 </html>
-                 <script type="text/javascript">
-  window.onload = function exampleFunction() {
-           //alert('HIii');
-            $.ajax({
-                 url: '<?= base_url(); ?>Project_Officer/update_notification',
-                 method: 'POST',
-                 datatype:'json',
-                 data: {
-                     'id': '<?php echo $this->session->userdata('user_id') ;?>' 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-         
-        
-        }
+<script type="text/javascript">
+  // window.onload = function exampleFunction() {
+  //   //alert('HIii');
+  //   $.ajax({
+  //     url: '<?= base_url(); ?>Project_Officer/update_notification',
+  //     method: 'POST',
+  //     datatype: 'json',
+  //     data: {
+  //       'id': '<?php echo $this->session->userdata('user_id'); ?>'
+  //     },
+  //     success: function(data) {
+  //       $('#notification').html(data);
+  //     },
+  //     async: true
+  //   });
+  // }
 
-       function seen(data){
-      
-         // var receiver_id=$(this).attr('id');
-           $.ajax({
-                 url: '<?= base_url(); ?>ChatController/seen',
-                 method: 'POST',
-                 data: {
-                     'id': data 
-                 },
-                 success: function(data) {
-                     $('#notification').html(data);
-                 },
-                 async: true
-             });
-        }
+  // function exampleFunction() {
+  //   // alert('update notification is called');
+  //   $.ajax({
+  //     url: '<?= base_url(); ?>Project_Officer/update_notification',
+  //     method: 'POST',
+  //     datatype: 'json',
+  //     data: {
+  //       'id': '<?php echo $this->session->userdata('user_id'); ?>'
+  //     },
+  //     success: function(data) {
+  //       $('#notification').html(data);
+  //     },
+  //     async: true
+  //   });
+  // }
 
-       
- </script>
+  function seen(data) {
+    // var receiver_id=$(this).attr('id');
+    $.ajax({
+      url: '<?= base_url(); ?>ChatController/seen',
+      method: 'POST',
+      data: {
+        'id': data
+      },
+      success: function(data) {
+        $('#notification').html(data);
+      },
+      async: true
+    });
+  }
+
+  // setInterval(function() {
+  //   // var receiver_id = $('#ReciverId_txt').val();
+  //   exampleFunction(receiver_id);
+  // }, 3000);
+
+</script>
