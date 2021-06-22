@@ -249,6 +249,28 @@ CREATE TABLE `chat` (
   `ip_address` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Table structure for table `activity_log`
+--
+
+CREATE TABLE `activity_log` (
+ `id` int(11) NOT NULL,
+ `activity_module` enum('Admin','SO_Store','PO','SO_CW','SO_Record'),
+ `activity_action` enum('add','update','delete') ,
+ `activity_detail` text NULL,
+ `activity_by` varchar(250) NULL,
+ `activity_date` datetime
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `activity_log`
+--
+
+CREATE TABLE `activity_log_seen` (
+ `activity_id` int(11) NOT NULL,
+ `user_id` int(11) NOT NULL,
+ `seen` enum('yes','no') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -316,6 +338,13 @@ ALTER TABLE `project_drawing`
 --
 ALTER TABLE `chat`
   ADD PRIMARY KEY (`id`);
+  
+  
+--
+-- Indexes for table `activity_log`
+--  
+ALTER TABLE `activity_log`
+ ADD PRIMARY KEY (`id`);
     
   
 --
@@ -384,8 +413,11 @@ ALTER TABLE `project_drawing`
 ALTER TABLE `chat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-
-
+--
+-- AUTO_INCREMENT for table `activity_log`
+--
+ALTER TABLE `activity_log`
+ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
