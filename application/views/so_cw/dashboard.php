@@ -91,11 +91,7 @@
 
  <?php $this->load->view('common/footer'); ?>
  <script type="text/javascript">
-
      function seen(data) {
-         // alert('in');
-         // alert(data);
-         // var receiver_id=$(this).attr('id');
          $.ajax({
              url: '<?= base_url(); ?>ChatController/seen',
              method: 'POST',

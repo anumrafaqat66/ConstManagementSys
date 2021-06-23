@@ -7,8 +7,10 @@ class ChatController extends CI_Controller
 		parent::__construct();
 		$this->load->helper('string');
 	}
+
 	public function index()
 	{
+		$input_params = $this->input->get(); // this will give you all parameters
 
 		$data['strTitle'] = '';
 		$data['strsubTitle'] = '';
@@ -18,7 +20,8 @@ class ChatController extends CI_Controller
 		$data['chatTitle'] = 'Select Client with Chat';
 		$data['list_count'] = count($data['list']);
 		$data['whole_list'] = $this->ClientsList();
-
+		$data['selectedSender'] =$input_params['sender_id'];
+		$data['user_name'] = $this->db->where('id',$input_params['sender_id'])->get('security_info')->row_array();	
 		//Fupdateprint_r($data['whole_list']);exit;
 		$this->load->view('chat/chat_template', $data);
 	}
@@ -107,24 +110,24 @@ class ChatController extends CI_Controller
 	}
 
 	public function check_notification()
-    {
-        $id = $_POST['id'];
-        $data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
-        // $view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
-        echo count($data['chat_data']);
-        // json_encode($view_array);
-    }
+	{
+		$id = $_POST['id'];
+		$data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
+		// $view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
+		echo count($data['chat_data']);
+		// json_encode($view_array);
+	}
 
 	public function update_notification()
-    {
-        $id = $_POST['id'];
-        // echo $id;exit;
-        $data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
-        //print_r($chat_data);
-        $view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
-        echo $view_array;
-        json_encode($view_array);
-    }
+	{
+		$id = $_POST['id'];
+		// echo $id;exit;
+		$data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
+		//print_r($chat_data);
+		$view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
+		echo $view_array;
+		json_encode($view_array);				
+	}
 
 	public function get_chat_history_by_vendor()
 	{

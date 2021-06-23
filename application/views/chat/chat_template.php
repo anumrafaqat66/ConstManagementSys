@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php $this->load->view('chat/common/header'); ?>
+<?php !isset($selectedSender) ? $selectedSender = 0 : $selectedSender; ?>
+<?php !isset($user_name) ? $user_name = 0 : $user_name; ?>
 <style>
   .selectVendor {
     position: relative;
@@ -153,23 +155,35 @@
               <!-- /.box-body -->
               <div class="box-body no-padding">
                 <ul class="users-list clearfix">
-                  <!--     <a href="javascript:void(0)" class="uppercase">View All Users</a> -->
-                  <?php if (!empty($whole_list)) {
-                    // $i =0;
-                    foreach ($whole_list as $userdata) :
+                  <input type="hidden" id="selectedSender" value=<?= $selectedSender; ?>>
+                  <?php if (empty($selectedSender)) {
+                    if (!empty($whole_list)) {
+                      foreach ($whole_list as $userdata) :
                   ?>
-                      <li class="selectVendor" id="<?= $userdata['id']; ?>" title="<?= $userdata['username']; ?>">
-                        <img src="<?= base_url(); ?>assets/img/user.png" alt="<?= $userdata['username']; ?>" title="<?= $userdata['username']; ?>">
-                        <?php if ($userdata['status'] == "online") {
-                        ?>
-                          <i style="margin: 0px 25px 40px 0px;" class="status-indicator bg-success"></i>
-                        <?php } ?>
+                        <li class="selectVendor" id="<?= $userdata['id']; ?>" title="<?= $userdata['username']; ?>">
+                          <img src="<?= base_url(); ?>assets/img/user.png" alt="<?= $userdata['username']; ?>" title="<?= $userdata['username']; ?>">
+                          <?php if ($userdata['status'] == "online") {
+                          ?>
+                            <i style="margin: 0px 25px 40px 0px;" class="status-indicator bg-success"></i>
+                          <?php } ?>
 
-                        <a class="users-list-name" href="#"><?= $userdata['username']; ?></a>
-                        <!--<span class="users-list-date">Yesterday</span>-->
-                      </li>
-                    <?php endforeach; ?>
+                          <a class="users-list-name" href="#"><?= $userdata['username']; ?></a>
+                        </li>
+                      <?php endforeach; ?>
+                    <?php }
+                  } else if (!empty($selectedSender)) { ?>
+                    <li class="selectVendor" id="<?= $selectedSender; ?>" title="<?= $user_name['username']; ?>">
+                      <img src="<?= base_url(); ?>assets/img/user.png" alt="<?= $user_name['username']; ?>" title="<?= $user_name['username']; ?>">
+                      <?php if ($user_name['status'] == "online") {
+                      ?>
+                        <i style="margin: 0px 25px 40px 0px;" class="status-indicator bg-success"></i>
+                      <?php } ?>
+
+                      <a class="users-list-name" href="#"><?= $user_name['username']; ?></a>
+                    </li>
+
                   <?php } else { ?>
+
                     <li>
                       <a class="users-list-name" style="width: 35%" href="#">No User Found...</a>
                     </li>
@@ -225,40 +239,18 @@
 
 </html>
 <script type="text/javascript">
-  // window.onload = function exampleFunction() {
-  //   //alert('HIii');
-  //   $.ajax({
-  //     url: '<?= base_url(); ?>Project_Officer/update_notification',
-  //     method: 'POST',
-  //     datatype: 'json',
-  //     data: {
-  //       'id': '<?php echo $this->session->userdata('user_id'); ?>'
-  //     },
-  //     success: function(data) {
-  //       $('#notification').html(data);
-  //     },
-  //     async: true
-  //   });
-  // }
+  window.onload = function exampleFunction() {
 
-  // function exampleFunction() {
-  //   // alert('update notification is called');
-  //   $.ajax({
-  //     url: '<?= base_url(); ?>Project_Officer/update_notification',
-  //     method: 'POST',
-  //     datatype: 'json',
-  //     data: {
-  //       'id': '<?php echo $this->session->userdata('user_id'); ?>'
-  //     },
-  //     success: function(data) {
-  //       $('#notification').html(data);
-  //     },
-  //     async: true
-  //   });
-  // }
+    var selected = $('#selectedSender').val();
+    // alert(selected);
+    if (selected != 0) {
+      GetChatHistory(selected);
+      // $('#ReciverId_txt').val(selected);
+      // $('#ReciverName_txt').html($(this).attr('title'));
+    }
+  }
 
   function seen(data) {
-    // var receiver_id=$(this).attr('id');
     $.ajax({
       url: '<?= base_url(); ?>ChatController/seen',
       method: 'POST',
@@ -273,8 +265,6 @@
   }
 
   // setInterval(function() {
-  //   // var receiver_id = $('#ReciverId_txt').val();
   //   exampleFunction(receiver_id);
   // }, 3000);
-
 </script>

@@ -12,7 +12,8 @@
     </h6>
     <?php if (count($chat_data) > 0) { ?>
         <?php foreach ($chat_data as $data) { ?>
-            <a class="dropdown-item d-flex align-items-center" onclick="seen(<?= $data['sender_id'] ?>)" href="<?= base_url(); ?>ChatController">
+            <!-- <a class="dropdown-item d-flex align-items-center" onclick="seen(<?= $data['sender_id'] ?>)" href="<?= base_url(); ?>ChatController"> -->
+            <a class="dropdown-item d-flex align-items-center" onclick="seen(<?= $data['sender_id'] ?>)" href="<?= base_url(); ?>ChatController?sender_id=<?= $data['sender_id'] ?>">
                 <div class="dropdown-list-image mr-3">
                     <img class="rounded-circle" src="<?= base_url(); ?>assets/img/user1.png" alt="">
                     <!--  <div class="status-indicator bg-success"></div> -->
@@ -29,7 +30,7 @@
     } else { ?>
         <div>
             <div style="padding:10px">
-                <b>No New Notifications </b>
+                <b>No New Messages </b>
             </div>
         </div>
     <?php } ?>

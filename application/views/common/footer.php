@@ -43,7 +43,7 @@
         </a>
         <!-- Code begins here -->
 
-        <a href="<?= base_url(); ?>ChatController" class="float">
+        <a href="<?= base_url(); ?>ChatController?sender_id=" class="float">
             <i class="fas fa-comment-dots my-float"></i>
         </a>
 

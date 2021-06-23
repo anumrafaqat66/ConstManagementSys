@@ -5,19 +5,24 @@ $(function () {
 			sendTxtMessage($(this).val());
 		}
 	});
+
+	
 	$('.btnSend').click(function () {
 		// alert('sendmessage*****');
 		sendTxtMessage($('.message').val());
 	});
+
+
 	$('.selectVendor').click(function () {
+		// console.log('i am clicked selectVendor');
 		ChatSection(1);
+		
 		var receiver_id = $(this).attr('id');
-		// alert(receiver_id);
+		// console.log(receiver_id);
 		$('#ReciverId_txt').val(receiver_id);
 		$('#ReciverName_txt').html($(this).attr('title'));
 
 		GetChatHistory(receiver_id);
-
 	});
 
 	$('.upload_attachmentfile').change(function () {
@@ -207,7 +212,6 @@ setInterval(function () {
 	var receiver_id = $('#ReciverId_txt').val();
 	if (receiver_id != '') { GetChatHistory(receiver_id); }
 }, 3000);
-
 
 setInterval(function () {
 	var user_id = $('#user_id').html();
