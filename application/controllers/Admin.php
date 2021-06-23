@@ -10,8 +10,11 @@ class Admin extends CI_Controller
     {
         if ($this->session->has_userdata('user_id')) {
             $id = $this->session->userdata('user_id');
-            // $data['ships_data'] = $this->db->get('ship_data')->result_array();
-            $this->load->view('Admin/admin');
+            $data['projects'] = $this->db->select('count(*) as total_project')->get('projects')->row_array();
+            $data['contractors'] = $this->db->select('count(*) as total_contractors')->get('contractors')->row_array();
+            $data['quantity'] = $this->db->select('sum(Material_Total_Quantity) as sum_qty')->get('inventory')->row_array();
+            $data['price'] = $this->db->select('sum(Material_Total_Price) as sum_price')->get('inventory')->row_array();
+            $this->load->view('Admin/admin', $data);
         } else {
             $this->load->view('Admin/login');
         }
