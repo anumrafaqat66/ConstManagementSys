@@ -1,4 +1,4 @@
-<li class="nav-item dropdown no-arrow mx-1">
+
     <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
@@ -13,7 +13,7 @@
         </h6>
         <?php if (count($notification_data) > 0) { ?>
             <?php foreach ($notification_data as $data) { ?>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a class="dropdown-item d-flex align-items-center" href="#" >
                     <div class="mr-3">
                         <div class="icon-circle bg-primary">
                             <i class="fas fa-file-alt text-white"></i>
@@ -25,7 +25,8 @@
                     </div>
                 </a>
             <?php }
-        } else { ?>
+        }
+         else { ?>
             <div>
                 <div style="padding:10px">
                     <b>No New Notifications </b>
@@ -34,4 +35,3 @@
         <?php } ?>
         <a class="dropdown-item text-center small text-gray-500" href="#">Show All Notifications </a>
     </div>
-</li>

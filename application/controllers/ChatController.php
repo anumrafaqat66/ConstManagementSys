@@ -140,6 +140,39 @@ class ChatController extends CI_Controller
 		
 	}
 
+	public function activity_seen(){
+
+
+		$this->db->select('activity_log.*,activity_log_seen.*');
+		$this->db->from('activity_log');
+		$this->db->JOIN('activity_log_seen', 'activity_log.id = activity_log_seen.activity_id');
+		$this->db->where('activity_log.activity_by !=', $this->session->userdata('username'));
+		$this->db->where('activity_log_seen.seen', 'no');
+		$this->db->where('activity_log_seen.user_id', $this->session->userdata('user_id'));
+		$this->db->group_by('activity_log_seen.activity_id');
+		$notification = $this->db->get()->result_array();
+
+		//print_r($notification);exit;
+		for($i=0;$i<count($notification);$i++){		
+	   $this->db->set('seen', 'yes');
+	   $this->db->where('user_id', $this->session->userdata('user_id'));
+		$this->db->where('activity_id', $notification[$i]['activity_id']);
+		$this->db->update('activity_log_seen');
+}
+		$this->db->select('activity_log.*,activity_log_seen.*');
+		$this->db->from('activity_log');
+		$this->db->JOIN('activity_log_seen', 'activity_log.id = activity_log_seen.activity_id');
+		$this->db->where('activity_log.activity_by !=', $this->session->userdata('username'));
+		$this->db->where('activity_log_seen.seen', 'no');
+		$this->db->where('activity_log_seen.user_id', $this->session->userdata('user_id'));
+		//$this->db->group_by('activity_id');
+		$data['notification_data'] = $this->db->get()->result_array();
+		//print_r($data['notification_data']);exit;
+		$view_array = $this->load->view('notification_ajax1', $data, TRUE);
+		echo $view_array;
+		json_encode($view_array);
+	}
+
 
 	public function check_notification()
 	{

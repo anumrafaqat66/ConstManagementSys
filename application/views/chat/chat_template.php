@@ -265,6 +265,18 @@
     });
   }
 
+
+$('#notifications').click(function(){
+  alert('notification clicked');
+    $.ajax({
+      url: '<?= base_url(); ?>ChatController/activity_seen',
+      success: function(data) {
+        $('#notifications').html(data);
+      },
+      async: true
+    });
+});
+
   // setInterval(function() {
   //   exampleFunction(receiver_id);
   // }, 3000);

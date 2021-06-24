@@ -20,6 +20,7 @@ class Project_Officer extends CI_Controller
 
             if ($acct_type == "PO" || $acct_type == "admin") {
                 $this->load->view('project_officer/dashboard');
+                
             } else {
                 $this->load->view('login');
             }
@@ -213,7 +214,7 @@ class Project_Officer extends CI_Controller
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
-                    'activity_detail' => "Contractor named " . $contractor_name . " has been added",
+                    'activity_detail' => "Contractor named " . $contractor_name . "  has been added",
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s')
                 );
