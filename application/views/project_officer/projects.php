@@ -315,6 +315,10 @@
                                                      <input type="text" class="form-control form-control-user" name="project_id_edit" id="project_id_edit">
                                                  </div>
 
+                                                 <div class="col-sm-3 mb-1" style="display:none">
+                                                     <input type="text" class="form-control form-control-user" name="project_name" id="project_name">
+                                                 </div>
+
                                                  <div class="col-sm-4 mb-1">
                                                      <input type="date" class="form-control form-control-user" name="project_start_date_edit" id="project_start_date_edit" placeholder="Start Date">
                                                  </div>
@@ -362,6 +366,10 @@
                                                  <div class="col-sm-4 mb-1">
                                                      <input type="number" class="form-control form-control-user" name="total_cost_edit" id="total_cost_edit" placeholder="Total Cost">
                                                      <!--  <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span> -->
+                                                 </div>
+
+                                                 <div class="col-sm-4 mb-1" style="display:none">
+                                                     <input type="text" class="form-control form-control-user" name="created_by" id="created_by" placeholder="Created By." value="<?= $this->session->userdata('username'); ?>" readonly="true">
                                                  </div>
 
                                                  <div class="col-sm-4 mb-1">
@@ -487,6 +495,7 @@
          var $columns = $(this).find('td');
 
          $('#project_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
+         $('#project_name').val($columns[1].innerHTML);
          $('#project_id_edit').val($columns[0].innerHTML);
          $('#project_start_date_edit').val($columns[2].innerHTML);
          $('#project_end_date_edit').val($columns[3].innerHTML);

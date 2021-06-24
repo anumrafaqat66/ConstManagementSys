@@ -135,6 +135,10 @@
                                                      <h6>&nbsp;Name:</h6>
                                                  </div>
 
+                                                 <div class="col-sm-3 mb-1" style="display:none">
+                                                     <input type="text" class="form-control form-control-user" name="contractor_name" id="contractor_name" placeholder="Contactor Name">
+                                                 </div>
+
                                                  <div class="col-sm-4">
                                                      <h6>&nbsp;Contact No:</h6>
                                                  </div>
@@ -512,14 +516,13 @@
          }
      });
 
-
      $('#table_rows_cont').find('tr').click(function(e) {
          var $columns = $(this).find('td');
 
          $('#contractor_name_edit').val($columns[1].innerHTML);
          $('#contractor_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
          $('#id_edit').val($columns[0].innerHTML);
-
+         $('#contractor_name').innerHTML($columns[1].innerHTML);
 
          if ((e.target.id.substr(0, 16) == "assigned_project") || (e.target.id.substr(0, 17) == "completed_project")) {
 

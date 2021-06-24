@@ -40,7 +40,7 @@ class SO_CW extends CI_Controller
             $this->db->from('project_progress pp');
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
-            $this->db->where('pp.project_id',$project_id);
+            $this->db->where('pp.project_id', $project_id);
 
             // $data['project_progress'] = $this->db->where('project_id', $project_id)->get('project_progress')->result_array();
             $data['project_progress'] = $this->db->get()->result_array();
@@ -55,15 +55,68 @@ class SO_CW extends CI_Controller
         $id = $_POST['id'];
         $this->db->where('ID', $id);
         $success = $this->db->delete('project_schedule');
+
+        //Activity Logging
+        if (!empty($id)) {
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'delete',
+                'activity_detail' => $this->session->userdata('username') . " deleted a project schedule",
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            $query = $this->db->get('security_info')->result_array();
+            // print_r($query);exit;
+            // $user_count= $query->num_rows();
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+        }
+
         echo $success;
     }
-
 
     public function delete_progress()
     {
         $id = $_POST['id'];
         $this->db->where('ID', $id);
         $success = $this->db->delete('project_progress');
+
+        //Activity Logging
+        if (!empty($id)) {
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'delete',
+                'activity_detail' => $this->session->userdata('username') . " deleted a project progress",
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            $query = $this->db->get('security_info')->result_array();
+            // print_r($query);exit;
+            // $user_count= $query->num_rows();
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+        }
+
         echo $success;
     }
 
@@ -84,7 +137,7 @@ class SO_CW extends CI_Controller
     {
         $project_id = isset($_POST['project_id']) ? $_POST['project_id'] : "";
         $eventArray = array();
-        $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->where('project_id',$project_id)->get('project_schedule')->result_array();
+        $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->where('project_id', $project_id)->get('project_schedule')->result_array();
         //print_r($eventArray);
         echo json_encode($eventArray);
     }
@@ -122,6 +175,32 @@ class SO_CW extends CI_Controller
                 'Status' => 'Created'
             );
             $insert = $this->db->insert('project_progress', $insert_array_progress);
+
+            // Activity Logging
+            if (!empty($id)) {
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'add',
+                    'activity_detail' => $this->session->userdata('username') . " added a new schedule",
+                    'activity_by' => $this->session->userdata('username'),
+                    'activity_date' => date('Y-m-d H:i:s')
+                );
+
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                $query = $this->db->get('security_info')->result_array();
+                // print_r($query);exit;
+                // $user_count= $query->num_rows();
+
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+            }
         }
     }
 
@@ -181,6 +260,34 @@ class SO_CW extends CI_Controller
 
             $insert = $this->db->insert('project_progress', $insert_array);
 
+            $projectdata = $this->db->where('ID',$project_id)->get('projects')->row_array();
+
+             //Activity Logging
+             if (!empty($id)) {
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'add',
+                    'activity_detail' => $this->session->userdata('username') . " updated progress of project ". $projectdata['Name'],
+                    'activity_by' => $this->session->userdata('username'),
+                    'activity_date' => date('Y-m-d H:i:s')
+                );
+
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                $query = $this->db->get('security_info')->result_array();
+                // print_r($query);exit;
+                // $user_count= $query->num_rows();
+
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+            }
+
             if (!empty($insert)) {
                 $this->session->set_flashdata('success', 'Project progress added successfully');
                 redirect('SO_CW/view_project_progress/' . $project_id);
@@ -206,7 +313,6 @@ class SO_CW extends CI_Controller
             $end_date = $postData['end_date'];
             $desc = $postData['desc'];
 
-
             $cond  = [
                 'id' => $schedule_id,
                 'project_id' => $project_id
@@ -221,6 +327,32 @@ class SO_CW extends CI_Controller
 
             $this->db->where($cond);
             $update = $this->db->update('project_schedule', $data_update);
+
+             //Activity Logging
+             if (!empty($id)) {
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'update',
+                    'activity_detail' => $this->session->userdata('username') . " updated a schedule: ". $schedule_name,
+                    'activity_by' => $this->session->userdata('username'),
+                    'activity_date' => date('Y-m-d H:i:s')
+                );
+
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                $query = $this->db->get('security_info')->result_array();
+                // print_r($query);exit;
+                // $user_count= $query->num_rows();
+
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+            }
 
             if (!empty($update)) {
                 $this->session->set_flashdata('success', 'Schedule updated successfully');
@@ -242,8 +374,6 @@ class SO_CW extends CI_Controller
             $progress_id = $postData['progress_id_update'];
             $progress_percentage = $postData['progress_percentage_update'];
             $desc = $postData['desc_update'];
-            
-
 
             $cond  = [
                 'id' => $progress_id,
@@ -257,6 +387,34 @@ class SO_CW extends CI_Controller
 
             $this->db->where($cond);
             $update = $this->db->update('project_progress', $data_update);
+
+            $projectdata = $this->db->where('ID',$project_id)->get('projects')->row_array();
+
+            //Activity Logging
+            if (!empty($id)) {
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'add',
+                    'activity_detail' => $this->session->userdata('username') . " updated progress of project ". $projectdata['Name'],
+                    'activity_by' => $this->session->userdata('username'),
+                    'activity_date' => date('Y-m-d H:i:s')
+                );
+
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                $query = $this->db->get('security_info')->result_array();
+                // print_r($query);exit;
+                // $user_count= $query->num_rows();
+
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+            }
 
             if (!empty($update)) {
                 $this->session->set_flashdata('success', 'Progress updated successfully');

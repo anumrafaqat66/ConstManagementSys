@@ -56,8 +56,9 @@ $route['send-message'] = 'ChatController/send_text_message';
 $route['chat-attachment/upload'] = 'ChatController/send_text_message';
 $route['get-chat-history-vendor'] = 'ChatController/get_chat_history_by_vendor';
 $route['update-notification'] = 'ChatController/update_notification';
-$route['update-notifications'] = 'ChatController/update_notifications';
+$route['update-activity'] = 'ChatController/update_activity';
 $route['check-notification'] = 'ChatController/check_notification';
+$route['check-activity'] = 'ChatController/check_activity';
 $route['chat-clear'] = 'ChatController/chat_clear_client_cs';
 
 

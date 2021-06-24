@@ -412,7 +412,6 @@
  </script>
 
  <script type="text/javascript">
-  
      function seen(data) {
          // alert('in');
          // alert(data);

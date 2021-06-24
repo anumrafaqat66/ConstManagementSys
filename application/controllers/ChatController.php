@@ -20,8 +20,8 @@ class ChatController extends CI_Controller
 		$data['chatTitle'] = 'Select Client with Chat';
 		$data['list_count'] = count($data['list']);
 		$data['whole_list'] = $this->ClientsList();
-		$data['selectedSender'] =$input_params['sender_id'];
-		$data['user_name'] = $this->db->where('id',$input_params['sender_id'])->get('security_info')->row_array();	
+		$data['selectedSender'] = $input_params['sender_id'];
+		$data['user_name'] = $this->db->where('id', $input_params['sender_id'])->get('security_info')->row_array();
 		//Fupdateprint_r($data['whole_list']);exit;
 		$this->load->view('chat/chat_template', $data);
 	}
@@ -108,33 +108,36 @@ class ChatController extends CI_Controller
 			}
 		}
 	}
-  public function update_notifications()
-    {
-        $name = $this->session->userdata('username');
-       
-         $this->db->select('activity_log.*,activity_log_seen.*');
-         $this->db->from('activity_log');
-         $this->db->JOIN('activity_log_seen','activity_log.id = activity_log_seen.activity_id');
-         $this->db->where('activity_log.activity_by !=', $name);
-         $this->db->where('activity_log_seen.seen', 'no');
-         $this->db->group_by('activity_id');
-          $data['notification_data'] =$this->db->get()->result_array();
-        //print_r($chat_data);
-        $view_array = $this->load->view('notification_ajax1', $data, TRUE);
-        echo $view_array;
-        json_encode($view_array);
-    }
-    	public function check_notifications()
+	public function update_activity()
 	{
-		 $this->db->select('activity_log.*,activity_log_seen.*');
-         $this->db->from('activity_log');
-         $this->db->JOIN('activity_log_seen','activity_log.id = activity_log_seen.activity_id');
-         $this->db->where('activity_log.activity_by !=', $name);
-         $this->db->where('activity_log_seen.seen', 'no');
-         $this->db->group_by('activity_id');
-          $data['notification_data'] =$this->db->get()->result_array();
+		$name = $this->session->userdata('username');
+
+		$this->db->select('activity_log.*,activity_log_seen.*');
+		$this->db->from('activity_log');
+		$this->db->JOIN('activity_log_seen', 'activity_log.id = activity_log_seen.activity_id');
+		$this->db->where('activity_log.activity_by !=', $name);
+		$this->db->where('activity_log_seen.seen', 'no');
+		$this->db->group_by('activity_id');
+		$data['notification_data'] = $this->db->get()->result_array();
+		
+		$view_array = $this->load->view('notification_ajax1', $data, TRUE);
+		echo $view_array;
+		json_encode($view_array);
+	}
+
+	public function check_activity()
+	{
+		$name = $this->session->userdata('username');
+		
+		$this->db->select('activity_log.*,activity_log_seen.*');
+		$this->db->from('activity_log');
+		$this->db->JOIN('activity_log_seen', 'activity_log.id = activity_log_seen.activity_id');
+		$this->db->where('activity_log.activity_by !=', $name);
+		$this->db->where('activity_log_seen.seen', 'no');
+		$this->db->group_by('activity_id');
+		$data['notification_data'] = $this->db->get()->result_array();
 		echo count($data['notification_data']);
-		// json_encode($view_array);
+		
 	}
 
 
@@ -156,7 +159,7 @@ class ChatController extends CI_Controller
 		//print_r($chat_data);
 		$view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
 		echo $view_array;
-		json_encode($view_array);				
+		json_encode($view_array);
 	}
 
 	public function get_chat_history_by_vendor()

@@ -6,7 +6,7 @@ $(function () {
 		}
 	});
 
-	
+
 	$('.btnSend').click(function () {
 		// alert('sendmessage*****');
 		sendTxtMessage($('.message').val());
@@ -16,7 +16,7 @@ $(function () {
 	$('.selectVendor').click(function () {
 		// console.log('i am clicked selectVendor');
 		ChatSection(1);
-		
+
 		var receiver_id = $(this).attr('id');
 		// console.log(receiver_id);
 		$('#ReciverId_txt').val(receiver_id);
@@ -183,22 +183,21 @@ function exampleFunction(user_id) {
 		},
 		success: function (data) {
 			// alert($('#notification').html());
-
 			$('#notification').html(data);
 		},
 		async: true
 	});
 }
 
-function updatenotifications(user_id) {
+function update_activity() {
 	// alert('HIii');
 	$.ajax({
-		url: 'update-notifications',
+		url: 'update-activity',
 		method: 'POST',
 		datatype: 'json',
 		//data: {
-			//'id': '<?php echo $this->session->userdata('user_id'); ?>'
-			//'id': user_id
+		//'id': '<?php echo $this->session->userdata('user_id'); ?>'
+		//'id': user_id
 		//},
 		success: function (data) {
 			// alert($('#notification').html());
@@ -208,7 +207,6 @@ function updatenotifications(user_id) {
 		async: true
 	});
 }
-
 
 
 var result = null;
@@ -221,43 +219,51 @@ function check_notification(user_id) {
 			'id': user_id
 		},
 		success: function (data) {
-			result =  data;
+			result = data;
 		},
 		async: false
 	});
 }
-function check_notifications(){
+
+var result_activity = null;
+function check_activity() {
 	$.ajax({
-		url: 'check-notification',
+		url: 'check-activity',
 		method: 'POST',
 		datatype: 'json',
 		//data: {
 		//	'id': user_id
 		//},
 		success: function (data) {
-			result1 =  data;
+			result_activity = data;
 		},
 		async: false
 	});
 }
-	
+
 
 setInterval(function () {
 	var user_id = $('#user_id').html();
 	// alert($('#badge_count').html());
 	if ($('#badge_count').html() == undefined) {
-		
+
 		check_notification(user_id);
-		check_notifications();
-		
+
 		if (result != 0) {
-			exampleFunction(user_id);
-			
+			// exampleFunction(user_id);
 		}
+	}
+}, 3000);
+
+setInterval(function () {
+	// var user_id = $('#user_id').html();
+	// alert($('#badge_count').html());
+	if ($('#badge_count_activity').html() == undefined) {
+
+		check_activity();
 		
-		if (result1 != 0) {
-			updatenotifications();
-			
+		if (result_activity != 0) {
+			update_activity();
 		}
 	}
 }, 3000);

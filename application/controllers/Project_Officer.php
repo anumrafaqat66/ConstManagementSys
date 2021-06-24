@@ -210,28 +210,28 @@ class Project_Officer extends CI_Controller
 
             if (!empty($insert)) {
 
-                 $insert_activity = array(
-                'activity_module' => $this->session->userdata('acct_type'),
-                'activity_action' => 'add',
-                'activity_detail' => "Contractor named " . $contractor_name . " has been added",
-                'activity_by' => $this->session->userdata('username'),
-                'activity_date' => date('Y-m-d H:i:s')
-            );
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'add',
+                    'activity_detail' => "Contractor named " . $contractor_name . " has been added",
+                    'activity_by' => $this->session->userdata('username'),
+                    'activity_date' => date('Y-m-d H:i:s')
+                );
 
-            $insert = $this->db->insert('activity_log', $insert_activity);
-            $last_id=$this->db->insert_id();
-            $query = $this->db->get('security_info')->result_array();
-           // print_r($query);exit;
-           // $user_count= $query->num_rows();
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                $query = $this->db->get('security_info')->result_array();
+                // print_r($query);exit;
+                // $user_count= $query->num_rows();
 
-            for($i=0;$i<count($query);$i++){
-                 $insert_activity_seen = array(
-                'activity_id' => $last_id,
-                'user_id' => $query[$i]['id'],
-                'seen' => 'no'
-            );
-            $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
-            }
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
 
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
                 redirect('Project_Officer/add_contractors');
@@ -287,58 +287,61 @@ class Project_Officer extends CI_Controller
         $this->db->where($cond);
         $this->db->update('projects', $data_update);
 
+        $created_by = $_POST['created_by'];
+        $name = $_POST['project_name'];
+
         if (!empty($id)) {
 
-              $insert_activity = array(
+            $insert_activity = array(
                 'activity_module' => $this->session->userdata('acct_type'),
                 'activity_action' => 'update',
-                'activity_detail' => $created_by . " has updated a project named " . $name,
+                'activity_detail' => "'".$created_by . "' has made updated a project named: " . $name,
                 'activity_by' => $created_by,
                 'activity_date' => date('Y-m-d')
             );
 
             $insert = $this->db->insert('activity_log', $insert_activity);
-            $last_id=$this->db->insert_id();
+            $last_id = $this->db->insert_id();
             $query = $this->db->get('security_info')->result_array();
-           // print_r($query);exit;
-           // $user_count= $query->num_rows();
+            // print_r($query);exit;
+            // $user_count= $query->num_rows();
 
-            for($i=0;$i<count($query);$i++){
-                 $insert_activity_seen = array(
-                'activity_id' => $last_id,
-                'user_id' => $query[$i]['id'],
-                'seen' => 'no'
-            );
-            $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
 
             $this->session->set_flashdata('success', 'Record Updated successfully');
             redirect('Project_Officer/add_projects');
-        }
+
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
         }
     }
-     public function edit_contractor()
+    public function edit_contractor()
     {
         $id =  $_POST['id_edit'];
         $contact_edit = $_POST['contact_edit'];
         $email_edit = $_POST['email_edit'];
         $reg_date_edit = $_POST['reg_date_edit'];
+        $contractor_name = $_POST['contractor_name'];
 
         $cond  = ['ID' => $id];
         $data_update = [
             'Contact_no' => $contact_edit,
             'Email_id' => $email_edit,
             'Start_date' => $reg_date_edit,
-            
         ];
 
         $this->db->where($cond);
         $this->db->update('contractors', $data_update);
 
         if (!empty($id)) {
-
-               $insert_activity = array(
+            $insert_activity = array(
                 'activity_module' => $this->session->userdata('acct_type'),
                 'activity_action' => 'update',
                 'activity_detail' => "Contractor named " . $contractor_name . " has been updated",
@@ -347,22 +350,22 @@ class Project_Officer extends CI_Controller
             );
 
             $insert = $this->db->insert('activity_log', $insert_activity);
-            $last_id=$this->db->insert_id();
+            $last_id = $this->db->insert_id();
             $query = $this->db->get('security_info')->result_array();
-           // print_r($query);exit;
-           // $user_count= $query->num_rows();
+            // print_r($query);exit;
+            // $user_count= $query->num_rows();
 
-            for($i=0;$i<count($query);$i++){
-                 $insert_activity_seen = array(
-                'activity_id' => $last_id,
-                'user_id' => $query[$i]['id'],
-                'seen' => 'no'
-            );
-            $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
             $this->session->set_flashdata('success', 'Record Updated successfully');
             redirect('Project_Officer/add_projects');
-        }else {
+        } else {
             $this->session->set_flashdata('failure', 'Something went delete, try again.');
         }
     }
@@ -404,30 +407,30 @@ class Project_Officer extends CI_Controller
             //$last_id = $this->db->insert_id();
 
             if (!empty($insert)) {
-        
-         //Add to activity log
-            $insert_activity = array(
-                'activity_module' => $this->session->userdata('acct_type'),
-                'activity_action' => 'add',
-                'activity_detail' => $created_by . " has added a project named " . $name,
-                'activity_by' => $created_by,
-                'activity_date' => date('Y-m-d H:i:s')
-            );
 
-            $insert = $this->db->insert('activity_log', $insert_activity);
-            $last_id=$this->db->insert_id();
-            $query = $this->db->get('security_info')->result_array();
-           // print_r($query);exit;
-           // $user_count= $query->num_rows();
+                //Add to activity log
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'add',
+                    'activity_detail' => $created_by . " has added a project named " . $name,
+                    'activity_by' => $created_by,
+                    'activity_date' => date('Y-m-d H:i:s')
+                );
 
-            for($i=0;$i<count($query);$i++){
-                 $insert_activity_seen = array(
-                'activity_id' => $last_id,
-                'user_id' => $query[$i]['id'],
-                'seen' => 'no'
-            );
-            $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
-            }
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                $query = $this->db->get('security_info')->result_array();
+                // print_r($query);exit;
+                // $user_count= $query->num_rows();
+
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
                 redirect('Project_Officer/add_projects');
             } else {
