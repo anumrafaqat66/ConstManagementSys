@@ -852,7 +852,6 @@
  </script>
  <script type="text/javascript">
     
-
      function seen(data) {
          // var receiver_id=$(this).attr('id');
          $.ajax({
@@ -863,6 +862,21 @@
              },
              success: function(data) {
                  $('#notification').html(data);
+             },
+             async: true
+         });
+     }
+
+     function activity_seen() {
+         // var receiver_id=$(this).attr('id');
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/activity_seen',
+             method: 'POST',
+            //  data: {
+            //      'id': data
+            //  },
+             success: function(data) {
+                //  $('#notification').html(data);
              },
              async: true
          });
