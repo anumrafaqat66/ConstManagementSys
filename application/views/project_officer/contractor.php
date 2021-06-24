@@ -367,6 +367,8 @@
 
 
  <?php $this->load->view('common/footer'); ?>
+<script src="<?= base_url('assets/js/chat/chat.js'); ?>"></script>
+
  <script>
      window.onload = function() {
          $.ajax({

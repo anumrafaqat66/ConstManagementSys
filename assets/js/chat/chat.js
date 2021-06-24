@@ -190,6 +190,26 @@ function exampleFunction(user_id) {
 	});
 }
 
+function updatenotifications(user_id) {
+	// alert('HIii');
+	$.ajax({
+		url: 'update-notifications',
+		method: 'POST',
+		datatype: 'json',
+		//data: {
+			//'id': '<?php echo $this->session->userdata('user_id'); ?>'
+			//'id': user_id
+		//},
+		success: function (data) {
+			// alert($('#notification').html());
+
+			$('#notifications').html(data);
+		},
+		async: true
+	});
+}
+
+
 
 var result = null;
 function check_notification(user_id) {
@@ -206,12 +226,21 @@ function check_notification(user_id) {
 		async: false
 	});
 }
-
-
-setInterval(function () {
-	var receiver_id = $('#ReciverId_txt').val();
-	if (receiver_id != '') { GetChatHistory(receiver_id); }
-}, 3000);
+function check_notifications(){
+	$.ajax({
+		url: 'check-notification',
+		method: 'POST',
+		datatype: 'json',
+		//data: {
+		//	'id': user_id
+		//},
+		success: function (data) {
+			result1 =  data;
+		},
+		async: false
+	});
+}
+	
 
 setInterval(function () {
 	var user_id = $('#user_id').html();
@@ -219,10 +248,18 @@ setInterval(function () {
 	if ($('#badge_count').html() == undefined) {
 		
 		check_notification(user_id);
+		check_notifications();
 		
 		if (result != 0) {
 			exampleFunction(user_id);
+			
 		}
 		
+		if (result1 != 0) {
+			updatenotifications();
+			
+		}
 	}
 }, 3000);
+
+

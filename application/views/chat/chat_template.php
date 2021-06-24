@@ -245,6 +245,7 @@
     // alert(selected);
     if (selected != 0) {
       GetChatHistory(selected);
+      $('#chatSection :input').removeAttr('disabled');
       // $('#ReciverId_txt').val(selected);
       // $('#ReciverName_txt').html($(this).attr('title'));
     }
