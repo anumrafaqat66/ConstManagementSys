@@ -68,9 +68,7 @@ class SO_CW extends CI_Controller
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->get('security_info')->result_array();
-            // print_r($query);exit;
-            // $user_count= $query->num_rows();
+            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
@@ -103,9 +101,7 @@ class SO_CW extends CI_Controller
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->get('security_info')->result_array();
-            // print_r($query);exit;
-            // $user_count= $query->num_rows();
+            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
@@ -177,7 +173,7 @@ class SO_CW extends CI_Controller
             $insert = $this->db->insert('project_progress', $insert_array_progress);
 
             // Activity Logging
-            if (!empty($id)) {
+            if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
@@ -188,9 +184,7 @@ class SO_CW extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->get('security_info')->result_array();
-                // print_r($query);exit;
-                // $user_count= $query->num_rows();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -263,7 +257,7 @@ class SO_CW extends CI_Controller
             $projectdata = $this->db->where('ID',$project_id)->get('projects')->row_array();
 
              //Activity Logging
-             if (!empty($id)) {
+             if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
@@ -274,9 +268,7 @@ class SO_CW extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->get('security_info')->result_array();
-                // print_r($query);exit;
-                // $user_count= $query->num_rows();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -329,7 +321,7 @@ class SO_CW extends CI_Controller
             $update = $this->db->update('project_schedule', $data_update);
 
              //Activity Logging
-             if (!empty($id)) {
+             if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'update',
@@ -340,9 +332,7 @@ class SO_CW extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->get('security_info')->result_array();
-                // print_r($query);exit;
-                // $user_count= $query->num_rows();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -391,7 +381,7 @@ class SO_CW extends CI_Controller
             $projectdata = $this->db->where('ID',$project_id)->get('projects')->row_array();
 
             //Activity Logging
-            if (!empty($id)) {
+            if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
@@ -402,9 +392,7 @@ class SO_CW extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->get('security_info')->result_array();
-                // print_r($query);exit;
-                // $user_count= $query->num_rows();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(

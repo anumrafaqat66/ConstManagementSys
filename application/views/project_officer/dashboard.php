@@ -53,7 +53,7 @@
      //          method: 'POST',
      //          datatype: 'json',
      //          data: {
-     //  'id': '<?php echo $this->session->userdata('user_id'); ?>'
+     //         'id': '<?php echo $this->session->userdata('user_id'); ?>'
      //          },
      //          success: function(data) {
      //              $('#notification').html(data);

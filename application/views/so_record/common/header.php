@@ -40,23 +40,39 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'SO_RECORD') {
+                                                                        echo "SO_RECORD";
+                                                                    } ?>">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <!--     <div class="sidebar-heading">
-                Interface
+            <!-- <div class="sidebar-heading">
+                Features
             </div> -->
-
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url(); ?>Admin/add_users" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Create New User</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span> Menu Items </span>
+                    <!-- <span>Components</span> -->
                 </a>
-
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Features:</h6>
+                        <a class="collapse-item" href="<?php echo base_url(); ?>SO_STORE/add_inventory">Allotment Letter</a>
+                        <a class="collapse-item" href="<?php echo base_url(); ?>SO_STORE/view_projects">Bills</a>
+                        <a class="collapse-item" href="#">Edit Profile</a>
+                        <a class="collapse-item" href="#">Change Password</a>
+                    </div>
+                </div>
             </li>
+            <br><br><br>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <!-- <li class="nav-item">
@@ -146,19 +162,30 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <!--  <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <h1><i class="fab fa-500px"></i> <strong> CMS </strong></h1>
+                        <!-- <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
-                        </div>
-                    </form> -->
+                        </div> -->
+                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle text-dark-500" href="#"> Home </a>
+                        </li>
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#">Services </a>
+                        </li>
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#">About </a>
+                        </li>
+
                         <li class="nav-item dropdown no-arrow mx-1" id="notifications">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
@@ -166,16 +193,16 @@
                                 <span class="badge badge-danger badge-counter"></span>
                             </a>
                             <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown" id="xyz"> 
                                 <h6 class="dropdown-header">
-                                    Alerts Center
+                                    Notifications
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div style="padding:10px"><b>No New Notifications
-                                        </b></div>
+                                <div style="padding:10px">
+                                    <b>No New Notifications </b>
+                                </div>
                                 </a>
-
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Notifications </a>
                             </div>
                         </li>
 
@@ -201,7 +228,6 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
-                        <!-- Nav Item - Messages -->
 
 
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -209,21 +235,21 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-white small"><?php echo 'Admin'; ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-white small"><?php echo $this->session->userdata('username'); ?></span>
                                 <span id="user_id" style="display:none"><?php echo $this->session->userdata('user_id'); ?></span>
                                 <img class="img-profile rounded-circle" src="<?php echo base_url(); ?>assets/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <!-- <a class="dropdown-item" href="#">
+                                <!--     <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
-                                </a> -->
-                                <!-- <a class="dropdown-item" href="#">
+                                </a>
+                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
-                                </a> -->
-                                <!-- <a class="dropdown-item" href="#">
+                                </a>
+                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
                                 </a> -->

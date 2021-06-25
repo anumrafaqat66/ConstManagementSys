@@ -77,7 +77,7 @@
                       <input type="radio" value="SO_RECORD" name="optradio">
                       <div style="float:right; margin-left:5px;">SO Record</div>
                     </label>
-
+                    <div style="float:right; margin-left:20px;"></div>
                     <label class="custom-control radio-inline small">
                       <input type="radio" value="admin" name="optradio">
                       <div style="float:right; margin-left:5px;">Admin</div>

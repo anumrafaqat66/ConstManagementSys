@@ -2,7 +2,7 @@
 
  <style>
      .img {
-         background: url('<?= base_url() ?>assets/img/inventory-banner.jpg');
+         background: url('<?= base_url() ?>assets/img/record-banner.jpg');
          background-position: center;
          background-size: cover;
          height: 250px;
@@ -17,7 +17,7 @@
 
  <div class="container">
 
-     <h2 class="my-4">Welcome, SO Store!</h2>
+     <h2 class="my-4">Welcome, SO Record!</h2>
 
      <div class="col-md-12 img">
      </div>
@@ -26,14 +26,14 @@
 
          <div class="form-group row justify-content-center" style="margin-top:50px;">
              <div class="col-sm-6">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="location.href='<?php echo base_url(); ?>SO_STORE/add_inventory'">
-                 <h4 style="font-weight: bold;">Inventory</h4>
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_letter_lists'">
+                 <h4 style="font-weight: bold;">Allotment Letter</h4>
                  </button>
              </div>
 
              <div class="col-sm-6">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_STORE/view_projects'">
-                 <h4 style="font-weight: bold;">Material Used by Project</h4>
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_bills'">
+                 <h4 style="font-weight: bold;">Billing Section</h4>
                  </button>
              </div>
 

@@ -19,7 +19,7 @@
                         <div class="col mr-2">
                             <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
                                 Projects</div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Projects: <?= $projects['total_project']?></div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Projects: <?= $projects['total_project'] ?></div>
                         </div>
                         <div class="col-auto">
                             <!-- <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
@@ -38,7 +38,7 @@
                         <div class="col mr-2">
                             <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
                                 Contractors</div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Contractors: <?= $contractors['total_contractors']?></div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Contractors: <?= $contractors['total_contractors'] ?></div>
                         </div>
                         <div class="col-auto">
                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -108,8 +108,8 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
-                                Running Bids</div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">Active Bids: 45</div>
+                                Finance Department</div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Bills: 45</div>
                         </div>
                         <div class="col-auto">
                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -131,34 +131,31 @@
 
 <?php $this->load->view('common/footer'); ?>
 <script>
+    function seen(data) {
+        // alert('in');
+        // alert(data);
+        // var receiver_id=$(this).attr('id');
+        $.ajax({
+            url: '<?= base_url(); ?>ChatController/seen',
+            method: 'POST',
+            data: {
+                'id': data
+            },
+            success: function(data) {
+                $('#notification').html(data);
+            },
+            async: true
+        });
+    }
 
-     function seen(data) {
-         // alert('in');
-         // alert(data);
-         // var receiver_id=$(this).attr('id');
-         $.ajax({
-             url: '<?= base_url(); ?>ChatController/seen',
-             method: 'POST',
-             data: {
-                 'id': data
-             },
-             success: function(data) {
-                 $('#notification').html(data);
-             },
-             async: true
-         });
-     }
-
-     $('#notifications').focusout(function(){
- // alert('notification clicked');
-    $.ajax({
-      url: '<?= base_url(); ?>ChatController/activity_seen',
-      success: function(data) {
-        $('#notifications').html(data);
-      },
-      async: true
+    $('#notifications').focusout(function() {
+        // alert('notification clicked');
+        $.ajax({
+            url: '<?= base_url(); ?>ChatController/activity_seen',
+            success: function(data) {
+                $('#notifications').html(data);
+            },
+            async: true
+        });
     });
-});
-
-
-    </script>
+</script>

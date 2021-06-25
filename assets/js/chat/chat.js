@@ -172,17 +172,14 @@ function GetChatHistory(receiver_id) {
 }
 
 function exampleFunction(user_id) {
-	// alert('HIii');
 	$.ajax({
 		url: 'update-notification',
 		method: 'POST',
 		datatype: 'json',
 		data: {
-			// 'id': <?php echo $this->session->userdata('user_id'); ?>
 			'id': user_id
 		},
 		success: function (data) {
-			// alert($('#notification').html());
 			$('#notification').html(data);
 		},
 		async: true
@@ -190,18 +187,13 @@ function exampleFunction(user_id) {
 }
 
 function update_activity() {
-	// alert('HIii');
+	
 	$.ajax({
 		url: 'update-activity',
 		method: 'POST',
 		datatype: 'json',
-		//data: {
-		//'id': '<?php echo $this->session->userdata('user_id'); ?>'
-		//'id': user_id
-		//},
+		
 		success: function (data) {
-			// alert($('#notification').html());
-
 			$('#notifications').html(data);
 		},
 		async: true
@@ -244,7 +236,6 @@ function check_activity() {
 
 setInterval(function () {
 	var user_id = $('#user_id').html();
-	// alert($('#badge_count').html());
 	if ($('#badge_count').html() == undefined) {
 
 		check_notification(user_id);
@@ -256,8 +247,6 @@ setInterval(function () {
 }, 3000);
 
 setInterval(function () {
-	// var user_id = $('#user_id').html();
-	// alert($('#badge_count').html());
 	if ($('#badge_count_activity').html() == undefined) {
 
 		check_activity();

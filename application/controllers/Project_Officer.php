@@ -20,7 +20,6 @@ class Project_Officer extends CI_Controller
 
             if ($acct_type == "PO" || $acct_type == "admin") {
                 $this->load->view('project_officer/dashboard');
-                
             } else {
                 $this->load->view('login');
             }
@@ -221,10 +220,8 @@ class Project_Officer extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->get('security_info')->result_array();
-                // print_r($query);exit;
-                // $user_count= $query->num_rows();
-
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
                         'activity_id' => $last_id,
@@ -296,14 +293,14 @@ class Project_Officer extends CI_Controller
             $insert_activity = array(
                 'activity_module' => $this->session->userdata('acct_type'),
                 'activity_action' => 'update',
-                'activity_detail' => "'".$created_by . "' has made updated a project named: " . $name,
+                'activity_detail' => "'" . $created_by . "' has made updated a project named: " . $name,
                 'activity_by' => $created_by,
                 'activity_date' => date('Y-m-d H:i:s')
             );
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->get('security_info')->result_array();
+            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
             // print_r($query);exit;
             // $user_count= $query->num_rows();
 
@@ -318,7 +315,6 @@ class Project_Officer extends CI_Controller
 
             $this->session->set_flashdata('success', 'Record Updated successfully');
             redirect('Project_Officer/add_projects');
-
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
         }
@@ -352,7 +348,7 @@ class Project_Officer extends CI_Controller
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->get('security_info')->result_array();
+            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
             // print_r($query);exit;
             // $user_count= $query->num_rows();
 
@@ -420,9 +416,7 @@ class Project_Officer extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->get('security_info')->result_array();
-                // print_r($query);exit;
-                // $user_count= $query->num_rows();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(

@@ -18,6 +18,8 @@ class User_Login extends CI_Controller
 				redirect('Project_Officer');
 			} elseif ($acct_type == "SO_CW") {
 				redirect('SO_CW');
+			} elseif ($acct_type == "SO_RECORD") {
+				redirect('SO_RECORD');
 			}
 			elseif($acct_type == "admin"){
 				redirect('Admin');
