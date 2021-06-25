@@ -13,7 +13,7 @@
     </h6>
     <?php if (count($notification_data) > 0) { ?>
         <?php foreach ($notification_data as $data) { ?>
-            <a class="dropdown-item d-flex align-items-center" onclick="activity_seen()" href="#">
+            <a class="dropdown-item d-flex align-items-center"  href="#">
                 <div class="mr-3">
                     <div class="icon-circle bg-primary">
                         <i class="fas fa-file-alt text-white"></i>

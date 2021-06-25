@@ -76,4 +76,15 @@
              async: true
          });
      }
+     $('#notifications').focusout(function(){
+ // alert('notification clicked');
+    $.ajax({
+      url: '<?= base_url(); ?>ChatController/activity_seen',
+      success: function(data) {
+        $('#notifications').html(data);
+      },
+      async: true
+    });
+});
+
  </script>

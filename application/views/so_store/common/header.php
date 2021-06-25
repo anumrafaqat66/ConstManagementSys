@@ -193,7 +193,7 @@
                                 <span class="badge badge-danger badge-counter"></span>
                             </a>
                             <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown"> -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown" id="xyz"> 
                                 <h6 class="dropdown-header">
                                     Notifications
                                 </h6>
@@ -202,8 +202,6 @@
                                     <b>No New Notifications </b>
                                 </div>
                                 </a>
-
-
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Notifications </a>
                             </div>
                         </li>

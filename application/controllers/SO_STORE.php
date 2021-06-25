@@ -103,6 +103,30 @@ class SO_STORE extends CI_Controller
             $insert_detail = $this->db->insert('inventory_detail', $insert_array_detail);
 
             if (!empty($insert) && !empty($insert_detail)) {
+
+                     $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'add',
+                'activity_detail' => "An inventory has been added by " . $this->session->userdata('username'),
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            $query = $this->db->get('security_info')->result_array();
+            // print_r($query);exit;
+            // $user_count= $query->num_rows();
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
                 redirect('SO_STORE/add_inventory');
             } else {
@@ -143,6 +167,31 @@ class SO_STORE extends CI_Controller
             $this->update_inventory($material_id, -$quantity, -$price);
 
             if (!empty($insert)) {
+
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'add',
+                'activity_detail' => "A material has been added by " . $this->session->userdata('username') ."in ".$name,
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            $query = $this->db->get('security_info')->result_array();
+            // print_r($query);exit;
+            // $user_count= $query->num_rows();
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
                 redirect('SO_STORE/view_projects');
             } else {
@@ -192,6 +241,30 @@ class SO_STORE extends CI_Controller
         $this->update_inventory($id, $quantity, $price);
        
         if (!empty($insert_detail)) {
+                        $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'update',
+                'activity_detail' => "An inventory has been updated by " . $this->session->userdata('username'),
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            $query = $this->db->get('security_info')->result_array();
+            // print_r($query);exit;
+            // $user_count= $query->num_rows();
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+
             $this->session->set_flashdata('success', 'Material Updated successfully');
             redirect('SO_STORE/add_inventory');
         } else {

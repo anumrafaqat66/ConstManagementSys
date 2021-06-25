@@ -266,8 +266,9 @@
   }
 
 
-$('#notifications').click(function(){
-  alert('notification clicked');
+
+$('#notifications').focusout(function(){
+ // alert('notification clicked');
     $.ajax({
       url: '<?= base_url(); ?>ChatController/activity_seen',
       success: function(data) {

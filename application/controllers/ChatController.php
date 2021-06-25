@@ -116,6 +116,7 @@ class ChatController extends CI_Controller
 		$this->db->from('activity_log');
 		$this->db->JOIN('activity_log_seen', 'activity_log.id = activity_log_seen.activity_id');
 		$this->db->where('activity_log.activity_by !=', $name);
+		$this->db->where('activity_log_seen.user_id', $this->session->userdata('user_id'));
 		$this->db->where('activity_log_seen.seen', 'no');
 		$this->db->group_by('activity_id');
 		$data['notification_data'] = $this->db->get()->result_array();

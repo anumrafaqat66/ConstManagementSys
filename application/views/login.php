@@ -77,6 +77,11 @@
                       <input type="radio" value="SO_RECORD" name="optradio">
                       <div style="float:right; margin-left:5px;">SO Record</div>
                     </label>
+
+                    <label class="custom-control radio-inline small">
+                      <input type="radio" value="admin" name="optradio">
+                      <div style="float:right; margin-left:5px;">Admin</div>
+                    </label>
                     
                   </div>
                   <span style="color: red; display: none;font-size: 12px" id="Account_error">

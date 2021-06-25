@@ -298,7 +298,7 @@ class Project_Officer extends CI_Controller
                 'activity_action' => 'update',
                 'activity_detail' => "'".$created_by . "' has made updated a project named: " . $name,
                 'activity_by' => $created_by,
-                'activity_date' => date('Y-m-d')
+                'activity_date' => date('Y-m-d H:i:s')
             );
 
             $insert = $this->db->insert('activity_log', $insert_activity);
