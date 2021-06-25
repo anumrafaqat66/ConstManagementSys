@@ -250,7 +250,7 @@ setInterval(function () {
 		check_notification(user_id);
 
 		if (result != 0) {
-			// exampleFunction(user_id);
+			exampleFunction(user_id);
 		}
 	}
 }, 3000);
@@ -261,7 +261,7 @@ setInterval(function () {
 	if ($('#badge_count_activity').html() == undefined) {
 
 		check_activity();
-		
+
 		if (result_activity != 0) {
 			update_activity();
 		}

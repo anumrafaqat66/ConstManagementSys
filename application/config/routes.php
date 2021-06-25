@@ -51,14 +51,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 */
+
 $route['chat'] = 'ChatController/index';
 $route['send-message'] = 'ChatController/send_text_message';
 $route['chat-attachment/upload'] = 'ChatController/send_text_message';
 $route['get-chat-history-vendor'] = 'ChatController/get_chat_history_by_vendor';
+
 $route['update-notification'] = 'ChatController/update_notification';
+$route['Project_Officer/update-notification'] = 'ChatController/update_notification';
+$route['SO_CW/update-notification'] = 'ChatController/update_notification';
+$route['SO_STORE/update-notification'] = 'ChatController/update_notification';
+
 $route['update-activity'] = 'ChatController/update_activity';
+$route['Project_Officer/update-activity'] = 'ChatController/update_activity';
+$route['SO_CW/update-activity'] = 'ChatController/update_activity';
+
+$route['SO_CW/view_project_progress/update-activity'] = 'ChatController/update_activity';
+$route['SO_CW/view_project_progress/update-notification'] = 'ChatController/update_notification';
+$route['SO_CW/view_project_progress/check-notification'] = 'ChatController/check_notification';
+$route['SO_CW/view_project_progress/check-activity'] = 'ChatController/check_activity';
+
+$route['SO_CW/view_project_schedule/update-activity'] = 'ChatController/update_activity';
+$route['SO_CW/view_project_schedule/update-notification'] = 'ChatController/update_notification';
+$route['SO_CW/view_project_schedule/check-notification'] = 'ChatController/check_notification';
+$route['SO_CW/view_project_schedule/check-activity'] = 'ChatController/check_activity';
+
+
+$route['SO_STORE/update-activity'] = 'ChatController/update_activity';
+
 $route['check-notification'] = 'ChatController/check_notification';
+$route['Project_Officer/check-notification'] = 'ChatController/check_notification';
+$route['SO_CW/check-notification'] = 'ChatController/check_notification';
+$route['SO_STORE/check-notification'] = 'ChatController/check_notification';
+
 $route['check-activity'] = 'ChatController/check_activity';
+$route['Project_Officer/check-activity'] = 'ChatController/check_activity';
+$route['SO_CW/check-activity'] = 'ChatController/check_activity';
+$route['SO_STORE/check-activity'] = 'ChatController/check_activity';
+
 $route['chat-clear'] = 'ChatController/chat_clear_client_cs';
 
 

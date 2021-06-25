@@ -8,7 +8,6 @@
         height: 250px;
         /* filter: blur(1px); */
         border-radius: 25px;
-
     }
 
     .red-border {
@@ -287,8 +286,6 @@
 
 </div>
 
-
-
 <?php $this->load->view('common/footer'); ?>
 
 <script>
@@ -464,7 +461,6 @@
 </script>
 
 <script type="text/javascript">
-
     function seen(data) {
         // alert('in');
         // alert(data);
@@ -482,18 +478,14 @@
         });
     }
 
-    function activity_seen(data) {
-         // var receiver_id=$(this).attr('id');
-         $.ajax({
-             url: '<?= base_url(); ?>ChatController/activity_seen',
-             method: 'POST',
-             data: {
-                 'id': data
-             },
-             success: function(data) {
-                //  $('#notification').html(data);
-             },
-             async: true
-         });
-     }
+    $('#notifications').focusout(function() {
+        // alert('notification clicked');
+        $.ajax({
+            url: '<?= base_url(); ?>ChatController/activity_seen',
+            success: function(data) {
+                $('#notifications').html(data);
+            },
+            async: true
+        });
+    });
 </script>

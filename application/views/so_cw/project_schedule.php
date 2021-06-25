@@ -154,7 +154,6 @@
      <form class="user" role="form" method="post" id="add_form">
 
          <div class="card-body bg-custom3 my-4">
-
              <div class="row">
                  <div class="col-lg-12">
                      <div id="delete_alert" class="alert alert-success" role="alert" style="display:none">
@@ -429,18 +428,14 @@
          });
      }
 
-     function activity_seen(data) {
-         // var receiver_id=$(this).attr('id');
+     $('#notifications').focusout(function() {
+         // alert('notification clicked');
          $.ajax({
              url: '<?= base_url(); ?>ChatController/activity_seen',
-             method: 'POST',
-             data: {
-                 'id': data
-             },
              success: function(data) {
-                //  $('#notification').html(data);
+                 $('#notifications').html(data);
              },
              async: true
          });
-     }
+     });
  </script>

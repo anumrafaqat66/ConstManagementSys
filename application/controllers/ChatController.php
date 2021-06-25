@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+
 class ChatController extends CI_Controller
 {
 	public function __construct()
@@ -120,7 +121,7 @@ class ChatController extends CI_Controller
 		$this->db->where('activity_log_seen.seen', 'no');
 		$this->db->group_by('activity_id');
 		$data['notification_data'] = $this->db->get()->result_array();
-
+		// print_r($data['notification_data']); exit;
 		$view_array = $this->load->view('notification_ajax1', $data, TRUE);
 		echo $view_array;
 		json_encode($view_array);

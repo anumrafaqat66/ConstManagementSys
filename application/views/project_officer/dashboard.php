@@ -46,21 +46,21 @@
 
  <?php $this->load->view('common/footer'); ?>
  <script type="text/javascript">
-    //  window.onload = function exampleFunction() {
-    //      //alert('HIii');
-    //      $.ajax({
-    //          url: '<?= base_url(); ?>Project_Officer/update_notification',
-    //          method: 'POST',
-    //          datatype: 'json',
-    //          data: {
-                //  'id': '<?php echo $this->session->userdata('user_id'); ?>'
-    //          },
-    //          success: function(data) {
-    //              $('#notification').html(data);
-    //          },
-    //          async: true
-    //      });
-    //  }
+     //  window.onload = function exampleFunction() {
+     //      //alert('HIii');
+     //      $.ajax({
+     //          url: '<?= base_url(); ?>Project_Officer/update_notification',
+     //          method: 'POST',
+     //          datatype: 'json',
+     //          data: {
+     //  'id': '<?php echo $this->session->userdata('user_id'); ?>'
+     //          },
+     //          success: function(data) {
+     //              $('#notification').html(data);
+     //          },
+     //          async: true
+     //      });
+     //  }
 
      function seen(data) {
          // var receiver_id=$(this).attr('id');
@@ -76,15 +76,15 @@
              async: true
          });
      }
-     $('#notifications').focusout(function(){
- // alert('notification clicked');
-    $.ajax({
-      url: '<?= base_url(); ?>ChatController/activity_seen',
-      success: function(data) {
-        $('#notifications').html(data);
-      },
-      async: true
-    });
-});
 
+     $('#notifications').focusout(function() {
+         // alert('notification clicked');
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/activity_seen',
+             success: function(data) {
+                 $('#notifications').html(data);
+             },
+             async: true
+         });
+     });
  </script>
