@@ -14,6 +14,7 @@ class Admin extends CI_Controller
             $data['contractors'] = $this->db->select('count(*) as total_contractors')->get('contractors')->row_array();
             $data['quantity'] = $this->db->select('sum(Material_Total_Quantity) as sum_qty')->get('inventory')->row_array();
             $data['price'] = $this->db->select('sum(Material_Total_Price) as sum_price')->get('inventory')->row_array();
+            $data['projects_records'] = $this->db->get('projects')->result_array();
             $this->load->view('Admin/admin', $data);
         } else {
             $this->load->view('Admin/login');

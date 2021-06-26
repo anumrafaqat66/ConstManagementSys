@@ -370,9 +370,17 @@ class SO_CW extends CI_Controller
                 'project_id' => $project_id
             ];
 
+            $status = '';
+            if ($progress_percentage == 100){
+                $status = 'Completed';
+            } else if ($progress_percentage < 100) {
+                $status = 'In Progress';
+            }
+
             $data_update = [
                 'progress_percentage' => $progress_percentage,
-                'progress_description' => $desc
+                'progress_description' => $desc,
+                'Status' => $status
             ];
 
             $this->db->where($cond);

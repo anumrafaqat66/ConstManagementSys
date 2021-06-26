@@ -39,7 +39,11 @@ class Project_Officer extends CI_Controller
     public function add_projects($project_name = null)
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->where('Created_by', $this->session->userdata('username'))->get('projects')->result_array();
+            if($this->session->userdata('username') == 'admin') {
+                $data['project_records'] = $this->db->get('projects')->result_array();
+            } else {
+                $data['project_records'] = $this->db->where('Created_by', $this->session->userdata('username'))->get('projects')->result_array();
+            }
             $data['contractor_name'] = $this->db->get('contractors')->result_array();
             $this->db->select('pb.*,c.*');
             $this->db->from('project_bids pb');

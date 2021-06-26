@@ -371,7 +371,7 @@
 
 
  <?php $this->load->view('common/footer'); ?>
-<script src="<?= base_url('assets/js/chat/chat.js'); ?>"></script>
+ <script src="<?= base_url('assets/js/chat/chat.js'); ?>"></script>
 
  <script>
      window.onload = function() {
@@ -522,7 +522,10 @@
          $('#contractor_name_edit').val($columns[1].innerHTML);
          $('#contractor_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
          $('#id_edit').val($columns[0].innerHTML);
-         $('#contractor_name').innerHTML($columns[1].innerHTML);
+         $('#contractor_name').html($columns[1].innerHTML);
+         $('#contact_edit').val($columns[2].innerHTML);
+         $('#email_edit').val($columns[3].innerHTML);
+         $('#reg_date_edit').val($columns[4].innerHTML);
 
          if ((e.target.id.substr(0, 16) == "assigned_project") || (e.target.id.substr(0, 17) == "completed_project")) {
 
@@ -637,7 +640,6 @@
      });
  </script> -->
  <script type="text/javascript">
-
      function seen(data) {
          alert('in');
          alert(data);
@@ -655,15 +657,14 @@
          });
      }
 
-     $('#notifications').focusout(function(){
- // alert('notification clicked');
-    $.ajax({
-      url: '<?= base_url(); ?>ChatController/activity_seen',
-      success: function(data) {
-        $('#notifications').html(data);
-      },
-      async: true
-    });
-});
-
+     $('#notifications').focusout(function() {
+         // alert('notification clicked');
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/activity_seen',
+             success: function(data) {
+                 $('#notifications').html(data);
+             },
+             async: true
+         });
+     });
  </script>

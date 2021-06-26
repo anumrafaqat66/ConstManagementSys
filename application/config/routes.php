@@ -76,6 +76,26 @@ $route['SO_CW/view_project_schedule/update-notification'] = 'ChatController/upda
 $route['SO_CW/view_project_schedule/check-notification'] = 'ChatController/check_notification';
 $route['SO_CW/view_project_schedule/check-activity'] = 'ChatController/check_activity';
 
+$route['Project_Officer/overview/update-activity'] = 'ChatController/update_activity';
+$route['Project_Officer/overview/update-notification'] = 'ChatController/update_notification';
+$route['Project_Officer/overview/check-activity'] = 'ChatController/check_activity';
+$route['Project_Officer/overview/check-notification'] = 'ChatController/check_notification';
+
+$route['Project_Officer/drawing/update-activity'] = 'ChatController/update_activity';
+$route['Project_Officer/drawing/update-notification'] = 'ChatController/update_notification';
+$route['Project_Officer/drawing/check-activity'] = 'ChatController/check_activity';
+$route['Project_Officer/drawing/check-notification'] = 'ChatController/check_notification';
+
+$route['Project_Officer/view_project_ganttchart/update-activity'] = 'ChatController/update_activity';
+$route['Project_Officer/view_project_ganttchart/update-notification'] = 'ChatController/update_notification';
+$route['Project_Officer/view_project_ganttchart/check-activity'] = 'ChatController/check_activity';
+$route['Project_Officer/view_project_ganttchart/check-notification'] = 'ChatController/check_notification';
+
+$route['Project_Officer/view_project_breakdown/update-activity'] = 'ChatController/update_activity';
+$route['Project_Officer/view_project_breakdown/update-notification'] = 'ChatController/update_notification';
+$route['Project_Officer/view_project_breakdown/check-activity'] = 'ChatController/check_activity';
+$route['Project_Officer/view_project_breakdown/check-notification'] = 'ChatController/check_notification';
+
 
 $route['SO_STORE/update-activity'] = 'ChatController/update_activity';
 

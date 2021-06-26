@@ -33,8 +33,8 @@ CREATE TABLE `project_bids` (
   `id` bigint(20) NOT NULL,
   `project_id` int(20) NOT NULL,
   `contractor_id` int(20) NOT NULL,
-  `bid_amount` varchar(100) DEFAULT NULL,
-  `Status` varchar(10) DEFAULT NULL
+  `bid_amount` decimal(16,2) DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `contractors` (
   `Start_date` date DEFAULT NULL,
   `Assigned_Projects` int(20) DEFAULT 0,
   `Completed_Projects` int(20) DEFAULT 0,
-  `Status` varchar(10) DEFAULT NULL
+  `Status` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -82,7 +82,7 @@ CREATE TABLE `inventory` (
   `ID` bigint(20) NOT NULL,
   `Material_Name` varchar(50) NOT NULL,
   `Material_Total_Quantity` int(20) DEFAULT NULL,
-  `Material_Total_Price` decimal(8,2) DEFAULT NULL,
+  `Material_Total_Price` decimal(16,2) DEFAULT NULL,
   `Unit` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -107,9 +107,9 @@ CREATE TABLE `inventory_detail` (
   `ID` bigint(20) NOT NULL,
   `Material_ID` bigint(20) NOT NULL,
   `Quantity` int(20) DEFAULT NULL,
-  `Price` decimal(8,2) DEFAULT NULL,
+  `Price` decimal(16,2) DEFAULT NULL,
   `stock_date` date DEFAULT current_timestamp(),
-  `Status` varchar(10) DEFAULT NULL
+  `Status` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -133,9 +133,9 @@ CREATE TABLE `inventory_used` (
   `Material_id` bigint(20) NOT NULL,
   `Material_used_by_Project` bigint(20) NOT NULL,
   `Quantity_used` int(20) DEFAULT NULL,
-  `Price` decimal(8,2) DEFAULT NULL,
+  `Price` decimal(16,2) DEFAULT NULL,
   `delivery_date` date DEFAULT current_timestamp(),  
-  `Status` varchar(10) DEFAULT NULL
+  `Status` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -150,11 +150,11 @@ CREATE TABLE `projects` (
   `Code` varchar(250) DEFAULT NULL,
   `Start_date` date DEFAULT NULL,
   `End_date` date DEFAULT NULL,
-  `Total_Cost` decimal(8,2) DEFAULT NULL,
+  `Total_Cost` decimal(16,2) DEFAULT NULL,
   `Created_by` varchar(100) DEFAULT NULL,
   `contractor_id` bigint(20) DEFAULT NULL,
   `bid_id` int(20) DEFAULT NULL,
-  `Status` varchar(10) DEFAULT NULL
+  `Status` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -201,7 +201,7 @@ CREATE TABLE `project_progress` (
   `progress_date` date DEFAULT NULL,
   `progress_percentage` decimal(5,2) DEFAULT NULL,
   `progress_description` varchar(500) DEFAULT NULL,
-  `Status` varchar(10) DEFAULT NULL
+  `Status` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -218,8 +218,8 @@ CREATE TABLE `project_schedule` (
   `schedule_description` varchar(500) DEFAULT NULL,
   `schedule_start_date` date DEFAULT NULL,
   `schedule_end_date` date DEFAULT NULL,
-  `schedule_cost` decimal(8,2) DEFAULT NULL,
-  `Status` varchar(10) DEFAULT NULL
+  `schedule_cost` decimal(16,2) DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -228,6 +228,24 @@ CREATE TABLE `project_drawing` (
   `id` bigint(20) NOT NULL ,
   `project_id` int(20) NOT NULL,
   `name` varchar(500) DEFAULT NULL,
+  `date_added` DATE DEFAULT NULL
+  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Table structure for table "project allotment letter"
+CREATE TABLE `project_allotment_letter` (
+  `id` bigint(20) NOT NULL ,
+  `project_id` int(20) NOT NULL,
+  `file_name` varchar(500) DEFAULT NULL,
+  `date_added` DATE DEFAULT NULL
+  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Table structure for table "project bills"
+CREATE TABLE `project_bills` (
+  `id` bigint(20) NOT NULL ,
+  `project_id` int(20) NOT NULL,
+  `bill_name` varchar(500) DEFAULT NULL,
   `date_added` DATE DEFAULT NULL
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -327,9 +345,21 @@ ALTER TABLE `project_schedule`
   ADD PRIMARY KEY (`id`);
   
 --
--- Indexes for table `project_schedule`
+-- Indexes for table `project_drawing`
 --
 ALTER TABLE `project_drawing`
+  ADD PRIMARY KEY (`id`); 
+
+--
+-- Indexes for table `project_allotment_letter`
+--
+ALTER TABLE `project_allotment_letter`
+  ADD PRIMARY KEY (`id`);  
+
+--
+-- Indexes for table `project_bills`
+--
+ALTER TABLE `project_bills`
   ADD PRIMARY KEY (`id`);  
   
   
@@ -401,9 +431,21 @@ ALTER TABLE `project_schedule`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `project_schedule`
+-- AUTO_INCREMENT for table `project_drawing`
 --
 ALTER TABLE `project_drawing`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `project_allotment_letter`
+--
+ALTER TABLE `project_allotment_letter`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `project_bills`
+--
+ALTER TABLE `project_bills`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
   
   
