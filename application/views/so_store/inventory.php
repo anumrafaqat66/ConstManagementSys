@@ -55,15 +55,15 @@
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
+                                                     <input type="number" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="price" id="price" placeholder="Price">
+                                                     <input type="number" class="form-control form-control-user" name="price" id="price" placeholder="Price">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="unit" id="unit" placeholder="Unit">
+                                                     <input type="number" class="form-control form-control-user" name="unit" id="unit" placeholder="Unit">
                                                  </div>
                                              </div>
 
@@ -137,11 +137,11 @@
                                                  </div>
 
                                                  <div class="col-sm-4 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="new_quantity" id="new_quantity" placeholder="Add Quantity">
+                                                     <input type="number" class="form-control form-control-user" name="new_quantity" id="new_quantity" placeholder="Add Quantity">
                                                  </div>
 
                                                  <div class="col-sm-4 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="new_price" id="new_price" placeholder="New Price">
+                                                     <input type="number" class="form-control form-control-user" name="new_price" id="new_price" placeholder="New Price">
                                                  </div>
 
                                              </div>

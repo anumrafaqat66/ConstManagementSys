@@ -77,12 +77,12 @@
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
+                                                     <input type="number" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
                                                      <span id="show_quantity" style="font-size:10px; color:red; display:none">Available Quantity:</span>
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="price" id="price" placeholder="Price">
+                                                     <input type="number" class="form-control form-control-user" name="price" id="price" placeholder="Price">
                                                  </div>
 
                                              </div>
