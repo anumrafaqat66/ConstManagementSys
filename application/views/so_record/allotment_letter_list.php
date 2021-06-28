@@ -4,104 +4,38 @@
      .red-border {
          border: 1px solid red !important;
      }
+     #your_btn {
+  position: relative;
+/*  top: 150px;*/
+  font-family: calibri;
+  width: 480px;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border: 1px dashed #BBB;
+  text-align: center;
+  background-color: #DDD;
+  cursor: pointer;
+}
  </style>
 
  <div class="container">
      <div class="card o-hidden my-4 border-0 shadow-lg">
-         <div class="modal fade" id="new_material">
+<!--          <div class="modal fade" id="new_material"> -->
              <!-- <div class="row"> -->
-             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
-                 <div class="modal-content bg-custom3" style="width:1000px;">
-                     <div class="modal-header" style="width:1000px;">
-                         <!-- <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5> -->
-                         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                         </button> -->
-                     </div>
-                     <div class="card-body bg-custom3">
-                         <!-- Nested Row within Card Body -->
-                         <div class="row">
-                             <div class="col-lg-12">
+      <!--   
+         </div> -->
 
-                                 <div class="card">
-                                     <div class="card-header bg-custom1">
-                                         <h1 class="h4">Add New Material</h1>
-                                     </div>
-
-                                     <div class="card-body bg-custom3">
-                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_STORE/insert_inventory">
-                                             <div class="form-group row">
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Material:</h6>
-                                                 </div>
-
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Quantity:</h6>
-                                                 </div>
-
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Price:</h6>
-                                                 </div>
-
-                                                 <div class="col-sm-3">
-                                                     <h6>&nbsp;Unit:</h6>
-                                                 </div>
-
-                                             </div>
-
-                                             <div class="form-group row">
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="material_name" id="material_name" placeholder="Material">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="price" id="price" placeholder="Price">
-                                                 </div>
-
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="text" class="form-control form-control-user" name="unit" id="unit" placeholder="Unit">
-                                                 </div>
-                                             </div>
-
-
-                                             <div class="form-group row justify-content-center">
-                                                 <div class="col-sm-4">
-                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
-                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                         Submit Data
-                                                     </button>
-                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
-                                                 </div>
-                                             </div>
-                                         </form>
-                                     </div>
-                                 </div>
-
-
-                             </div>
-                         </div>
-                     </div>
-                     <div class="modal-footer">
-                         <!-- <button type="button" class="btn btn-primary rounded-pill" data-dismiss="modal">Close</button> -->
-                     </div>
-                 </div>
-             </div>
-         </div>
-
-         <div class="modal fade" id="edit_material">
+        <!--  <div class="modal fade" id="edit_material"> -->
              <!-- <div class="row"> -->
-             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
+            <!--  <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                  <div class="modal-content bg-custom3" style="width:1000px;">
                      <div class="modal-header" style="width:1000px;">
 
                      </div>
-                     <div class="card-body bg-custom3">
+                     <div class="card-body bg-custom3"> -->
                          <!-- Nested Row within Card Body -->
-                         <div class="row">
+                        <!--  <div class="row">
                              <div class="col-lg-12">
 
                                  <div class="card">
@@ -148,9 +82,9 @@
 
                                              <div class="form-group row justify-content-center">
                                                  <div class="col-sm-4">
-                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="edit_btn">
+                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="edit_btn"> -->
                                                          <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                         Update Material
+                                                        <!--  Update Material
                                                      </button>
                                                      <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                  </div>
@@ -160,13 +94,13 @@
                                  </div>
                              </div>
                          </div>
-                     </div>
-                     <div class="modal-footer">
+                     </div> -->
+                    <!--  <div class="modal-footer"> -->
                          <!-- <button type="button" class="btn btn-primary rounded-pill" data-dismiss="modal">Close</button> -->
-                     </div>
+             <!--         </div>
                  </div>
              </div>
-         </div>
+         </div> -->
 
          <div class="card-body bg-custom3">
              <!-- Nested Row within Card Body -->
@@ -184,53 +118,34 @@
                          </div>
 
                          <div class="card-body">
-                             <div id="table_div">
-                                 <?php if (count($inventory_records) > 0) { ?>
-                                     <table id="datatable" class="table table-striped" style="color:black">
-                                         <thead>
-                                             <tr>
-                                                 <th scope="col">ID</th>
-                                                 <th scope="col">Material Name</th>
-                                                 <th scope="col">Quantity</th>
-                                                 <th scope="col">Price</th>
-                                                 <th scope="col">Unit</th>
-                                                 <th scope="col">Edit/Update Quantity</th>
-                                                 <th scope="col">View Details</th>
+                                     
+                                        <form class="user" role="form" enctype="multipart/form-data" method="post" id="add_drawing_form" action="<?= base_url(); ?>SO_RECORD/upload_allotment_letter">
+                                            <div class="form-group row">
+                                                     <div class="col-sm-6 mb-1">
+                                                    <select class="form-control rounded-pill" name="project_id" id="project_id" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
+                                                             <option class="form-control form-control-user" value="">Select Project Name</option>
+                                                             <?php foreach ($projects as $data) { ?> 
+                                                                 <option class="form-control form-control-user" value="<?= $data['ID'] ?>"><?= $data['Name'] ?></option>
+                                                             <?php } ?>
+                                                         </select>
+                                                     </div>
 
-                                             </tr>
-                                         </thead>
-                                         <tbody id="table_rows">
-                                             <?php $count = 0;
-                                                foreach ($inventory_records as $data) { ?>
-                                                 <tr>
-                                                     <td scope="row"><?= $data['ID']; ?></td>
-                                                     <td id="material<?= $data['ID']; ?>" scope="row"><?= $data['Material_Name']; ?></td>
-                                                     <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Material_Total_Quantity']; ?></td>
-                                                     <td scope="row">PKR. <?= $data['Material_Total_Price']; ?></td>
-                                                     <td scope="row"><?= $data['Unit']; ?></td>
-                                                     <td type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 70px;" class="fas fa-edit"></i></td>
-                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 40px;" class="fas fa-eye"></i></a></td>
+                                                     <div class="col-sm-6 mb-1">
+                                                           <input type="file" style="height:65px;" id="your_btn" multiple="multiple" id="project_allotment_letter" name="project_allotment_letter[]">
+                                                     </div>
 
-                                                 </tr>
-                                             <?php } ?>
-                                         </tbody>
-                                     </table>
-                                 <?php } else { ?>
-                                     <a> No Data Available yet </a>
-                                 <?php } ?>
-                             </div>
+                                                     <div class="col-sm-12 mb-1" class="justify-content-center" style="margin-top: 30px;">
+                                                              <button type="submit" class="btn btn-primary btn-user btn-block" name="file_upload" id="file_upload" >
+                                                         Upload Allotment Letter
+                                                     <!--     <span><i class="fas fa-sign-in-alt"></i></span> -->
+                                                     </button>
+                                                     </div>
+                                                     </div>
+                                        </form>
+                                                 
                          </div>
                      </div>
-                     <form class="user" role="form" method="post" id="add_form" action="">
-                         <div class="form-group row my-2 justify-content-center">
-                             <div class="col-sm-4">
-                                 <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn" data-toggle="modal" data-target="#new_material">
-                                     <i class="fas fa-plus"></i>
-                                     Add new Material
-                                 </button>
-                             </div>
-                         </div>
-                     </form>
+                     
                  </div>
              </div>
          </div>

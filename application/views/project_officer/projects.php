@@ -246,15 +246,7 @@
                                             </div>
                                         </div> -->
 
-                                             <div class="form-group row justify-content-center">
-                                                 <div class="col-sm-4">
-                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
-                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                         Submit Data
-                                                     </button>
-                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
-                                                 </div>
-                                             </div>
+                                          
                                          </form>
                                      </div>
                                  </div>
