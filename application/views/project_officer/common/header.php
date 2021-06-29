@@ -20,6 +20,19 @@
 
 </head>
 
+<style>
+     .img-logo {
+         background: url('<?= base_url() ?>assets/img/navy_logo.png');
+         /* background-position: center; */
+         background-size: cover;
+         height: 50px;
+         width: 39px;
+         /* filter: blur(1px); */
+         /* border-radius: 25px; */
+     }
+
+</style>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -163,7 +176,8 @@
 
                     <!-- Topbar Search -->
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <h1><i class="fab fa-500px"></i> <strong> CMS </strong></h1>
+                    <div class="img-logo"></div>
+                        <!-- <h1><i class="img"></i> <strong> CMS </strong></h1> -->
                         <!-- <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
