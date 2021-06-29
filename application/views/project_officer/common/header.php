@@ -21,16 +21,15 @@
 </head>
 
 <style>
-     .img-logo {
-         background: url('<?= base_url() ?>assets/img/navy_logo.png');
-         /* background-position: center; */
-         background-size: cover;
-         height: 50px;
-         width: 39px;
-         /* filter: blur(1px); */
-         /* border-radius: 25px; */
-     }
-
+    .img-logo {
+        background: url('<?= base_url() ?>assets/img/logo-inverted.png');
+        /* background-position: center; */
+        background-size: cover;
+        height: 50px;
+        width: 39px;
+        /* filter: blur(1px); */
+        /* border-radius: 25px; */
+    }
 </style>
 
 <body id="page-top">
@@ -39,7 +38,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -176,8 +175,14 @@
 
                     <!-- Topbar Search -->
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="img-logo"></div>
-                        <!-- <h1><i class="img"></i> <strong> CMS </strong></h1> -->
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                                <div class="img-logo"></div>
+                            </div>
+                            <div class="col-sm-6">
+                                <h1 style="color:white"> <strong> NHS PMS </strong></h1>
+                            </div>
+                        </div>
                         <!-- <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
@@ -190,35 +195,34 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle text-dark-500" href="#"> Home </a>
+                            <a class="nav-link dropdown-toggle text-dark-500" type="button" onclick="location.href='<?php echo base_url(); ?>Project_Officer'"> Home </a>
                         </li>
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#">Services </a>
+                            <a class="nav-link dropdown-toggle" type="button" onclick="location.href='<?php echo base_url(); ?>Project_Officer/services'">Services </a>
                         </li>
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#">About </a>
+                            <a class="nav-link dropdown-toggle" type="button" onclick="location.href='<?php echo base_url(); ?>Project_Officer/about'">About </a>
                         </li>
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1" id="notifications">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
                                 <span class="badge badge-danger badge-counter"></span>
                             </a>
                             <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
                                     Alerts Center
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div style="padding:10px"><b>No New Notifications
-                                            </b></div>
+                                        </b></div>
                                 </a>
-                                
+
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>
@@ -237,9 +241,9 @@
                                 </h6>
 
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                 <div>
+                                    <div>
                                         <div style="padding:10px"><b>No New Messages
-                                        </b></div>
+                                            </b></div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>

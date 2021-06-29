@@ -36,6 +36,19 @@ class Project_Officer extends CI_Controller
         }
     }
 
+    public function about()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->load->view('project_officer/about');
+        }
+    }
+    public function services()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->load->view('project_officer/services');
+        }
+    }
+
     public function add_projects($project_name = null)
     {
         if ($this->session->has_userdata('user_id')) {

@@ -423,4 +423,17 @@ class SO_CW extends CI_Controller
             redirect('SO_CW');
         }
     }
+
+    public function about()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->load->view('so_cw/about');
+        }
+    }
+    public function services()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->load->view('so_cw/services');
+        }
+    }
 }

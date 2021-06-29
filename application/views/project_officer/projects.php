@@ -230,23 +230,16 @@
 
                                              </div>
 
-                                             <!--  <div class="form-group row">
-                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Status:</h6>
+                                             <div class="form-group row justify-content-center">
+                                                 <div class="col-sm-4">
+                                                     <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
+                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
+                                                         Submit
+                                                     </button>
+                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                  </div>
-                                             </div> -->
-                                             <!--  <div class="form-group row">
-                                                 <div class="col-sm-12">
-                                                  <select class="form-control rounded-pill" name="contractor" id="contractor" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
-                                                     <option class="form-control form-control-user" value="">Select Status</option>
-                                                    <option class="form-control form-control-user" value="On-going">On_going</option>
-                                                      <option class="form-control form-control-user" value="Initiated">Initiated</option>
-                                                        <option class="form-control form-control-user" value="closed">Closed</option>
-                                                </select>
-                                            </div>
-                                        </div> -->
+                                             </div>
 
-                                          
                                          </form>
                                      </div>
                                  </div>
@@ -477,7 +470,7 @@
 
 
  <?php $this->load->view('common/footer'); ?>
-   <script src="<?= base_url('assets/js/chat/chat.js'); ?>"></script>
+ <script src="<?= base_url('assets/js/chat/chat.js'); ?>"></script>
  <script>
      window.onload = function() {
 
@@ -843,7 +836,6 @@
      });
  </script>
  <script type="text/javascript">
-    
      function seen(data) {
          // var receiver_id=$(this).attr('id');
          $.ajax({
@@ -858,15 +850,14 @@
              async: true
          });
      }
-$('#notifications').focusout(function(){
- // alert('notification clicked');
-    $.ajax({
-      url: '<?= base_url(); ?>ChatController/activity_seen',
-      success: function(data) {
-        $('#notifications').html(data);
-      },
-      async: true
-    });
-});
-
+     $('#notifications').focusout(function() {
+         // alert('notification clicked');
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/activity_seen',
+             success: function(data) {
+                 $('#notifications').html(data);
+             },
+             async: true
+         });
+     });
  </script>

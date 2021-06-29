@@ -26,13 +26,22 @@
 
 </head>
 
+<style>
+    .img-logo {
+        background: url('<?= base_url() ?>assets/img/logo-inverted.png');
+        background-size: cover;
+        height: 50px;
+        width: 39px;
+    }
+</style>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -169,15 +178,14 @@
 
                     <!-- Topbar Search -->
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <h1><i class="fab fa-500px"></i> <strong> CMS </strong></h1>
-                        <!-- <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                                <div class="img-logo"></div>
                             </div>
-                        </div> -->
+                            <div class="col-sm-6">
+                                <h1 style="color:white"> <strong> NHS PMS </strong></h1>
+                            </div>
+                        </div>
                     </form>
 
                     <!-- Topbar Navbar -->
@@ -205,10 +213,10 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div>
-            <div style="padding:10px">
-                <b>No New Notifications </b>
-            </div>
-        </div>
+                                        <div style="padding:10px">
+                                            <b>No New Notifications </b>
+                                        </div>
+                                    </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Notifications </a>
                             </div>

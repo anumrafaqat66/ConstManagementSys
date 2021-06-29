@@ -26,8 +26,8 @@ class SO_RECORD extends CI_Controller
     {
 
         if ($this->session->has_userdata('user_id')) {
-             $data['projects'] = $this->db->get('projects')->result_array();
-            $this->load->view('so_record/allotment_letter_list',$data);//, $data);
+            $data['projects'] = $this->db->get('projects')->result_array();
+            $this->load->view('so_record/allotment_letter_list', $data); //, $data);
         }
     }
 
@@ -36,11 +36,12 @@ class SO_RECORD extends CI_Controller
 
         if ($this->session->has_userdata('user_id')) {
             // $data['project_records'] = $this->db->get('projects')->result_array();
-            $this->load->view('so_record/billing_list');//, $data);
+            $this->load->view('so_record/billing_list'); //, $data);
         }
     }
 
-    public function  upload_allotment_letter(){
+    public function  upload_allotment_letter()
+    {
 
         $postData = $this->security->xss_clean($this->input->post());
 
@@ -51,12 +52,12 @@ class SO_RECORD extends CI_Controller
 
             for ($i = 0; $i < count($upload1); $i++) {
                 $insert_array = array(
-                   
+
                     'project_id' => $project_id,
-                    'file_name'=>$upload1[$i],
+                    'file_name' => $upload1[$i],
                     'date_added' => date('Y-m-d')
                 );
-               
+
                 $insert = $this->db->insert('project_allotment_letter', $insert_array);
             }
             // print_r($insert_array);exit;
@@ -70,7 +71,7 @@ class SO_RECORD extends CI_Controller
             redirect('SO_RECORD/show_letter_lists');
         }
     }
-public function upload_letter($fieldname)
+    public function upload_letter($fieldname)
     {
         //$data = NULL;
         //echo $fieldname;exit;
@@ -103,4 +104,17 @@ public function upload_letter($fieldname)
         //print_r($count);exit();
         return $count;
     }
+
+    public function about()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->load->view('so_record/about');
+        }
     }
+    public function services()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->load->view('so_record/services');
+        }
+    }
+}

@@ -10,7 +10,7 @@
                 height: 60px;
                 bottom: 85px;
                 right: 10px;
-                background-color: #ca9e0c;
+                background-color: #000154;
                 color: #FFF;
                 border-radius: 50px;
                 text-align: center;
@@ -93,7 +93,7 @@
 
         <!-- Links for Canlender -->
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/fullcalendar/fullcalendar.min.css" />
-        
+
         <script src="<?php echo base_url(); ?>assets/fullcalendar/lib/moment.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/fullcalendar/fullcalendar.min.js"></script>
 

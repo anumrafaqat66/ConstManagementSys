@@ -275,4 +275,17 @@ class SO_STORE extends CI_Controller
             echo $getQty['Material_Total_Quantity'];
         }
     }
+
+    public function about()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->load->view('so_store/about');
+        }
+    }
+    public function services()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->load->view('so_store/services');
+        }
+    }
 }
