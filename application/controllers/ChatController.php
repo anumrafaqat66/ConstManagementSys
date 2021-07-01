@@ -90,7 +90,7 @@ class ChatController extends CI_Controller
 
 		$file_data = '';
 		if (isset($_FILES['attachmentfile']['name']) && !empty($_FILES['attachmentfile']['name'])) {
-			$config['upload_path']          = './uploads/attachment';
+			$config['upload_path']          = './uploads/attachments';
 			$config['allowed_types']        = 'jpeg|jpg|png|txt|pdf|docx|xlsx|pptx|rtf';
 			//$config['max_size']             = 500;
 			//$config['max_width']            = 1024;
@@ -230,7 +230,7 @@ class ChatController extends CI_Controller
 					$messageBody .= '</p>';
 
 					$messageBody .= '<div class="pull-' . $classBtn . '">';
-					$messageBody .= '<a download href="' . $document_url . '"><button type="button" id="' . $message_id . '" class="btn btn-primary btn-sm btn-flat btnFileOpen">Open</button></a>';
+					$messageBody .= '<a download href="' . $document_url . '"><button style="margin-top:2px" type="button" id="' . $message_id . '" class="btn btn-primary btn-sm btn-flat btnFileOpen">Open</button></a>';
 					$messageBody .= '</div>';
 					$messageBody .= '</div>';
 				}
@@ -313,7 +313,7 @@ class ChatController extends CI_Controller
 		$this->db->select('*');
 		$this->db->from('security_info');
 		$this->db->where_not_in('id', $this->session->userdata('user_id'));
-		$this->db->where_not_in('username', 'admin');
+		//$this->db->where_not_in('username', 'admin');
 		$query = $this->db->get();
 		$r = $query->result_array();
 		return $r;

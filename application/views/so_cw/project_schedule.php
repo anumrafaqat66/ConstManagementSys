@@ -180,7 +180,9 @@
                                                  <th scope="col">Schedule Details</th>
                                                  <th scope="col">Schedule Start Date</th>
                                                  <th scope="col">Status</th>
+                                                  <?php if($this->session->userdata('username') == 'SO_CW') {?>
                                                  <th scope="col" style="text-align:center">Edit</th>
+                                                 <?php } ?>
                                                  <th scope="col">Delete</th>
 
                                              </tr>
@@ -196,7 +198,9 @@
                                                      <td scope="row"><?= $data['schedule_start_date']; ?></td>
                                                      <td scope="row" style="display:none"><?= $data['schedule_end_date']; ?></td>
                                                      <td scope="row"><?= $data['Status']; ?></td>
+                                                    <?php if($this->session->userdata('username') == 'SO_CW') {?>
                                                      <td style="width:120px" id="edit<?= $data['id']; ?>" onclick="editSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px; cursor:pointer" class="fas fa-edit"></i></td>
+                                                 <?php }?>
                                                      <td style="width:120px" id="delete<?= $data['id']; ?>" onclick="deleteSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 20px; cursor:pointer" class="fas fa-trash-alt"></i></td>
                                                  </tr>
                                              <?php
