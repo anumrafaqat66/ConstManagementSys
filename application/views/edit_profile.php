@@ -1,4 +1,4 @@
-<?php $this->load->view('Admin/common/header'); ?>
+<?php $this->load->view('project_officer/common/header'); ?>
 <style>
     .red-border {
         border: 1px solid red !important;
@@ -15,48 +15,29 @@
 
                     <div class="card">
                         <div class="card-header bg-custom1">
-                            <h1 class="h4 text-white">Create New User</h1>
+                            <h1 class="h4 text-white">Edit User Profile</h1>
                         </div>
 
                         <div class="card-body bg-custom3">
-                            <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Admin/add_user">
+                            <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>User_Login/edit_profile_process">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-1">
-                                        <input type="text" class="form-control form-control-user" id="username" name="username" placeholder="username*">
+                                        <input type="text" class="form-control form-control-user" value="<?= $userdata['username'] ?>" id="username" name="username" placeholder="username*">
                                     </div>
-                                     <div class="col-sm-6 mb-1">
-                                        <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Email Address*">
+                                    <div class="col-sm-6 mb-1">
+                                        <input type="email" class="form-control form-control-user" value="<?= $userdata['email'] ?>" id="email" name="email" placeholder="Email Address*">
                                     </div>
-                                   
                                 </div>
 
-                                      <div class="form-group row">
+                                <div class="form-group row">
                             
                                     <div class="col-sm-6 mb-1">
-                                        <input type="tel" class="form-control form-control-user"  id="phone" name="phone" pattern="[0-9]{11}" placeholder="Phone No*">
+                                        <input type="tel" class="form-control form-control-user" value="<?= $userdata['phone'] ?>" id="phone" name="phone" pattern="[0-9]{11}" placeholder="Phone No*">
                                     </div>
                                          <div class="col-sm-6 mb-1">
-                                        <input type="text" class="form-control form-control-user" id="address"  name="address" placeholder="Address*">
+                                        <input type="text" class="form-control form-control-user" id="address" value="<?= $userdata['address'] ?>" name="address" placeholder="Address*">
                                          </div>
-                        
-
-                                </div>
-
-                                <div class="form-group row">
-                                     <div class="col-sm-6 mb-1">
-                                        <input type="password" class="form-control form-control-user"  id="password" name="password"  placeholder="Password*">
-                                    </div>
-
-                                    <div class="col-sm-6 mb-1">
-                                        <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Controller" style="font-size: 0.8rem; height:50px;">\
-                                            <option class="form-control form-control-user" value="">Select Account Type</option>
-                                            <option class="form-control form-control-user" value="SO_STORE">SO Store</option>
-                                            <option class="form-control form-control-user" value="PO">Project Officer</option>
-                                            <option class="form-control form-control-user" value="SO_CW">SO CW</option>
-                                            <option class="form-control form-control-user" value="SO_RECORD">SO Record</option>
-                                          
-                                        </select>
-                                    </div>
+                                    
 
                                 <!--     <div class="col-sm-6 mb-1">
                                         <select class="form-control rounded-pill" name="Ship_ID" id="Ship_ID" data-placeholder="Select ship" style="font-size: 0.8rem; height:50px;">
@@ -69,12 +50,28 @@
 
 
                                 </div>
+                                 <div class="form-group row">
+                                    <div class="col-sm-12 mb-1">
+                                        <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Controller" style="font-size: 0.8rem; height:50px;">
+                                            <option class="form-control form-control-user" value="">Select Account Type</option>
+                                            <option   <?php if($userdata['acct_type']=='SO_STORE'){ echo "selected"; } ?> 
+                                            class="form-control form-control-user" value="SO_STORE">SO Store</option>
+                                            <option   <?php if($userdata['acct_type']=='PO'){ echo "selected"; } ?> 
+                                             class="form-control form-control-user" value="PO">Project Officer</option>
+                                            <option   <?php if($userdata['acct_type']=='SO_CW'){ echo "selected"; } ?> 
+                                            class="form-control form-control-user" value="SO_CW">SO CW</option>
+                                            <option  <?php if($userdata['acct_type']=='SO_RECORD'){ echo "selected"; } ?>
+                                            class="form-control form-control-user" value="SO_RECORD">SO Record</option>
+                                          
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="form-group row justify-content-center">
                                     <div class="col-sm-4">
                                         <button type="button" class="btn btn-primary btn-user btn-block" id="add_btni">
                                             <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                            Submit Data
+                                            Update 
                                         </button>
                                     </div>
                                 </div>
@@ -92,15 +89,6 @@
 </div>
 <?php $this->load->view('common/footer'); ?>
 <script>
-    $('#status').on('focusout', function() {
-        var status = $('#status').val();
-        
-        if (status == "typecdr") {
-            $("#Ship_ID").prop("disabled", true);
-        } else {
-            $("#Ship_ID").prop("disabled", false);
-        }
-    });
 
     $('#add_btni').on('click', function() {
         //alert('javascript working');
@@ -110,11 +98,9 @@
         var username = $('#username').val();
         var password = $('#password').val();
         var status = $('#status').val();
-          var email = $('#email').val();
+        var email = $('#email').val();
         var phone=$('#phone').val();
         var address = $('#address').val();
-
-
 
         if (username == '') {
             validate = 1;
@@ -128,8 +114,7 @@
             validate = 1;
             $('#status').addClass('red-border');
         }
-      
-        if (email == '') {
+           if (email == '') {
             validate = 1;
             $('#email').addClass('red-border');
         }

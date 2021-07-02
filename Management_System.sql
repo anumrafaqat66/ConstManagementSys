@@ -484,6 +484,14 @@ ALTER TABLE `security_info`
 ALTER TABLE `chat`
   ADD `seen` enum('no','yes') NOT NULL;
 
+ALTER TABLE `security_info`
+  ADD `email` varchar(200) NOT NULL;
+
+ALTER TABLE `security_info`
+  ADD `phone` varchar(200) NOT NULL;
+
+ALTER TABLE `security_info`
+  ADD `address` varchar(500) NOT NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

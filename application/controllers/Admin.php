@@ -70,11 +70,18 @@ class Admin extends CI_Controller
             $username = $postData['username'];
             $password = password_hash($postData['password'], PASSWORD_DEFAULT);
             $status = $postData['status'];
+              $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $address = $_POST['address'];
 
             $insert_array = array(
                 'username' => $username,
                 'password' => $password,
-                'acct_type' => $status
+                'acct_type' => $status,
+                 'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
+
             );
             
             $insert = $this->db->insert('security_info', $insert_array);

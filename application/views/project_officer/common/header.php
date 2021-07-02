@@ -79,8 +79,8 @@
                         <h6 class="collapse-header">Features:</h6>
                         <a class="collapse-item" href="<?php echo base_url(); ?>Project_Officer/add_projects">Projects</a>
                         <a class="collapse-item" href="<?php echo base_url(); ?>Project_Officer/add_contractors">Contractors</a>
-                        <a class="collapse-item" href="#">Edit Profile</a>
-                        <a class="collapse-item" href="#">Change Password</a>
+                        <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/edit_profile">Edit Profile</a>
+                         <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/change_password">Change Password</a> 
                     </div>
                 </div>
             </li>

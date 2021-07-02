@@ -70,6 +70,71 @@ class User_Login extends CI_Controller
 			}
 		}
 	}
+
+	public function edit_profile(){
+		$data['userdata']=$this->db->where('id',$this->session->userdata('user_id'))->get('security_info')->row_array();
+		$this->load->view('edit_profile',$data);
+	}
+	public function edit_profile_process(){
+        $username =  $_POST['username'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
+        $acct_type = $_POST['status'];
+        $id=$this->session->userdata('user_id');
+
+        $cond  = ['ID' => $id];
+        $data_update = [
+            'username' => $username,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
+            'acct_type'=>$acct_type
+        ];
+
+        $this->db->where($cond);
+       $update= $this->db->update('security_info', $data_update);
+
+if($update){
+         $this->session->set_flashdata('success', 'Profile Updated successfully');
+            redirect('User_Login/edit_profile');
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            redirect('User_Login/edit_profile');
+        }
+	}
+
+	public function change_password(){
+		$this->load->view('change_password');
+	}
+	public function change_password_process(){
+		 if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
+
+            $new_password = password_hash($postData['new_password'], PASSWORD_DEFAULT);
+           // $confirm_password = password_hash($postData['confirm_password'], PASSWORD_DEFAULT);
+            $id=$this->session->userdata('user_id');
+
+ 			$cond  = ['ID' => $id];
+            $insert_array = array(
+                //'username' => $username,
+                'password' => $new_password,
+       
+            );
+            
+             $this->db->where($cond);
+            $update= $this->db->update('security_info', $insert_array);
+            
+            if (!empty($update)) {
+                $this->session->set_flashdata('success', 'password Changed successfully');
+                redirect('User_Login/change_password');
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+                 redirect('User_Login/change_password');
+            }
+	}
+}
+
 	public function logout()
 	{
 		$this->session->sess_destroy();
