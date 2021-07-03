@@ -283,6 +283,8 @@
      }
 
      $(document).ready(function() {
+     	var user ='<?= $this->session->userdata('acct_type'); ?>';
+ 
          var calendar = $('#calendar').fullCalendar({
              editable: true,
              plugins: ['interaction', 'dayGrid'],
@@ -309,7 +311,11 @@
              //  },
              selectable: true,
              selectHelper: true,
+             
+            
              select: function(start, end, allDay) {
+             	//alert('clicked calender');
+             	if(user == 'SO_CW'){
                  var title = prompt('Event Title:');
                  //  $('#new_schedule').modal('show');
 
@@ -337,6 +343,7 @@
                      );
                  }
                  calendar.fullCalendar('unselect');
+             }
              },
 
              //  editable: true,
