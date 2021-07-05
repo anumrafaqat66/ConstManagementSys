@@ -21,8 +21,28 @@
                         <div class="card-body bg-custom3">
                             <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>User_Login/edit_profile_process">
                                 <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <h6>&nbsp;Username:</h6>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12 mb-1">
+                                        <input type="text" class="form-control form-control-user" value="<?= $userdata['username'] ?>" id="username" name="username" placeholder="username*" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <h6>&nbsp;Full Name:</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h6>&nbsp;Email ID:</h6>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <div class="col-sm-6 mb-1">
-                                        <input type="text" class="form-control form-control-user" value="<?= $userdata['username'] ?>" id="username" name="username" placeholder="username*">
+                                        <input type="text" class="form-control form-control-user" value="<?= $userdata['full_name'] ?>" id="fullname" name="fullname" placeholder="Full Name">
                                     </div>
                                     <div class="col-sm-6 mb-1">
                                         <input type="email" class="form-control form-control-user" value="<?= $userdata['email'] ?>" id="email" name="email" placeholder="Email Address*">
@@ -30,39 +50,43 @@
                                 </div>
 
                                 <div class="form-group row">
-                            
+                                    <div class="col-sm-6">
+                                        <h6>&nbsp;Contact No:</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h6>&nbsp;Address:</h6>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+
                                     <div class="col-sm-6 mb-1">
                                         <input type="tel" class="form-control form-control-user" value="<?= $userdata['phone'] ?>" id="phone" name="phone" pattern="[0-9]{11}" placeholder="Phone No*">
                                     </div>
-                                         <div class="col-sm-6 mb-1">
+                                    <div class="col-sm-6 mb-1">
                                         <input type="text" class="form-control form-control-user" id="address" value="<?= $userdata['address'] ?>" name="address" placeholder="Address*">
-                                         </div>
-                                    
-
-                                <!--     <div class="col-sm-6 mb-1">
-                                        <select class="form-control rounded-pill" name="Ship_ID" id="Ship_ID" data-placeholder="Select ship" style="font-size: 0.8rem; height:50px;">
-                                            <option class="form-control form-control-user" value="">Select Ship</option>
-                                            <?php foreach ($ships_data as $ship) { ?>
-                                                <option class="form-control form-control-user" value="<?= $ship['ID'] ?>"><?= $ship['Ship_name'] ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div> -->
-
-
+                                    </div>
                                 </div>
-                                 <div class="form-group row">
+
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <h6>&nbsp;Account Type:</h6>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <div class="col-sm-12 mb-1">
-                                        <select class="form-control rounded-pill" name="status" id="status" data-placeholder="Select Controller" style="font-size: 0.8rem; height:50px;">
-                                            <option class="form-control form-control-user" value="">Select Account Type</option>
-                                            <option   <?php if($userdata['acct_type']=='SO_STORE'){ echo "selected"; } ?> 
-                                            class="form-control form-control-user" value="SO_STORE">SO Store</option>
-                                            <option   <?php if($userdata['acct_type']=='PO'){ echo "selected"; } ?> 
-                                             class="form-control form-control-user" value="PO">Project Officer</option>
-                                            <option   <?php if($userdata['acct_type']=='SO_CW'){ echo "selected"; } ?> 
-                                            class="form-control form-control-user" value="SO_CW">SO CW</option>
-                                            <option  <?php if($userdata['acct_type']=='SO_RECORD'){ echo "selected"; } ?>
-                                            class="form-control form-control-user" value="SO_RECORD">SO Record</option>
-                                          
+                                        <select class="form-control rounded-pill" name="status" id="status" value="<?= $userdata['acct_type'] ?>" data-placeholder="Select Controller" style="font-size: 0.8rem; height:50px;" readonly>
+                                            <?php if ($userdata['acct_type'] == 'SO_STORE') { ?>
+                                                <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">SO STORE</option>
+                                            <?php } else if ($userdata['acct_type'] == 'PO') { ?>
+                                                <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">Project Officer</option>
+                                            <?php } else if ($userdata['acct_type'] == 'SO_CW') { ?>
+                                                <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">SO CW</option>
+                                            <?php } else if ($userdata['acct_type'] == 'SO_RECORD') { ?>
+                                                <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">SO Record</option>
+                                            <?php }  ?>
+
                                         </select>
                                     </div>
                                 </div>
@@ -71,7 +95,7 @@
                                     <div class="col-sm-4">
                                         <button type="button" class="btn btn-primary btn-user btn-block" id="add_btni">
                                             <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                            Update 
+                                            Update
                                         </button>
                                     </div>
                                 </div>
@@ -89,32 +113,31 @@
 </div>
 <?php $this->load->view('common/footer'); ?>
 <script>
-
     $('#add_btni').on('click', function() {
         //alert('javascript working');
         $('#add_btn').attr('disabled', true);
         var validate = 0;
 
-        var username = $('#username').val();
+        var username = $('#fullname').val();
         var password = $('#password').val();
-        var status = $('#status').val();
+        // var status = $('#status').val();
         var email = $('#email').val();
-        var phone=$('#phone').val();
+        var phone = $('#phone').val();
         var address = $('#address').val();
 
         if (username == '') {
             validate = 1;
-            $('#username').addClass('red-border');
+            $('#fullname').addClass('red-border');
         }
         if (password == '') {
             validate = 1;
             $('#password').addClass('red-border');
         }
-        if (status == '') {
-            validate = 1;
-            $('#status').addClass('red-border');
-        }
-           if (email == '') {
+        // if (status == '') {
+        //     validate = 1;
+        //     $('#status').addClass('red-border');
+        // }
+        if (email == '') {
             validate = 1;
             $('#email').addClass('red-border');
         }
@@ -133,33 +156,32 @@
         }
     });
 
-    
-     function seen(data) {
-         // alert('in');
-         // alert(data);
-         // var receiver_id=$(this).attr('id');
-         $.ajax({
-             url: '<?= base_url(); ?>ChatController/seen',
-             method: 'POST',
-             data: {
-                 'id': data
-             },
-             success: function(data) {
-                 $('#notification').html(data);
-             },
-             async: true
-         });
-     }
 
-     $('#notifications').focusout(function(){
- // alert('notification clicked');
-    $.ajax({
-      url: '<?= base_url(); ?>ChatController/activity_seen',
-      success: function(data) {
-        $('#notifications').html(data);
-      },
-      async: true
+    function seen(data) {
+        // alert('in');
+        // alert(data);
+        // var receiver_id=$(this).attr('id');
+        $.ajax({
+            url: '<?= base_url(); ?>ChatController/seen',
+            method: 'POST',
+            data: {
+                'id': data
+            },
+            success: function(data) {
+                $('#notification').html(data);
+            },
+            async: true
+        });
+    }
+
+    $('#notifications').focusout(function() {
+        // alert('notification clicked');
+        $.ajax({
+            url: '<?= base_url(); ?>ChatController/activity_seen',
+            success: function(data) {
+                $('#notifications').html(data);
+            },
+            async: true
+        });
     });
-});
-
 </script>

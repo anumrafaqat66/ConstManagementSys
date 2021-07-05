@@ -290,6 +290,13 @@ CREATE TABLE `activity_log_seen` (
  `seen` enum('yes','no') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+alter table project_drawing
+add column description varchar(500);
+
+alter table security_info
+add column full_name varchar(100);
+
 --
 -- Indexes for dumped tables
 --

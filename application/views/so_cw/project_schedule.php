@@ -57,6 +57,85 @@
 
                              <div class="card">
                                  <div class="card-header bg-custom1">
+                                     <h1 class="h4">Add Event</h1>
+                                 </div>
+
+                                 <div class="card-body bg-custom3">
+                                     <form class="user" role="form" method="post" id="new_form" action="">
+                                         <div class="form-group row">
+                                             <div class="col-sm-12">
+                                                 <h3 id="schedule_name_heading"></h3>
+                                             </div>
+                                         </div>
+                                         <div class="form-group row">
+                                             <div class="col-sm-4">
+                                                 <h6>&nbsp;Event Title:</h6>
+                                             </div>
+                                             <div class="col-sm-4">
+                                                 <h6>&nbsp;Event Start Date:</h6>
+                                             </div>
+                                             <div class="col-sm-4">
+                                                 <h6>&nbsp;Event End Date:</h6>
+                                             </div>
+                                         </div>
+
+                                         <div class="form-group row">
+                                             <div class="col-sm-4 mb-1">
+                                                 <input type="text" class="form-control form-control-user" name="event_title" id="event_title" placeholder="Event Title">
+                                             </div>
+                                             <div class="col-sm-4 mb-1">
+                                                 <input type="date" class="form-control form-control-user" name="event_start_date" id="event_start_date" placeholder="Start Date" readonly>
+                                             </div>
+                                             <div class="col-sm-4 mb-1">
+                                                 <input type="date" class="form-control form-control-user" name="event_end_date" id="event_end_date" placeholder="End Date" readonly>
+                                             </div>
+
+                                         </div>
+
+                                         <div class="form-group row">
+                                             <div class="col-sm-6">
+                                                 <h6>&nbsp;Enter Schedule Tasks Details:</h6>
+                                             </div>
+                                         </div>
+
+                                         <div class="form-group row">
+                                             <div class="col-sm-12 mb-1">
+                                                 <textarea class="form-control" style="height:120px" name="add_event_desc" id="add_event_desc" placeholder="Enter schedule details"></textarea>
+                                             </div>
+                                         </div>
+
+                                         <div class="form-group row justify-content-center">
+                                             <div class="col-sm-4">
+                                                 <button type="button" class="btn btn-primary btn-user btn-block" id="add_event" name="add_event">
+                                                     <!-- <i class="fab fa-google fa-fw"></i>  -->
+                                                     ADD EVENT
+                                                 </button>
+                                                 <span id="show_error_add" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors</span>
+                                             </div>
+                                         </div>
+                                     </form>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
+             </div>
+         </div>
+     </div>
+
+     <div class="modal fade" id="edit_schedule">
+         <!-- <div class="row"> -->
+         <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
+             <div class="modal-content bg-custom3" style="width:1000px;">
+                 <div class="modal-header" style="width:1000px;">
+                 </div>
+                 <div class="card-body bg-custom3">
+                     <div class="row">
+                         <div class="col-lg-12">
+
+                             <div class="card">
+                                 <div class="card-header bg-custom1">
                                      <h1 class="h4">Update Schedule</h1>
                                  </div>
 
@@ -94,6 +173,9 @@
                                              <div class="col-sm-3 mb-1" style="display:none">
                                                  <input type="text" class="form-control form-control-user" name="schedule_id" id="schedule_id" placeholder="Schedule Name">
                                              </div>
+                                             <div class="col-sm-3 mb-1" style="display:none">
+                                                 <input type="text" class="form-control form-control-user" name="project_date" id="project_date" value="<?php echo $project_records['Start_date'] ?>">
+                                             </div>
 
                                              <div class="col-sm-3 mb-1">
                                                  <input type="text" class="form-control form-control-user" name="schedule_name" id="schedule_name" placeholder="Schedule Name">
@@ -116,7 +198,7 @@
 
                                          <div class="form-group row">
                                              <div class="col-sm-12 mb-1">
-                                                 <textarea class="form-control" style="height:120px" name="desc" id="desc" placeholder="Enter schedule details"></textarea>
+                                                 <textarea class="form-control" style="height:120px" name="desc_update" id="desc_update" placeholder="Enter schedule details"></textarea>
                                              </div>
                                          </div>
 
@@ -147,6 +229,11 @@
 
 
      <!-- <div class="response"></div> -->
+     <div class="col-lg-12">
+         <div id="event_alert" class="alert alert-success" role="alert" style="display:none">
+             Event Scheduled successfully!!
+         </div>
+     </div>
 
      <div id='calendar'></div>
 
@@ -160,6 +247,7 @@
                          Schedule deleted successfully!!
                      </div>
                  </div>
+
 
                  <div class="col-lg-12">
 
@@ -180,10 +268,10 @@
                                                  <th scope="col">Schedule Details</th>
                                                  <th scope="col">Schedule Start Date</th>
                                                  <th scope="col">Status</th>
-                                                  <?php if($this->session->userdata('username') == 'SO_CW') {?>
-                                                 <th scope="col" style="text-align:center">Edit</th>
+                                                 <?php if ($this->session->userdata('acct_type') == 'SO_CW') { ?>
+                                                     <th scope="col" style="text-align:center">Edit</th>
+                                                     <th scope="col" style="text-align:center">Delete</th>
                                                  <?php } ?>
-                                                 <th scope="col">Delete</th>
 
                                              </tr>
                                          </thead>
@@ -192,16 +280,17 @@
                                                 foreach ($project_schedule as $data) { ?>
                                                  <tr>
                                                      <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
+                                                     <td scope="row" style="display:none"><?= $data['id']; ?></td>
                                                      <td scope="row"><?= $data['schedule_date']; ?></td>
                                                      <td scope="row"><?= $data['schedule_name']; ?></td>
                                                      <td scope="row"><?= $data['schedule_description']; ?></td>
                                                      <td scope="row"><?= $data['schedule_start_date']; ?></td>
                                                      <td scope="row" style="display:none"><?= $data['schedule_end_date']; ?></td>
                                                      <td scope="row"><?= $data['Status']; ?></td>
-                                                    <?php if($this->session->userdata('username') == 'SO_CW') {?>
-                                                     <td style="width:120px" id="edit<?= $data['id']; ?>" onclick="editSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px; cursor:pointer" class="fas fa-edit"></i></td>
-                                                 <?php }?>
-                                                     <td style="width:120px" id="delete<?= $data['id']; ?>" onclick="deleteSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 20px; cursor:pointer" class="fas fa-trash-alt"></i></td>
+                                                     <?php if ($this->session->userdata('acct_type') == 'SO_CW') { ?>
+                                                         <td style="width:120px" id="edit<?= $data['id']; ?>" onclick="editSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px; cursor:pointer" class="fas fa-edit"></i></td>
+                                                         <td style="width:120px" id="delete<?= $data['id']; ?>" onclick="deleteSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 20px; cursor:pointer" class="fas fa-trash-alt"></i></td>
+                                                     <?php } ?>
                                                  </tr>
                                              <?php
                                                     $count++;
@@ -238,19 +327,19 @@
 
  <script>
      function editSchedule(sch_id) {
-         $('#new_schedule').modal('show');
+         $('#edit_schedule').modal('show');
 
          $('#table_rows_schedule').find('tr').click(function(e) {
 
              var $columns = $(this).find('td');
 
-             $('#schedule_date').val($columns[1].innerHTML);
-             $('#schedule_name').val($columns[2].innerHTML);
-             $('#start_date').val($columns[4].innerHTML);
-             $('#end_date').val($columns[5].innerHTML);
-             $('#desc').val($columns[3].innerHTML);
+             $('#schedule_date').val($columns[2].innerHTML);
+             $('#schedule_name').val($columns[3].innerHTML);
+             $('#start_date').val($columns[5].innerHTML);
+             $('#end_date').val($columns[6].innerHTML);
+             $('#desc_update').val($columns[4].innerHTML);
              $('#schedule_name_heading').html('<strong>' + $columns[2].innerHTML + '</strong>');
-             $('#schedule_id').val($columns[0].innerHTML);
+             $('#schedule_id').val($columns[1].innerHTML);
          });
      }
 
@@ -282,9 +371,55 @@
 
      }
 
+     $('#add_event').on('click', function() {
+         var validate = 0;
+         elementClicked = true;
+
+         event_name = $('#event_title').val();
+         event_desc = $('#add_event_desc').val();
+         event_start = $('#event_start_date').val();
+         event_end = $('#event_end_date').val();
+
+         if (event_name == '') {
+             validate = 1;
+             $('#event_title').addClass('red-border');
+         }
+         if (event_desc == '') {
+             validate = 1;
+             $('#add_event_desc').addClass('red-border');
+         }
+
+         if (validate == 0) {
+             $('#show_error_add').hide();
+             $('#new_schedule').modal('hide');
+
+             $.ajax({
+                 url: '<?= base_url(); ?>SO_CW/add_event',
+                 data: 'title=' + event_name + '&start=' + event_start + '&end=' + event_end + '&project_id=' + <?php echo json_encode($project_id, JSON_NUMERIC_CHECK); ?> + '&desc=' + event_desc,
+                 type: "POST",
+                 success: function(data) {
+                     //  displayMessage("Added Successfully");
+                     $('#event_alert').show();
+                     setTimeout(function() {
+                         $('.alert').hide();
+                     }, 2000);
+
+                     setTimeout(function() {
+                         location.reload();
+                     }, 2000);
+                 },
+                 async: true
+             });
+         } else {
+
+             $('#show_error_add').show();
+         }
+
+     });
+
      $(document).ready(function() {
-     	var user ='<?= $this->session->userdata('acct_type'); ?>';
- 
+         var user = '<?= $this->session->userdata('acct_type'); ?>';
+
          var calendar = $('#calendar').fullCalendar({
              editable: true,
              plugins: ['interaction', 'dayGrid'],
@@ -311,70 +446,73 @@
              //  },
              selectable: true,
              selectHelper: true,
-             
-            
+
              select: function(start, end, allDay) {
-             	//alert('clicked calender');
-             	if(user == 'SO_CW'){
-                 var title = prompt('Event Title:');
-                 //  $('#new_schedule').modal('show');
+                 var project_start_date = $('#project_start_date').val();
+                 var date = new Date(start),
+                     yr = date.getFullYear(),
+                     month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1),
+                     day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate(),
+                     startDate = yr + '-' + month + '-' + day;
+                 var date = new Date(end),
+                     yr = date.getFullYear(),
+                     month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1),
+                     day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate(),
+                     endDate = yr + '-' + month + '-' + day;
 
-                 if (title) {
-                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
-                     var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
-
-                     var desc = prompt('Enter details of event ' + title + ' on date ' + start)
-
-                     $.ajax({
-                         url: '<?= base_url(); ?>SO_CW/add_event',
-                         data: 'title=' + title + '&start=' + start + '&end=' + end + '&project_id=' + <?php echo json_encode($project_id, JSON_NUMERIC_CHECK); ?> + '&desc=' + desc,
-                         type: "POST",
-                         success: function(data) {
-                             displayMessage("Added Successfully");
-                         }
-                     });
-                     calendar.fullCalendar('renderEvent', {
-                             title: title,
-                             start: start,
-                             end: end,
-                             allDay: allDay
-                         },
-                         true
-                     );
+                 if (startDate > project_start_date) {
+                     if (user == 'SO_CW') {
+                         $('#new_schedule').modal('show');
+                         $('#event_start_date').val(startDate);
+                         $('#event_end_date').val(endDate);
+                     }
                  }
-                 calendar.fullCalendar('unselect');
-             }
              },
+             //  select: function(start, end, allDay) {
+             //      //alert('clicked calender');
+             //      var project_start_date = $('#project_start_date').val();
+             //      var date = new Date(start),
+             //          yr = date.getFullYear(),
+             //          month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1),
+             //          day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate(),
+             //          newDate = yr + '-' + month + '-' + day;
 
-             //  editable: true,
-             //  eventDrop: function(event, delta) {
-             //      var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-             //      var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-             //      $.ajax({
-             //          url: 'edit-event.php',
-             //          data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
-             //          type: "POST",
-             //          success: function(response) {
-             //              displayMessage("Updated Successfully");
-             //          }
-             //      });
-             //  },
-             //  eventClick: function(event) {
-             //      var deleteMsg = confirm("Do you really want to delete?");
-             //      if (deleteMsg) {
-             //          $.ajax({
-             //              type: "POST",
-             //              url: "delete-event.php",
-             //              data: "&id=" + event.id,
-             //              success: function(response) {
-             //                  if (parseInt(response) > 0) {
-             //                      $('#calendar').fullCalendar('removeEvents', event.id);
-             //                      displayMessage("Deleted Successfully");
-             //                  }
+             //      if (newDate > project_start_date) {
+             //          if (user == 'SO_CW') {
+             //              //  var title = prompt('Event Title:');
+             //              $('#new_schedule').modal('show');
+             //              var title = global_event_name;
+             //              var desc = global_event_desc;
+
+             //              if (title) {
+             //                  var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
+             //                  var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
+
+             //                  //  var desc = prompt('Enter details of event ' + title + ' on date ' + start)
+             //                  $.ajax({
+             //                      url: '<?= base_url(); ?>SO_CW/add_event',
+             //                      data: 'title=' + title + '&start=' + start + '&end=' + end + '&project_id=' + <?php echo json_encode($project_id, JSON_NUMERIC_CHECK); ?> + '&desc=' + desc,
+             //                      type: "POST",
+             //                      success: function(data) {
+             //                          displayMessage("Added Successfully");
+             //                      },
+             //                      async: false
+             //                  });
+             //                  calendar.fullCalendar('renderEvent', {
+             //                          title: title,
+             //                          start: start,
+             //                          end: end,
+             //                          allDay: allDay
+             //                      },
+             //                      true
+             //                  );
              //              }
-             //          });
+             //              calendar.fullCalendar('unselect');
+             //          }
+             //      } else {
+             //          alert('Event cannot be added less than project start Date')
              //      }
-             //  }
+             //  },
 
          });
      });
@@ -387,7 +525,7 @@
      }
 
      $('#add_btn').on('click', function() {
-         //alert('javascript working');
+         var validate = 0;
          $('#add_btn').attr('disabled', true);
          var schedule_name = $('#schedule_name').val();
          var start_date = $('#start_date').val();

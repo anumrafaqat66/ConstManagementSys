@@ -76,7 +76,7 @@ class User_Login extends CI_Controller
 		$this->load->view('edit_profile',$data);
 	}
 	public function edit_profile_process(){
-        $username =  $_POST['username'];
+        $username =  $_POST['fullname'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
         $address = $_POST['address'];
@@ -85,7 +85,7 @@ class User_Login extends CI_Controller
 
         $cond  = ['ID' => $id];
         $data_update = [
-            'username' => $username,
+            'full_name' => $username,
             'email' => $email,
             'phone' => $phone,
             'address' => $address,

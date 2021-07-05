@@ -75,8 +75,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Features:</h6>
-                        <a class="collapse-item" href="<?php echo base_url(); ?>SO_CW/view_project_schedule">Project Schedule</a>
-                        <a class="collapse-item" href="<?php echo base_url(); ?>SO_CW/view_project_progress">Project Progress</a>
+                        <a class="collapse-item" href="<?php echo base_url(); ?>SO_CW/view_project_schedule/1">Project Schedule</a>
+                        <a class="collapse-item" href="<?php echo base_url(); ?>SO_CW/view_project_progress/1">Project Progress</a>
                           <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/edit_profile">Edit Profile</a>
                          <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/change_password">Change Password</a> 
                     </div>

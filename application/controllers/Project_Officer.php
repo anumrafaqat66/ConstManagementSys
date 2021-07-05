@@ -146,6 +146,8 @@ class Project_Officer extends CI_Controller
         $postData = $this->security->xss_clean($this->input->post());
 
         $project_id = $postData['project_id'];
+        $desc = $postData['drawing_desc'];
+        echo $desc;
         $upload1 = $this->upload_reg($_FILES['project_drawing']);
 
         if (count($upload1) >= 1) {
@@ -154,6 +156,7 @@ class Project_Officer extends CI_Controller
                 $insert_array = array(
                     'name' => $upload1[$i],
                     'project_id' => $project_id,
+                    'description' => $desc,
                     'date_added' => date('Y-m-d')
                 );
                 $insert = $this->db->insert('project_drawing', $insert_array);

@@ -292,7 +292,6 @@ class SO_CW extends CI_Controller
         }
     }
 
-
     public function update_schedule($project_id = NULL)
     {
         if ($this->input->post()) {
@@ -303,7 +302,7 @@ class SO_CW extends CI_Controller
             $schedule_name = $postData['schedule_name'];
             $start_date = $postData['start_date'];
             $end_date = $postData['end_date'];
-            $desc = $postData['desc'];
+            $desc = $postData['desc_update'];
 
             $cond  = [
                 'id' => $schedule_id,
@@ -315,7 +314,7 @@ class SO_CW extends CI_Controller
                 'schedule_start_date' => $start_date,
                 'schedule_end_date' => $end_date,
                 'schedule_description	' => $desc,
-            ];
+            ];            
 
             $this->db->where($cond);
             $update = $this->db->update('project_schedule', $data_update);
