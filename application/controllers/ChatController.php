@@ -217,8 +217,8 @@ class ChatController extends CI_Controller
 				$file_ext = $chat['file_ext'];
 				$mime_type = explode('/', $chat['mime_type']);
 
-				$document_url = base_url('uploads/attachment/' . $attachment_name);
-
+				$document_url = base_url('uploads/attachments/' . $attachment_name);
+				
 				if ($mime_type[0] == 'image') {
 					$messageBody .= '<img src="' . $document_url . '" onClick="ViewAttachmentImage(' . "'" . $document_url . "'" . ',' . "'" . $attachment_name . "'" . ');" class="attachmentImgCls">';
 				} else {
