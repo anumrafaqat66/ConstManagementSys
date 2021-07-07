@@ -41,7 +41,9 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'PO') {
+                                                                                                                            echo "Project_Officer";
+                                                                                                                        } ?>">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
                 </div>
@@ -80,7 +82,7 @@
                         <a class="collapse-item" href="<?php echo base_url(); ?>Project_Officer/add_projects">Projects</a>
                         <a class="collapse-item" href="<?php echo base_url(); ?>Project_Officer/add_contractors">Contractors</a>
                         <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/edit_profile">Edit Profile</a>
-                         <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/change_password">Change Password</a> 
+                        <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/change_password">Change Password</a>
                     </div>
                 </div>
             </li>
