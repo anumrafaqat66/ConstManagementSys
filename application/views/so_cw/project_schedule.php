@@ -174,7 +174,7 @@
                                                  <input type="text" class="form-control form-control-user" name="schedule_id" id="schedule_id" placeholder="Schedule Name">
                                              </div>
                                              <div class="col-sm-3 mb-1" style="display:none">
-                                                 <input type="text" class="form-control form-control-user" name="project_date" id="project_date" value="<?php echo $project_records['Start_date'] ?>">
+                                                 <input type="text" class="form-control form-control-user" name="project_start_date" id="project_start_date" value="<?php echo $project_records['Start_date'] ?>">
                                              </div>
 
                                              <div class="col-sm-3 mb-1">
