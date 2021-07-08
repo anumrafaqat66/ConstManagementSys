@@ -35,15 +35,19 @@
                                                      <h6>&nbsp;Material:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-2">
+                                                     <h6>&nbsp;Price Per Unit:</h6>
+                                                 </div>
+
+                                                 <div class="col-sm-2">
                                                      <h6>&nbsp;Quantity:</h6>
                                                  </div>
 
                                                  <div class="col-sm-3">
-                                                     <h6>&nbsp;Price:</h6>
+                                                     <h6>&nbsp;Total Price:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3">
+                                                 <div class="col-sm-2">
                                                      <h6>&nbsp;Unit:</h6>
                                                  </div>
 
@@ -54,16 +58,20 @@
                                                      <input type="text" class="form-control form-control-user" name="material_name" id="material_name" placeholder="Material">
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
+                                                 <div class="col-sm-2 mb-1">
+                                                     <input type="number" class="form-control form-control-user" name="per_unit" id="per_unit" placeholder="Per Unit Price">
+                                                 </div>
+
+                                                 <div class="col-sm-2 mb-1">
                                                      <input type="number" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
                                                  </div>
 
                                                  <div class="col-sm-3 mb-1">
-                                                     <input type="number" class="form-control form-control-user" name="price" id="price" placeholder="Price">
+                                                     <input type="number" class="form-control form-control-user" name="price" id="price" placeholder="Price" readonly>
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1">
-                                                     <input type="number" class="form-control form-control-user" name="unit" id="unit" placeholder="Unit">
+                                                 <div class="col-sm-2 mb-1">
+                                                     <input type="text" class="form-control form-control-user" name="unit" id="unit" placeholder="Unit">
                                                  </div>
                                              </div>
 
@@ -112,36 +120,44 @@
                                      <div class="card-body bg-custom3">
                                          <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>SO_STORE/edit_inventory">
                                              <div class="form-group row">
-                                                 <div class="col-sm-4">
+                                                 <div class="col-sm-3">
                                                      <h6>&nbsp;Material:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-4">
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Price Per Unit:</h6>
+                                                 </div>
+
+                                                 <div class="col-sm-3">
                                                      <h6>&nbsp;Add Quantity:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-4">
-                                                     <h6>&nbsp;New Price:</h6>
+                                                 <div class="col-sm-3">
+                                                     <h6>&nbsp;Total Price:</h6>
                                                  </div>
 
                                              </div>
 
                                              <div class="form-group row">
 
-                                                 <div class="col-sm-4 mb-1" style="display:none">
+                                                 <div class="col-sm-3 mb-1" style="display:none">
                                                      <input type="text" class="form-control form-control-user" name="id_edit" id="id_edit" placeholder="id" readonly="readonly" style="color:black; font-size:medium; background-color:lightgray; border:1px solid black;">
                                                  </div>
 
-                                                 <div class="col-sm-4 mb-1">
+                                                 <div class="col-sm-3 mb-1">
                                                      <input type="text" class="form-control form-control-user" name="material_name_edit" id="material_name_edit" placeholder="Material" readonly="readonly" style="color:black; font-size:medium; background-color:lightgray; border:1px solid black;">
                                                  </div>
 
-                                                 <div class="col-sm-4 mb-1">
+                                                 <div class="col-sm-3 mb-1">
+                                                     <input type="number" class="form-control form-control-user" name="new_per_unit" id="new_per_unit" placeholder="Per Unit Price">
+                                                 </div>
+
+                                                 <div class="col-sm-3 mb-1">
                                                      <input type="number" class="form-control form-control-user" name="new_quantity" id="new_quantity" placeholder="Add Quantity">
                                                  </div>
 
-                                                 <div class="col-sm-4 mb-1">
-                                                     <input type="number" class="form-control form-control-user" name="new_price" id="new_price" placeholder="New Price">
+                                                 <div class="col-sm-3 mb-1">
+                                                     <input type="number" class="form-control form-control-user" name="new_price" id="new_price" placeholder="Total Price" readonly>
                                                  </div>
 
                                              </div>
@@ -251,6 +267,7 @@
          var quantity = $('#quantity').val();
          var price = $('#price').val();
          var unit = $('#unit').val();
+         var per_unit = $('#per_unit').val();
 
          if (material_name == '') {
              validate = 1;
@@ -264,6 +281,11 @@
              validate = 1;
              $('#price').addClass('red-border');
          }
+         if (per_unit == '') {
+             validate = 1;
+             $('#per_unit').addClass('red-border');
+         }
+
          if (unit == '') {
              validate = 1;
              $('#unit').addClass('red-border');
@@ -279,6 +301,11 @@
              $('#price').addClass('red-border');
          }
 
+         if (price == 0){
+            validate = 1;
+             $('#price').addClass('red-border');
+         }
+
          if (validate == 0) {
              $('#add_form')[0].submit();
              $('#show_error_new').hide();
@@ -286,6 +313,30 @@
              $('#add_btn').removeAttr('disabled');
              $('#show_error_new').show();
          }
+     });
+
+     $('#quantity').on('keyup focusout', function() {
+         var quantity = $(this).val();
+         var per_unit_cost = $('#per_unit').val();
+         $('#price').val(quantity * per_unit_cost);
+     });
+
+     $('#per_unit').on('keyup focusout', function() {
+         var quantity = $('#quantity').val();
+         var per_unit_cost = $('#per_unit').val();
+         $('#price').val(quantity * per_unit_cost);
+     });
+
+     $('#new_quantity').on('keyup focusout', function() {
+         var quantity = $(this).val();
+         var per_unit_cost = $('#new_per_unit').val();
+         $('#new_price').val(quantity * per_unit_cost);
+     });
+
+     $('#new_per_unit').on('keyup focusout', function() {
+         var quantity = $('#new_quantity').val();
+         var per_unit_cost = $('#new_per_unit').val();
+         $('#new_price').val(quantity * per_unit_cost);
      });
 
      $('#edit_btn').on('click', function() {
@@ -296,6 +347,7 @@
          var material_name = $('#material_name_edit').val();
          var quantity = $('#new_quantity').val();
          var price = $('#new_price').val();
+         var new_per_unit = $('#new_per_unit').val();
 
          if (material_name == '') {
              validate = 1;
@@ -308,6 +360,10 @@
          if (price == '') {
              validate = 1;
              $('#new_price').addClass('red-border');
+         }
+         if (new_per_unit == '') {
+             validate = 1;
+             $('#new_per_unit').addClass('red-border');
          }
 
          if (!$.isNumeric(quantity)) {

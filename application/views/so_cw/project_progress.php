@@ -227,11 +227,13 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">ID</th>
-                                                <th scope="col" style="width:140px">Progress Date</th>
+                                                <th scope="col" style="width:140px;display:none">Progress Date</th>
                                                 <th scope="col" style="width:140px">Task Name</th>
                                                 <!-- <th scope="col" style="width:120px">Progress %</th> -->
                                                 <th scope="col" style="width:250px">Progress Bar</th>
                                                 <th scope="col">Details</th>
+                                                <th scope="col" style='white-space: nowrap;'>Start Date</th>
+                                                <th scope="col" style='white-space: nowrap;'>End Date</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Edit</th>
                                                 <th scope="col">Delete</th>
@@ -242,15 +244,17 @@
                                             foreach ($project_progress as $data) { ?>
                                                 <tr>
                                                     <td scope="row" id="cont<?= $count; ?>"><?= $data['id'];; ?></td>
-                                                    <td scope="row"><?= $data['progress_date']; ?></td>
+                                                    <td scope="row" style="display:none"><?= $data['progress_date']; ?></td>
                                                     <td scope="row"><?= $data['schedule_name']; ?></td>
-                                                    <!-- <td scope="row"><?= $data['progress_percentage']; ?>%</td> -->
+                                                    <!-- <td scope="row" style="display:none"><?= $data['progress_percentage']; ?>%</td> -->
                                                     <td>
                                                         <div class="progress" style="height:20px">
                                                             <div class="progress-bar" id="progress_bar<?= $count; ?>" role="progressbar" style="width: <?= $data['progress_percentage']; ?>%;" aria-valuenow="<?= $data['progress_percentage']; ?>" aria-valuemin="0" aria-valuemax="100"><?= $data['progress_percentage'] . "%" ?></div>
                                                         </div>
                                                     </td>
                                                     <td scope="row"><?= $data['progress_description']; ?></td>
+                                                    <td scope="row" style='white-space: nowrap;'><?= $data['schedule_start_date']; ?></td>
+                                                    <td scope="row" style='white-space: nowrap;'><?= $data['schedule_end_date']; ?></td>
                                                     <td scope="row"><?= $data['Status']; ?></td>
                                                     <td id="edit<?= $data['id']; ?>" onclick="editProgress(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 10px; cursor:pointer" class="fas fa-edit"></i></td>
                                                     <td id="delete<?= $data['id']; ?>" onclick="deleteProgress(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 20px; cursor:pointer" class="fas fa-trash-alt"></i></td>
@@ -332,10 +336,10 @@
 
             $('#progress_date_update').val($columns[1].innerHTML);
             $('#progress_percentage_update').val(parseFloat($columns[3].innerHTML));
-            $('#desc_update').val($columns[6].innerText);
+            $('#desc_update').val($columns[4].innerText);
             $('#task_name_heading').html('<strong>' + $columns[2].innerHTML + '</strong>');
             $('#progress_id_update').val($columns[0].innerHTML);
-            $('#task_id').val($columns[8].innerHTML);
+            $('#task_id').val($columns[10].innerHTML);
         });
     }
 

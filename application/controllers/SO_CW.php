@@ -36,7 +36,7 @@ class SO_CW extends CI_Controller
     {
         if ($this->session->has_userdata('user_id')) {
             
-            $this->db->select('pp.*,ps.schedule_name');
+            $this->db->select('pp.*,ps.schedule_name, ps.schedule_start_date, ps.schedule_end_date');
             $this->db->from('project_progress pp');
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');

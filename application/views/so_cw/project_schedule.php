@@ -263,10 +263,12 @@
                                          <thead>
                                              <tr>
                                                  <th scope="col">ID</th>
-                                                 <th scope="col">Schedule Creation Date</th>
-                                                 <th scope="col">Schedule Name</th>
-                                                 <th scope="col">Schedule Details</th>
-                                                 <th scope="col">Schedule Start Date</th>
+                                                 <!-- <th scope="col">Task Creation Date</th> -->
+                                                 <th scope="col">Task Name</th>
+                                                 <th scope="col">Task Details</th>
+                                                 <th scope="col">Start Date</th>
+                                                 <th scope="col">End Date</th>
+                                                 <th scope="col">Duration</th>
                                                  <th scope="col">Status</th>
                                                  <?php if ($this->session->userdata('acct_type') == 'SO_CW') { ?>
                                                      <th scope="col" style="text-align:center">Edit</th>
@@ -277,15 +279,17 @@
                                          </thead>
                                          <tbody id="table_rows_schedule">
                                              <?php $count = 1;
-                                                foreach ($project_schedule as $data) { ?>
+                                                foreach ($project_schedule as $data) { 
+                                                    $diff = date_diff(date_create($data['schedule_start_date']), date_create($data['schedule_end_date']));?>
                                                  <tr>
                                                      <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                      <td scope="row" style="display:none"><?= $data['id']; ?></td>
-                                                     <td scope="row"><?= $data['schedule_date']; ?></td>
+                                                     <!-- <td scope="row"><?= $data['schedule_date']; ?></td> -->
                                                      <td scope="row"><?= $data['schedule_name']; ?></td>
                                                      <td scope="row"><?= $data['schedule_description']; ?></td>
-                                                     <td scope="row"><?= $data['schedule_start_date']; ?></td>
-                                                     <td scope="row" style="display:none"><?= $data['schedule_end_date']; ?></td>
+                                                     <td scope="row" style='white-space: nowrap;'><?= $data['schedule_start_date']; ?></td>
+                                                     <td scope="row" style='white-space: nowrap;'><?= $data['schedule_end_date']; ?></td>
+                                                     <td scope="row"><?php echo $diff->format('%d days'); ?></td>
                                                      <td scope="row"><?= $data['Status']; ?></td>
                                                      <?php if ($this->session->userdata('acct_type') == 'SO_CW') { ?>
                                                          <td style="width:120px" id="edit<?= $data['id']; ?>" onclick="editSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px; cursor:pointer" class="fas fa-edit"></i></td>

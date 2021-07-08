@@ -45,7 +45,7 @@ class SO_STORE extends CI_Controller
 
         if ($this->session->has_userdata('user_id')) {
 
-            $this->db->select('id.id, i.Material_Name, id.Quantity, id.Price,i.Unit, id.stock_date, id.Status');
+            $this->db->select('id.id, i.Material_Name, id.Quantity, id.Price,i.Unit, id.stock_date, id.Status, id.cost_per_unit');
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
             $this->db->where('Material_id', $id);
@@ -81,12 +81,14 @@ class SO_STORE extends CI_Controller
             $quantity = $postData['quantity'];
             $price = $postData['price'];
             $unit = $postData['unit'];
+            $per_unit_cost = $postData['per_unit'];
 
             $insert_array = array(
                 'Material_Name' => $material,
                 'Material_Total_Quantity' => $quantity,
                 'Material_Total_Price' => $price,
-                'Unit' => $unit
+                'Unit' => $unit,
+                'cost_per_unit' => $per_unit_cost
             );
 
             $insert = $this->db->insert('inventory', $insert_array);
@@ -223,13 +225,15 @@ class SO_STORE extends CI_Controller
         $id =  $_POST['id_edit'];
         $quantity = $_POST['new_quantity'];
         $price = $_POST['new_price'];
+        $per_unit = $_POST['new_per_unit'];
 
         $insert_array_detail = array(
             'Material_ID' => $id,
             'Quantity' => $quantity,
             'Price' => $price,
             'stock_date' => date('Y-m-d'),
-            'Status' => 'Delivered'
+            'Status' => 'Delivered',
+            'cost_per_unit' => $per_unit
         );
 
         $insert_detail = $this->db->insert('inventory_detail', $insert_array_detail);

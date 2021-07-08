@@ -297,6 +297,12 @@ add column description varchar(500);
 alter table security_info
 add column full_name varchar(100);
 
+alter table inventory_detail
+add column cost_per_unit decimal(16,2);
+
+update inventory_detail
+set cost_per_unit = Price / Quantity;
+
 --
 -- Indexes for dumped tables
 --
