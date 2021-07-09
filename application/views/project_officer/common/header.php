@@ -71,22 +71,37 @@
             </div> -->
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span> Menu Items </span>
-                    <!-- <span>Components</span> -->
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>Project_Officer/add_projects"  aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-tasks"></i>
+                    <span> Projects </span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Features:</h6>
-                        <a class="collapse-item" href="<?php echo base_url(); ?>Project_Officer/add_projects">Projects</a>
-                        <a class="collapse-item" href="<?php echo base_url(); ?>Project_Officer/add_contractors">Contractors</a>
-                        <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/edit_profile">Edit Profile</a>
-                        <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/change_password">Change Password</a>
-                    </div>
-                </div>
             </li>
-            <br><br><br>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>Project_Officer/add_contractors"  aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-file-signature"></i>
+                    <span> Contractors </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/edit_profile"  aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-user-edit"></i>
+                    <span> Edit Profile </span> 
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/change_password"  aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-unlock-alt"></i>
+                    <span> Change Password </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/change_password"  aria-expanded="true">
+                    <i style="font-size:20px" class="far fa-list-alt"></i>
+                    <span> View Activity Log </span>
+                </a>
+            </li>
+            <br><br><br><br>
+            
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <!-- <li class="nav-item">

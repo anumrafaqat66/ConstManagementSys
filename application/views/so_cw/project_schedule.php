@@ -57,7 +57,7 @@
 
                              <div class="card">
                                  <div class="card-header bg-custom1">
-                                     <h1 class="h4">Add Event</h1>
+                                     <h1 class="h4">Add Task</h1>
                                  </div>
 
                                  <div class="card-body bg-custom3">
@@ -69,13 +69,13 @@
                                          </div>
                                          <div class="form-group row">
                                              <div class="col-sm-4">
-                                                 <h6>&nbsp;Event Title:</h6>
+                                                 <h6>&nbsp;Task Title:</h6>
                                              </div>
                                              <div class="col-sm-4">
-                                                 <h6>&nbsp;Event Start Date:</h6>
+                                                 <h6>&nbsp;Task Start Date:</h6>
                                              </div>
                                              <div class="col-sm-4">
-                                                 <h6>&nbsp;Event End Date:</h6>
+                                                 <h6>&nbsp;Task End Date:</h6>
                                              </div>
                                          </div>
 
@@ -94,13 +94,13 @@
 
                                          <div class="form-group row">
                                              <div class="col-sm-6">
-                                                 <h6>&nbsp;Enter Schedule Tasks Details:</h6>
+                                                 <h6>&nbsp;Enter Tasks Details:</h6>
                                              </div>
                                          </div>
 
                                          <div class="form-group row">
                                              <div class="col-sm-12 mb-1">
-                                                 <textarea class="form-control" style="height:120px" name="add_event_desc" id="add_event_desc" placeholder="Enter schedule details"></textarea>
+                                                 <textarea class="form-control" style="height:120px" name="add_event_desc" id="add_event_desc" placeholder="Enter Task details"></textarea>
                                              </div>
                                          </div>
 
@@ -108,7 +108,7 @@
                                              <div class="col-sm-4">
                                                  <button type="button" class="btn btn-primary btn-user btn-block" id="add_event" name="add_event">
                                                      <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                     ADD EVENT
+                                                     ADD TASK
                                                  </button>
                                                  <span id="show_error_add" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors</span>
                                              </div>
@@ -136,7 +136,7 @@
 
                              <div class="card">
                                  <div class="card-header bg-custom1">
-                                     <h1 class="h4">Update Schedule</h1>
+                                     <h1 class="h4">Update Task</h1>
                                  </div>
 
                                  <div class="card-body bg-custom3">
@@ -148,18 +148,18 @@
                                          </div>
                                          <div class="form-group row">
                                              <div class="col-sm-3">
-                                                 <h6>&nbsp;Schedule Date:</h6>
+                                                 <h6>&nbsp;Task Date:</h6>
                                              </div>
 
                                              <div class="col-sm-3">
-                                                 <h6>&nbsp;Schedule Name:</h6>
+                                                 <h6>&nbsp;Task Name:</h6>
                                              </div>
                                              <div class="col-sm-3">
-                                                 <h6>&nbsp;Start Date:</h6>
+                                                 <h6>&nbsp;Task Start Date:</h6>
                                              </div>
 
                                              <div class="col-sm-3">
-                                                 <h6>&nbsp;Completion Date:</h6>
+                                                 <h6>&nbsp;Task End Date:</h6>
                                              </div>
 
                                          </div>
@@ -192,13 +192,13 @@
 
                                          <div class="form-group row">
                                              <div class="col-sm-6">
-                                                 <h6>&nbsp;Enter Schedule Tasks Details:</h6>
+                                                 <h6>&nbsp;Enter Tasks Details:</h6>
                                              </div>
                                          </div>
 
                                          <div class="form-group row">
                                              <div class="col-sm-12 mb-1">
-                                                 <textarea class="form-control" style="height:120px" name="desc_update" id="desc_update" placeholder="Enter schedule details"></textarea>
+                                                 <textarea class="form-control" style="height:120px" name="desc_update" id="desc_update" placeholder="Enter Task details"></textarea>
                                              </div>
                                          </div>
 
@@ -206,7 +206,7 @@
                                              <div class="col-sm-4">
                                                  <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
                                                      <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                     Update Project Schedule
+                                                     Update Task Schedule
                                                  </button>
                                                  <span id="show_error" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors</span>
                                              </div>
@@ -271,8 +271,8 @@
                                                  <th scope="col">Duration</th>
                                                  <th scope="col">Status</th>
                                                  <?php if ($this->session->userdata('acct_type') == 'SO_CW') { ?>
-                                                     <th scope="col" style="text-align:center">Edit</th>
-                                                     <th scope="col" style="text-align:center">Delete</th>
+                                                     <th scope="col">Edit</th>
+                                                     <th scope="col">Delete</th>
                                                  <?php } ?>
 
                                              </tr>
@@ -284,7 +284,7 @@
                                                  <tr>
                                                      <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                      <td scope="row" style="display:none"><?= $data['id']; ?></td>
-                                                     <!-- <td scope="row"><?= $data['schedule_date']; ?></td> -->
+                                                     <td scope="row" style="display:none"><?= $data['schedule_date']; ?></td>
                                                      <td scope="row"><?= $data['schedule_name']; ?></td>
                                                      <td scope="row"><?= $data['schedule_description']; ?></td>
                                                      <td scope="row" style='white-space: nowrap;'><?= $data['schedule_start_date']; ?></td>
@@ -292,8 +292,8 @@
                                                      <td scope="row"><?php echo $diff->format('%d days'); ?></td>
                                                      <td scope="row"><?= $data['Status']; ?></td>
                                                      <?php if ($this->session->userdata('acct_type') == 'SO_CW') { ?>
-                                                         <td style="width:120px" id="edit<?= $data['id']; ?>" onclick="editSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 40px; cursor:pointer" class="fas fa-edit"></i></td>
-                                                         <td style="width:120px" id="delete<?= $data['id']; ?>" onclick="deleteSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 20px; cursor:pointer" class="fas fa-trash-alt"></i></td>
+                                                         <td style="text-align:center" id="edit<?= $data['id']; ?>" onclick="editSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="cursor:pointer;" class="fas fa-edit"></i></td>
+                                                         <td style="text-align:center" id="delete<?= $data['id']; ?>" onclick="deleteSchedule(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="cursor:pointer;" class="fas fa-trash-alt"></i></td>
                                                      <?php } ?>
                                                  </tr>
                                              <?php
@@ -436,8 +436,8 @@
                  data: {
                      'project_id': <?php echo json_encode($project_id, JSON_NUMERIC_CHECK); ?>,
                  },
-                 color: '#ca9e0c',
-                 textColor: '#3c3d3d'
+                 color: '#000154',
+                 textColor: 'white'
              },
              displayEventTime: false,
              async: false,

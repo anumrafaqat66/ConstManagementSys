@@ -445,4 +445,36 @@ class SO_CW extends CI_Controller
             $this->load->view('so_cw/services');
         }
     }
+
+    public function view_project_breakdown($project_id = NULL)
+    {
+        if ($this->session->has_userdata('user_id')) {
+            // $data['project_schedule'] = $this->db->where('project_id',$project_id)->get('project_schedule')->result_array();
+            $this->db->select('pp.*,ps.*');
+            $this->db->from('project_progress pp');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
+            $this->db->where('pp.project_id = ps.project_id');
+            $this->db->where('pp.project_id', $project_id);
+
+            $data['project_schedule'] = $this->db->get()->result_array();
+            $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            $this->load->view('so_cw/project_breakdown', $data);
+        }
+    }
+
+    public function view_project_ganttchart($project_id = NULL)
+    {
+        if ($this->session->has_userdata('user_id')) {
+            // $data['project_schedule'] = $this->db->where('project_id',$project_id)->get('project_schedule')->result_array();
+            $this->db->select('pp.*,ps.*');
+            $this->db->from('project_progress pp');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
+            $this->db->where('pp.project_id = ps.project_id');
+            $this->db->where('pp.project_id', $project_id);
+
+            $data['project_schedule'] = $this->db->get()->result_array();
+            $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            $this->load->view('so_cw/project_ganttchart', $data);
+        }
+    }
 }

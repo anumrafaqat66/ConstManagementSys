@@ -588,15 +588,17 @@ class Project_Officer extends CI_Controller
 
             $id = $this->session->userdata('user_id');
 
-            $this->db->select('p.*,c.Name as contractor_name, pb.bid_amount');
+            $this->db->select('p.*,c.Name as contractor_name, pb.bid_amount, sum(progress_percentage) as total_percentage, count(progress_percentage) as total_rows');
             $this->db->from('projects p');
             $this->db->join('contractors c', 'p.contractor_id = c.ID');
             $this->db->join('project_bids pb',  'p.bid_id = pb.id', 'p.ID = pb.project_id');
+            $this->db->join('project_progress pp', 'p.ID = pp.project_id');
+            $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
             $this->db->where('p.ID', $project_id);
             $data['project_record'] = $this->db->get()->row_array();
 
 
-            $this->db->select('pp.*,ps.schedule_name');
+            $this->db->select('pp.*,ps.schedule_name, ps.schedule_start_date, ps.schedule_end_date');
             $this->db->from('project_progress pp');
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');

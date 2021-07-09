@@ -38,17 +38,19 @@
                          <div class="card-body">
                              <div id="table_div">
                                  <?php if (count($project_records) > 0) { ?>
-                                     <table id="datatable" class="table table-striped" style="color:black">
+                                     <table id="datatable" class="table table-striped" style="color:black;white-space: nowrap;text-align:center">
                                          <thead>
                                              <tr>
                                                  <th scope="col">ID</th>
-                                                 <th scope="col">Project Name</th>
+                                                 <th scope="col">Name</th>
                                                  <th scope="col">Project Code</th>
                                                  <th scope="col">Start Date</th>
                                                  <th scope="col">Status</th>
                                                  <th scope="col">Overall Progress</th>
-                                                 <th scope="col">Project Schedule</th>
-                                                 <th scope="col">Project Progress</th>
+                                                 <th scope="col">Schedule</th>
+                                                 <th scope="col">Progress</th>
+                                                 <th scope="col">WBS</th>
+                                                 <th scope="col">Gantt chart</th>
                                                  <th scope="col" style="display:none">Contractor ID</th>
                                                  <th scope="col" style="display:none">Bid ID</th>
                                              </tr>
@@ -60,12 +62,14 @@
                                                      <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                      <td style="white-space: nowrap;color:black; font-weight:800;" scope="row"><?= $data['Name']; ?></td>
                                                      <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Code']; ?></td>
-                                                     <td scope="row"><?= $data['Start_date']; ?></td>
-                                                     <td style="" scope="row"><?= $data['Status']; ?></td>
+                                                     <td scope="row" style="white-space: nowrap;"><?= $data['Start_date']; ?></td>
+                                                     <td style="white-space: nowrap;" scope="row"><?= $data['Status']; ?></td>
                                                      <td scope="row" style="text-align:center; color:black; font-weight:800"><?= $data['total_percentage']/$data['total_rows']; ?>%</td>
-                                                     <td style="" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_schedule/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 50px; font-size:30px" class="fas fa-calendar-alt"></i></a></td>
+                                                     <td style="" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_schedule/<?= $data['ID']; ?>" style="color:black"><i style="font-size:30px" class="fas fa-calendar-alt"></i></a></td>
                                                      <!-- <td style="width:150px" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_progress/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 50px; font-size:30px" class="fas fa-chart-line"></i></a></td> -->
-                                                     <td style="" scope="row"><a type="button" onclick="location.href='<?php echo base_url(); ?>SO_CW/view_project_progress/<?= $data['ID']; ?>'" style="color:black"><i style="margin-left: 50px; font-size:30px" class="fas fa-chart-line"></i></a></td>
+                                                     <td style="" scope="row"><a type="button" onclick="location.href='<?php echo base_url(); ?>SO_CW/view_project_progress/<?= $data['ID']; ?>'" style="color:black"><i style="font-size:30px" class="fas fa-chart-line"></i></a></td>
+                                                     <td style="" scope="row"><a type="button" onclick="location.href='<?php echo base_url(); ?>SO_CW/view_project_breakdown/<?= $data['ID']; ?>'" style="color:black"><i style="font-size:30px" class="fas fa-project-diagram"></i></a></td>
+                                                     <td style="" scope="row"><a type="button" onclick="location.href='<?php echo base_url(); ?>SO_CW/view_project_ganttchart/<?= $data['ID']; ?>'" style="color:black"><i style="font-size:30px" class="fas fa-chart-bar"></i></a></td>
                                                      
                                                      <td scope="row" style="display:none;"><?= $data['contractor_id']; ?></td>
                                                      <td scope="row" style="display:none;"><?= $data['bid_id']; ?></td>
