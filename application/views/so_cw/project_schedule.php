@@ -279,13 +279,13 @@
                                          </thead>
                                          <tbody id="table_rows_schedule">
                                              <?php $count = 1;
-                                                foreach ($project_schedule as $data) { 
-                                                    $diff = date_diff(date_create($data['schedule_start_date']), date_create($data['schedule_end_date']));?>
+                                                foreach ($project_schedule as $data) {
+                                                    $diff = date_diff(date_create($data['schedule_start_date']), date_create($data['schedule_end_date'])); ?>
                                                  <tr>
                                                      <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                      <td scope="row" style="display:none"><?= $data['id']; ?></td>
                                                      <td scope="row" style="display:none"><?= $data['schedule_date']; ?></td>
-                                                     <td scope="row"><?= $data['schedule_name']; ?></td>
+                                                     <td scope="row" id="taskname<?= $data['id']; ?>"><?= $data['schedule_name']; ?></td>
                                                      <td scope="row"><?= $data['schedule_description']; ?></td>
                                                      <td scope="row" style='white-space: nowrap;'><?= $data['schedule_start_date']; ?></td>
                                                      <td scope="row" style='white-space: nowrap;'><?= $data['schedule_end_date']; ?></td>
@@ -347,7 +347,18 @@
          });
      }
 
+    //  var global_task_name;
+    //  $('#table_rows_schedule').find('tr').click(function(e) {
+    //      var $columns = $(this).find('td');
+    //      //  $('#schedule_name').val($columns[3].innerHTML);
+    //      global_task_name = $columns[3].innerHTML;
+    //     //  alert(global_task_name);
+    //  });
+
      function deleteSchedule(sch_id) {
+        
+         var task_name = document.getElementById('taskname' + sch_id).innerText;
+
          var result = confirm("Are you sure you Want to delete?");
          if (result) {
              $.ajax({
@@ -355,7 +366,8 @@
                  method: 'POST',
                  //  type:'json',
                  data: {
-                     'id': sch_id
+                     'id': sch_id,
+                     'task_name': task_name
                  },
                  success: function(response) {
                      if (response == 1) {

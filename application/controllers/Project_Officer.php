@@ -172,13 +172,9 @@ class Project_Officer extends CI_Controller
         }
     }
 
-
-
     public function view_inventory_detail($id = NULL)
     {
-
         if ($this->session->has_userdata('user_id')) {
-
             $this->db->select('id.id, i.Material_Name, id.Quantity, id.Price,i.Unit, id.stock_date, id.Status');
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
@@ -186,6 +182,14 @@ class Project_Officer extends CI_Controller
 
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_store/inventory_detail', $data);
+        }
+    }
+
+    public function view_activity_log()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            $this->load->view('project_officer/activity_log', $data);
         }
     }
 
@@ -345,7 +349,7 @@ class Project_Officer extends CI_Controller
         $contact_edit = $_POST['contact_edit'];
         $email_edit = $_POST['email_edit'];
         $reg_date_edit = $_POST['reg_date_edit'];
-        $contractor_name = $_POST['contractor_name'];
+        $contractor_name = $_POST['contractor_name_edit'];
 
         $cond  = ['ID' => $id];
         $data_update = [

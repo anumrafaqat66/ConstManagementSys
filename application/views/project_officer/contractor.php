@@ -135,10 +135,6 @@
                                                      <h6>&nbsp;Name:</h6>
                                                  </div>
 
-                                                 <div class="col-sm-3 mb-1" style="display:none">
-                                                     <input type="text" class="form-control form-control-user" name="contractor_name" id="contractor_name" placeholder="Contactor Name">
-                                                 </div>
-
                                                  <div class="col-sm-4">
                                                      <h6>&nbsp;Contact No:</h6>
                                                  </div>

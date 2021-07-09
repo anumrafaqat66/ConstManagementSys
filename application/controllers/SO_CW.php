@@ -53,6 +53,8 @@ class SO_CW extends CI_Controller
     public function delete_schedule()
     {
         $id = $_POST['id'];
+        $task_name = $_POST['task_name'];
+
         $this->db->where('ID', $id);
         $success = $this->db->delete('project_schedule');
 
@@ -61,7 +63,7 @@ class SO_CW extends CI_Controller
             $insert_activity = array(
                 'activity_module' => $this->session->userdata('acct_type'),
                 'activity_action' => 'delete',
-                'activity_detail' => $this->session->userdata('username') . " deleted a project schedule",
+                'activity_detail' => $this->session->userdata('username') . " deleted a task named: ".$task_name,
                 'activity_by' => $this->session->userdata('username'),
                 'activity_date' => date('Y-m-d H:i:s')
             );
@@ -87,6 +89,8 @@ class SO_CW extends CI_Controller
     {
         $id = $_POST['id'];
         $task_id = $_POST['task_id'];
+        $task_name = $_POST['task_name'];
+
         $this->db->where('ID', $id);
         $success = $this->db->delete('project_progress');
 
@@ -98,7 +102,7 @@ class SO_CW extends CI_Controller
             $insert_activity = array(
                 'activity_module' => $this->session->userdata('acct_type'),
                 'activity_action' => 'delete',
-                'activity_detail' => $this->session->userdata('username') . " deleted a project progress",
+                'activity_detail' => $this->session->userdata('username') . " deleted a project progress named: ". $task_name,
                 'activity_by' => $this->session->userdata('username'),
                 'activity_date' => date('Y-m-d H:i:s')
             );
@@ -182,12 +186,14 @@ class SO_CW extends CI_Controller
             );
             $insert = $this->db->insert('project_progress', $insert_array_progress);
 
+            $projectdata = $this->db->where('ID',$project_id)->get('projects')->row_array();
+
             // Activity Logging
             if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
-                    'activity_detail' => $this->session->userdata('username') . " added a new schedule",
+                    'activity_detail' => $this->session->userdata('username') . " added a new task '".$title. "' against Project: ". $projectdata['Name'],
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s')
                 );
@@ -232,7 +238,7 @@ class SO_CW extends CI_Controller
             $insert = $this->db->insert('project_schedule', $insert_array);
 
             if (!empty($insert)) {
-                $this->session->set_flashdata('success', 'Project Schedule Created successfully');
+                $this->session->set_flashdata('success', 'Project Task Created successfully');
                 redirect('SO_CW/view_project_schedule/' . $project_id);
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');
@@ -252,6 +258,7 @@ class SO_CW extends CI_Controller
             $progress_percentage = $postData['progress_percentage'];
             $desc = $postData['desc'];
             $task_id = $postData['task_id'];
+            $task_name = $postData['task_name_insert'];
 
             $insert_array = array(
                 'project_id' => $project_id,
@@ -271,7 +278,7 @@ class SO_CW extends CI_Controller
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
-                    'activity_detail' => $this->session->userdata('username') . " updated progress of project ". $projectdata['Name'],
+                    'activity_detail' => $this->session->userdata('username') . " updated progress of task '". $task_name. "' of project ". $projectdata['Name'],
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s')
                 );
@@ -329,12 +336,14 @@ class SO_CW extends CI_Controller
             $this->db->where($cond);
             $update = $this->db->update('project_schedule', $data_update);
 
+            $projectdata = $this->db->where('ID',$project_id)->get('projects')->row_array();
+
              //Activity Logging
              if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'update',
-                    'activity_detail' => $this->session->userdata('username') . " updated a schedule: ". $schedule_name,
+                    'activity_detail' => $this->session->userdata('username') . " updated a task: ". $schedule_name. " of Project: ". $projectdata['Name'],
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s')
                 );
@@ -354,7 +363,7 @@ class SO_CW extends CI_Controller
             }
 
             if (!empty($update)) {
-                $this->session->set_flashdata('success', 'Schedule updated successfully');
+                $this->session->set_flashdata('success', 'Task updated successfully');
                 redirect('SO_CW/view_project_schedule/' . $project_id);
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');

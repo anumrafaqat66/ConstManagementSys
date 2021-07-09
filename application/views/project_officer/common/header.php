@@ -95,7 +95,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/change_password"  aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>Project_Officer/view_activity_log"  aria-expanded="true">
                     <i style="font-size:20px" class="far fa-list-alt"></i>
                     <span> View Activity Log </span>
                 </a>

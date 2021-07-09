@@ -92,6 +92,10 @@
                                                 <input type="text" class="form-control form-control-user" name="progress_id" id="progress_id" placeholder="progress %">
                                             </div>
 
+                                            <div class="col-sm-3 mb-1" style="display:none">
+                                                <input type="text" class="form-control form-control-user" name="task_name_insert" id="task_name_insert" placeholder="progress %">
+                                            </div>
+
                                             <div class="col-sm-3 mb-1">
                                                 <input type="number" min="1" max="100" class="form-control form-control-user" name="progress_percentage" id="progress_percentage" placeholder="progress %">
                                             </div>
@@ -156,9 +160,7 @@
                                             <div class="col-sm-6">
                                                 <h6>&nbsp;Enter progress details:</h6>
                                             </div>
-
                                         </div>
-
 
                                         <div class="form-group row">
                                             <div class="col-sm-3 mb-1">
@@ -168,6 +170,7 @@
                                             <div class="col-sm-3 mb-1" style="display:none">
                                                 <input type="text" class="form-control form-control-user" name="progress_id_update" id="progress_id_update" placeholder="progress %">
                                             </div>
+                                            
                                             <div class="col-sm-3 mb-1" style="display:none">
                                                 <input type="text" class="form-control form-control-user" name="task_id" id="task_id" placeholder="progress %">
                                             </div>
@@ -248,7 +251,7 @@
                                                     <td scope="row" style="display:none" id="cont<?= $count; ?>"><?= $data['id']; ?></td>
                                                     <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                     <td scope="row" style="display:none"><?= $data['progress_date']; ?></td>
-                                                    <td scope="row"><?= $data['schedule_name']; ?></td>
+                                                    <td scope="row" id="taskname<?= $data['id']; ?>"><?= $data['schedule_name']; ?></td>
                                                     <td scope="row" style="display:none"><?= $data['progress_percentage']; ?>%</td>
                                                     <td>
                                                         <div class="progress" style="height:20px">
@@ -344,10 +347,15 @@
             $('#task_name_heading').html('<strong>' + $columns[3].innerHTML + '</strong>');
             $('#progress_id_update').val($columns[0].innerHTML);
             $('#task_id').val($columns[12].innerHTML);
+            $('#task_name').val($columns[1].innerHTML);
+            $('#task_name_insert').val($columns[3].innerHTML);
         });
     }
 
-    function deleteProgress(progress_id, task_id) {
+    function deleteProgress(progress_id, task_id, task_name) {
+
+        var task_name = document.getElementById('taskname' + progress_id).innerText;
+
         var result = confirm("Are you sure you Want to delete?");
         if (result) {
             $.ajax({
@@ -356,7 +364,8 @@
                 //  type:'json',
                 data: {
                     'id': progress_id,
-                    'task_id' : task_id
+                    'task_id' : task_id,
+                    'task_name' : task_name
                 },
                 success: function(response) {
                     if (response == 1) {
