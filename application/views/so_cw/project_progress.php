@@ -226,14 +226,15 @@
                                     <table id="datatable" class="table table-striped" style="color:black">
                                         <thead>
                                             <tr>
-                                                <th scope="col">ID</th>
+                                                <th scope="col">#</th>
                                                 <th scope="col" style="width:140px;display:none">Progress Date</th>
-                                                <th scope="col" style="width:140px">Task Name</th>
+                                                <th scope="col" style="white-space: nowrap;width:140px">Task Name</th>
                                                 <!-- <th scope="col" style="width:120px">Progress %</th> -->
                                                 <th scope="col" style="width:250px">Progress Bar</th>
                                                 <th scope="col">Details</th>
                                                 <th scope="col" style='white-space: nowrap;'>Start Date</th>
                                                 <th scope="col" style='white-space: nowrap;'>End Date</th>
+                                                <th scope="col" style='white-space: nowrap;'>Duration</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Edit</th>
                                                 <th scope="col">Delete</th>
@@ -241,23 +242,26 @@
                                         </thead>
                                         <tbody id="table_rows_project">
                                             <?php $count = 1;
-                                            foreach ($project_progress as $data) { ?>
+                                            foreach ($project_progress as $data) {
+                                                $diff = date_diff(date_create($data['schedule_start_date']), date_create($data['schedule_end_date'])); ?>
                                                 <tr>
-                                                    <td scope="row" id="cont<?= $count; ?>"><?= $data['id'];; ?></td>
+                                                    <td scope="row" style="display:none" id="cont<?= $count; ?>"><?= $data['id']; ?></td>
+                                                    <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                     <td scope="row" style="display:none"><?= $data['progress_date']; ?></td>
                                                     <td scope="row"><?= $data['schedule_name']; ?></td>
-                                                    <!-- <td scope="row" style="display:none"><?= $data['progress_percentage']; ?>%</td> -->
+                                                    <td scope="row" style="display:none"><?= $data['progress_percentage']; ?>%</td>
                                                     <td>
                                                         <div class="progress" style="height:20px">
                                                             <div class="progress-bar" id="progress_bar<?= $count; ?>" role="progressbar" style="width: <?= $data['progress_percentage']; ?>%;" aria-valuenow="<?= $data['progress_percentage']; ?>" aria-valuemin="0" aria-valuemax="100"><?= $data['progress_percentage'] . "%" ?></div>
                                                         </div>
                                                     </td>
-                                                    <td scope="row"><?= $data['progress_description']; ?></td>
+                                                    <td scope="row" style="width:350px"><?= $data['progress_description']; ?></td>
                                                     <td scope="row" style='white-space: nowrap;'><?= $data['schedule_start_date']; ?></td>
                                                     <td scope="row" style='white-space: nowrap;'><?= $data['schedule_end_date']; ?></td>
-                                                    <td scope="row"><?= $data['Status']; ?></td>
+                                                    <td scope="row"><?php echo $diff->format('%d days'); ?></td>
+                                                    <td scope="row" style='white-space: nowrap;'><?= $data['Status']; ?></td>
                                                     <td id="edit<?= $data['id']; ?>" onclick="editProgress(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 10px; cursor:pointer" class="fas fa-edit"></i></td>
-                                                    <td id="delete<?= $data['id']; ?>" onclick="deleteProgress(<?= $data['id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 20px; cursor:pointer" class="fas fa-trash-alt"></i></td>
+                                                    <td id="delete<?= $data['id']; ?>" onclick="deleteProgress(<?= $data['id']; ?>,<?= $data['task_id']; ?>)" scope="row" data-toggle="modal" data-target="#edit_project"><i style="margin-left: 20px; cursor:pointer" class="fas fa-trash-alt"></i></td>
                                                     <td scope="row" style="display:none"><?= $data['task_id']; ?></td>
                                                 </tr>
                                             <?php
@@ -334,16 +338,16 @@
 
             var $columns = $(this).find('td');
 
-            $('#progress_date_update').val($columns[1].innerHTML);
-            $('#progress_percentage_update').val(parseFloat($columns[3].innerHTML));
-            $('#desc_update').val($columns[4].innerText);
-            $('#task_name_heading').html('<strong>' + $columns[2].innerHTML + '</strong>');
+            $('#progress_date_update').val($columns[2].innerHTML);
+            $('#progress_percentage_update').val(parseFloat($columns[4].innerHTML));
+            $('#desc_update').val($columns[6].innerText);
+            $('#task_name_heading').html('<strong>' + $columns[3].innerHTML + '</strong>');
             $('#progress_id_update').val($columns[0].innerHTML);
-            $('#task_id').val($columns[10].innerHTML);
+            $('#task_id').val($columns[12].innerHTML);
         });
     }
 
-    function deleteProgress(progress_id) {
+    function deleteProgress(progress_id, task_id) {
         var result = confirm("Are you sure you Want to delete?");
         if (result) {
             $.ajax({
@@ -351,7 +355,8 @@
                 method: 'POST',
                 //  type:'json',
                 data: {
-                    'id': progress_id
+                    'id': progress_id,
+                    'task_id' : task_id
                 },
                 success: function(response) {
                     if (response == 1) {
@@ -362,7 +367,7 @@
 
                         setTimeout(function() {
                             location.reload();
-                        }, 3000);
+                        }, 2000);
 
                     }
                 },
@@ -375,7 +380,7 @@
         var count = 1;
         $('#table_rows_project').find('tr').each(function(key, val) {
             var $columns = $(this).find('td');
-            $data = $columns[3].innerText;
+            $data = $columns[4].innerText;
             $value = $data.substr(0, $data.length - 1);
 
             if ($value < 50) {

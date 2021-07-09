@@ -222,7 +222,7 @@
          </div>
      </div>
 
-     <h1 class="my-4"><strong>Project Schedule of <?php echo $project_records['Name']; ?></strong></h1>
+     <h1 class="my-4"><strong>Tasks Schedule of <?php echo $project_records['Name']; ?></strong></h1>
 
      <!-- <div class="col-md-12 img">
      </div> -->
@@ -231,7 +231,7 @@
      <!-- <div class="response"></div> -->
      <div class="col-lg-12">
          <div id="event_alert" class="alert alert-success" role="alert" style="display:none">
-             Event Scheduled successfully!!
+             Task Scheduled successfully!!
          </div>
      </div>
 
@@ -244,7 +244,7 @@
              <div class="row">
                  <div class="col-lg-12">
                      <div id="delete_alert" class="alert alert-success" role="alert" style="display:none">
-                         Schedule deleted successfully!!
+                         Task deleted successfully!!
                      </div>
                  </div>
 
@@ -253,7 +253,7 @@
 
                      <div class="card bg-custom3">
                          <div class="card-header bg-custom1">
-                             <h1 class="h4">Existing Schedules</h1>
+                             <h1 class="h4">Existing Tasks</h1>
                          </div>
 
                          <div class="card-body">
@@ -366,7 +366,7 @@
 
                          setTimeout(function() {
                              location.reload();
-                         }, 3000);
+                         }, 2000);
                      }
                  },
                  async: false

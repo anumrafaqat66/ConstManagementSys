@@ -80,8 +80,8 @@
 
           <div class="col-md-8" id="chatSection">
             <!-- DIRECT CHAT -->
-            <div class="box box-warning direct-chat direct-chat-primary">
-              <div class="box-header with-border">
+            <div class="box direct-chat direct-chat-primary">
+              <div class="box-header with-border" style="background-color:#000154; color:white; border-top-left-radius:5px; border-top-right-radius:5px">
                 <h3 class="box-title" id="ReciverName_txt">Lets Chat</h3>
 
                 <!--   <div class="box-tools pull-right">
@@ -117,12 +117,13 @@
 
                   <input type="hidden" id="Sender_Name" value="<?= $this->session->userdata('username'); ?>">
                   <input type="hidden" id="Sender_ProfilePic" value="<?= base_url(); ?>assets/img/user.png">
-
                   <input type="hidden" id="ReciverId_txt" value="">
-                  <input type="text" name="message" placeholder="Type Message ..." class="form-control message">
+                  <input type="text" name="message" placeholder="Type Message ..." class="form-control message" style="border-radius:20px !important">
+
                   <span class="input-group-btn">
-                    <button type="button" class="btn btn-success btn-flat btnSend" id="nav_down">Send</button>
-                    <div class="fileDiv btn btn-info btn-flat"> <i class="fa fa-upload"></i>
+                    <!-- <button type="button" style="height:100%;background-color:#000154 !important; border-color: #000154; color:white !important; border-radius:20px !important" id="nav_down">Send</button> -->
+                    <button type="button" class="btn btn-success btn-flat btnSend" id="nav_down" style="height:100%;background-color:#000154 !important; border-color: #000154; color:white !important; border-radius:20px !important">Send</button>
+                    <div class="fileDiv btn btn-info btn-flat" style="background-color:#000154; color:white; border-radius:20px; border-color: #000154;"> <i class="fa fa-upload"></i>
                       <input type="file" name="file" class="upload_attachmentfile" />
                     </div>
                   </span>
@@ -139,8 +140,8 @@
 
           <div class="col-md-4">
             <!-- USERS LIST -->
-            <div class="box box-danger">
-              <div class="box-header with-border">
+            <div class="box">
+              <div class="box-header with-border" style="background-color:#000154; color:white; border-top-left-radius:5px; border-top-right-radius:5px"">
                 <h3 class="box-title">Chat</h3>
 
                 <div class="box-tools pull-right">
@@ -267,8 +268,8 @@
 
 
 
-$('#notifications').focusout(function(){
- // alert('notification clicked');
+  $('#notifications').focusout(function() {
+    // alert('notification clicked');
     $.ajax({
       url: '<?= base_url(); ?>ChatController/activity_seen',
       success: function(data) {
@@ -276,7 +277,7 @@ $('#notifications').focusout(function(){
       },
       async: true
     });
-});
+  });
 
   // setInterval(function() {
   //   exampleFunction(receiver_id);

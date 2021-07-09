@@ -86,8 +86,12 @@ class SO_CW extends CI_Controller
     public function delete_progress()
     {
         $id = $_POST['id'];
+        $task_id = $_POST['task_id'];
         $this->db->where('ID', $id);
         $success = $this->db->delete('project_progress');
+
+        $this->db->where('id', $task_id);
+        $success = $this->db->delete('project_schedule');
 
         //Activity Logging
         if (!empty($id)) {
@@ -119,12 +123,18 @@ class SO_CW extends CI_Controller
     public function view_projects($project_name = null)
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->get('projects')->result_array();
+            //$data['project_records'] = $this->db->get('projects')->result_array();
             $data['contractor_name'] = $this->db->get('contractors')->result_array();
             $this->db->select('pb.*,c.*');
             $this->db->from('project_bids pb');
             $this->db->join('contractors c', 'c.ID = pb.contractor_id');
             $data['bids'] = $this->db->get()->result_array();
+
+            $this->db->select('p.ID, p.Name, p.Code, p.Start_date, p.Status, sum(progress_percentage) as total_percentage, count(progress_percentage) as total_rows');
+            $this->db->from('projects p');
+            $this->db->join('project_progress pp', 'p.ID = pp.project_id');
+            $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
+            $data['project_records'] = $this->db->get()->result_array();
             $this->load->view('so_cw/dashboard', $data);
         }
     }
