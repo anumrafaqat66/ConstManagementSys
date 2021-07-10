@@ -99,15 +99,15 @@ class User_Login extends CI_Controller
 					$this->db->where('id', $query['id']);
 					$this->db->update('security_info');
 
-					redirect('User_Login');
+					redirect('User_Login/show_login_page');
 				} else {
 					$this->session->set_flashdata('failure', 'No such user exist. Kindly create New User using Admin panel');
-					redirect('User_Login');
+					redirect('User_Login/show_login_page');
 				}
 				//print_r($query); exit; 
 			} else {
 				$this->session->set_flashdata('failure', 'Login failed');
-				redirect('User_Login');
+				redirect('User_Login/show_login_page');
 			}
 		}
 	}
