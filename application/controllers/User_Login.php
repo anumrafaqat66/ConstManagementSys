@@ -8,6 +8,47 @@ class User_Login extends CI_Controller
 
 	public function index()
 	{
+		$this->load->view('select_region');
+		// if ($this->session->has_userdata('user_id')) {
+		// 	$id = $this->session->userdata('user_id');
+		// 	$acct_type = $this->session->userdata('acct_type');
+			
+		// 	if ($acct_type == "SO_STORE") {
+		// 		redirect('SO_STORE');
+		// 	} elseif ($acct_type == "PO") {
+		// 		redirect('Project_Officer');
+		// 	} elseif ($acct_type == "SO_CW") {
+		// 		redirect('SO_CW');
+		// 	} elseif ($acct_type == "SO_RECORD") {
+		// 		redirect('SO_RECORD');
+		// 	}
+		// 	elseif($acct_type == "admin"){
+		// 		redirect('Admin');
+		// 	} else {
+		// 		$this->load->view('login');
+		// 	}
+		// } else {
+		// 	$this->load->view('login');
+		// }
+	}
+
+	public function login_page_north(){
+		$this->session->set_userdata('region', 'north');
+		$this->show_login_page();
+
+	}
+	public function login_page_south(){
+		$this->session->set_userdata('region', 'south');
+		$this->show_login_page();
+
+	}
+	public function login_page_super_admin(){
+		$this->session->set_userdata('region', 'super_admin');
+		$this->show_login_page();
+
+	}
+
+	public function show_login_page(){
 		if ($this->session->has_userdata('user_id')) {
 			$id = $this->session->userdata('user_id');
 			$acct_type = $this->session->userdata('acct_type');
