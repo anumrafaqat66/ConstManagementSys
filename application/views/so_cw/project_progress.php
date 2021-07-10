@@ -44,7 +44,7 @@
 
 <div class="container">
 
-    <h1 class="my-4"><strong>Project Progress of <?php echo $project_records['Name']; ?></strong></h1>
+    <h1 class="my-4"><strong>Tasks Progress of <?php echo $project_records['Name']; ?></strong></h1>
 
     <div class="modal fade" id="new_progress">
         <!-- <div class="row"> -->

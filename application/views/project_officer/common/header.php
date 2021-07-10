@@ -100,7 +100,7 @@
                     <span> View Activity Log </span>
                 </a>
             </li>
-            <br><br><br><br>
+            <br><br>
             
 
             <!-- Nav Item - Utilities Collapse Menu -->

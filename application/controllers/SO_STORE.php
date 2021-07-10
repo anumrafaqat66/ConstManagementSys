@@ -171,7 +171,7 @@ class SO_STORE extends CI_Controller
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
-                    'activity_detail' => "A material has been added by " . $this->session->userdata('username') . "in " . $name,
+                    'activity_detail' => "A material has been added by " . $this->session->userdata('username') . " in " . $name,
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s')
                 );
@@ -290,6 +290,14 @@ class SO_STORE extends CI_Controller
     {
         if ($this->session->has_userdata('user_id')) {
             $this->load->view('so_store/services');
+        }
+    }
+
+    public function view_activity_log()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            $this->load->view('so_store/activity_log', $data);
         }
     }
 }

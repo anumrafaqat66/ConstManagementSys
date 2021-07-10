@@ -44,10 +44,13 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <!--     <div class="sidebar-heading">
-                Interface
-            </div> -->
+            <li class="nav-item active">
+                <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'Admin') {
+                                                                        echo "Admin";
+                                                                    } ?>">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -57,6 +60,26 @@
                 </a>
 
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/edit_profile" aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-user-edit"></i>
+                    <span> Edit Profile </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/change_password" aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-unlock-alt"></i>
+                    <span> Change Password </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>Admin/view_activity_log" aria-expanded="true">
+                    <i style="font-size:20px" class="far fa-list-alt"></i>
+                    <span> View Activity Log </span>
+                </a>
+            </li>
+            <br><br>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <!-- <li class="nav-item">

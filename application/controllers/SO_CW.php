@@ -486,4 +486,16 @@ class SO_CW extends CI_Controller
             $this->load->view('so_cw/project_ganttchart', $data);
         }
     }
+
+    public function view_activity_log()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $this->db->select('*');
+            $this->db->from('activity_log');
+            $this->db->order_by('activity_date', 'desc');
+            $query = $this->db->get();
+            $data['activity_log'] = $query->result_array();
+            $this->load->view('so_cw/activity_log', $data);
+        }
+    }
 }

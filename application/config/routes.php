@@ -101,6 +101,11 @@ $route['SO_STORE/view_inventory_detail/update-notification'] = 'ChatController/u
 $route['SO_STORE/view_inventory_detail/check-activity'] = 'ChatController/check_activity';
 $route['SO_STORE/view_inventory_detail/check-notification'] = 'ChatController/check_notification';
 
+$route['SO_STORE/view_material_detail/update-activity'] = 'ChatController/update_activity';
+$route['SO_STORE/view_material_detail/update-notification'] = 'ChatController/update_notification';
+$route['SO_STORE/view_material_detail/check-activity'] = 'ChatController/check_activity';
+$route['SO_STORE/view_material_detail/check-notification'] = 'ChatController/check_notification';
+
 $route['SO_CW/view_project_breakdown/update-activity'] = 'ChatController/update_activity';
 $route['SO_CW/view_project_breakdown/update-notification'] = 'ChatController/update_notification';
 $route['SO_CW/view_project_breakdown/check-activity'] = 'ChatController/check_activity';

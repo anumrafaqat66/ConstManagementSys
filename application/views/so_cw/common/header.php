@@ -68,11 +68,11 @@
                 Features
             </div> -->
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true">
                     <i class="fas fa-fw fa-cog"></i>
                     <span> Menu Items </span>
-                    <!-- <span>Components</span> -->
+                    <span>Components</span> 
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -83,7 +83,38 @@
                         <a class="collapse-item" href="<?php echo base_url(); ?>User_Login/change_password">Change Password</a>
                     </div>
                 </div>
+            </li> -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_CW/view_project_schedule/1"  aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-tasks"></i>
+                    <span> Project Tasks </span>
+                </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_CW/view_project_progress/1"  aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-file-signature"></i>
+                    <span> Tasks Progress </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/edit_profile"  aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-user-edit"></i>
+                    <span> Edit Profile </span> 
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/change_password"  aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-unlock-alt"></i>
+                    <span> Change Password </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_CW/view_activity_log"  aria-expanded="true">
+                    <i style="font-size:20px" class="far fa-list-alt"></i>
+                    <span> View Activity Log </span>
+                </a>
+            </li>
+            <br><br>
             <br><br><br>
 
             <!-- Nav Item - Utilities Collapse Menu -->

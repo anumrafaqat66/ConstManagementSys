@@ -117,4 +117,12 @@ class SO_RECORD extends CI_Controller
             $this->load->view('so_record/services');
         }
     }
+
+    public function view_activity_log()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            $this->load->view('so_record/activity_log', $data);
+        }
+    }
 }
