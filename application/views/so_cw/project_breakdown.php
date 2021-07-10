@@ -1,4 +1,4 @@
- <?php $this->load->view('project_officer/common/header'); ?>
+ <?php $this->load->view('so_cw/common/header'); ?>
 
  <div class="form-group row my-4 mx-5">
      <div class="col-sm-12">

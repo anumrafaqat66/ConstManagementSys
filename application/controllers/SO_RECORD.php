@@ -27,6 +27,11 @@ class SO_RECORD extends CI_Controller
 
         if ($this->session->has_userdata('user_id')) {
             $data['projects'] = $this->db->get('projects')->result_array();
+
+            $this->db->select('pal.*,p.Name');
+            $this->db->from('project_allotment_letter pal');
+            $this->db->join('projects p', 'p.ID = pal.project_id');
+            $data['letter_list'] = $this->db->get()->result_array();
             $this->load->view('so_record/allotment_letter_list', $data); //, $data);
         }
     }
@@ -46,7 +51,11 @@ class SO_RECORD extends CI_Controller
         $postData = $this->security->xss_clean($this->input->post());
 
         $project_id = $postData['project_id'];
+        $rcvd_date = $postData['rcvd_date'];
+        $dispatch_date = $postData['dispatch_date'];
+        $officer_name = $postData['officer_name'];
         $upload1 = $this->upload_letter($_FILES['project_allotment_letter']);
+
 
         if (count($upload1) >= 1) {
 
@@ -54,17 +63,18 @@ class SO_RECORD extends CI_Controller
                 $insert_array = array(
 
                     'project_id' => $project_id,
+                    'received_date' => $rcvd_date,
+                    'dispatch_date' => $dispatch_date,
+                    'officer_name' => $officer_name,
                     'file_name' => $upload1[$i],
                     'date_added' => date('Y-m-d')
                 );
-
                 $insert = $this->db->insert('project_allotment_letter', $insert_array);
             }
-            // print_r($insert_array);exit;
         }
 
         if (!empty($insert)) {
-            $this->session->set_flashdata('success', 'File uploaded successfully');
+            $this->session->set_flashdata('success', 'Allotment Record added successfully');
             redirect('SO_RECORD/show_letter_lists');
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
@@ -85,7 +95,7 @@ class SO_RECORD extends CI_Controller
             $_FILES['file']['size']     = $_FILES['project_allotment_letter']['size'][$i];
 
             $config['upload_path'] = 'uploads/project_allotment_letter';
-            $config['allowed_types']        = 'gif|jpg|png|doc|xls|pdf|xlsx|docx|ppt|pptx';
+            $config['allowed_types']        = 'gif|jpg|png|doc|xls|pdf|xlsx|docx|ppt|pptx|txt|jpeg';
 
 
             $this->load->library('upload', $config);
@@ -123,6 +133,29 @@ class SO_RECORD extends CI_Controller
         if ($this->session->has_userdata('user_id')) {
             $data['activity_log'] = $this->db->get('activity_log')->result_array();
             $this->load->view('so_record/activity_log', $data);
+        }
+    }
+
+    public function view_material_used()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $data['project_records'] = $this->db->get('projects')->result_array();
+            $this->load->view('so_record/material_used_projects', $data);
+        }
+    }
+
+    public function view_inventory_detail($id = NULL)
+    {
+
+        if ($this->session->has_userdata('user_id')) {
+
+            $this->db->select('id.id, i.Material_Name, id.Quantity, id.Price,i.Unit, id.stock_date, id.Status, id.cost_per_unit');
+            $this->db->from('inventory i');
+            $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
+            $this->db->where('Material_id', $id);
+
+            $data['inventory_detail_records'] = $this->db->get()->result_array();
+            $this->load->view('so_record/inventory_detail', $data);
         }
     }
 }

@@ -137,6 +137,7 @@ class SO_CW extends CI_Controller
             $this->db->select('p.ID, p.Name, p.Code, p.Start_date, p.Status, sum(progress_percentage) as total_percentage, count(progress_percentage) as total_rows');
             $this->db->from('projects p');
             $this->db->join('project_progress pp', 'p.ID = pp.project_id');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
             $data['project_records'] = $this->db->get()->result_array();
             $this->load->view('so_cw/dashboard', $data);
@@ -431,7 +432,7 @@ class SO_CW extends CI_Controller
             }
 
             if (!empty($update)) {
-                $this->session->set_flashdata('success', 'Progress updated successfully');
+                $this->session->set_flashdata('success', 'Task updated successfully');
                 redirect('SO_CW/view_project_progress/' . $project_id);
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');

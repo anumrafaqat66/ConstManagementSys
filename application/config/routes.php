@@ -61,10 +61,16 @@ $route['update-notification'] = 'ChatController/update_notification';
 $route['Project_Officer/update-notification'] = 'ChatController/update_notification';
 $route['SO_CW/update-notification'] = 'ChatController/update_notification';
 $route['SO_STORE/update-notification'] = 'ChatController/update_notification';
+$route['SO_RECORD/update-notification'] = 'ChatController/update_notification';
 
 $route['update-activity'] = 'ChatController/update_activity';
 $route['Project_Officer/update-activity'] = 'ChatController/update_activity';
 $route['SO_CW/update-activity'] = 'ChatController/update_activity';
+$route['SO_RECORD/update-activity'] = 'ChatController/update_activity';
+
+$route['SO_RECORD/check-notification'] = 'ChatController/check_notification';
+$route['SO_RECORD/check-activity'] = 'ChatController/check_activity';
+
 
 $route['SO_CW/view_project_progress/update-activity'] = 'ChatController/update_activity';
 $route['SO_CW/view_project_progress/update-notification'] = 'ChatController/update_notification';
@@ -115,6 +121,16 @@ $route['SO_CW/view_project_ganttchart/update-activity'] = 'ChatController/update
 $route['SO_CW/view_project_ganttchart/update-notification'] = 'ChatController/update_notification';
 $route['SO_CW/view_project_ganttchart/check-activity'] = 'ChatController/check_activity';
 $route['SO_CW/view_project_ganttchart/check-notification'] = 'ChatController/check_notification';
+
+$route['SO_RECORD/show_letter_lists/update-activity'] = 'ChatController/update_activity';
+$route['SO_RECORD/show_letter_lists/update-notification'] = 'ChatController/update_notification';
+$route['SO_RECORD/show_letter_lists/check-activity'] = 'ChatController/check_activity';
+$route['SO_RECORD/show_letter_lists/check-notification'] = 'ChatController/check_notification';
+
+$route['SO_RECORD/view_inventory_detail/update-activity'] = 'ChatController/update_activity';
+$route['SO_RECORD/view_inventory_detail/update-notification'] = 'ChatController/update_notification';
+$route['SO_RECORD/view_inventory_detail/check-activity'] = 'ChatController/check_activity';
+$route['SO_RECORD/view_inventory_detail/check-notification'] = 'ChatController/check_notification';
 
 
 

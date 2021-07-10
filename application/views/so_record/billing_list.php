@@ -1,4 +1,4 @@
- <?php $this->load->view('so_store/common/header'); ?>
+ <?php $this->load->view('so_record/common/header'); ?>
 
  <style>
      .red-border {
@@ -173,17 +173,12 @@
              <div class="row">
                  <div class="col-lg-12">
 
-                     <div class="alert alert-success" role="alert" style="display:none">
-                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                         <strong>Success!</strong> Material Quantity updated successfully!
-                     </div>
-
                      <div class="card bg-custom3">
                          <div class="card-header bg-custom1">
                              <h1 class="h4">Bills</h1>
                          </div>
-
-                         <div class="card-body">
+                         <h3>Page is under Construction!!</h3>
+                         <!-- <div class="card-body">
                              <div id="table_div">
                                  <?php if (count($inventory_records) > 0) { ?>
                                      <table id="datatable" class="table table-striped" style="color:black">
@@ -219,18 +214,18 @@
                                      <a> No Data Available yet </a>
                                  <?php } ?>
                              </div>
-                         </div>
+                         </div> -->
                      </div>
-                     <form class="user" role="form" method="post" id="add_form" action="">
+                     <!-- <form class="user" role="form" method="post" id="add_form" action="">
                          <div class="form-group row my-2 justify-content-center">
                              <div class="col-sm-4">
                                  <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn" data-toggle="modal" data-target="#new_material">
                                      <i class="fas fa-plus"></i>
-                                     Add new Material
+                                     Add new Bill
                                  </button>
                              </div>
                          </div>
-                     </form>
+                     </form> -->
                  </div>
              </div>
          </div>
@@ -398,7 +393,6 @@
      });
  </script> -->
  <script type="text/javascript">
-    
      function seen(data) {
 
          // var receiver_id=$(this).attr('id');
@@ -415,18 +409,17 @@
          });
      }
 
-     
 
 
-$('#notifications').focusout(function(){
- // alert('notification clicked');
-    $.ajax({
-      url: '<?= base_url(); ?>ChatController/activity_seen',
-      success: function(data) {
-        $('#notifications').html(data);
-      },
-      async: true
-    });
-});
 
+     $('#notifications').focusout(function() {
+         // alert('notification clicked');
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/activity_seen',
+             success: function(data) {
+                 $('#notifications').html(data);
+             },
+             async: true
+         });
+     });
  </script>

@@ -139,7 +139,7 @@
 
                             <div class="card">
                                 <div class="card-header bg-custom1">
-                                    <h1 class="h4">Update Project Progress</h1>
+                                    <h1 class="h4">Update Tasks Progress</h1>
                                 </div>
 
                                 <div class="card-body bg-custom3">
@@ -189,7 +189,7 @@
                                             <div class="col-sm-4">
                                                 <button type="button" class="btn btn-primary btn-user btn-block" id="update_btn">
                                                     <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                    Update Project Progress
+                                                    Update Task Progress
                                                 </button>
                                                 <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors</span>
                                             </div>

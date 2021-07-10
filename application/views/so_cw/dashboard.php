@@ -64,7 +64,7 @@
                                                      <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Code']; ?></td>
                                                      <td scope="row" style="white-space: nowrap;"><?= $data['Start_date']; ?></td>
                                                      <td style="white-space: nowrap;" scope="row"><?= $data['Status']; ?></td>
-                                                     <td scope="row" style="text-align:center; color:black; font-weight:800"><?= $data['total_percentage']/$data['total_rows']; ?>%</td>
+                                                     <td scope="row" style="text-align:center; color:black; font-weight:800"><?= round($data['total_percentage']/$data['total_rows'],2); ?>%</td>
                                                      <td style="" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_schedule/<?= $data['ID']; ?>" style="color:black"><i style="font-size:30px" class="fas fa-calendar-alt"></i></a></td>
                                                      <!-- <td style="width:150px" scope="row"><a href="<?= base_url(); ?>SO_CW/view_project_progress/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 50px; font-size:30px" class="fas fa-chart-line"></i></a></td> -->
                                                      <td style="" scope="row"><a type="button" onclick="location.href='<?php echo base_url(); ?>SO_CW/view_project_progress/<?= $data['ID']; ?>'" style="color:black"><i style="font-size:30px" class="fas fa-chart-line"></i></a></td>

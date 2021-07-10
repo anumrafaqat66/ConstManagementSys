@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Data Management</title>
+    <title>NHS PMS</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php echo base_url(); ?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -86,13 +86,13 @@
             <br><br><br> -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_STORE/add_inventory"  aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_RECORD/show_letter_lists"  aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-tasks"></i>
                     <span> Allotment Letters </span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_STORE/view_projects"  aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_RECORD/show_bills"  aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-file-signature"></i>
                     <span> Running Bills </span>
                 </a>

@@ -147,7 +147,7 @@ class Project_Officer extends CI_Controller
 
         $project_id = $postData['project_id'];
         $desc = $postData['drawing_desc'];
-        echo $desc;
+        // echo $desc;
         $upload1 = $this->upload_reg($_FILES['project_drawing']);
 
         if (count($upload1) >= 1) {

@@ -300,6 +300,15 @@ add column full_name varchar(100);
 alter table inventory_detail
 add column cost_per_unit decimal(16,2);
 
+alter table project_allotment_letter
+add COLUMN received_date date;
+
+alter table project_allotment_letter
+add COLUMN dispatch_date date;
+
+alter table project_allotment_letter
+add COLUMN officer_name varchar(100);
+
 update inventory_detail
 set cost_per_unit = Price / Quantity;
 

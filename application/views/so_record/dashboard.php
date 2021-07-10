@@ -1,4 +1,4 @@
- <?php $this->load->view('so_store/common/header'); ?>
+ <?php $this->load->view('so_record/common/header'); ?>
 
  <style>
      .img {
@@ -25,15 +25,21 @@
      <form class="user" role="form" method="post" id="add_form">
 
          <div class="form-group row justify-content-center" style="margin-top:50px;">
-             <div class="col-sm-6">
+             <div class="col-sm-4">
                  <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_letter_lists'">
                  <h4 style="font-weight: bold;">Allotment Letter</h4>
                  </button>
              </div>
 
-             <div class="col-sm-6">
+             <div class="col-sm-4">
                  <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_bills'">
                  <h4 style="font-weight: bold;">Billing Section</h4>
+                 </button>
+             </div>
+
+             <div class="col-sm-4">
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/view_material_used'">
+                 <h4 style="font-weight: bold;">Material Used By Project</h4>
                  </button>
              </div>
 
