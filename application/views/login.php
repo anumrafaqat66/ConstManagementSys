@@ -38,7 +38,7 @@
 
     <!-- Outer Row -->
     <div class="row justify-content-center">
-      <h1 class="h1 text-black-900 mb-4" style="margin-top:50px; padding:0%; margin-bottom:0px;"><strong> Construction Management System (<?php  if($this->session->userdata('region') == 'super_admin') {
+      <h1 class="h1 text-black-900 mb-4" style="margin-top:50px; padding:0%; margin-bottom:0px;"><strong> Construction Management System (<?php  if($this->session->userdata('region') == 'both') {
                                                                                                                                                       echo "Admin"; }
                                                                                                                                                       else if($this->session->userdata('region') == 'north'){
                                                                                                                                                         echo "North";

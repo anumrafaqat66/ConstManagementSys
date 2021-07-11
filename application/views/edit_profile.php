@@ -1,4 +1,15 @@
-<?php $this->load->view('project_officer/common/header'); ?>
+<?php if ($this->session->userdata('acct_type') == 'admin') {
+    $this->load->view('Admin/common/header');
+} else if ($this->session->userdata('acct_type') == 'PO') {
+    $this->load->view('project_officer/common/header');
+} else if ($this->session->userdata('acct_type') == 'SO_RECORD') {
+    $this->load->view('so_record/common/header');
+} else if ($this->session->userdata('acct_type') == 'SO_CW') {
+    $this->load->view('so_cw/common/header');
+} else if ($this->session->userdata('acct_type') == 'SO_STORE') {
+    $this->load->view('so_store/common/header');
+} ?>
+
 <style>
     .red-border {
         border: 1px solid red !important;

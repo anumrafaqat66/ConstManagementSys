@@ -1,4 +1,4 @@
- <?php $this->load->view('project_officer/common/header'); ?>
+<?php $this->load->view('project_officer/common/header'); ?>
 
  <style>
      .red-border {

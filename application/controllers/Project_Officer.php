@@ -31,7 +31,7 @@ class Project_Officer extends CI_Controller
     public function add_contractors()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['contractor_records'] = $this->db->get('contractors')->result_array();
+            $data['contractor_records'] = $this->db->where('region',$this->session->userdata('region'))->get('contractors')->result_array();
             $this->load->view('project_officer/contractor', $data);
         }
     }
@@ -42,6 +42,7 @@ class Project_Officer extends CI_Controller
             $this->load->view('project_officer/about');
         }
     }
+    
     public function services()
     {
         if ($this->session->has_userdata('user_id')) {
@@ -55,12 +56,14 @@ class Project_Officer extends CI_Controller
             if($this->session->userdata('username') == 'admin') {
                 $data['project_records'] = $this->db->get('projects')->result_array();
             } else {
-                $data['project_records'] = $this->db->where('Created_by', $this->session->userdata('username'))->get('projects')->result_array();
+                $data['project_records'] = $this->db->where('region',$this->session->userdata('region'))->where('Created_by', $this->session->userdata('username'))->get('projects')->result_array();
             }
-            $data['contractor_name'] = $this->db->get('contractors')->result_array();
+            $data['contractor_name'] = $this->db->where('region',$this->session->userdata('region'))->get('contractors')->result_array();
+
             $this->db->select('pb.*,c.*');
             $this->db->from('project_bids pb');
             $this->db->join('contractors c', 'c.ID = pb.contractor_id');
+            $this->db->where('pb.region',$this->session->userdata('region'));
             $data['bids'] = $this->db->get()->result_array();
             $this->load->view('project_officer/projects', $data);
         }
@@ -70,7 +73,7 @@ class Project_Officer extends CI_Controller
     {
 
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->get('projects')->result_array();
+            $data['project_records'] = $this->db->where('region',$this->session->userdata('region'))->get('projects')->result_array();
             $this->load->view('so_store/projects', $data);
         }
     }
@@ -84,9 +87,10 @@ class Project_Officer extends CI_Controller
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
             $this->db->where('pp.project_id', $project_id);
+            $this->db->where('pp.region',$this->session->userdata('region'));
 
             $data['project_schedule'] = $this->db->get()->result_array();
-            $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            $data['project_records'] = $this->db->where('ID', $project_id)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
             $this->load->view('project_officer/project_ganttchart', $data);
         }
     }
@@ -100,9 +104,10 @@ class Project_Officer extends CI_Controller
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
             $this->db->where('pp.project_id', $project_id);
-
+            $this->db->where('pp.region',$this->session->userdata('region'));
             $data['project_schedule'] = $this->db->get()->result_array();
-            $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+
+            $data['project_records'] = $this->db->where('ID', $project_id)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
             $this->load->view('project_officer/project_breakdown', $data);
         }
     }
@@ -110,7 +115,6 @@ class Project_Officer extends CI_Controller
 
     public function overview($project_id = NULL)
     {
-
         if ($this->session->has_userdata('user_id')) {
             $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
 
@@ -118,12 +122,14 @@ class Project_Officer extends CI_Controller
             $this->db->from('project_bids pb');
             $this->db->join('contractors c', 'c.ID = pb.contractor_ID');
             $this->db->where('pb.project_id', $project_id);
+            $this->db->where('pb.region',$this->session->userdata('region'));
             $data['project_bids'] = $this->db->get()->result_array();
 
             $this->db->select('p.Name as project_name, c.Name as contractor_name,p.*,c.*');
             $this->db->from('projects p');
             $this->db->join('contractors c', 'p.contractor_id = c.ID');
             $this->db->where('p.ID', $project_id);
+            $this->db->where('p.region',$this->session->userdata('region'));
             $data['project_contractor'] = $this->db->get()->result_array();
             $data['id'] = $project_id;
 
@@ -137,7 +143,7 @@ class Project_Officer extends CI_Controller
 
         if ($this->session->has_userdata('user_id')) {
             $data['project'] = $project_id;
-            $data['drawing'] = $this->db->where('project_id', $project_id)->get('project_drawing')->result_array();
+            $data['drawing'] = $this->db->where('region',$this->session->userdata('region'))->where('project_id', $project_id)->get('project_drawing')->result_array();
             $this->load->view('project_officer/project_drawing', $data);
         }
     }
@@ -157,7 +163,8 @@ class Project_Officer extends CI_Controller
                     'name' => $upload1[$i],
                     'project_id' => $project_id,
                     'description' => $desc,
-                    'date_added' => date('Y-m-d')
+                    'date_added' => date('Y-m-d'),
+                    'region' => $this->session->userdata('region')
                 );
                 $insert = $this->db->insert('project_drawing', $insert_array);
             }
@@ -179,6 +186,7 @@ class Project_Officer extends CI_Controller
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
             $this->db->where('Material_id', $id);
+            $this->db->where('i.region',$this->session->userdata('region'));
 
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_store/inventory_detail', $data);
@@ -188,7 +196,7 @@ class Project_Officer extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            $data['activity_log'] = $this->db->where('region',$this->session->userdata('region'))->get('activity_log')->result_array();
             $this->load->view('project_officer/activity_log', $data);
         }
     }
@@ -203,6 +211,7 @@ class Project_Officer extends CI_Controller
             $this->db->join('projects', 'projects.ID = inventory_used.Material_used_by_Project');
             $this->db->join('inventory', 'inventory.ID = inventory_used.Material_id');
             $this->db->where('Material_used_by_Project', $id);
+            $this->db->where('projects.region',$this->session->userdata('region'));
             $data['material_detail_records'] = $this->db->get()->result_array();
             // print_r( $data['material_detail_records'] );
             $this->load->view('so_store/material_used_detail', $data);
@@ -226,7 +235,8 @@ class Project_Officer extends CI_Controller
                 'Contact_no' => $contact,
                 'Email_id' => $email,
                 'start_date' => $reg_date,
-                'description' => $desc
+                'description' => $desc,
+                'region' => $this->session->userdata('region')
             );
 
             $insert = $this->db->insert('contractors', $insert_array);
@@ -239,7 +249,8 @@ class Project_Officer extends CI_Controller
                     'activity_action' => 'add',
                     'activity_detail' => "Contractor named " . $contractor_name . "  has been added",
                     'activity_by' => $this->session->userdata('username'),
-                    'activity_date' => date('Y-m-d H:i:s')
+                    'activity_date' => date('Y-m-d H:i:s'),
+                    'region' => $this->session->userdata('region')
                 );
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
@@ -250,7 +261,8 @@ class Project_Officer extends CI_Controller
                     $insert_activity_seen = array(
                         'activity_id' => $last_id,
                         'user_id' => $query[$i]['id'],
-                        'seen' => 'no'
+                        'seen' => 'no',
+                        'region' => $this->session->userdata('region')
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
@@ -270,6 +282,7 @@ class Project_Officer extends CI_Controller
     {
         $id = $_POST['id'];
         $this->db->where('ID', $id);
+        $this->db->where('region',$this->session->userdata('region'));
         $this->db->delete('projects');
     }
 
@@ -281,6 +294,7 @@ class Project_Officer extends CI_Controller
         $this->db->from('project_bids');
         $this->db->join('contractors', 'contractors.ID = project_bids.contractor_id');
         $this->db->where('project_bids.project_id', $id);
+        $this->db->where('project_bids.region',$this->session->userdata('region'));
         $bids = $this->db->get()->result_array();
         // print_r($bids);exit;
         echo json_encode($bids);
@@ -296,7 +310,8 @@ class Project_Officer extends CI_Controller
         $contractor_id = $_POST['contractor_edit'];
         $bid_id = $_POST['project_bid_edit'];
 
-        $cond  = ['ID' => $id];
+        $cond  = ['ID' => $id,
+                  'region' => $this->session->userdata('region')];
         $data_update = [
             'Start_date' => $start_date,
             'End_date' => $end_date,
@@ -319,7 +334,8 @@ class Project_Officer extends CI_Controller
                 'activity_action' => 'update',
                 'activity_detail' => "'" . $created_by . "' has made updated a project named: " . $name,
                 'activity_by' => $created_by,
-                'activity_date' => date('Y-m-d H:i:s')
+                'activity_date' => date('Y-m-d H:i:s'),
+                'region' => $this->session->userdata('region')
             );
 
             $insert = $this->db->insert('activity_log', $insert_activity);
@@ -332,7 +348,8 @@ class Project_Officer extends CI_Controller
                 $insert_activity_seen = array(
                     'activity_id' => $last_id,
                     'user_id' => $query[$i]['id'],
-                    'seen' => 'no'
+                    'seen' => 'no',
+                    'region' => $this->session->userdata('region')
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
@@ -343,6 +360,7 @@ class Project_Officer extends CI_Controller
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
         }
     }
+
     public function edit_contractor()
     {
         $id =  $_POST['id_edit'];
@@ -351,7 +369,8 @@ class Project_Officer extends CI_Controller
         $reg_date_edit = $_POST['reg_date_edit'];
         $contractor_name = $_POST['contractor_name_edit'];
 
-        $cond  = ['ID' => $id];
+        $cond  = ['ID' => $id,
+                  'region' => $this->session->userdata('region')];
         $data_update = [
             'Contact_no' => $contact_edit,
             'Email_id' => $email_edit,
@@ -367,7 +386,8 @@ class Project_Officer extends CI_Controller
                 'activity_action' => 'update',
                 'activity_detail' => "Contractor named " . $contractor_name . " has been updated",
                 'activity_by' => $this->session->userdata('username'),
-                'activity_date' => date('Y-m-d H:i:s')
+                'activity_date' => date('Y-m-d H:i:s'),
+                'region' => $this->session->userdata('region')
             );
 
             $insert = $this->db->insert('activity_log', $insert_activity);
@@ -380,16 +400,18 @@ class Project_Officer extends CI_Controller
                 $insert_activity_seen = array(
                     'activity_id' => $last_id,
                     'user_id' => $query[$i]['id'],
-                    'seen' => 'no'
+                    'seen' => 'no',
+                    'region' => $this->session->userdata('region')
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
             $this->session->set_flashdata('success', 'Record Updated successfully');
-            redirect('Project_Officer/add_projects');
+            redirect('Project_Officer/add_contractors');
         } else {
             $this->session->set_flashdata('failure', 'Something went delete, try again.');
         }
     }
+
     public function insert_project()
     {
         if ($this->input->post()) {
@@ -402,16 +424,18 @@ class Project_Officer extends CI_Controller
             $assigned_bid = $postData['assign_bid'];
             $total_cost = $postData['total_cost'];
 
-            $data = $this->db->where('id', $assigned_bid)->get('project_bids')->row_array();
-            $contractor = $this->db->where('ID', $data['contractor_id'])->get('contractors')->row_array();
+            $data = $this->db->where('id', $assigned_bid)->where('region',$this->session->userdata('region'))->get('project_bids')->row_array();
+            $contractor = $this->db->where('region',$this->session->userdata('region'))->where('ID', $data['contractor_id'])->get('contractors')->row_array();
             //echo $contractor['ID'];exit;
 
             $created_by = $postData['created_by'];
             $status = $postData['status'];
 
-            $project = $this->db->where('Name', $name)->get('projects')->row_array();
+            $project = $this->db->where('Name', $name)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
 
-            $cond  = ['ID' => $project['ID']];
+            $cond  = ['ID' => $project['ID'],
+                        'region' => $this->session->userdata('region')];
+
             $update_array = array(
                 'Name' => $name,
                 'Code' => $code,
@@ -435,7 +459,8 @@ class Project_Officer extends CI_Controller
                     'activity_action' => 'add',
                     'activity_detail' => $created_by . " has added a project named " . $name,
                     'activity_by' => $created_by,
-                    'activity_date' => date('Y-m-d H:i:s')
+                    'activity_date' => date('Y-m-d H:i:s'),
+                    'region' => $this->session->userdata('region')
                 );
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
@@ -446,7 +471,8 @@ class Project_Officer extends CI_Controller
                     $insert_activity_seen = array(
                         'activity_id' => $last_id,
                         'user_id' => $query[$i]['id'],
-                        'seen' => 'no'
+                        'seen' => 'no',
+                        'region' => $this->session->userdata('region')
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
@@ -472,7 +498,8 @@ class Project_Officer extends CI_Controller
 
             $insert_array = array(
                 'Name' => $name,
-                'Code' => $code
+                'Code' => $code,
+                'region' => $this->session->userdata('region')
             );
             //print_r($insert_array);
             $insert = $this->db->insert('projects', $insert_array);
@@ -484,6 +511,7 @@ class Project_Officer extends CI_Controller
             redirect('Project_Officer/add_projects');
         }
     }
+
     public function insert_project_bids()
     {
         if ($this->input->post()) {
@@ -500,7 +528,9 @@ class Project_Officer extends CI_Controller
                 $insert_array = array(
                     'project_id' => $project_id,
                     'contractor_id' => $contractor[$i],
-                    'bid_amount' => $bid_amount[$i]
+                    'bid_amount' => $bid_amount[$i],
+                    'Status' => 'Verified',
+                    'region' => $this->session->userdata('region')
                 );
                 $insert = $this->db->insert('project_bids', $insert_array);
             }
@@ -514,7 +544,7 @@ class Project_Officer extends CI_Controller
     public function get_total_projects_assigned()
     {
         if ($this->session->has_userdata('user_id')) {
-            $getQty = $this->db->select('count(*) as count, contractor_id')->group_by('contractor_id')->get('projects')->result_array();
+            $getQty = $this->db->select('count(*) as count, contractor_id')->where('region',$this->session->userdata('region'))->group_by('contractor_id')->get('projects')->result_array();
             echo json_encode($getQty);
         }
     }
@@ -522,7 +552,7 @@ class Project_Officer extends CI_Controller
     public function get_total_projects_completed()
     {
         if ($this->session->has_userdata('user_id')) {
-            $getQty = $this->db->select('count(*) as count, contractor_id')->where('Status', 'Completed')->group_by('contractor_id')->get('projects')->result_array();
+            $getQty = $this->db->select('count(*) as count, contractor_id')->where('Status', 'Completed')->where('region',$this->session->userdata('region'))->group_by('contractor_id')->get('projects')->result_array();
             echo json_encode($getQty);
         }
     }
@@ -533,9 +563,9 @@ class Project_Officer extends CI_Controller
         $status = $_POST['status'];
         if ($this->session->has_userdata('user_id')) {
             if ($status != 'ALL') {
-                $projectsList = $this->db->where('contractor_id', $cont_id)->where('status', $status)->get('projects')->result_array();
+                $projectsList = $this->db->where('contractor_id', $cont_id)->where('status', $status)->where('region',$this->session->userdata('region'))->get('projects')->result_array();
             } else {
-                $projectsList = $this->db->where('contractor_id', $cont_id)->get('projects')->result_array();
+                $projectsList = $this->db->where('contractor_id', $cont_id)->where('region',$this->session->userdata('region'))->get('projects')->result_array();
             }
             echo json_encode($projectsList);
         }
@@ -597,8 +627,10 @@ class Project_Officer extends CI_Controller
             $this->db->join('contractors c', 'p.contractor_id = c.ID');
             $this->db->join('project_bids pb',  'p.bid_id = pb.id', 'p.ID = pb.project_id');
             $this->db->join('project_progress pp', 'p.ID = pp.project_id');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
             $this->db->where('p.ID', $project_id);
+            $this->db->where('p.region',$this->session->userdata('region'));
             $data['project_record'] = $this->db->get()->row_array();
 
 
@@ -607,6 +639,7 @@ class Project_Officer extends CI_Controller
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
             $this->db->where('pp.project_id', $project_id);
+            $this->db->where('pp.region',$this->session->userdata('region'));
             $data['project_progress'] = $this->db->get()->result_array();
 
             $html = $this->load->view('project_officer/progress_report', $data, TRUE); //$graph, TRUE);

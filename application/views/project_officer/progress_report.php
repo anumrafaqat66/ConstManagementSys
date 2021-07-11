@@ -46,7 +46,7 @@
     <thead>
       <tr>
         <th scope="col">Overall Progress</th>
-        <td><?= $project_record['total_percentage'] / $project_record['total_rows']; ?>%</td>
+        <td><?= round($project_record['total_percentage'] / $project_record['total_rows'],2); ?>%</td>
       </tr>
     </thead>
   </table>

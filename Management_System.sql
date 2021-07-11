@@ -309,6 +309,47 @@ add COLUMN dispatch_date date;
 alter table project_allotment_letter
 add COLUMN officer_name varchar(100);
 
+alter table security_info
+add column region varchar(15);
+
+update security_info
+set region ='north'
+where username <> 'Admin';
+
+update security_info
+set region ='both'
+where username = 'Admin';
+
+ALTER TABLE activity_log ADD COLUMN region varchar(15);
+ALTER TABLE activity_log_seen ADD COLUMN region varchar(15);
+ALTER TABLE chat ADD COLUMN region varchar(15);
+ALTER TABLE contractors ADD COLUMN region varchar(15);
+ALTER TABLE inventory ADD COLUMN region varchar(15);
+ALTER TABLE inventory_detail ADD COLUMN region varchar(15);
+ALTER TABLE inventory_used ADD COLUMN region varchar(15);
+ALTER TABLE projects ADD COLUMN region varchar(15);
+ALTER TABLE project_allotment_letter ADD COLUMN region varchar(15);
+ALTER TABLE project_bids ADD COLUMN region varchar(15);
+ALTER TABLE project_bills ADD COLUMN region varchar(15);
+ALTER TABLE project_drawing ADD COLUMN region varchar(15);
+ALTER TABLE project_progress ADD COLUMN region varchar(15);
+ALTER TABLE project_schedule ADD COLUMN region varchar(15);
+
+update activity_log set region = 'north';
+update activity_log_seen set region = 'north';
+Update chat set region = 'north';
+Update contractors set region = 'north';
+Update inventory set region = 'north';
+Update inventory_detail set region = 'north';
+Update inventory_used set region = 'north';
+Update projects set region = 'north';
+Update project_allotment_letter set region = 'north';
+Update project_bids set region = 'north';
+Update project_bills set region = 'north';
+Update project_drawing set region = 'north';
+Update project_progress set region = 'north';
+Update project_schedule set region = 'north';
+
 update inventory_detail
 set cost_per_unit = Price / Quantity;
 

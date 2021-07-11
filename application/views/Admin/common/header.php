@@ -45,7 +45,7 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item active">
-                <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'Admin') {
+                <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'admin') {
                                                                         echo "Admin";
                                                                     } ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>

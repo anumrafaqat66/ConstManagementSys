@@ -21,7 +21,8 @@ class Admin extends CI_Controller
         }
     }
 
-    public function add_users(){
+    public function add_users()
+    {
         $this->load->view('Admin/create_user');
     }
 
@@ -31,10 +32,11 @@ class Admin extends CI_Controller
         if ($this->input->post()) {
             $postedData = $this->security->xss_clean($this->input->post());
             //To create encrypted password use
+            $region = $this->session->userdata('region');
             $username = $postedData['username'];
             $password = $postedData['password'];
             //$status = $postedData['optradio'];
-            $query = $this->db->where('username', $username)->where('acct_type', 'admin')->get('security_info')->row_array();
+            $query = $this->db->where('username', $username)->where('acct_type', 'admin')->where('region',$region)->get('security_info')->row_array();
             $hash = $query['password'];
 
             if (!empty($query)) {
@@ -42,6 +44,7 @@ class Admin extends CI_Controller
                     $this->session->set_userdata('user_id', $query['id']);
                     $this->session->set_userdata('status', $query['type']);
                     $this->session->set_userdata('username', $query['username']);
+                    $this->session->set_userdata('acct_type', $query['acct_type']);
                     $this->session->set_flashdata('success', 'Login successfully');
                     redirect('Admin');
                 } else {
@@ -57,10 +60,10 @@ class Admin extends CI_Controller
     }
 
     public function logout()
-	{
-		$this->session->sess_destroy();
-		redirect('Admin');
-	}
+    {
+        $this->session->sess_destroy();
+        redirect('Admin');
+    }
 
     public function add_user()
     {
@@ -70,22 +73,26 @@ class Admin extends CI_Controller
             $username = $postData['username'];
             $password = password_hash($postData['password'], PASSWORD_DEFAULT);
             $status = $postData['status'];
-              $email = $_POST['email'];
+            $email = $_POST['email'];
             $phone = $_POST['phone'];
             $address = $_POST['address'];
+            $region = $_POST['region'];
+            $name = $_POST['name'];
 
             $insert_array = array(
                 'username' => $username,
                 'password' => $password,
                 'acct_type' => $status,
-                 'email' => $email,
-            'phone' => $phone,
-            'address' => $address,
+                'email' => $email,
+                'phone' => $phone,
+                'address' => $address,
+                'region' => $region,
+                'full_name' => $name,
 
             );
-            
+
             $insert = $this->db->insert('security_info', $insert_array);
-            
+
             if (!empty($insert)) {
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
                 redirect('Admin/add_users');
@@ -106,5 +113,4 @@ class Admin extends CI_Controller
             $this->load->view('Admin/activity_log', $data);
         }
     }
-
 }
