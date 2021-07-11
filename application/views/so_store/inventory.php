@@ -207,8 +207,8 @@
                                              <tr>
                                                  <th scope="col">ID</th>
                                                  <th scope="col">Material Name</th>
-                                                 <th scope="col">Quantity</th>
-                                                 <th scope="col">Price</th>
+                                                 <th scope="col" style="text-align:center">Available Quantity</th>
+                                                 <th scope="col">Remaining Price</th>
                                                  <th scope="col">Unit</th>
                                                  <th scope="col">Edit/Update Quantity</th>
                                                  <th scope="col">View Details</th>
@@ -219,9 +219,9 @@
                                              <?php $count = 0;
                                                 foreach ($inventory_records as $data) { ?>
                                                  <tr>
-                                                     <td scope="row"><?= $data['ID']; ?></td>
+                                                     <td scope="row"><?= ++$count; ?></td>
                                                      <td id="material<?= $data['ID']; ?>" scope="row"><?= $data['Material_Name']; ?></td>
-                                                     <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Material_Total_Quantity']; ?></td>
+                                                     <td id="quant<?= $data['ID']; ?>" class="quant" scope="row" style="text-align:center"><?= $data['Material_Total_Quantity']; ?></td>
                                                      <td scope="row">PKR. <?= $data['Material_Total_Price']; ?></td>
                                                      <td scope="row"><?= $data['Unit']; ?></td>
                                                      <td type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 70px;" class="fas fa-edit"></i></td>

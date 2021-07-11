@@ -77,12 +77,12 @@
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
-                                                     <input type="number" class="form-control form-control-user" name="quantity" id="quantity" placeholder="Quantity">
+                                                     <input type="number" class="form-control form-control-user" pattern="[0-9]{11}" name="quantity" id="quantity" placeholder="Quantity">
                                                      <span id="show_quantity" style="font-size:10px; color:red; display:none">Available Quantity:</span>
                                                  </div>
 
                                                  <div class="col-sm-2 mb-1">
-                                                     <input type="number" class="form-control form-control-user" name="price" id="price" placeholder="Price">
+                                                     <input type="number" class="form-control form-control-user" name="price" id="price" placeholder="Price" readonly>
                                                  </div>
 
                                              </div>
@@ -217,6 +217,69 @@
          }
 
          if (validate == 0) {
+
+             $.ajax({
+                 url: '<?= base_url(); ?>SO_STORE/get_material_price',
+                 method: 'POST',
+                 data: {
+                     'material_id': $('#material').val(),
+                 },
+                 success: function(data) {
+
+                     var result = jQuery.parseJSON(data);
+                     var len = result.length;
+
+                     var remaining_qty = $('#quantity').val();
+                     var total_value = 0;
+                     for (var i = 0; i < len; i++) {
+                         var cost_per_unit = result[i]['cost_per_unit'];
+                         var quantity = result[i]['quantity'];
+                         var material_dtl_id = result[i]['ID'];
+
+                         if (remaining_qty > 0) {
+                             if (remaining_qty - quantity <= 0) {
+                                 total_value = total_value + (remaining_qty * cost_per_unit);
+
+                                 $.ajax({
+                                     url: '<?= base_url(); ?>SO_STORE/update_inventory_detail',
+                                     method: 'POST',
+                                     data: {
+                                         'material_detail_id': material_dtl_id,
+                                         'qty_used': remaining_qty,
+                                         'price_used': (remaining_qty * cost_per_unit)
+                                     },
+                                     success: function(data) {},
+                                     async: false
+                                 });
+
+                                 remaining_qty = 0;
+
+                             } else {
+                                 total_value = total_value + (quantity * cost_per_unit);
+                                 remaining_qty = remaining_qty - quantity;
+
+                                 $.ajax({
+                                     url: '<?= base_url(); ?>SO_STORE/update_inventory_detail',
+                                     method: 'POST',
+                                     data: {
+                                         'material_detail_id': material_dtl_id,
+                                         'qty_used': quantity,
+                                         'price_used': (quantity * cost_per_unit)
+                                     },
+                                     success: function(data) {},
+                                     async: false
+                                 });
+                             }
+                         }
+
+
+                     }
+
+                 },
+                 async: false
+             });
+
+
              $('#edit_form')[0].submit();
              $('#show_error').hide();
          } else {
@@ -225,8 +288,16 @@
          }
      });
 
+     $('#quantity').on('keyup focusout', function() {
+         if (!$.isNumeric($('#quantity').val())) {
+             $('#quantity').addClass('red-border');
+             $('#quantity').focus();
+         }
+     });
+
      $('#quantity').on('focusout', function() {
          //alert('abc');
+
          var cur_val = $(this).val();
          var id = $('#material').val();
          if (id == '') {
@@ -259,7 +330,43 @@
                  }
 
              },
-             async: true
+             async: false
+         });
+
+         $.ajax({
+             url: '<?= base_url(); ?>SO_STORE/get_material_price',
+             method: 'POST',
+             data: {
+                 'material_id': id,
+             },
+             success: function(data) {
+
+                 var result = jQuery.parseJSON(data);
+                 var len = result.length;
+
+                 var remaining_qty = cur_val;
+                 var total_value = 0;
+                 for (var i = 0; i < len; i++) {
+                     var cost_per_unit = result[i]['cost_per_unit'];
+                     var quantity = result[i]['quantity'];
+                     var material_dtl_id = result[i]['ID'];
+
+                     if (remaining_qty > 0) {
+                         if (remaining_qty - quantity <= 0) {
+                             total_value = total_value + (remaining_qty * cost_per_unit);
+                             $('#price').val(total_value);
+                             remaining_qty = 0;
+                         } else {
+                             total_value = total_value + (quantity * cost_per_unit);
+                             remaining_qty = remaining_qty - quantity;
+                         }
+                     }
+
+
+                 }
+
+             },
+             async: false
          });
 
      })
@@ -332,7 +439,6 @@
      });
  </script> -->
  <script type="text/javascript">
-
      function seen(data) {
 
          // var receiver_id=$(this).attr('id');
@@ -351,14 +457,14 @@
 
 
 
-$('#notifications').focusout(function(){
- // alert('notification clicked');
-    $.ajax({
-      url: '<?= base_url(); ?>ChatController/activity_seen',
-      success: function(data) {
-        $('#notifications').html(data);
-      },
-      async: true
-    });
-});
+     $('#notifications').focusout(function() {
+         // alert('notification clicked');
+         $.ajax({
+             url: '<?= base_url(); ?>ChatController/activity_seen',
+             success: function(data) {
+                 $('#notifications').html(data);
+             },
+             async: true
+         });
+     });
  </script>

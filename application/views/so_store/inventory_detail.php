@@ -26,9 +26,9 @@
                                              <tr>
                                                  <th scope="col">ID</th>
                                                  <th scope="col">Material Name</th>
-                                                 <th scope="col">Quantity</th>
+                                                 <th scope="col" style="text-align:center">Available Quantity</th>
                                                  <th scope="col">Cost Per Unit</th>
-                                                 <th scope="col">Total Price</th>
+                                                 <th scope="col">Remaining Price</th>
                                                  <th scope="col">Unit</th>
                                                  <th scope="col">Stock Date</th>
                                                  <th scope="col">Status</th>
@@ -40,7 +40,7 @@
                                                  <tr>
                                                      <td scope="row"><?= ++$count ?></td>
                                                      <td id="material<?= $data['id']; ?>" scope="row"><?= $data['Material_Name']; ?></td>
-                                                     <td id="quant<?= $data['id']; ?>" class="quant" scope="row"><?= $data['Quantity']; ?></td>
+                                                     <td id="quant<?= $data['id']; ?>" class="quant" scope="row" style="text-align:center"><?= $data['Quantity']; ?></td>
                                                      <td scope="row">PKR. <?= $data['cost_per_unit']; ?></td>
                                                      <td scope="row">PKR. <?= $data['Price']; ?></td>
                                                      <td scope="row"><?= $data['Unit']; ?></td>

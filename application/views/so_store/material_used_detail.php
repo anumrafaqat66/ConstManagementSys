@@ -28,8 +28,8 @@
                                                  <th scope="col">Date</th>
                                                  <th scope="col">Project Name</th>
                                                  <th scope="col">Material</th>
-                                                 <th scope="col">Quantity</th>
-                                                 <th scope="col">Price</th>
+                                                 <th scope="col">Quantity Used</th>
+                                                 <th scope="col">Price Spent</th>
 
                                                  <th scope="col">Status</th>
                                              </tr>

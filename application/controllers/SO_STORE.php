@@ -90,7 +90,6 @@ class SO_STORE extends CI_Controller
                 'Material_Total_Quantity' => $quantity,
                 'Material_Total_Price' => $price,
                 'Unit' => $unit,
-                'cost_per_unit' => $per_unit_cost,
                 'region' => $this->session->userdata('region')
             );
 
@@ -101,6 +100,7 @@ class SO_STORE extends CI_Controller
                 'Material_ID' => $last_id,
                 'Quantity' => $quantity,
                 'Price' => $price,
+                'cost_per_unit' => $per_unit_cost,
                 'stock_date' => date('Y-m-d'),
                 'Status' => 'Delivered',
                 'region' => $this->session->userdata('region')
@@ -232,6 +232,31 @@ class SO_STORE extends CI_Controller
         $this->db->update('inventory', $data_update);
     }
 
+    public function update_inventory_detail()
+    {
+        $detail_id = $_POST['material_detail_id'];
+        $qty_used = $_POST['qty_used'];
+        $price_used = $_POST['price_used'];
+
+        $getQty = $this->db->select('Quantity')->where('ID', $detail_id)->where('region', $this->session->userdata('region'))->get('inventory_detail')->row_array();
+        $getPrice = $this->db->select('Price')->where('ID', $detail_id)->where('region', $this->session->userdata('region'))->get('inventory_detail')->row_array();
+
+        $total_quantity = $getQty['Quantity'] - $qty_used;
+        $total_price = $getPrice['Price'] - $price_used;
+
+        $cond  = [
+            'ID' => $detail_id,
+            'region' => $this->session->userdata('region')
+        ];
+        $data_update = [
+            'Quantity' => $total_quantity,
+            'Price' => $total_price
+        ];
+
+        $this->db->where($cond);
+        $this->db->update('inventory_detail', $data_update);
+    }
+
     public function edit_inventory()
     {
         $id =  $_POST['id_edit'];
@@ -291,6 +316,25 @@ class SO_STORE extends CI_Controller
             $id = $_POST['material_id'];
             $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $id)->where('region',$this->session->userdata('region'))->get('inventory')->row_array();
             echo $getQty['Material_Total_Quantity'];
+        }
+    }
+
+    public function get_material_price()
+    {
+
+        if ($this->session->has_userdata('user_id')) {
+            $id = $_POST['material_id'];
+
+            $this->db->select('ID, cost_per_unit, quantity');
+            $this->db->from('inventory_detail');
+            $this->db->where('region',$this->session->userdata('region'));
+            $this->db->where('Material_ID',$id);
+            $this->db->order_by('ID', 'asc');
+
+            // $getQty = $this->db->select('cost_per_unit')->where('ID', $id)->where('region',$this->session->userdata('region'))->get('inventory_detail')->row_array();
+            $getCostPerUnit = $this->db->get()->result_array();
+            // echo $getQty['Material_Total_Quantity'];
+            echo json_encode($getCostPerUnit);
         }
     }
 
