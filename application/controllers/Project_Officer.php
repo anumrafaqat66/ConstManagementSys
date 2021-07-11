@@ -626,8 +626,8 @@ class Project_Officer extends CI_Controller
             $this->db->from('projects p');
             $this->db->join('contractors c', 'p.contractor_id = c.ID');
             $this->db->join('project_bids pb',  'p.bid_id = pb.id', 'p.ID = pb.project_id');
-            $this->db->join('project_progress pp', 'p.ID = pp.project_id');
-            $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
+            $this->db->join('project_progress pp', 'p.ID = pp.project_id', 'left');
+            $this->db->join('project_schedule ps', 'pp.task_id = ps.id', 'left');
             $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
             $this->db->where('p.ID', $project_id);
             $this->db->where('p.region',$this->session->userdata('region'));
