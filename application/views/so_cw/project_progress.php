@@ -10,6 +10,7 @@
     $this->load->view('so_store/common/header');
 } ?>
 
+<?php !isset($project_records['Name']) ? $project_records['Name'] = '' : $project_records['Name']; ?>
 <style>
     .img {
         background: url('<?= base_url() ?>assets/img/socw-banner.jpg');

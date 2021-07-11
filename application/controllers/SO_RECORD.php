@@ -26,11 +26,12 @@ class SO_RECORD extends CI_Controller
     {
 
         if ($this->session->has_userdata('user_id')) {
-            $data['projects'] = $this->db->get('projects')->result_array();
+            $data['projects'] = $this->db->where('region',$this->session->userdata('region'))->get('projects')->result_array();
 
             $this->db->select('pal.*,p.Name');
             $this->db->from('project_allotment_letter pal');
             $this->db->join('projects p', 'p.ID = pal.project_id');
+            $this->db->where('pal.region',$this->session->userdata('region'));
             $data['letter_list'] = $this->db->get()->result_array();
             $this->load->view('so_record/allotment_letter_list', $data); //, $data);
         }
@@ -67,7 +68,8 @@ class SO_RECORD extends CI_Controller
                     'dispatch_date' => $dispatch_date,
                     'officer_name' => $officer_name,
                     'file_name' => $upload1[$i],
-                    'date_added' => date('Y-m-d')
+                    'date_added' => date('Y-m-d'),
+                    'region' => $this->session->userdata('region')
                 );
                 $insert = $this->db->insert('project_allotment_letter', $insert_array);
             }
@@ -131,7 +133,7 @@ class SO_RECORD extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            $data['activity_log'] = $this->db->where('region',$this->session->userdata('region'))->get('activity_log')->result_array();
             $this->load->view('so_record/activity_log', $data);
         }
     }
@@ -139,7 +141,7 @@ class SO_RECORD extends CI_Controller
     public function view_material_used()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->get('projects')->result_array();
+            $data['project_records'] = $this->db->where('region',$this->session->userdata('region'))->get('projects')->result_array();
             $this->load->view('so_record/material_used_projects', $data);
         }
     }
@@ -153,6 +155,7 @@ class SO_RECORD extends CI_Controller
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
             $this->db->where('Material_id', $id);
+            $this->db->where('i.region',$this->session->userdata('region'));
 
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_record/inventory_detail', $data);

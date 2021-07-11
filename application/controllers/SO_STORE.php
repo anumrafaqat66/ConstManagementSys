@@ -26,7 +26,7 @@ class SO_STORE extends CI_Controller
     {
 
         if ($this->session->has_userdata('user_id')) {
-            $data['inventory_records'] = $this->db->get('inventory')->result_array();
+            $data['inventory_records'] = $this->db->where('region', $this->session->userdata('region'))->get('inventory')->result_array();
             $this->load->view('so_store/inventory', $data);
         }
     }
@@ -35,7 +35,7 @@ class SO_STORE extends CI_Controller
     {
 
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->get('projects')->result_array();
+            $data['project_records'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
             $this->load->view('so_store/projects', $data);
         }
     }
@@ -49,6 +49,7 @@ class SO_STORE extends CI_Controller
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
             $this->db->where('Material_id', $id);
+            $this->db->where('i.region', $this->session->userdata('region'));
 
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_store/inventory_detail', $data);
@@ -65,6 +66,7 @@ class SO_STORE extends CI_Controller
             $this->db->join('projects', 'projects.ID = inventory_used.Material_used_by_Project');
             $this->db->join('inventory', 'inventory.ID = inventory_used.Material_id');
             $this->db->where('Material_used_by_Project', $id);
+            $this->db->where('inventory_used.region', $this->session->userdata('region'));
             $data['material_detail_records'] = $this->db->get()->result_array();
             // print_r( $data['material_detail_records'] );
             $this->load->view('so_store/material_used_detail', $data);
@@ -88,7 +90,8 @@ class SO_STORE extends CI_Controller
                 'Material_Total_Quantity' => $quantity,
                 'Material_Total_Price' => $price,
                 'Unit' => $unit,
-                'cost_per_unit' => $per_unit_cost
+                'cost_per_unit' => $per_unit_cost,
+                'region' => $this->session->userdata('region')
             );
 
             $insert = $this->db->insert('inventory', $insert_array);
@@ -99,7 +102,8 @@ class SO_STORE extends CI_Controller
                 'Quantity' => $quantity,
                 'Price' => $price,
                 'stock_date' => date('Y-m-d'),
-                'Status' => 'Delivered'
+                'Status' => 'Delivered',
+                'region' => $this->session->userdata('region')
             );
 
             $insert_detail = $this->db->insert('inventory_detail', $insert_array_detail);
@@ -111,18 +115,20 @@ class SO_STORE extends CI_Controller
                     'activity_action' => 'add',
                     'activity_detail' => "An inventory has been added by " . $this->session->userdata('username'),
                     'activity_by' => $this->session->userdata('username'),
-                    'activity_date' => date('Y-m-d H:i:s')
+                    'activity_date' => date('Y-m-d H:i:s'),
+                    'region' => $this->session->userdata('region')
                 );
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
                         'activity_id' => $last_id,
                         'user_id' => $query[$i]['id'],
-                        'seen' => 'no'
+                        'seen' => 'no',
+                        'region' => $this->session->userdata('region')
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
@@ -158,7 +164,8 @@ class SO_STORE extends CI_Controller
                 'Quantity_used' => $quantity,
                 'price' => $price,
                 'delivery_date' => $date,
-                'status' => "Delivered"
+                'status' => 'Delivered',
+                'region' => $this->session->userdata('region')
             );
             //  print_r($insert_array);exit;
             $insert = $this->db->insert('inventory_used', $insert_array);
@@ -173,18 +180,20 @@ class SO_STORE extends CI_Controller
                     'activity_action' => 'add',
                     'activity_detail' => "A material has been added by " . $this->session->userdata('username') . " in " . $name,
                     'activity_by' => $this->session->userdata('username'),
-                    'activity_date' => date('Y-m-d H:i:s')
+                    'activity_date' => date('Y-m-d H:i:s'),
+                    'region' => $this->session->userdata('region')
                 );
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
                         'activity_id' => $last_id,
                         'user_id' => $query[$i]['id'],
-                        'seen' => 'no'
+                        'seen' => 'no',
+                        'region' => $this->session->userdata('region')
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
@@ -204,13 +213,16 @@ class SO_STORE extends CI_Controller
 
     public function update_inventory($material_id = NULL, $material_qty = NULL, $material_price = NULL)
     {
-        $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $material_id)->get('inventory')->row_array();
-        $getPrice = $this->db->select('Material_Total_Price')->where('ID', $material_id)->get('inventory')->row_array();
+        $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $material_id)->where('region', $this->session->userdata('region'))->get('inventory')->row_array();
+        $getPrice = $this->db->select('Material_Total_Price')->where('ID', $material_id)->where('region', $this->session->userdata('region'))->get('inventory')->row_array();
 
         $total_quantity = $getQty['Material_Total_Quantity'] + $material_qty;
         $total_price = $getPrice['Material_Total_Price'] + $material_price;
 
-        $cond  = ['ID' => $material_id];
+        $cond  = [
+            'ID' => $material_id,
+            'region' => $this->session->userdata('region')
+        ];
         $data_update = [
             'Material_Total_Quantity' => $total_quantity,
             'Material_Total_Price' => $total_price,
@@ -233,7 +245,8 @@ class SO_STORE extends CI_Controller
             'Price' => $price,
             'stock_date' => date('Y-m-d'),
             'Status' => 'Delivered',
-            'cost_per_unit' => $per_unit
+            'cost_per_unit' => $per_unit,
+            'region' => $this->session->userdata('region')
         );
 
         $insert_detail = $this->db->insert('inventory_detail', $insert_array_detail);
@@ -246,22 +259,23 @@ class SO_STORE extends CI_Controller
                 'activity_action' => 'update',
                 'activity_detail' => "An inventory has been updated by " . $this->session->userdata('username'),
                 'activity_by' => $this->session->userdata('username'),
-                'activity_date' => date('Y-m-d H:i:s')
+                'activity_date' => date('Y-m-d H:i:s'),
+                'region' => $this->session->userdata('region')
             );
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region',$this->session->userdata('region'))->get('security_info')->result_array();
 
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
                     'activity_id' => $last_id,
                     'user_id' => $query[$i]['id'],
-                    'seen' => 'no'
+                    'seen' => 'no',
+                    'region' => $this->session->userdata('region')
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
-
 
             $this->session->set_flashdata('success', 'Material Updated successfully');
             redirect('SO_STORE/add_inventory');
@@ -275,7 +289,7 @@ class SO_STORE extends CI_Controller
 
         if ($this->session->has_userdata('user_id')) {
             $id = $_POST['material_id'];
-            $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $id)->get('inventory')->row_array();
+            $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $id)->where('region',$this->session->userdata('region'))->get('inventory')->row_array();
             echo $getQty['Material_Total_Quantity'];
         }
     }
@@ -296,7 +310,7 @@ class SO_STORE extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            $data['activity_log'] = $this->db->where('region',$this->session->userdata('region'))->get('activity_log')->result_array();
             $this->load->view('so_store/activity_log', $data);
         }
     }

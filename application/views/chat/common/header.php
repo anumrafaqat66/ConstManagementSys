@@ -58,7 +58,15 @@
             <li class="nav-item active">
                 <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'PO') {
                                                                         echo "Project_Officer";
-                                                                    } ?>">
+                                                                    } else if ($this->session->userdata('acct_type') == 'admin') {
+                                                                        echo "Admin";
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_CW') {
+                                                                        echo "SO_CW";
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_RECORD') {
+                                                                        echo "SO_RECORD";
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_STORE') {
+                                                                        echo "SO_STORE"; 
+                                                                    }?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
