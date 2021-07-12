@@ -12,11 +12,11 @@
   <title>NHS PMS</title>
 
   <!-- Custom fonts for this template-->
-  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="<?= base_url(); ?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -82,16 +82,16 @@
 
       <div class="col-lg-6">
         <div class="card region">
-          <div class="card-body bg-custom3 region" onclick="location.href='<?php echo base_url(); ?>User_Login/login_page_north'">
-            <h2><strong> North </strong></h2>
+          <div class="card-body bg-custom3 region" onclick="location.href='<?php echo base_url(); ?>User_Login/login_page_dir_nhs'">
+            <h2><strong> Director NHS </strong></h2>
           </div>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="card region">
-          <div class="card-body bg-custom3 region" onclick="location.href='<?php echo base_url(); ?>User_Login/login_page_south'">
-            <h2><strong> South </strong></h2>
+          <div class="card-body bg-custom3 region" onclick="location.href='<?php echo base_url(); ?>User_Login/login_page_dg_nhs'">
+            <h2><strong> DG NHS </strong></h2>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@
       </div> -->
     </div>
 
-    <div class="row my-2">
+    <!-- <div class="row my-2">
       <div class="col-lg-12">
         <div class="card region">
           <div class="card-body bg-custom3 region" onclick="location.href='<?php echo base_url(); ?>User_Login/select_admins'">
@@ -115,7 +115,7 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
 
 
 

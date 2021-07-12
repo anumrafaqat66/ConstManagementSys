@@ -26,9 +26,21 @@
     background-size: cover;
   }
 
+  .region {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px !important;
+    background: transparent !important;
+    text-align: center !important;
+    font-weight: 700 !important;
+    border-radius: 20px !important;
+    /* border-color: skyblue !important; */
+    border-color: #000154 !important;
+  }
+
   .red-border {
     border: 1px solid red !important;
   }
+
+  
 </style>
 
 
@@ -38,20 +50,26 @@
 
     <!-- Outer Row -->
     <div class="row justify-content-center">
-      <h1 class="h1 text-black-900 mb-4" style="margin-top:50px; padding:0%; margin-bottom:0px;"><strong> Construction Management System (<?php  if($this->session->userdata('region') == 'both') {
-                                                                                                                                                      echo "Admin"; }
+      <h1 class="h1 text-black-900 mb-4" style="margin-top:50px; padding:0%; margin-bottom:0px;"><strong> Construction Management System <?php  if($this->session->userdata('region') == 'both') {
+                                                                                                                                                      echo "(Admin)"; }
                                                                                                                                                       else if($this->session->userdata('region') == 'north'){
-                                                                                                                                                        echo "North";
+                                                                                                                                                        echo "(North)";
                                                                                                                                                        } else if($this->session->userdata('region') == 'south'){
-                                                                                                                                                         echo "South";
-                                                                                                                                                       } ?>)</strong></h1>
+                                                                                                                                                         echo "(South)";
+                                                                                                                                                       } else if($this->session->userdata('region') == 'dir_nhs'){
+                                                                                                                                                         echo "<br><p style='text-align:center'>(DIRECTOR NHS)</p>";
+                                                                                                                                                       } else if($this->session->userdata('region') == 'dg_nhs'){
+                                                                                                                                                         echo "<br><p style='text-align:center'>(DG NHS)</p>";
+                                                                                                                                                       } ?></strong></h1>
       <div class="col-xl-7 col-lg-2 col-md-3">
 
-        <div class="card o-hidden border-0 shadow-lg my-5" style="height:390px">
+        <div class="card o-hidden border-0 shadow-lg my-5 region" style="height:390px; background: transparent !important;">
           <!-- <div class="card-body p-0" style=""> -->
           <!-- Nested Row within Card Body -->
-          <div class="row">
-            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+          <div class="row region" >
+            <div class="col-lg-6 d-none d-lg-block bg-login-image "></div>
+            <div class="col-lg-6">
+            </div>
             <div class="col-lg-6">
               <div class="p-5">
                 <!-- <div class="text-center">
@@ -72,7 +90,7 @@
                       <option value="SO_STORE">SO Store</option>
                       <option value="SO_CW">SO CW</option>
                       <option value="SO_RECORD">SO Record</option>
-                      <option value="admin">Admin</option>
+                      <option value="admin"><?php if($this->session->userdata('region')=='north') { echo 'PD North'; } else if ($this->session->userdata('region') == 'south') { echo 'PD South'; }?></option>
                     </select>
                   </div>
 

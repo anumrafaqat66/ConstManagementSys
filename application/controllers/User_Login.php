@@ -42,10 +42,19 @@ class User_Login extends CI_Controller
 		$this->session->set_userdata('region', 'south');
 		$this->show_login_page();
 	}
-	public function login_page_super_admin()
+	public function login_page_dg_nhs()
 	{
-		$this->session->set_userdata('region', 'both');
+		$this->session->set_userdata('region', 'dg_nhs');
 		$this->show_login_page();
+	}
+	public function login_page_dir_nhs()
+	{
+		$this->session->set_userdata('region', 'dir_nhs');
+		$this->show_login_page();
+	}
+	public function select_admins()
+	{
+		$this->load->view('select_admins');
 	}
 
 	public function show_login_page()

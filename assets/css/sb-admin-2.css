@@ -11249,9 +11249,21 @@ a:focus {
 }
 
 .bg-login-image {
-    background: url(../img/navy_logo.png);
-    background-repeat: no-repeat;
-    background-position-x: 13px;
+    background: url(../img/navy_logo2.png);
+    /* background-repeat: no-repeat; */
+    background-size: cover;
+    /* height: 170px; */
+    width: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background-image: url("path/to/img"); */
+    /* background-repeat: no-repeat; */
+    background-size: contain;
+    /* background-position-x: 13px; */
+    /* background: transparent !important; */
 }
 
 .bg-register-image {
