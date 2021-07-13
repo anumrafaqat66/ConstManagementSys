@@ -173,22 +173,34 @@ INSERT INTO `projects` (`ID`, `Name`, `Code`, `Start_date`, `End_date`, `Total_C
 --
 
 CREATE TABLE `security_info` (
-  `id` bigint(255) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `reg_data` timestamp NOT NULL DEFAULT current_timestamp(),
-  `acct_type` enum('PO','SO_STORE','SO_CW','SO_RECORD','admin') NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+  `acct_type` enum('PO','SO_STORE','SO_CW','SO_RECORD','admin_north','admin_super','admin_south') NOT NULL,
+  `status` enum('offline','online') NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `phone` varchar(200) NOT NULL,
+  `address` varchar(500) NOT NULL,
+  `full_name` varchar(100) DEFAULT NULL,
+  `region` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `security_info`
 --
 
-INSERT INTO `security_info` (`id`, `username`, `password`, `reg_data`, `acct_type`) VALUES
-(1, 'admin', '$2y$10$uVajLuVrXeV2S4TWWuH4a.CLTS4LW92nmGiitB94akkA6pAWMJyI2', '2021-05-21 19:00:00', 'admin'),
-(2, 'po', '$2y$10$8XgyqXPz2fE5n2NwGsx6ZuB22QMZpd77S6vz76.I6Ws4CAID08zu.', '2021-06-17 10:41:33', 'PO'),
-(3, 'socw', '$2y$10$9g4nuznoQ8ChNs8VAbaeBeRx3QXTK.6Z5vi5.ErutktI2/5l2O1D6', '2021-06-17 10:41:46', 'SO_CW'),
-(4, 'sostore', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_STORE');
+INSERT INTO `security_info` (`id`, `username`, `password`, `reg_data`, `acct_type`, `status`, `email`, `phone`, `address`, `full_name`, `region`) VALUES
+(1, 'dir_nhs', '$2y$10$/6ZG1xPTs92CYRNV3CjjnuG8MWZ1NwfWzrzK8GCC14BETqHCpWsGi', '2021-07-13 15:14:39', 'admin_super', 'offline', '', '', '', '', 'both'),
+(2, 'dg_nhs', '$2y$10$GGo4NoQkJII3gtJI8vtAquU2yYv5ZeOX7CcaQ9ez2EMVr728d5JO6', '2021-07-13 15:14:54', 'admin_super', 'offline', '', '', '', '', 'both'),
+(3, 'pd_north', '$2y$10$gAMATOqA7y0hGCQQXgKTbe2mbenqmWBIasm5XPjMC72X/vNPslaqu', '2021-07-13 15:20:49', 'admin_north', 'offline', '', '', '', '', 'north'),
+(4, 'pd_south', '$2y$10$7xDnYMGmfd5Fn4Lz.YDy5udEPJaMunxA0A1jrQOBmuVOqnC9oxgvO', '2021-07-13 15:21:01', 'admin_south', 'offline', '', '', '', '', 'south'),
+(5, 'po', '$2y$10$8XgyqXPz2fE5n2NwGsx6ZuB22QMZpd77S6vz76.I6Ws4CAID08zu.', '2021-06-17 10:41:33', 'PO','offline', '', '', '', '', 'north'),
+(6, 'socw', '$2y$10$9g4nuznoQ8ChNs8VAbaeBeRx3QXTK.6Z5vi5.ErutktI2/5l2O1D6', '2021-06-17 10:41:46', 'SO_CW','offline', '', '', '', '', 'north'),
+(7, 'sostore', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_STORE','offline', '', '', '', '', 'north'),
+(8, 'po_s', '$2y$10$8XgyqXPz2fE5n2NwGsx6ZuB22QMZpd77S6vz76.I6Ws4CAID08zu.', '2021-06-17 10:41:33', 'PO','offline', '', '', '', '', 'south'),
+(9, 'socw_s', '$2y$10$9g4nuznoQ8ChNs8VAbaeBeRx3QXTK.6Z5vi5.ErutktI2/5l2O1D6', '2021-06-17 10:41:46', 'SO_CW','offline', '', '', '', '', 'south'),
+(10, 'sostore_s', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_STORE','offline', '', '', '', '', 'south');
 
 --
 -- Table structure for table `project_progress`
@@ -294,9 +306,6 @@ CREATE TABLE `activity_log_seen` (
 alter table project_drawing
 add column description varchar(500);
 
-alter table security_info
-add column full_name varchar(100);
-
 alter table inventory_detail
 add column cost_per_unit decimal(16,2);
 
@@ -308,17 +317,6 @@ add COLUMN dispatch_date date;
 
 alter table project_allotment_letter
 add COLUMN officer_name varchar(100);
-
-alter table security_info
-add column region varchar(15);
-
-update security_info
-set region ='north'
-where username <> 'Admin';
-
-update security_info
-set region ='both'
-where username = 'Admin';
 
 ALTER TABLE activity_log ADD COLUMN region varchar(15);
 ALTER TABLE activity_log_seen ADD COLUMN region varchar(15);
@@ -541,20 +539,6 @@ ALTER TABLE `inventory_used`
   ADD CONSTRAINT `inventory_used_ibfk_2` FOREIGN KEY (`Material_used_by_Project`) REFERENCES `projects` (`ID`);
 COMMIT;
 
-ALTER TABLE `security_info`
-  ADD `status` enum('offline','online') NOT NULL;
-
-ALTER TABLE `chat`
-  ADD `seen` enum('no','yes') NOT NULL;
-
-ALTER TABLE `security_info`
-  ADD `email` varchar(200) NOT NULL;
-
-ALTER TABLE `security_info`
-  ADD `phone` varchar(200) NOT NULL;
-
-ALTER TABLE `security_info`
-  ADD `address` varchar(500) NOT NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

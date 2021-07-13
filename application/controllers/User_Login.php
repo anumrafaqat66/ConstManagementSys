@@ -42,20 +42,20 @@ class User_Login extends CI_Controller
 		$this->session->set_userdata('region', 'south');
 		$this->show_login_page();
 	}
-	public function login_page_dg_nhs()
+	public function login_page_super_admin()
 	{
-		$this->session->set_userdata('region', 'dg_nhs');
+		$this->session->set_userdata('region', 'both');
 		$this->show_login_page();
 	}
-	public function login_page_dir_nhs()
-	{
-		$this->session->set_userdata('region', 'dir_nhs');
-		$this->show_login_page();
-	}
-	public function select_admins()
-	{
-		$this->load->view('select_admins');
-	}
+	// public function login_page_dir_nhs()
+	// {
+	// 	// $this->session->set_userdata('region', 'dir_nhs');
+	// 	$this->show_login_page();
+	// }
+	// public function select_admins()
+	// {
+	// 	$this->load->view('select_admins');
+	// }
 
 	public function show_login_page()
 	{
@@ -71,7 +71,7 @@ class User_Login extends CI_Controller
 				redirect('SO_CW');
 			} elseif ($acct_type == "SO_RECORD") {
 				redirect('SO_RECORD');
-			} elseif ($acct_type == "admin") {
+			} elseif ($acct_type == "admin_super" || $acct_type == "admin_north" || $acct_type == "admin_south") {
 				redirect('Admin');
 			} else {
 				$this->load->view('login');
@@ -94,31 +94,37 @@ class User_Login extends CI_Controller
 			$region = $this->session->userdata('region');
 			$username = $postedData['username'];
 			$password = $postedData['password'];
-			$status = $postedData['optradio'];
-			$query = $this->db->where('username', $username)->where('acct_type', $status)->where('region',$region)->get('security_info')->row_array();
-			$hash = $query['password'];
+			// $status = $postedData['optradio'];
 
-			if (!empty($query)) {
-				if (password_verify($password, $hash)) {
-					$this->session->set_userdata('user_id', $query['id']);
-					$this->session->set_userdata('acct_type', $query['acct_type']);
-					$this->session->set_userdata('username', $query['username']);
-					$this->session->set_flashdata('success', 'Login successfully');
+			$status = $this->db->select('acct_type')->where('username', $username)->where('region', $region)->get('security_info')->row_array();
+			if (!empty($status)) {
+				$query = $this->db->where('username', $username)->where('acct_type', $status['acct_type'])->where('region', $region)->get('security_info')->row_array();
+				$hash = $query['password'];
 
-					$this->db->set('status', 'online');
-					$this->db->where('id', $query['id']);
-					$this->db->update('security_info');
+				if (!empty($query)) {
+					if (password_verify($password, $hash)) {
+						$this->session->set_userdata('user_id', $query['id']);
+						$this->session->set_userdata('acct_type', $query['acct_type']);
+						$this->session->set_userdata('username', $query['username']);
+						$this->session->set_flashdata('success', 'Login successfully');
 
-					redirect('User_Login/show_login_page');
+						$this->db->set('status', 'online');
+						$this->db->where('id', $query['id']);
+						$this->db->update('security_info');
+
+						redirect('User_Login/show_login_page');
+					} else {
+						$this->session->set_flashdata('failure', 'No such user exist. Kindly create New User using Admin panel');
+						redirect('User_Login/show_login_page');
+					}
+					//print_r($query); exit; 
 				} else {
-					$this->session->set_flashdata('failure', 'No such user exist. Kindly create New User using Admin panel');
+					$this->session->set_flashdata('failure', 'Login failed');
 					redirect('User_Login/show_login_page');
 				}
-				//print_r($query); exit; 
-			} else {
-				$this->session->set_flashdata('failure', 'Login failed');
-				redirect('User_Login/show_login_page');
 			}
+			$this->session->set_flashdata('failure', 'Invalid Username');
+			redirect('User_Login/show_login_page');
 		}
 	}
 

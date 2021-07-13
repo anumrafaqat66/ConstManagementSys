@@ -68,7 +68,7 @@
                                                  <div class="col-sm-2 mb-1">
                                                      <select class="form-control rounded-pill" name="material" id="material" data-placeholder="Select Material" style="font-size: 0.8rem; height:50px;">
                                                          <option class="form-control form-control-user small" value="">Select Material</option>
-                                                         <?php $material_data = $this->db->get('inventory')->result_array(); ?>
+                                                         <?php $material_data = $this->db->where('region',$this->session->userdata('region'))->get('inventory')->result_array(); ?>
                                                          <?php foreach ($material_data as $data) { ?>
                                                              <option class="form-control form-control-user small" value="<?= $data['ID'] ?>"><?= $data['Material_Name']; ?></option>
                                                          <?php } ?>

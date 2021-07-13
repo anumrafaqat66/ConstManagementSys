@@ -10,11 +10,22 @@ class Admin extends CI_Controller
     {
         if ($this->session->has_userdata('user_id')) {
             $id = $this->session->userdata('user_id');
-            $data['projects'] = $this->db->select('count(*) as total_project')->get('projects')->row_array();
-            $data['contractors'] = $this->db->select('count(*) as total_contractors')->get('contractors')->row_array();
-            $data['quantity'] = $this->db->select('sum(Material_Total_Quantity) as sum_qty')->get('inventory')->row_array();
-            $data['price'] = $this->db->select('sum(Material_Total_Price) as sum_price')->get('inventory')->row_array();
-            $data['projects_records'] = $this->db->get('projects')->result_array();
+
+            $region = $this->session->userdata('region');
+
+            if ($region == 'both') {
+                $data['projects'] = $this->db->select('count(*) as total_project')->get('projects')->row_array();
+                $data['contractors'] = $this->db->select('count(*) as total_contractors')->get('contractors')->row_array();
+                $data['quantity'] = $this->db->select('sum(Material_Total_Quantity) as sum_qty')->get('inventory')->row_array();
+                $data['price'] = $this->db->select('sum(Material_Total_Price) as sum_price')->get('inventory')->row_array();
+                $data['projects_records'] = $this->db->get('projects')->result_array();
+            } else {
+                $data['projects'] = $this->db->select('count(*) as total_project')->where('region',$region)->get('projects')->row_array();
+                $data['contractors'] = $this->db->select('count(*) as total_contractors')->where('region',$region)->get('contractors')->row_array();
+                $data['quantity'] = $this->db->select('sum(Material_Total_Quantity) as sum_qty')->where('region',$region)->get('inventory')->row_array();
+                $data['price'] = $this->db->select('sum(Material_Total_Price) as sum_price')->where('region',$region)->get('inventory')->row_array();
+                $data['projects_records'] = $this->db->where('region',$region)->get('projects')->result_array();
+            }
             $this->load->view('Admin/admin', $data);
         } else {
             $this->load->view('Admin/login');
@@ -24,39 +35,6 @@ class Admin extends CI_Controller
     public function add_users()
     {
         $this->load->view('Admin/create_user');
-    }
-
-    public function login_process()
-    {
-        // echo "Sdfsd";exit;
-        if ($this->input->post()) {
-            $postedData = $this->security->xss_clean($this->input->post());
-            //To create encrypted password use
-            $region = $this->session->userdata('region');
-            $username = $postedData['username'];
-            $password = $postedData['password'];
-            //$status = $postedData['optradio'];
-            $query = $this->db->where('username', $username)->where('acct_type', 'admin')->where('region',$region)->get('security_info')->row_array();
-            $hash = $query['password'];
-
-            if (!empty($query)) {
-                if (password_verify($password, $hash)) {
-                    $this->session->set_userdata('user_id', $query['id']);
-                    $this->session->set_userdata('status', $query['type']);
-                    $this->session->set_userdata('username', $query['username']);
-                    $this->session->set_userdata('acct_type', $query['acct_type']);
-                    $this->session->set_flashdata('success', 'Login successfully');
-                    redirect('Admin');
-                } else {
-                    $this->session->set_flashdata('failure', 'No such user exist. Kindly create New User using Admin panel');
-                    redirect('Admin');
-                }
-                //print_r($query); exit; 
-            } else {
-                $this->session->set_flashdata('failure', 'Login failed');
-                redirect('Admin');
-            }
-        }
     }
 
     public function logout()

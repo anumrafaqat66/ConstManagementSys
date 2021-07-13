@@ -109,7 +109,7 @@
     <div class="row my-2">
       <div class="col-lg-12">
         <div class="card region">
-          <div class="card-body bg-custom3 region" onclick="location.href='<?php echo base_url(); ?>User_Login/select_admins'">
+          <div class="card-body bg-custom3 region" onclick="location.href='<?php echo base_url(); ?>User_Login/login_page_super_admin'">
             <h2><strong> Admins </strong></h2>
           </div>
         </div>

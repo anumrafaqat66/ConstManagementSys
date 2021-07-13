@@ -39,8 +39,6 @@
   .red-border {
     border: 1px solid red !important;
   }
-
-  
 </style>
 
 
@@ -50,23 +48,19 @@
 
     <!-- Outer Row -->
     <div class="row justify-content-center">
-      <h1 class="h1 text-black-900 mb-4" style="margin-top:50px; padding:0%; margin-bottom:0px;"><strong> Construction Management System <?php  if($this->session->userdata('region') == 'both') {
-                                                                                                                                                      echo "(Admin)"; }
-                                                                                                                                                      else if($this->session->userdata('region') == 'north'){
-                                                                                                                                                        echo "(North)";
-                                                                                                                                                       } else if($this->session->userdata('region') == 'south'){
-                                                                                                                                                         echo "(South)";
-                                                                                                                                                       } else if($this->session->userdata('region') == 'dir_nhs'){
-                                                                                                                                                         echo "<br><p style='text-align:center'>(DIRECTOR NHS)</p>";
-                                                                                                                                                       } else if($this->session->userdata('region') == 'dg_nhs'){
-                                                                                                                                                         echo "<br><p style='text-align:center'>(DG NHS)</p>";
-                                                                                                                                                       } ?></strong></h1>
+      <h1 class="h1 text-black-900 mb-4" style="margin-top:50px; padding:0%; margin-bottom:0px;"><strong> Construction Management System <?php if ($this->session->userdata('region') == 'both') {
+                                                                                                                                            echo "(Admin)";
+                                                                                                                                          } else if ($this->session->userdata('region') == 'north') {
+                                                                                                                                            echo "(North)";
+                                                                                                                                          } else if ($this->session->userdata('region') == 'south') {
+                                                                                                                                            echo "(South)";
+                                                                                                                                          } ?></strong></h1>
       <div class="col-xl-7 col-lg-2 col-md-3">
 
         <div class="card o-hidden border-0 shadow-lg my-5 region" style="height:390px; background: transparent !important;">
           <!-- <div class="card-body p-0" style=""> -->
           <!-- Nested Row within Card Body -->
-          <div class="row region" >
+          <div class="row region">
             <div class="col-lg-6 d-none d-lg-block bg-login-image "></div>
             <div class="col-lg-6">
             </div>
@@ -83,14 +77,14 @@
                     <input type="password" name="password" class="form-control form-control-user" id="password" placeholder="Password">
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group" style="display:none">
                     <select class="form-control form-control-user" name="optradio" id="optradio" style="height:50px;padding:10px">
                       <option value="">Account Type</option>
                       <option value="PO">Project Officer</option>
                       <option value="SO_STORE">SO Store</option>
                       <option value="SO_CW">SO CW</option>
                       <option value="SO_RECORD">SO Record</option>
-                      <option value="admin"><?php if($this->session->userdata('region')=='north') { echo 'PD North'; } else if ($this->session->userdata('region') == 'south') { echo 'PD South'; }?></option>
+                      <option value="admin"></option>
                     </select>
                   </div>
 
@@ -119,15 +113,19 @@
                       <div style="float:right; margin-left:5px;">Admin</div>
                     </label> -->
 
-
                   <span style="color: red; display: none;font-size: 12px" id="Account_error">
                     *Please select Account type
                   </span>
 
                   <hr>
                   <button type="button" class="btn btn-primary btn-user btn-block" id="login_btn">
-                    <!--   <i class="fab fa-google fa-fw"></i>  -->
+                    <i class="fas fa-key"></i>
                     Login
+                  </button>
+                  <hr>
+                  <button type="button" class="btn btn-primary btn-user btn-block" id="btn_back" onclick="location.href='<?php echo base_url(); ?>'">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
                   </button>
 
                 </form>
@@ -153,14 +151,14 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="<?= base_url()?>assets/vendor/jquery/jquery.min.js"></script>
-  <script src="<?= base_url()?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?= base_url() ?>assets/vendor/jquery/jquery.min.js"></script>
+  <script src="<?= base_url() ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="<?= base_url()?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="<?= base_url() ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="<?= base_url()?>assets/js/sb-admin-2.min.js"></script>
+  <script src="<?= base_url() ?>assets/js/sb-admin-2.min.js"></script>
 
   <script>
     $('#login_btn').on('click', function() {
@@ -182,11 +180,11 @@
         validate = 1;
         $('#password').addClass('red-border');
       }
-      if (role == '') {
-        validate = 1;
-        $('#optradio').addClass('red-border');
-        $('#Account_error').show();
-      }
+      // if (role == '') {
+      //   validate = 1;
+      //   $('#optradio').addClass('red-border');
+      //   $('#Account_error').show();
+      // }
       // if (user_type[0].checked != true && user_type[1].checked != true && user_type[2].checked != true && user_type[3].checked != true && user_type[4].checked != true && user_type[5].checked != true) {
       //   validate = 1;
       //   $('#Account_error').show();

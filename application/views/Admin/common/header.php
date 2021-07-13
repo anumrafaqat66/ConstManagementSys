@@ -45,7 +45,7 @@
             <hr class="sidebar-divider">
 
             <li class="nav-item active">
-                <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'admin') {
+                <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'admin_super' || $this->session->userdata('acct_type') == 'admin_south' || $this->session->userdata('acct_type') == 'admin_north') {
                                                                         echo "Admin";
                                                                     } ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -53,13 +53,14 @@
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
+            <?php if($this->session->userdata('region') != 'both') {?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url(); ?>Admin/add_users" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Create New User</span>
                 </a>
-
             </li>
+            <?php } ?>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/edit_profile" aria-expanded="true">
