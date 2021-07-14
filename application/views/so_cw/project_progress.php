@@ -1,4 +1,4 @@
-<?php if ($this->session->userdata('acct_type') == 'admin') {
+<?php if ($this->session->userdata('acct_type') == 'admin_super' || $this->session->userdata('acct_type') == 'admin_south' || $this->session->userdata('acct_type') == 'admin_north') {
     $this->load->view('Admin/common/header');
 } else if ($this->session->userdata('acct_type') == 'PO') {
     $this->load->view('project_officer/common/header');

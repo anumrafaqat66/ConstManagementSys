@@ -46,20 +46,28 @@
 
             <li class="nav-item active">
                 <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'admin_super' || $this->session->userdata('acct_type') == 'admin_south' || $this->session->userdata('acct_type') == 'admin_north') {
-                                                                        echo "Admin";
+                                                                        echo 'Admin';
+                                                                    } else if ($this->session->userdata('acct_type') == 'PO') {
+                                                                        echo 'Project_Officer';
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_RECORD') {
+                                                                        echo 'SO_RECORD';
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_CW') {
+                                                                        echo 'SO_CW';
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_STORE') {
+                                                                        echo 'SO_STORE';
                                                                     } ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <?php if($this->session->userdata('region') != 'both') {?>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url(); ?>Admin/add_users" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Create New User</span>
-                </a>
-            </li>
+            <?php if ($this->session->userdata('region') != 'both') { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url(); ?>Admin/add_users" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Create New User</span>
+                    </a>
+                </li>
             <?php } ?>
 
             <li class="nav-item">

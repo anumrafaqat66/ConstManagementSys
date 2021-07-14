@@ -39,8 +39,16 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'SO_STORE') {
-                                                                                                                            echo "SO_STORE";
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'admin_super' || $this->session->userdata('acct_type') == 'admin_south' || $this->session->userdata('acct_type') == 'admin_north') {
+                                                                                                                            echo 'Admin';
+                                                                                                                        } else if ($this->session->userdata('acct_type') == 'PO') {
+                                                                                                                            echo 'Project_Officer';
+                                                                                                                        } else if ($this->session->userdata('acct_type') == 'SO_RECORD') {
+                                                                                                                            echo 'SO_RECORD';
+                                                                                                                        } else if ($this->session->userdata('acct_type') == 'SO_CW') {
+                                                                                                                            echo 'SO_CW';
+                                                                                                                        } else if ($this->session->userdata('acct_type') == 'SO_STORE') {
+                                                                                                                            echo 'SO_STORE';
                                                                                                                         } ?>">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
@@ -53,8 +61,16 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'SO_STORE') {
-                                                                        echo "SO_STORE";
+                <a class="nav-link" href="<?php echo base_url(); ?><?php if ($this->session->userdata('acct_type') == 'admin_super' || $this->session->userdata('acct_type') == 'admin_south' || $this->session->userdata('acct_type') == 'admin_north') {
+                                                                        echo 'Admin';
+                                                                    } else if ($this->session->userdata('acct_type') == 'PO') {
+                                                                        echo 'Project_Officer';
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_RECORD') {
+                                                                        echo 'SO_RECORD';
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_CW') {
+                                                                        echo 'SO_CW';
+                                                                    } else if ($this->session->userdata('acct_type') == 'SO_STORE') {
+                                                                        echo 'SO_STORE';
                                                                     } ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -85,31 +101,31 @@
             </li>
             <br><br><br> -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_STORE/add_inventory"  aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_STORE/add_inventory" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-tasks"></i>
                     <span> Inventory Records </span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_STORE/view_projects"  aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_STORE/view_projects" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-file-signature"></i>
                     <span> Material Used </span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/edit_profile"  aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/edit_profile" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-user-edit"></i>
-                    <span> Edit Profile </span> 
+                    <span> Edit Profile </span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/change_password"  aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/change_password" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-unlock-alt"></i>
                     <span> Change Password </span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_STORE/view_activity_log"  aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_STORE/view_activity_log" aria-expanded="true">
                     <i style="font-size:20px" class="far fa-list-alt"></i>
                     <span> View Activity Log </span>
                 </a>

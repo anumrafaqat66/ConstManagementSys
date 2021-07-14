@@ -1,3 +1,0 @@
-Malware was detected in one or more attachments included with this email message. 
-Action: All attachments have been removed.
-ValidLoanCardGenerationApp.rar	exe

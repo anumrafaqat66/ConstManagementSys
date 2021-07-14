@@ -12,7 +12,7 @@ class SO_STORE extends CI_Controller
             $id = $this->session->userdata('user_id');
             $acct_type = $this->session->userdata('acct_type');
 
-            if ($acct_type == "SO_STORE" || $acct_type == "admin") {
+            if ($acct_type == "SO_STORE" || $acct_type == "admin_super" || $acct_type == "admin_north" || $acct_type == "admin_south") {
                 $this->load->view('so_store/dashboard');
             } else {
                 $this->load->view('login');
@@ -26,7 +26,12 @@ class SO_STORE extends CI_Controller
     {
 
         if ($this->session->has_userdata('user_id')) {
-            $data['inventory_records'] = $this->db->where('region', $this->session->userdata('region'))->get('inventory')->result_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['inventory_records'] = $this->db->where('region', $this->session->userdata('region'))->get('inventory')->result_array();
+            } else {
+                $data['inventory_records'] = $this->db->get('inventory')->result_array();
+            }
             $this->load->view('so_store/inventory', $data);
         }
     }
@@ -35,7 +40,12 @@ class SO_STORE extends CI_Controller
     {
 
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_records'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+            } else {
+                $data['project_records'] = $this->db->get('projects')->result_array();
+            }
             $this->load->view('so_store/projects', $data);
         }
     }
@@ -49,7 +59,9 @@ class SO_STORE extends CI_Controller
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
             $this->db->where('Material_id', $id);
-            $this->db->where('i.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('i.region', $this->session->userdata('region'));
+            }
 
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_store/inventory_detail', $data);
@@ -66,7 +78,9 @@ class SO_STORE extends CI_Controller
             $this->db->join('projects', 'projects.ID = inventory_used.Material_used_by_Project');
             $this->db->join('inventory', 'inventory.ID = inventory_used.Material_id');
             $this->db->where('Material_used_by_Project', $id);
-            $this->db->where('inventory_used.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('inventory_used.region', $this->session->userdata('region'));
+            }
             $data['material_detail_records'] = $this->db->get()->result_array();
             // print_r( $data['material_detail_records'] );
             $this->load->view('so_store/material_used_detail', $data);
@@ -121,7 +135,12 @@ class SO_STORE extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                } else {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                }
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -186,7 +205,12 @@ class SO_STORE extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                } else {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                }
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -197,7 +221,6 @@ class SO_STORE extends CI_Controller
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
-
 
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
                 redirect('SO_STORE/view_projects');
@@ -290,7 +313,12 @@ class SO_STORE extends CI_Controller
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region',$this->session->userdata('region'))->get('security_info')->result_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            }
 
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
@@ -314,7 +342,12 @@ class SO_STORE extends CI_Controller
 
         if ($this->session->has_userdata('user_id')) {
             $id = $_POST['material_id'];
-            $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $id)->where('region',$this->session->userdata('region'))->get('inventory')->row_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $id)->where('region', $this->session->userdata('region'))->get('inventory')->row_array();
+            } else {
+                $getQty = $this->db->select('Material_Total_Quantity')->where('ID', $id)->get('inventory')->row_array();
+            }
             echo $getQty['Material_Total_Quantity'];
         }
     }
@@ -327,8 +360,10 @@ class SO_STORE extends CI_Controller
 
             $this->db->select('ID, cost_per_unit, quantity');
             $this->db->from('inventory_detail');
-            $this->db->where('region',$this->session->userdata('region'));
-            $this->db->where('Material_ID',$id);
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('region', $this->session->userdata('region'));
+            }
+            $this->db->where('Material_ID', $id);
             $this->db->order_by('ID', 'asc');
 
             // $getQty = $this->db->select('cost_per_unit')->where('ID', $id)->where('region',$this->session->userdata('region'))->get('inventory_detail')->row_array();
@@ -354,7 +389,12 @@ class SO_STORE extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['activity_log'] = $this->db->where('region',$this->session->userdata('region'))->get('activity_log')->result_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['activity_log'] = $this->db->where('region', $this->session->userdata('region'))->get('activity_log')->result_array();
+            } else {
+                $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            }
             $this->load->view('so_store/activity_log', $data);
         }
     }

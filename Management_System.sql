@@ -198,9 +198,11 @@ INSERT INTO `security_info` (`id`, `username`, `password`, `reg_data`, `acct_typ
 (5, 'po', '$2y$10$8XgyqXPz2fE5n2NwGsx6ZuB22QMZpd77S6vz76.I6Ws4CAID08zu.', '2021-06-17 10:41:33', 'PO','offline', '', '', '', '', 'north'),
 (6, 'socw', '$2y$10$9g4nuznoQ8ChNs8VAbaeBeRx3QXTK.6Z5vi5.ErutktI2/5l2O1D6', '2021-06-17 10:41:46', 'SO_CW','offline', '', '', '', '', 'north'),
 (7, 'sostore', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_STORE','offline', '', '', '', '', 'north'),
-(8, 'po_s', '$2y$10$8XgyqXPz2fE5n2NwGsx6ZuB22QMZpd77S6vz76.I6Ws4CAID08zu.', '2021-06-17 10:41:33', 'PO','offline', '', '', '', '', 'south'),
-(9, 'socw_s', '$2y$10$9g4nuznoQ8ChNs8VAbaeBeRx3QXTK.6Z5vi5.ErutktI2/5l2O1D6', '2021-06-17 10:41:46', 'SO_CW','offline', '', '', '', '', 'south'),
-(10, 'sostore_s', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_STORE','offline', '', '', '', '', 'south');
+(8, 'sorecord', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_RECORD','offline', '', '', '', '', 'north'),
+(9, 'po_s', '$2y$10$8XgyqXPz2fE5n2NwGsx6ZuB22QMZpd77S6vz76.I6Ws4CAID08zu.', '2021-06-17 10:41:33', 'PO','offline', '', '', '', '', 'south'),
+(10, 'socw_s', '$2y$10$9g4nuznoQ8ChNs8VAbaeBeRx3QXTK.6Z5vi5.ErutktI2/5l2O1D6', '2021-06-17 10:41:46', 'SO_CW','offline', '', '', '', '', 'south'),
+(11, 'sostore_s', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_STORE','offline', '', '', '', '', 'south'),
+(12, 'sorecord_s', '$2y$10$uddQ5MWvlAwLFe9xMmWMae6gjJdiVCkt2B.kN6oGJU7EUoQzsECXy', '2021-06-17 10:42:04', 'SO_RECORD','offline', '', '', '', '', 'south');
 
 --
 -- Table structure for table `project_progress`

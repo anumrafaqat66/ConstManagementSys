@@ -12,7 +12,7 @@ class SO_RECORD extends CI_Controller
             $id = $this->session->userdata('user_id');
             $acct_type = $this->session->userdata('acct_type');
 
-            if ($acct_type == "SO_RECORD" || $acct_type == "admin") {
+            if ($acct_type == "SO_RECORD" || $acct_type == "admin_super" || $acct_type == "admin_north" || $acct_type == "admin_south") {
                 $this->load->view('so_record/dashboard');
             } else {
                 $this->load->view('login');
@@ -24,15 +24,22 @@ class SO_RECORD extends CI_Controller
 
     public function show_letter_lists()
     {
-
         if ($this->session->has_userdata('user_id')) {
-            $data['projects'] = $this->db->where('region',$this->session->userdata('region'))->get('projects')->result_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['projects'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+            } else {
+                $data['projects'] = $this->db->get('projects')->result_array();
+            }
 
             $this->db->select('pal.*,p.Name');
             $this->db->from('project_allotment_letter pal');
             $this->db->join('projects p', 'p.ID = pal.project_id');
-            $this->db->where('pal.region',$this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pal.region', $this->session->userdata('region'));
+            }
             $data['letter_list'] = $this->db->get()->result_array();
+            
             $this->load->view('so_record/allotment_letter_list', $data); //, $data);
         }
     }
@@ -133,7 +140,13 @@ class SO_RECORD extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['activity_log'] = $this->db->where('region',$this->session->userdata('region'))->get('activity_log')->result_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['activity_log'] = $this->db->where('region', $this->session->userdata('region'))->get('activity_log')->result_array();
+            } else {
+                $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            }
+
             $this->load->view('so_record/activity_log', $data);
         }
     }
@@ -141,7 +154,11 @@ class SO_RECORD extends CI_Controller
     public function view_material_used()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['project_records'] = $this->db->where('region',$this->session->userdata('region'))->get('projects')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_records'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+            } else {
+                $data['project_records'] = $this->db->get('projects')->result_array();
+            }
             $this->load->view('so_record/material_used_projects', $data);
         }
     }
@@ -155,7 +172,9 @@ class SO_RECORD extends CI_Controller
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
             $this->db->where('Material_id', $id);
-            $this->db->where('i.region',$this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('i.region', $this->session->userdata('region'));
+            }
 
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_record/inventory_detail', $data);

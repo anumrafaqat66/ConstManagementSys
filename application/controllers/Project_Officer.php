@@ -18,7 +18,7 @@ class Project_Officer extends CI_Controller
             $id = $this->session->userdata('user_id');
             $acct_type = $this->session->userdata('acct_type');
 
-            if ($acct_type == "PO" || $acct_type == "admin") {
+            if ($acct_type == "PO" || $acct_type == "admin_super" || $acct_type == "admin_north" || $acct_type == "admin_south") {
                 $this->load->view('project_officer/dashboard');
             } else {
                 $this->load->view('login');
@@ -31,7 +31,11 @@ class Project_Officer extends CI_Controller
     public function add_contractors()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['contractor_records'] = $this->db->where('region', $this->session->userdata('region'))->get('contractors')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['contractor_records'] = $this->db->where('region', $this->session->userdata('region'))->get('contractors')->result_array();
+            } else {
+                $data['contractor_records'] = $this->db->get('contractors')->result_array();
+            }
             $this->load->view('project_officer/contractor', $data);
         }
     }
@@ -123,10 +127,16 @@ class Project_Officer extends CI_Controller
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
             $this->db->where('pp.project_id', $project_id);
-            $this->db->where('pp.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pp.region', $this->session->userdata('region'));
+            }
             $data['project_schedule'] = $this->db->get()->result_array();
 
-            $data['project_records'] = $this->db->where('ID', $project_id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_records'] = $this->db->where('ID', $project_id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            } else {
+                $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            }
             $this->load->view('project_officer/project_breakdown', $data);
         }
     }
@@ -141,14 +151,18 @@ class Project_Officer extends CI_Controller
             $this->db->from('project_bids pb');
             $this->db->join('contractors c', 'c.ID = pb.contractor_ID');
             $this->db->where('pb.project_id', $project_id);
-            $this->db->where('pb.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pb.region', $this->session->userdata('region'));
+            }
             $data['project_bids'] = $this->db->get()->result_array();
 
             $this->db->select('p.Name as project_name, c.Name as contractor_name,p.*,c.*');
             $this->db->from('projects p');
             $this->db->join('contractors c', 'p.contractor_id = c.ID');
             $this->db->where('p.ID', $project_id);
-            $this->db->where('p.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('p.region', $this->session->userdata('region'));
+            }
             $data['project_contractor'] = $this->db->get()->result_array();
             $data['id'] = $project_id;
 
@@ -162,7 +176,11 @@ class Project_Officer extends CI_Controller
 
         if ($this->session->has_userdata('user_id')) {
             $data['project'] = $project_id;
-            $data['drawing'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_drawing')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['drawing'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_drawing')->result_array();
+            } else {
+                $data['drawing'] = $this->db->where('project_id', $project_id)->get('project_drawing')->result_array();
+            }
             $this->load->view('project_officer/project_drawing', $data);
         }
     }
@@ -205,7 +223,9 @@ class Project_Officer extends CI_Controller
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
             $this->db->where('Material_id', $id);
-            $this->db->where('i.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('i.region', $this->session->userdata('region'));
+            }
 
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_store/inventory_detail', $data);
@@ -215,7 +235,12 @@ class Project_Officer extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['activity_log'] = $this->db->where('region', $this->session->userdata('region'))->get('activity_log')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['activity_log'] = $this->db->where('region', $this->session->userdata('region'))->get('activity_log')->result_array();
+            } else {
+                $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            }
+
             $this->load->view('project_officer/activity_log', $data);
         }
     }
@@ -230,7 +255,9 @@ class Project_Officer extends CI_Controller
             $this->db->join('projects', 'projects.ID = inventory_used.Material_used_by_Project');
             $this->db->join('inventory', 'inventory.ID = inventory_used.Material_id');
             $this->db->where('Material_used_by_Project', $id);
-            $this->db->where('projects.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('projects.region', $this->session->userdata('region'));
+            }
             $data['material_detail_records'] = $this->db->get()->result_array();
             // print_r( $data['material_detail_records'] );
             $this->load->view('so_store/material_used_detail', $data);
@@ -274,7 +301,12 @@ class Project_Officer extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                } else {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                }
+
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -313,7 +345,9 @@ class Project_Officer extends CI_Controller
         $this->db->from('project_bids');
         $this->db->join('contractors', 'contractors.ID = project_bids.contractor_id');
         $this->db->where('project_bids.project_id', $id);
-        $this->db->where('project_bids.region', $this->session->userdata('region'));
+        if ($this->session->userdata('acct_type') != 'admin_super') {
+            $this->db->where('project_bids.region', $this->session->userdata('region'));
+        }
         $bids = $this->db->get()->result_array();
         // print_r($bids);exit;
         echo json_encode($bids);
@@ -361,7 +395,11 @@ class Project_Officer extends CI_Controller
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            }
             // print_r($query);exit;
             // $user_count= $query->num_rows();
 
@@ -415,7 +453,11 @@ class Project_Officer extends CI_Controller
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            }
             // print_r($query);exit;
             // $user_count= $query->num_rows();
 
@@ -490,7 +532,11 @@ class Project_Officer extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                } else {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                }
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -569,7 +615,11 @@ class Project_Officer extends CI_Controller
     public function get_total_projects_assigned()
     {
         if ($this->session->has_userdata('user_id')) {
-            $getQty = $this->db->select('count(*) as count, contractor_id')->where('region', $this->session->userdata('region'))->group_by('contractor_id')->get('projects')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $getQty = $this->db->select('count(*) as count, contractor_id')->where('region', $this->session->userdata('region'))->group_by('contractor_id')->get('projects')->result_array();
+            } else {
+                $getQty = $this->db->select('count(*) as count, contractor_id')->group_by('contractor_id')->get('projects')->result_array();
+            }
             echo json_encode($getQty);
         }
     }
@@ -577,7 +627,11 @@ class Project_Officer extends CI_Controller
     public function get_total_projects_completed()
     {
         if ($this->session->has_userdata('user_id')) {
-            $getQty = $this->db->select('count(*) as count, contractor_id')->where('Status', 'Completed')->where('region', $this->session->userdata('region'))->group_by('contractor_id')->get('projects')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $getQty = $this->db->select('count(*) as count, contractor_id')->where('Status', 'Completed')->where('region', $this->session->userdata('region'))->group_by('contractor_id')->get('projects')->result_array();
+            } else {
+                $getQty = $this->db->select('count(*) as count, contractor_id')->where('Status', 'Completed')->group_by('contractor_id')->get('projects')->result_array();
+            }
             echo json_encode($getQty);
         }
     }
@@ -587,11 +641,21 @@ class Project_Officer extends CI_Controller
         $cont_id = $_POST['contractor_id'];
         $status = $_POST['status'];
         if ($this->session->has_userdata('user_id')) {
-            if ($status != 'ALL') {
-                $projectsList = $this->db->where('contractor_id', $cont_id)->where('status', $status)->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                if ($status != 'ALL') {
+                    $projectsList = $this->db->where('contractor_id', $cont_id)->where('status', $status)->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+                } else {
+                    $projectsList = $this->db->where('contractor_id', $cont_id)->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+                }
             } else {
-                $projectsList = $this->db->where('contractor_id', $cont_id)->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+                if ($status != 'ALL') {
+                    $projectsList = $this->db->where('contractor_id', $cont_id)->where('status', $status)->get('projects')->result_array();
+                } else {
+                    $projectsList = $this->db->where('contractor_id', $cont_id)->get('projects')->result_array();
+                }
             }
+
             echo json_encode($projectsList);
         }
     }
@@ -655,7 +719,9 @@ class Project_Officer extends CI_Controller
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id', 'left');
             $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
             $this->db->where('p.ID', $project_id);
-            $this->db->where('p.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('p.region', $this->session->userdata('region'));
+            }
             $data['project_record'] = $this->db->get()->row_array();
 
 
@@ -664,7 +730,9 @@ class Project_Officer extends CI_Controller
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
             $this->db->where('pp.project_id', $project_id);
-            $this->db->where('pp.region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pp.region', $this->session->userdata('region'));
+            }
             $data['project_progress'] = $this->db->get()->result_array();
 
             $html = $this->load->view('project_officer/progress_report', $data, TRUE); //$graph, TRUE);

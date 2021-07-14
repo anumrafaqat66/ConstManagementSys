@@ -12,7 +12,7 @@ class SO_CW extends CI_Controller
             $id = $this->session->userdata('user_id');
             $acct_type = $this->session->userdata('acct_type');
 
-            if ($acct_type == "SO_CW" || $acct_type == "admin") {
+            if ($acct_type == "SO_CW" || $acct_type == "admin_super" || $acct_type == "admin_north" || $acct_type == "admin_south") {
                 $this->view_projects();
             } else {
                 $this->load->view('login');
@@ -25,9 +25,19 @@ class SO_CW extends CI_Controller
     public function view_project_schedule($project_id = NULL)
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['project_schedule'] = $this->db->where('project_id', $project_id)->where('region',$this->session->userdata('region'))->get('project_schedule')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_schedule'] = $this->db->where('project_id', $project_id)->where('region', $this->session->userdata('region'))->get('project_schedule')->result_array();
+            } else {
+                $data['project_schedule'] = $this->db->where('project_id', $project_id)->get('project_schedule')->result_array();
+            }
+
             $data['project_id'] = $project_id;
-            $data['project_records'] = $this->db->where('ID', $project_id)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_records'] = $this->db->where('ID', $project_id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            } else {
+                $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            }
+
             $this->load->view('so_cw/project_schedule', $data);
         }
     }
@@ -35,17 +45,23 @@ class SO_CW extends CI_Controller
     public function view_project_progress($project_id = NULL)
     {
         if ($this->session->has_userdata('user_id')) {
-            
+
             $this->db->select('pp.*,ps.schedule_name, ps.schedule_start_date, ps.schedule_end_date');
             $this->db->from('project_progress pp');
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
             $this->db->where('pp.project_id', $project_id);
-            $this->db->where('pp.region',$this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pp.region', $this->session->userdata('region'));
+            }
 
             $data['project_progress'] = $this->db->get()->result_array();
             $data['project_id'] = $project_id;
-            $data['project_records'] = $this->db->where('region',$this->session->userdata('region'))->where('ID', $project_id)->get('projects')->row_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_records'] = $this->db->where('region', $this->session->userdata('region'))->where('ID', $project_id)->get('projects')->row_array();
+            } else {
+                $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            }
             $this->load->view('so_cw/project_progress', $data);
         }
     }
@@ -56,7 +72,7 @@ class SO_CW extends CI_Controller
         $task_name = $_POST['task_name'];
 
         $this->db->where('ID', $id);
-        $this->db->where('region',$this->session->userdata('region'));
+        $this->db->where('region', $this->session->userdata('region'));
         $success = $this->db->delete('project_schedule');
 
         //Activity Logging
@@ -64,7 +80,7 @@ class SO_CW extends CI_Controller
             $insert_activity = array(
                 'activity_module' => $this->session->userdata('acct_type'),
                 'activity_action' => 'delete',
-                'activity_detail' => $this->session->userdata('username') . " deleted a task named: ".$task_name,
+                'activity_detail' => $this->session->userdata('username') . " deleted a task named: " . $task_name,
                 'activity_by' => $this->session->userdata('username'),
                 'activity_date' => date('Y-m-d H:i:s'),
                 'region' => $this->session->userdata('region')
@@ -72,7 +88,11 @@ class SO_CW extends CI_Controller
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region',$this->session->userdata('region'))->get('security_info')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            }
 
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
@@ -95,11 +115,11 @@ class SO_CW extends CI_Controller
         $task_name = $_POST['task_name'];
 
         $this->db->where('ID', $id);
-        $this->db->where('region',$this->session->userdata('region'));
+        $this->db->where('region', $this->session->userdata('region'));
         $success = $this->db->delete('project_progress');
 
         $this->db->where('id', $task_id);
-        $this->db->where('region',$this->session->userdata('region'));
+        $this->db->where('region', $this->session->userdata('region'));
         $success = $this->db->delete('project_schedule');
 
         //Activity Logging
@@ -107,7 +127,7 @@ class SO_CW extends CI_Controller
             $insert_activity = array(
                 'activity_module' => $this->session->userdata('acct_type'),
                 'activity_action' => 'delete',
-                'activity_detail' => $this->session->userdata('username') . " deleted a project progress named: ". $task_name,
+                'activity_detail' => $this->session->userdata('username') . " deleted a project progress named: " . $task_name,
                 'activity_by' => $this->session->userdata('username'),
                 'activity_date' => date('Y-m-d H:i:s'),
                 'region' => $this->session->userdata('region')
@@ -115,7 +135,11 @@ class SO_CW extends CI_Controller
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region',$this->session->userdata('region'))->get('security_info')->result_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            }
 
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
@@ -139,14 +163,18 @@ class SO_CW extends CI_Controller
             $this->db->select('pb.*,c.*');
             $this->db->from('project_bids pb');
             $this->db->join('contractors c', 'c.ID = pb.contractor_id');
-            $this->db->where('pb.region',$this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pb.region', $this->session->userdata('region'));
+            }
             $data['bids'] = $this->db->get()->result_array();
 
             $this->db->select('p.ID, p.Name, p.Code, p.Start_date, p.Status, sum(progress_percentage) as total_percentage, count(progress_percentage) as total_rows');
             $this->db->from('projects p');
             $this->db->join('project_progress pp', 'p.ID = pp.project_id', 'left');
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id', 'left');
-            $this->db->where('p.region',$this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('p.region', $this->session->userdata('region'));
+            }
             $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
             $data['project_records'] = $this->db->get()->result_array();
             $this->load->view('so_cw/dashboard', $data);
@@ -157,7 +185,11 @@ class SO_CW extends CI_Controller
     {
         $project_id = isset($_POST['project_id']) ? $_POST['project_id'] : "";
         $eventArray = array();
-        $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->where('project_id', $project_id)->where('region',$this->session->userdata('region'))->get('project_schedule')->result_array();
+        if ($this->session->userdata('acct_type') != 'admin_super') {
+            $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->where('project_id', $project_id)->where('region', $this->session->userdata('region'))->get('project_schedule')->result_array();
+        } else {
+            $eventArray = $this->db->select('schedule_name as title, schedule_start_date as start, schedule_end_date as end')->where('project_id', $project_id)->get('project_schedule')->result_array();
+        }
         //print_r($eventArray);
         echo json_encode($eventArray);
     }
@@ -198,14 +230,18 @@ class SO_CW extends CI_Controller
             );
             $insert = $this->db->insert('project_progress', $insert_array_progress);
 
-            $projectdata = $this->db->where('ID',$project_id)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $projectdata = $this->db->where('ID', $project_id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            } else {
+                $projectdata = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            }
 
             // Activity Logging
             if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
-                    'activity_detail' => $this->session->userdata('username') . " added a new task '".$title. "' against Project: ". $projectdata['Name'],
+                    'activity_detail' => $this->session->userdata('username') . " added a new task '" . $title . "' against Project: " . $projectdata['Name'],
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s'),
                     'region' => $this->session->userdata('region')
@@ -213,7 +249,12 @@ class SO_CW extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region',$this->session->userdata('region'))->get('security_info')->result_array();
+
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                } else {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                }
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -287,14 +328,14 @@ class SO_CW extends CI_Controller
 
             $insert = $this->db->insert('project_progress', $insert_array);
 
-            $projectdata = $this->db->where('ID',$project_id)->get('projects')->row_array();
+            $projectdata = $this->db->where('ID', $project_id)->get('projects')->row_array();
 
-             //Activity Logging
-             if (!empty($project_id)) {
+            //Activity Logging
+            if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
-                    'activity_detail' => $this->session->userdata('username') . " updated progress of task '". $task_name. "' of project ". $projectdata['Name'],
+                    'activity_detail' => $this->session->userdata('username') . " updated progress of task '" . $task_name . "' of project " . $projectdata['Name'],
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s'),
                     'region' => $this->session->userdata('region')
@@ -302,7 +343,7 @@ class SO_CW extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region',$this->session->userdata('region'))->get('security_info')->result_array();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -350,19 +391,23 @@ class SO_CW extends CI_Controller
                 'schedule_start_date' => $start_date,
                 'schedule_end_date' => $end_date,
                 'schedule_description	' => $desc,
-            ];            
+            ];
 
             $this->db->where($cond);
             $update = $this->db->update('project_schedule', $data_update);
 
-            $projectdata = $this->db->where('ID',$project_id)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $projectdata = $this->db->where('ID', $project_id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            } else {
+                $projectdata = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            }
 
-             //Activity Logging
-             if (!empty($project_id)) {
+            //Activity Logging
+            if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'update',
-                    'activity_detail' => $this->session->userdata('username') . " updated a task: ". $schedule_name. " of Project: ". $projectdata['Name'],
+                    'activity_detail' => $this->session->userdata('username') . " updated a task: " . $schedule_name . " of Project: " . $projectdata['Name'],
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s'),
                     'region' => $this->session->userdata('region')
@@ -370,7 +415,12 @@ class SO_CW extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region',$this->session->userdata('region'))->get('security_info')->result_array();
+
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                } else {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                }
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -411,7 +461,7 @@ class SO_CW extends CI_Controller
             ];
 
             $status = '';
-            if ($progress_percentage == 100){
+            if ($progress_percentage == 100) {
                 $status = 'Completed';
             } else if ($progress_percentage < 100) {
                 $status = 'In Progress';
@@ -426,14 +476,18 @@ class SO_CW extends CI_Controller
             $this->db->where($cond);
             $update = $this->db->update('project_progress', $data_update);
 
-            $projectdata = $this->db->where('ID',$project_id)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $projectdata = $this->db->where('ID', $project_id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            } else {
+                $projectdata = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            }
 
             //Activity Logging
             if (!empty($project_id)) {
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
-                    'activity_detail' => $this->session->userdata('username') . " updated progress of project ". $projectdata['Name'],
+                    'activity_detail' => $this->session->userdata('username') . " updated progress of project " . $projectdata['Name'],
                     'activity_by' => $this->session->userdata('username'),
                     'activity_date' => date('Y-m-d H:i:s'),
                     'region' => $this->session->userdata('region')
@@ -441,7 +495,12 @@ class SO_CW extends CI_Controller
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region',$this->session->userdata('region'))->get('security_info')->result_array();
+
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                } else {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                }
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
@@ -488,10 +547,17 @@ class SO_CW extends CI_Controller
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
             $this->db->where('pp.project_id', $project_id);
-            $this->db->where('pp.region',$this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pp.region', $this->session->userdata('region'));
+            }
 
             $data['project_schedule'] = $this->db->get()->result_array();
-            $data['project_records'] = $this->db->where('ID', $project_id)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_records'] = $this->db->where('ID', $project_id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            } else {
+                $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            }
             $this->load->view('so_cw/project_breakdown', $data);
         }
     }
@@ -505,10 +571,17 @@ class SO_CW extends CI_Controller
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id');
             $this->db->where('pp.project_id = ps.project_id');
             $this->db->where('pp.project_id', $project_id);
-            $this->db->where('pp.region',$this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pp.region', $this->session->userdata('region'));
+            }
 
             $data['project_schedule'] = $this->db->get()->result_array();
-            $data['project_records'] = $this->db->where('ID', $project_id)->where('region',$this->session->userdata('region'))->get('projects')->row_array();
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_records'] = $this->db->where('ID', $project_id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            } else {
+                $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            }
             $this->load->view('so_cw/project_ganttchart', $data);
         }
     }
@@ -518,7 +591,9 @@ class SO_CW extends CI_Controller
         if ($this->session->has_userdata('user_id')) {
             $this->db->select('*');
             $this->db->from('activity_log');
-            $this->db->where('region',$this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('region', $this->session->userdata('region'));
+            }
             $this->db->order_by('activity_date', 'desc');
             $query = $this->db->get();
             $data['activity_log'] = $query->result_array();

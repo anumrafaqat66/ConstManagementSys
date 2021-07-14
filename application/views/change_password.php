@@ -9,6 +9,7 @@
 } else if ($this->session->userdata('acct_type') == 'SO_STORE') {
     $this->load->view('so_store/common/header');
 } ?>
+
 <style>
     .red-border {
         border: 1px solid red !important;
