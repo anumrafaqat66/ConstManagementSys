@@ -288,6 +288,9 @@
                                                     }
                                                 } ?>
                                                 <th scope="col">View Details</th>
+                                                <?php if ($acct_type == "admin_super") { ?>
+                                                    <th scope="col">Region</th>
+                                                <?php } ?>
 
                                             </tr>
                                         </thead>
@@ -310,6 +313,9 @@
                                                         }
                                                     } ?>
                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 40px;" class="fas fa-eye"></i></a></td>
+                                                    <?php if ($acct_type == "admin_super") { ?>
+                                                        <td scope="row"><?= $data['region']; ?></td>
+                                                    <?php } ?>
 
                                                 </tr>
                                             <?php } ?>

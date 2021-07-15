@@ -246,6 +246,9 @@
                                                 <th scope="col" style="white-space:nowrap">Officer Name</th>
                                                 <th scope="col">File Name</th>
                                                 <th scope="col">View</th>
+                                                <?php if ($this->session->userdata('acct_type') == "admin_super") { ?>
+                                                    <th scope="col">Region</th>
+                                                <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody id="table_rows_project">
@@ -260,6 +263,9 @@
                                                     <td scope="row" style="white-space:nowrap"><?= $data['officer_name']; ?></td>
                                                     <td scope="row"><?= $data['file_name']; ?></td>
                                                     <td type="button" class="edit" scope="row"><a style="color:black;" href="<?= base_url(); ?>uploads/project_allotment_letter/<?= $data['file_name']; ?>"><i style="margin-left: 10px;" class="fas fa-eye"></i></a></td>
+                                                    <?php if ($this->session->userdata('acct_type') == "admin_super") { ?>
+                                                        <td scope="row"><?= $data['region']; ?></td>
+                                                    <?php } ?>
                                                 </tr>
                                             <?php
                                                 $count++;

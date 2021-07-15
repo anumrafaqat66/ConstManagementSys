@@ -17,6 +17,11 @@
 </style>
 
 <div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 my-2">
+        <h1 class="h3 mb-0 text-black-800"></h1>
+        <a onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
+    </div>
+
     <div class="card o-hidden my-4 border-0 shadow-lg">
         <div class="modal fade" id="new_contractor">
             <!-- <div class="row"> -->
@@ -334,7 +339,9 @@
                                                 <?php }
                                                     }
                                                 } ?>
-                                                <!-- <th scope="col">View Details</th> -->
+                                                <?php if ($acct_type == "admin_super") { ?>
+                                                    <th scope="col">Region</th>
+                                                <?php } ?>
 
                                             </tr>
                                         </thead>
@@ -357,7 +364,9 @@
                                                     <?php }
                                                         }
                                                     } ?>
-                                                    <!-- <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['ID']; ?>" style="color:black"><i style="margin-left: 40px;" class="fas fa-eye"></i></a></td> -->
+                                                    <?php if ($acct_type == "admin_super") { ?>
+                                                        <td scope="row"><?= $data['region']; ?></td>
+                                                    <?php } ?>
 
                                                 </tr>
                                             <?php

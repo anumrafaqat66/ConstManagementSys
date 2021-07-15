@@ -17,7 +17,7 @@
 </style>
 
 <div class="container">
-         <div class="modal fade" id="all_projects">
+    <div class="modal fade" id="all_projects">
         <!-- <div class="row"> -->
         <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
             <div class="modal-content bg-custom3" style="width:1000px;">
@@ -49,7 +49,7 @@
                                                     foreach ($project_records as $data) { ?>
                                                         <tr>
                                                             <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
-                                                            <td scope="row"><a style="color:black; font-weight:800;" type ="button" onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory_used/<?= $data['ID']; ?>'"><?= $data['Name']; ?></a></td>
+                                                            <td scope="row"><a style="color:black; font-weight:800;" type="button" onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory_used/<?= $data['ID']; ?>'"><?= $data['Name']; ?></a></td>
                                                         </tr>
                                                     <?php
                                                         $count++;
@@ -214,6 +214,9 @@
                                                     }
                                                 } ?>
                                                 <th scope="col">View Material Details</th>
+                                                <?php if ($acct_type == "admin_super") { ?>
+                                                    <th scope="col">Region</th>
+                                                <?php } ?>
 
                                             </tr>
                                         </thead>
@@ -236,7 +239,9 @@
                                                         }
                                                     } ?>
                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_material_detail/<?= $data['ID'] ?>" style="color:black"><i style="margin-left: 65px;" class="fas fa-eye"></i></a></td>
-
+                                                    <?php if ($acct_type == "admin_super") { ?>
+                                                        <td scope="row"><?= $data['region']; ?></td>
+                                                    <?php } ?>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>

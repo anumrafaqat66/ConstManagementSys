@@ -425,7 +425,9 @@ class SO_STORE extends CI_Controller
 
             $this->db->select('*');
             $this->db->from('inventory');
-            $this->db->where('region', $this->session->userdata('region'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('region', $this->session->userdata('region'));
+            }
             $data['inventory_record'] = $this->db->get()->result_array();
 
             $html = $this->load->view('SO_STORE/inventory_report', $data, TRUE); //$graph, TRUE);
@@ -462,13 +464,16 @@ class SO_STORE extends CI_Controller
             $this->db->join('projects p', 'iu.Material_used_by_Project = p.ID');
             $this->db->join('inventory i', 'i.ID = iu.material_id');
             $this->db->where('Material_used_by_Project', $project_id);
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('p.region', $this->session->userdata('region'));
+            }
             $data['inventory_record'] = $this->db->get()->result_array();
 
             $this->db->select('Name');
             $this->db->from('projects');
             $this->db->where('ID', $project_id);
             $data['project_name'] = $this->db->get()->row_array();
-            
+
             $html = $this->load->view('SO_STORE/inventory_used_report', $data, TRUE); //$graph, TRUE);
             $dompdf->loadHtml($html);
 
