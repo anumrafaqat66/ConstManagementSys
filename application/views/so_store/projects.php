@@ -17,6 +17,66 @@
 </style>
 
 <div class="container">
+         <div class="modal fade" id="all_projects">
+        <!-- <div class="row"> -->
+        <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
+            <div class="modal-content bg-custom3" style="width:1000px;">
+                <div class="modal-header" style="width:1000px;">
+
+                </div>
+                <div class="card-body bg-custom3">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <div class="card">
+                                <div class="card-header bg-custom1">
+                                    <h1 class="h4">Select Project:</h1>
+                                </div>
+
+                                <div class="card-body">
+                                    <div id="table_div">
+                                        <?php if (count($project_records) > 0) { ?>
+                                            <table id="datatable" class="table table-striped" style="color:black">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Project Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="table_rows_project">
+                                                    <?php $count = 1;
+                                                    foreach ($project_records as $data) { ?>
+                                                        <tr>
+                                                            <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
+                                                            <td scope="row"><a style="color:black; font-weight:800;" type ="button" onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory_used/<?= $data['ID']; ?>'"><?= $data['Name']; ?></a></td>
+                                                        </tr>
+                                                    <?php
+                                                        $count++;
+                                                    } ?>
+                                                </tbody>
+                                            </table>
+                                        <?php } else { ?>
+                                            <a> No Data Available yet </a>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-primary rounded-pill" data-dismiss="modal">Close</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="#" style="    margin-left: 900px; margin-top: 10px;" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#all_projects"><i class="fas fa-download fa-sm text-white-50"></i> Material Report</a>
+    </div>
     <div class="card o-hidden my-4 border-0 shadow-lg">
 
         <div class="modal fade" id="edit_material">

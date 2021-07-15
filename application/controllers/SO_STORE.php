@@ -398,4 +398,112 @@ class SO_STORE extends CI_Controller
             $this->load->view('so_store/activity_log', $data);
         }
     }
+
+      public function report_inventory($inventory_id = NULL)
+    {
+        if ($this->session->has_userdata('user_id')) {
+
+            // require_once $_SERVER['DOCUMENT_ROOT'] . 'ConstManagementSys/application/third_party/dompdf/vendor/autoload.php';
+            require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
+            // require_once base_url().'application/third_party/dompdf/vendor/autoload.php';
+            //spl_autoload_register('DOMPDF_autoload');
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $options->set('enable_html5_parser', TRUE);
+            $options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+            $dompdf = new Dompdf($options);
+            $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+            $id = $this->session->userdata('user_id');
+
+            // $this->db->where('Material_ID', $inventory_id)->get('inventory_used')->row_array();
+            // if ($this->session->userdata('acct_type') != 'admin_super') {
+            //     $this->db->where('p.region', $this->session->userdata('region'));
+            // }
+            //$data['inventory_record'] = $this->db->where('ID',$inventory_id)->get('inventory')->row_array();
+            $this->db->select('inventory.*,inventory_detail.*');
+            $this->db->from('inventory');
+            $this->db->join('inventory_used','inventory_detail.Material_ID=inventory.ID' );
+            $this->db->where('ID',$inventory_id);
+             $data['inventory_record']=$this->db->get()->row_array();
+            // $this->db->select('inventory.*,inventory_used.*');
+            // $this->db->from('inventory');
+            // $this->db->join('inventory_used','inventory_used.Material_ID=inventory.ID' )
+         
+            //print_r($data['inventory_record']);exit;
+
+
+            $html = $this->load->view('SO_STORE/inventory_report', $data, TRUE); //$graph, TRUE);
+            /**/
+            $dompdf->loadHtml($html);
+
+            // (Optional) Setup the paper size and orientation
+             //$dompdf->setPaper('A4', 'landscape');
+
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            $output = $dompdf->output();
+            $doc_name = 'Inventory Report.pdf';
+            file_put_contents($doc_name, $output);
+            redirect($doc_name);
+            //exit;
+        } else {
+            $this->load->view('userpanel/login');
+        }
+    }
+
+     public function report_inventory_used($project_id = NULL)
+    {
+        if ($this->session->has_userdata('user_id')) {
+
+            // require_once $_SERVER['DOCUMENT_ROOT'] . 'ConstManagementSys/application/third_party/dompdf/vendor/autoload.php';
+            require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
+            // require_once base_url().'application/third_party/dompdf/vendor/autoload.php';
+            //spl_autoload_register('DOMPDF_autoload');
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $options->set('enable_html5_parser', TRUE);
+            $options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+            $dompdf = new Dompdf($options);
+            $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+            $id = $this->session->userdata('user_id');
+
+
+            $this->db->select('inventory_used.*,projects.*');
+            $this->db->from('inventory_used');
+            $this->db->join('projects','inventory_used.Material_ID=projects.ID' );
+              $this->db->join('inventory','inventory_used.Material_ID=inventory.ID' );
+            $this->db->where('Material_used_by_ID',$project_id);
+             $data['inventory_record']=$this->db->get()->row_array();
+          //  $data['inventory_record'] = $this->db->where('Material_used_by_ID',$inventory_id)->get('inventory_used')->row_array();
+            // if ($this->session->userdata('acct_type') != 'admin_super') {
+            //     $this->db->where('p.region', $this->session->userdata('region'));
+            // }
+          
+           
+           
+            //print_r($data['inventory_record']);exit;
+
+
+            $html = $this->load->view('SO_STORE/inventory_used_report', $data, TRUE); //$graph, TRUE);
+            /**/
+            $dompdf->loadHtml($html);
+
+            // (Optional) Setup the paper size and orientation
+             //$dompdf->setPaper('A4', 'landscape');
+
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            $output = $dompdf->output();
+            $doc_name = 'Inventory Used Report.pdf';
+            file_put_contents($doc_name, $output);
+            redirect($doc_name);
+            //exit;
+        } else {
+            $this->load->view('userpanel/login');
+        }
+    }
 }

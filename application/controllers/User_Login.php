@@ -136,16 +136,21 @@ class User_Login extends CI_Controller
 
 	public function edit_profile_process()
 	{
-		$username =  $_POST['fullname'];
+		$fullname =  $_POST['fullname'];
+		$username = $_POST['username'];
 		$email = $_POST['email'];
 		$phone = $_POST['phone'];
 		$address = $_POST['address'];
 		$acct_type = $_POST['status'];
 		$id = $this->session->userdata('user_id');
 
+		$name=$this->db->where('id',$id)->get('security_info')->row_array();
+		//echo $name['username'];exit;
+
 		$cond  = ['ID' => $id];
 		$data_update = [
-			'full_name' => $username,
+			'username'=>$username,
+			'full_name' => $fullname,
 			'email' => $email,
 			'phone' => $phone,
 			'address' => $address,
@@ -154,6 +159,16 @@ class User_Login extends CI_Controller
 
 		$this->db->where($cond);
 		$update = $this->db->update('security_info', $data_update);
+
+		$cond_project  = ['created_by' => $name['username']];
+		$data_update_project = [
+			'created_by'=>$username
+		];
+
+		$this->db->where($cond_project);
+		$update_project = $this->db->update('projects', $data_update_project);
+
+        $this->session->set_userdata('username', $username);
 
 		if ($update) {
 			$this->session->set_flashdata('success', 'Profile Updated successfully');
