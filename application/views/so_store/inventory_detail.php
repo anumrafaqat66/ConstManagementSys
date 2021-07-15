@@ -38,7 +38,7 @@
                                                  <th scope="col">Material Name</th>
                                                  <th scope="col" style="text-align:center">Available Quantity</th>
                                                  <th scope="col">Cost Per Unit</th>
-                                                 <th scope="col">Remaining Price</th>
+                                                 <th scope="col">Total Price</th>
                                                  <th scope="col">Unit</th>
                                                  <th scope="col">Stock Date</th>
                                                  <th scope="col">Status</th>

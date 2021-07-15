@@ -2,14 +2,28 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 </head>
+
+<style>
+  .img-logo {
+    background: url('<?= base_url() ?>assets/img/navy_logo.png');
+    background-size: cover;
+    height: 50px;
+    width: 39px;
+    /* float:left; */
+  }
+</style>
+
 <link href="<?php echo base_url(); ?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="<?php echo base_url(); ?>assets/css/sb-admin-2.min.css" rel="stylesheet">
 
+
+
 <div class="container my-3" style="font-size:small">
-  <div style="height:100px">
-    <h1><strong>Project Complete Report</strong></h1>
+  <div style="height:150px; text-align:center">
+    <img class="img-logo" src="<?= base_url() ?>assets/img/navy_logo.png" alt="">
+    <h1><strong>NHS PMS</strong></h1>
+    <h3><strong>Project Complete Report</strong></h3>
     <hr style="border-top: 1px solid black">
   </div>
   <table class="table table-bordered" style="color:black">
@@ -46,7 +60,8 @@
     <thead>
       <tr>
         <th scope="col">Overall Progress</th>
-        <td><?= round($project_record['total_percentage'] / $project_record['total_rows'],2); ?>%</td>
+        <?php if($project_record['total_rows'] == 0) { $num = 1;} else {$num = $data['total_rows']; } ?>
+        <td><?= round($project_record['total_percentage'] / $num, 2); ?>%</td>
       </tr>
     </thead>
   </table>
@@ -109,5 +124,3 @@
 </div>
 
 </html>
-
-

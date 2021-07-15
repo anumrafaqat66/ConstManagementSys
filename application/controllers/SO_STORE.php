@@ -1,4 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class SO_STORE extends CI_Controller
 {
     public function __construct()
@@ -82,7 +86,12 @@ class SO_STORE extends CI_Controller
                 $this->db->where('inventory_used.region', $this->session->userdata('region'));
             }
             $data['material_detail_records'] = $this->db->get()->result_array();
-            // print_r( $data['material_detail_records'] );
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_data'] = $this->db->where('ID', $id)->where('region', $this->session->userdata('region'))->get('projects')->row_array();
+            } else {
+                $data['project_data'] = $this->db->where('ID', $id)->get('projects')->row_array();
+            }
             $this->load->view('so_store/material_used_detail', $data);
         }
     }
@@ -399,14 +408,12 @@ class SO_STORE extends CI_Controller
         }
     }
 
-      public function report_inventory($inventory_id = NULL)
+    public function report_inventory($inventory_id = NULL)
     {
         if ($this->session->has_userdata('user_id')) {
 
-            // require_once $_SERVER['DOCUMENT_ROOT'] . 'ConstManagementSys/application/third_party/dompdf/vendor/autoload.php';
             require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
-            // require_once base_url().'application/third_party/dompdf/vendor/autoload.php';
-            //spl_autoload_register('DOMPDF_autoload');
+
             $options = new Options();
             $options->set('isRemoteEnabled', TRUE);
             $options->set('enable_html5_parser', TRUE);
@@ -416,31 +423,14 @@ class SO_STORE extends CI_Controller
 
             $id = $this->session->userdata('user_id');
 
-            // $this->db->where('Material_ID', $inventory_id)->get('inventory_used')->row_array();
-            // if ($this->session->userdata('acct_type') != 'admin_super') {
-            //     $this->db->where('p.region', $this->session->userdata('region'));
-            // }
-            //$data['inventory_record'] = $this->db->where('ID',$inventory_id)->get('inventory')->row_array();
-            $this->db->select('inventory.*,inventory_detail.*');
+            $this->db->select('*');
             $this->db->from('inventory');
-            $this->db->join('inventory_used','inventory_detail.Material_ID=inventory.ID' );
-            $this->db->where('ID',$inventory_id);
-             $data['inventory_record']=$this->db->get()->row_array();
-            // $this->db->select('inventory.*,inventory_used.*');
-            // $this->db->from('inventory');
-            // $this->db->join('inventory_used','inventory_used.Material_ID=inventory.ID' )
-         
-            //print_r($data['inventory_record']);exit;
-
+            $this->db->where('region', $this->session->userdata('region'));
+            $data['inventory_record'] = $this->db->get()->result_array();
 
             $html = $this->load->view('SO_STORE/inventory_report', $data, TRUE); //$graph, TRUE);
-            /**/
+
             $dompdf->loadHtml($html);
-
-            // (Optional) Setup the paper size and orientation
-             //$dompdf->setPaper('A4', 'landscape');
-
-            // Render the HTML as PDF
             $dompdf->render();
 
             $output = $dompdf->output();
@@ -453,14 +443,11 @@ class SO_STORE extends CI_Controller
         }
     }
 
-     public function report_inventory_used($project_id = NULL)
+    public function report_inventory_used($project_id = NULL)
     {
         if ($this->session->has_userdata('user_id')) {
-
-            // require_once $_SERVER['DOCUMENT_ROOT'] . 'ConstManagementSys/application/third_party/dompdf/vendor/autoload.php';
             require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
-            // require_once base_url().'application/third_party/dompdf/vendor/autoload.php';
-            //spl_autoload_register('DOMPDF_autoload');
+
             $options = new Options();
             $options->set('isRemoteEnabled', TRUE);
             $options->set('enable_html5_parser', TRUE);
@@ -470,31 +457,21 @@ class SO_STORE extends CI_Controller
 
             $id = $this->session->userdata('user_id');
 
+            $this->db->select('iu.delivery_date, iu.Quantity_used, iu.Price, iu.Status ,p.Name,i.Material_Name ');
+            $this->db->from('inventory_used iu');
+            $this->db->join('projects p', 'iu.Material_used_by_Project = p.ID');
+            $this->db->join('inventory i', 'i.ID = iu.material_id');
+            $this->db->where('Material_used_by_Project', $project_id);
+            $data['inventory_record'] = $this->db->get()->result_array();
 
-            $this->db->select('inventory_used.*,projects.*');
-            $this->db->from('inventory_used');
-            $this->db->join('projects','inventory_used.Material_ID=projects.ID' );
-              $this->db->join('inventory','inventory_used.Material_ID=inventory.ID' );
-            $this->db->where('Material_used_by_ID',$project_id);
-             $data['inventory_record']=$this->db->get()->row_array();
-          //  $data['inventory_record'] = $this->db->where('Material_used_by_ID',$inventory_id)->get('inventory_used')->row_array();
-            // if ($this->session->userdata('acct_type') != 'admin_super') {
-            //     $this->db->where('p.region', $this->session->userdata('region'));
-            // }
-          
-           
-           
-            //print_r($data['inventory_record']);exit;
-
-
+            $this->db->select('Name');
+            $this->db->from('projects');
+            $this->db->where('ID', $project_id);
+            $data['project_name'] = $this->db->get()->row_array();
+            
             $html = $this->load->view('SO_STORE/inventory_used_report', $data, TRUE); //$graph, TRUE);
-            /**/
             $dompdf->loadHtml($html);
 
-            // (Optional) Setup the paper size and orientation
-             //$dompdf->setPaper('A4', 'landscape');
-
-            // Render the HTML as PDF
             $dompdf->render();
 
             $output = $dompdf->output();

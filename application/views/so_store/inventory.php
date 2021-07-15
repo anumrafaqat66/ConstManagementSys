@@ -17,7 +17,7 @@
 </style>
 
 <div class="container">
-     <div class="modal fade" id="all_inventory">
+    <div class="modal fade" id="all_inventory">
         <!-- <div class="row"> -->
         <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
             <div class="modal-content bg-custom3" style="width:1000px;">
@@ -49,7 +49,7 @@
                                                     foreach ($inventory_records as $data) { ?>
                                                         <tr>
                                                             <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
-                                                            <td scope="row"><a style="color:black; font-weight:800;" type ="button" onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory/<?= $data['ID']; ?>'"><?= $data['Material_Name']; ?></a></td>
+                                                            <td scope="row"><a style="color:black; font-weight:800;" type="button" onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory/<?= $data['ID']; ?>'"><?= $data['Material_Name']; ?></a></td>
                                                         </tr>
                                                     <?php
                                                         $count++;
@@ -74,19 +74,18 @@
         </div>
     </div>
 
-     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="#" style="    margin-left: 900px; margin-top: 10px;" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#all_inventory"><i class="fas fa-download fa-sm text-white-50"></i> Inventory Report</a>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 my-2">
+        <h1 class="h3 mb-0 text-black-800"></h1>
+        <a onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
     </div>
+
     <div class="card o-hidden my-4 border-0 shadow-lg">
         <div class="modal fade" id="new_material">
             <!-- <div class="row"> -->
             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                 <div class="modal-content bg-custom3" style="width:1000px;">
                     <div class="modal-header" style="width:1000px;">
-                        <!-- <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5> -->
-                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                         </button> -->
+
                     </div>
                     <div class="card-body bg-custom3">
                         <!-- Nested Row within Card Body -->

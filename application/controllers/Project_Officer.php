@@ -57,8 +57,6 @@ class Project_Officer extends CI_Controller
     public function add_projects($project_name = null)
     {
         if ($this->session->has_userdata('user_id')) {
-            echo $this->session->userdata('region');
-            echo $this->session->userdata('username');//exit;
 
             if ($this->session->userdata('acct_type') == 'admin_super') {
                 $data['project_records'] = $this->db->get('projects')->result_array();

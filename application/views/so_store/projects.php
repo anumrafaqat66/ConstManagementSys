@@ -74,9 +74,6 @@
         </div>
     </div>
 
-     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="#" style="    margin-left: 900px; margin-top: 10px;" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#all_projects"><i class="fas fa-download fa-sm text-white-50"></i> Material Report</a>
-    </div>
     <div class="card o-hidden my-4 border-0 shadow-lg">
 
         <div class="modal fade" id="edit_material">
