@@ -23,6 +23,7 @@ class SO_CW extends CI_Controller
     }
 
     public function view_project_schedule($project_id = NULL)
+
     {
         if ($this->session->has_userdata('user_id')) {
             if ($this->session->userdata('acct_type') != 'admin_super') {
@@ -37,8 +38,48 @@ class SO_CW extends CI_Controller
             } else {
                 $data['project_records'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
             }
-
             $this->load->view('so_cw/project_schedule', $data);
+        }
+    }
+
+      public function report_project_schedule($project_id=null)
+    {
+        if ($this->session->has_userdata('user_id')) {
+
+            require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $options->set('enable_html5_parser', TRUE);
+            $options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+            $dompdf = new Dompdf($options);
+            $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+            $id = $this->session->userdata('user_id');
+
+            $this->db->select('*');
+            $this->db->from('project_schedule');
+            $this->db->where('project_id', $project_id);
+           // $this->db->where('Created_by', $this->session->userdata('username'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('region', $this->session->userdata('region'));
+            }
+            $data['project_schedule'] = $this->db->get()->result_array();
+
+            $data['project_name'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+
+            $html = $this->load->view('SO_CW/project_schedule_report', $data, TRUE); //$graph, TRUE);
+
+            $dompdf->loadHtml($html);
+            $dompdf->render();
+
+            $output = $dompdf->output();
+            $doc_name = 'Project Schedule Report.pdf';
+            file_put_contents($doc_name, $output);
+            redirect($doc_name);
+            //exit;
+        } else {
+            $this->load->view('userpanel/login');
         }
     }
 
@@ -65,6 +106,49 @@ class SO_CW extends CI_Controller
             $this->load->view('so_cw/project_progress', $data);
         }
     }
+
+    
+       public function report_project_progress($project_id=null)
+    {
+        if ($this->session->has_userdata('user_id')) {
+
+            require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $options->set('enable_html5_parser', TRUE);
+            $options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+            $dompdf = new Dompdf($options);
+            $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+            $id = $this->session->userdata('user_id');
+
+            $this->db->select('*');
+            $this->db->from('project_progress');
+            $this->db->where('project_id', $project_id);
+           // $this->db->where('Created_by', $this->session->userdata('username'));
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('region', $this->session->userdata('region'));
+            }
+            $data['project_progress'] = $this->db->get()->result_array();
+
+            $data['project_name'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
+
+            $html = $this->load->view('SO_CW/project_progress_report', $data, TRUE); //$graph, TRUE);
+
+            $dompdf->loadHtml($html);
+            $dompdf->render();
+
+            $output = $dompdf->output();
+            $doc_name = 'Project Progress Report.pdf';
+            file_put_contents($doc_name, $output);
+            redirect($doc_name);
+            //exit;
+        } else {
+            $this->load->view('userpanel/login');
+        }
+    }
+
 
     public function delete_schedule()
     {

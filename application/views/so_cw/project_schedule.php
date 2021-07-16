@@ -59,7 +59,7 @@
 <div class="container">
     <div class="d-sm-flex align-items-center justify-content-between mb-4 my-2">
         <h1 class="my-4"><strong>Tasks Schedule of <?php echo $project_records['Name']; ?></strong></h1>
-        <a onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
+        <a onclick="location.href='<?php echo base_url(); ?>SO_CW/report_project_schedule/<?= $project_id; ?>'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
     </div>
 
     <div class="modal fade" id="new_schedule">
