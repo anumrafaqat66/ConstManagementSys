@@ -741,7 +741,7 @@ class Project_Officer extends CI_Controller
             $dompdf->loadHtml($html);
 
             // (Optional) Setup the paper size and orientation
-             //$dompdf->setPaper('A4', 'landscape');
+            //$dompdf->setPaper('A4', 'landscape');
 
             // Render the HTML as PDF
             $dompdf->render();
@@ -756,7 +756,7 @@ class Project_Officer extends CI_Controller
         }
     }
 
-      public function report_projects()
+    public function report_projects()
     {
         if ($this->session->has_userdata('user_id')) {
 
@@ -794,4 +794,40 @@ class Project_Officer extends CI_Controller
         }
     }
 
+    public function report_contractor()
+    {
+        if ($this->session->has_userdata('user_id')) {
+
+            require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $options->set('enable_html5_parser', TRUE);
+            $options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+            $dompdf = new Dompdf($options);
+            $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+            $id = $this->session->userdata('user_id');
+
+            $this->db->select('*');
+            $this->db->from('contractors');
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('region', $this->session->userdata('region'));
+            }
+            $data['contractor_records'] = $this->db->get()->result_array();
+
+            $html = $this->load->view('project_officer/contractor_report', $data, TRUE); //$graph, TRUE);
+
+            $dompdf->loadHtml($html);
+            $dompdf->render();
+
+            $output = $dompdf->output();
+            $doc_name = 'Contractor List Report.pdf';
+            file_put_contents($doc_name, $output);
+            redirect($doc_name);
+            //exit;
+        } else {
+            $this->load->view('userpanel/login');
+        }
+    }
 }

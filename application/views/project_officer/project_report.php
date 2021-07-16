@@ -30,25 +30,25 @@
     <table id="datatable" class="table table-bordered" style="color:black;">
       <thead style="background-color:lightgray">
         <tr>
-          <th scope="col">S. No</th>
-          <th scope="col">Project Name</th>
+          <th scope="col">No</th>
+          <th scope="col" style="white-space:nowrap">Project Name</th>
           <th scope="col">Start Date</th>
           <th scope="col">End Date</th>
           <th scope="col">Total Cost</th>
-           <th scope="col">Status</th>
-            <th scope="col">Region</th>
+          <th scope="col">Status</th>
+          <th scope="col">Region</th>
         </tr>
       </thead>
       <tbody id="table_rows_project">
         <?php $count = 1;
         foreach ($project_record as $data) { ?>
           <tr>
-            <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
-            <td scope="row"><?= $data['Name']; ?></td>
-            <td scope="row"><?= $data['Start_date']; ?></td>
-            <td scope="row">PKR. <?= $data['End_date']; ?></td>
-            <td scope="row"><?= $data['Total_Cost']; ?></td>
-            <td scope="row"><?= $data['Status']; ?></td>
+            <td scope="row" style="white-space:nowrap" id="cont<?= $count; ?>"><?= $count; ?></td>
+            <td scope="row" style="white-space:nowrap"><?= $data['Name']; ?></td>
+            <td scope="row" style="white-space:nowrap"><?= $data['Start_date']; ?></td>
+            <td scope="row" style="white-space:nowrap"><?= $data['End_date']; ?></td>
+            <td scope="row" style="white-space:nowrap">PKR. <?= $data['Total_Cost']; ?></td>
+            <td scope="row" style="white-space:nowrap"><?= $data['Status']; ?></td>
             <td scope="row"><?= $data['region']; ?></td>
           </tr>
         <?php
@@ -65,8 +65,6 @@
   <div style="position:relative" class="gantt" id="GanttChartDIV"></div>
   <div id="nodata" style="display:none"> There are no tasks scheduled yet.</div>
 </div> -->
-
-
 
 <div class="clearfix"></div>
 <div class="clearfix"></div>

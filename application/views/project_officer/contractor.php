@@ -19,7 +19,7 @@
 <div class="container">
     <div class="d-sm-flex align-items-center justify-content-between mb-4 my-2">
         <h1 class="h3 mb-0 text-black-800"></h1>
-        <a onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
+        <a onclick="location.href='<?php echo base_url(); ?>Project_Officer/report_contractor'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
     </div>
 
     <div class="card o-hidden my-4 border-0 shadow-lg">
@@ -28,10 +28,7 @@
             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                 <div class="modal-content bg-custom3" style="width:1000px;">
                     <div class="modal-header" style="width:1000px;">
-                        <!-- <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5> -->
-                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                         </button> -->
+                        
                     </div>
                     <div class="card-body bg-custom3">
                         <!-- Nested Row within Card Body -->
