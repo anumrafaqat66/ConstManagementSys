@@ -78,10 +78,10 @@
     'normal' => $fontDir . '/DejaVuSerif',
   ),
   'font awesome 5 brands' => array(
-    'normal' => $fontDir . '/font-awesome-5-brands-normal_679a0109d2ab84a67a4f2092c7a0dd43',
+    'normal' => $fontDir . '/font-awesome-5-brands-normal_11bed30d302f2ad2a5953cda159b2415',
   ),
   'font awesome 5 free' => array(
-    'normal' => $fontDir . '/font-awesome-5-free-normal_4c05ae4523ce1746d6374425aeefbeb4',
-    '900' => $fontDir . '/font-awesome-5-free-900_95114d1c8726d8597185a76ba7fd98b5',
+    'normal' => $fontDir . '/font-awesome-5-free-normal_2cc6f8ab9f508a0d7222e88b0f7319c8',
+    '900' => $fontDir . '/font-awesome-5-free-900_b21533da6aad44ac8eb93b7e4024dae0',
   ),
 ) ?>

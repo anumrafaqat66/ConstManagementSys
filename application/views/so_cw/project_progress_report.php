@@ -20,7 +20,7 @@
   <div style="height:200px; text-align:center">
     <img class="img-logo" src="<?= base_url() ?>assets/img/navy_logo.png" alt="">
     <h1><strong>NHS PMS</strong></h1>
-    <h2><strong><?= $project_name['Name']; ?>Progress Report</strong></h2>
+    <h2><strong><?= $project_name['Name']; ?> Progress Report</strong></h2>
     <hr style="border-top: 1px solid black">
   </div>
 </div>

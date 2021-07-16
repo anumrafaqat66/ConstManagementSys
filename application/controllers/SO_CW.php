@@ -1,4 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class SO_CW extends CI_Controller
 {
     public function __construct()
@@ -134,7 +138,7 @@ class SO_CW extends CI_Controller
 
             $data['project_name'] = $this->db->where('ID', $project_id)->get('projects')->row_array();
 
-            $html = $this->load->view('SO_CW/project_progress_report', $data, TRUE); //$graph, TRUE);
+            $html = $this->load->view('so_cw/project_progress_report', $data, TRUE); //$graph, TRUE);
 
             $dompdf->loadHtml($html);
             $dompdf->render();
