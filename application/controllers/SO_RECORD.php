@@ -70,10 +70,37 @@ class SO_RECORD extends CI_Controller
 
     public function show_bills()
     {
-
         if ($this->session->has_userdata('user_id')) {
-            // $data['project_records'] = $this->db->get('projects')->result_array();
-            $this->load->view('so_record/billing_list'); //, $data);
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['projects'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+            } else {
+                $data['projects'] = $this->db->get('projects')->result_array();
+            }
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->get('project_bills')->result_array();
+            } else {
+                $data['project_bills'] = $this->db->get('project_bills')->result_array();
+            }
+            $this->load->view('so_record/billing_list', $data);
+        }
+    }
+
+    public function add_new_bill()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            // if ($this->session->userdata('acct_type') != 'admin_super') {
+            //     $data['projects'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+            // } else {
+            //     $data['projects'] = $this->db->get('projects')->result_array();
+            // }
+
+            // if ($this->session->userdata('acct_type') != 'admin_super') {
+            //     $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->get('project_bills')->result_array();
+            // } else {
+            //     $data['project_bills'] = $this->db->get('project_bills')->result_array();
+            // }
+            $this->load->view('so_record/add_new_bill');//, $data);
         }
     }
 

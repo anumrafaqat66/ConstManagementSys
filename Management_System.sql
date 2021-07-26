@@ -260,8 +260,20 @@ CREATE TABLE `project_bills` (
   `id` bigint(20) NOT NULL ,
   `project_id` int(20) NOT NULL,
   `bill_name` varchar(500) DEFAULT NULL,
-  `date_added` DATE DEFAULT NULL
-  
+  `date_added` DATE DEFAULT NULL,
+  `gross_work_done` decimal(16,2) NULL,
+  `wd_in_bill` decimal(16,2) NULL,
+  `rm_deducted` decimal(16,2) NULL,
+  `payment_made` decimal(16,2) NULL,
+  `cheque_no` int(20) NULL,
+  `it_deducted` decimal(16,2) NULL,
+  `contract_amount` decimal(16,2) NULL,
+  `paid_till_last_bill` decimal(16,2) NULL,
+  `claim_amount` decimal(16,2) NULL,
+  `verified_amount` decimal(16,2) NULL,
+  `bill_file_attach_1` varchar(500) NULL,
+  `bill_file_attach_2` varchar(500) NULL,
+  `bill_file_attach_3` varchar(500) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
