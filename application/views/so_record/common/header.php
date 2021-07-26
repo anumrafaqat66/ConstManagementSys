@@ -114,6 +114,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>SO_RECORD/view_performance_security" aria-expanded="true">
+                    <i style="font-size:20px" class="fas fa-file-signature"></i>
+                    <span> Performance Security </span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/edit_profile" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-user-edit"></i>
                     <span> Edit Profile </span>

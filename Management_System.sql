@@ -295,6 +295,20 @@ CREATE TABLE `activity_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `project_performance_security_letter`
+--
+
+CREATE TABLE `project_performance_security_letter` (
+  `id` bigint(20) NOT NULL,
+  `project_id` int(20) NOT NULL,
+  `file_name` varchar(500) DEFAULT NULL,
+  `date_added` date DEFAULT NULL,
+  `amount` decimal(16,2) DEFAULT NULL,
+  `issued_by` varchar(200) DEFAULT NULL,
+  `validity_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `activity_log`
 --
 
@@ -334,6 +348,7 @@ ALTER TABLE project_bills ADD COLUMN region varchar(15);
 ALTER TABLE project_drawing ADD COLUMN region varchar(15);
 ALTER TABLE project_progress ADD COLUMN region varchar(15);
 ALTER TABLE project_schedule ADD COLUMN region varchar(15);
+ALTER TABLE project_performance_security_letter ADD COLUMN region varchar(15);
 
 update activity_log set region = 'north';
 update activity_log_seen set region = 'north';
@@ -438,7 +453,12 @@ ALTER TABLE `chat`
 --  
 ALTER TABLE `activity_log`
  ADD PRIMARY KEY (`id`);
-    
+
+ --
+-- Indexes for table `project_performance_security_letter`
+--
+ALTER TABLE `project_performance_security_letter`
+  ADD PRIMARY KEY (`id`);
   
 --
 -- AUTO_INCREMENT for dumped tables
@@ -523,6 +543,13 @@ ALTER TABLE `chat`
 --
 ALTER TABLE `activity_log`
  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ --
+-- AUTO_INCREMENT for table `project_performance_security_letter`
+--
+ALTER TABLE `project_performance_security_letter`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
 --
 -- Constraints for dumped tables
 --
