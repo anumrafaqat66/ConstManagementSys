@@ -130,7 +130,7 @@
 
                                     <div class="card-body">
 
-                                        <form class="user" role="form" enctype="multipart/form-data" method="post" id="add_drawing_form" action="<?= base_url(); ?>SO_RECORD/upload_allotment_letter">
+                                        <form class="user" role="form" enctype="multipart/form-data" method="post" id="add_bill_form" action="<?= base_url(); ?>SO_RECORD/insert_project_bill">
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <h6>&nbsp;Bill No:</h6>
@@ -174,7 +174,7 @@
                                                     <h6>&nbsp;Cheque Number:</h6>
                                                 </div>
                                             </div>
-
+                                                 <input type="hidden" name="project_id_selected" id="project_id_selected" value="<?= $project_id; ?>">
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-1">
                                                     <input type="number" class="form-control form-control-user" name="payment_made" id="payment_made" placeholder="Payment Made">
@@ -243,19 +243,19 @@
 
                                             <div class="form-group row">
                                                 <div class="col-sm-4 mb-1">
+                                                    <input type="file" id="your_btn" multiple="multiple" name="project_billing[]">
+                                                </div>
+                                              <!--   <div class="col-sm-4 mb-1">
                                                     <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
                                                 </div>
                                                 <div class="col-sm-4 mb-1">
                                                     <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
-                                                </div>
-                                                <div class="col-sm-4 mb-1">
-                                                    <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
-                                                </div>
+                                                </div> -->
                                             </div>
 
                                             <div class="form-group row justify-content-center">
                                                 <div class="col-sm-4">
-                                                    <button type="button" class="btn btn-primary btn-user btn-block" name="file_upload" id="file_upload">
+                                                    <button type="submit" class="btn btn-primary btn-user btn-block" name="file_upload" id="file_upload">
                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
                                                         Save Bill Data
                                                     </button>

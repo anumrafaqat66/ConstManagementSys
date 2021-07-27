@@ -36,7 +36,7 @@
                                     </div>
 
                                     <div class="card-body bg-custom3">
-                                        <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_STORE/insert_inventory">
+                                        <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>SO_RECORD/insert_project_bill">
                                             <div class="form-group row">
                                                 <div class="col-sm-3">
                                                     <h6>&nbsp;Bill No:</h6>
@@ -55,7 +55,7 @@
                                                 </div>
 
                                             </div>
-
+                                         
                                             <div class="form-group row">
                                                 <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="material_name" id="material_name" placeholder="Material">
@@ -257,10 +257,11 @@
                              </div>
                          </div>
                     </div>
-                    <form class="user" role="form" method="post" id="add_form" action="">
+                    <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
                          <div class="form-group row my-2 justify-content-center">
                              <div class="col-sm-4">
-                                 <button type="button" class="btn btn-primary btn-user btn-block" id="add_new_bill" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/add_new_bill'">
+                                <input type="hidden" name="project_id_selected" id="project_id_selected">
+                                 <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill" >
                                      <i class="fas fa-plus"></i>
                                      Add new Running Bill
                                  </button>
@@ -282,9 +283,12 @@
         $('#add_btn').attr('disabled', true);
         var validate = 0;
         var project_id = $('#project_id').val();
+
         
         if(project_id != '') {
             $('#add_new').show();
+            $('#project_id_selected').val(project_id);
+            
         }
     });
 
