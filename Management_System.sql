@@ -271,9 +271,7 @@ CREATE TABLE `project_bills` (
   `paid_till_last_bill` decimal(16,2) NULL,
   `claim_amount` decimal(16,2) NULL,
   `verified_amount` decimal(16,2) NULL,
-  `bill_file_attach_1` varchar(500) NULL,
-  `bill_file_attach_2` varchar(500) NULL,
-  `bill_file_attach_3` varchar(500) NULL
+  `bill_file_attach_1` varchar(500) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -290,7 +288,8 @@ CREATE TABLE `chat` (
   `file_ext` text NOT NULL,
   `mime_type` text NOT NULL,
   `message_date_time` text NOT NULL,
-  `ip_address` text NOT NULL
+  `ip_address` text NOT NULL,
+  `seen` enum('yes','no') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

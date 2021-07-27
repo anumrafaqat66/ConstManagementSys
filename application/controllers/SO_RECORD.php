@@ -39,7 +39,7 @@ class SO_RECORD extends CI_Controller
                 $this->db->where('pal.region', $this->session->userdata('region'));
             }
             $data['letter_list'] = $this->db->get()->result_array();
-            
+
             $this->load->view('so_record/allotment_letter_list', $data); //, $data);
         }
     }
@@ -61,12 +61,12 @@ class SO_RECORD extends CI_Controller
                 $this->db->where('psl.region', $this->session->userdata('region'));
             }
             $data['letter_list'] = $this->db->get()->result_array();
-            
+
             $this->load->view('so_record/performance_security', $data); //, $data);
         }
     }
 
-    
+
 
     public function show_bills()
     {
@@ -86,26 +86,30 @@ class SO_RECORD extends CI_Controller
         }
     }
 
-    public function add_new_bill($projectid=null)
+    public function get_running_bills_detail(){
+        $project_id = $_POST['project_id'];
+
+        if ($this->session->userdata('acct_type') != 'admin_super') {
+            $project_bills = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->result_array();
+        } else {
+            $project_bills = $this->db->where('project_id', $project_id)->get('project_bills')->result_array();
+        }
+
+        echo json_encode($project_bills);
+    }
+
+    public function add_new_bill($projectid = null)
     {
         if ($this->session->has_userdata('user_id')) {
-            // if ($this->session->userdata('acct_type') != 'admin_super') {
-            //     $data['projects'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
-            // } else {
-            //     $data['projects'] = $this->db->get('projects')->result_array();
-            // }
 
-            // if ($this->session->userdata('acct_type') != 'admin_super') {
-            //     $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->get('project_bills')->result_array();
-            // } else {
-                 $data['project_id'] = $_POST['project_id_selected'];
-                // echo  $data['project_id'];exit;
-            // }
-            $this->load->view('so_record/add_new_bill',$data);//, $data);
+            $data['project_id'] = $_POST['project_id_selected'];
+            $this->load->view('so_record/add_new_bill', $data);
         }
     }
-   public function insert_project_bill(){
- $postData = $this->security->xss_clean($this->input->post());
+
+    public function insert_project_bill()
+    {
+        $postData = $this->security->xss_clean($this->input->post());
 
 
         $project_id = $postData['project_id_selected'];
@@ -126,46 +130,45 @@ class SO_RECORD extends CI_Controller
         $paid_till_last_bill = $postData['last_bill_paid'];
         $claim_amount = $postData['claim_amt'];
         $verified_amount = $postData['verify_amt'];
-        
+
 
         $upload1 = $this->upload_billing($_FILES['project_billing']);
 
-          if (count($upload1) > 1) {
-                $files = implode(',', $upload1);
-            } else {
-                $files = $upload1[0];
-            }
+        if (count($upload1) > 1) {
+            $files = implode(',', $upload1);
+        } else {
+            $files = $upload1[0];
+        }
 
-            $insert_array = array(
+        $insert_array = array(
 
-                    'project_id' => $project_id,
-                    'bill_name' => $bill_no,
-                    'gross_work_done' => $gross_work_done,
-                    'wd_in_bill' => $wd_in_bill,
-                    'rm_deducted' => $rm_deducted,
-                    'date_added'=>$date,
-                    'it_deducted'=>$it_deducted,
-                    'payment_made' => $payment_made,
-                    'cheque_no' => $cheque_no,
-                    'contract_amount' => $contract_amount,
-                    'paid_till_last_bill' => $paid_till_last_bill,
-                    'claim_amount'=>$claim_amount,
-                    'verified_amount'=>$verified_amount,
-                    'bill_file_attach_1'=> $files,
-                    'region' => $this->session->userdata('region')
-                );
-            //print_r($insert_array);exit;
-                $insert = $this->db->insert('project_bills', $insert_array);
+            'project_id' => $project_id,
+            'bill_name' => $bill_no,
+            'gross_work_done' => $gross_work_done,
+            'wd_in_bill' => $wd_in_bill,
+            'rm_deducted' => $rm_deducted,
+            'date_added' => $date,
+            'it_deducted' => $it_deducted,
+            'payment_made' => $payment_made,
+            'cheque_no' => $cheque_no,
+            'contract_amount' => $contract_amount,
+            'paid_till_last_bill' => $paid_till_last_bill,
+            'claim_amount' => $claim_amount,
+            'verified_amount' => $verified_amount,
+            'bill_file_attach_1' => $files,
+            'region' => $this->session->userdata('region')
+        );
+        //print_r($insert_array);exit;
+        $insert = $this->db->insert('project_bills', $insert_array);
 
-                 if (!empty($insert)) {
+        if (!empty($insert)) {
             $this->session->set_flashdata('success', 'Project Billing added successfully');
             redirect('SO_RECORD/show_bills');
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
             redirect('SO_RECORD/show_bills');
         }
-
-   }
+    }
     public function  upload_allotment_letter()
     {
         $postData = $this->security->xss_clean($this->input->post());
@@ -214,7 +217,7 @@ class SO_RECORD extends CI_Controller
             for ($i = 0; $i < count($upload1); $i++) {
                 $insert_array = array(
 
-                    'project_id' => $project_id, 
+                    'project_id' => $project_id,
                     'validity_date' => $valid_date,
                     'amount' => $amount,
                     'issued_by' => $officer_name,
@@ -236,7 +239,7 @@ class SO_RECORD extends CI_Controller
 
     public function upload_letter($fieldname)
     {
-        $filesCount = count($_FILES['project_allotment_letter']['name']);   
+        $filesCount = count($_FILES['project_allotment_letter']['name']);
         for ($i = 0; $i < $filesCount; $i++) {
             $_FILES['file']['name']     = $_FILES['project_allotment_letter']['name'][$i];
             $_FILES['file']['type']     = $_FILES['project_allotment_letter']['type'][$i];
@@ -249,12 +252,11 @@ class SO_RECORD extends CI_Controller
 
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
-         
+
             if (!$this->upload->do_upload('file')) {
                 $data = array('msg' => $this->upload->display_errors());
-         
             } else {
-         
+
                 $data = array('msg' => "success");
                 $data['upload_data'] = $this->upload->data();
                 $count[$i] = $data['upload_data']['file_name'];
@@ -262,9 +264,9 @@ class SO_RECORD extends CI_Controller
         }
         return $count;
     }
-      public function upload_billing($fieldname)
+    public function upload_billing($fieldname)
     {
-        $filesCount = count($_FILES['project_billing']['name']);   
+        $filesCount = count($_FILES['project_billing']['name']);
         for ($i = 0; $i < $filesCount; $i++) {
             $_FILES['file']['name']     = $_FILES['project_billing']['name'][$i];
             $_FILES['file']['type']     = $_FILES['project_billing']['type'][$i];
@@ -277,12 +279,11 @@ class SO_RECORD extends CI_Controller
 
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
-         
+
             if (!$this->upload->do_upload('file')) {
                 $data = array('msg' => $this->upload->display_errors());
-         
             } else {
-         
+
                 $data = array('msg' => "success");
                 $data['upload_data'] = $this->upload->data();
                 $count[$i] = $data['upload_data']['file_name'];
@@ -292,7 +293,7 @@ class SO_RECORD extends CI_Controller
     }
     public function upload_letter_performance_security($fieldname)
     {
-        $filesCount = count($_FILES['project_performance_security_letter']['name']);   
+        $filesCount = count($_FILES['project_performance_security_letter']['name']);
         for ($i = 0; $i < $filesCount; $i++) {
             $_FILES['file']['name']     = $_FILES['project_performance_security_letter']['name'][$i];
             $_FILES['file']['type']     = $_FILES['project_performance_security_letter']['type'][$i];
@@ -305,12 +306,11 @@ class SO_RECORD extends CI_Controller
 
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
-         
+
             if (!$this->upload->do_upload('file')) {
                 $data = array('msg' => $this->upload->display_errors());
-         
             } else {
-         
+
                 $data = array('msg' => "success");
                 $data['upload_data'] = $this->upload->data();
                 $count[$i] = $data['upload_data']['file_name'];

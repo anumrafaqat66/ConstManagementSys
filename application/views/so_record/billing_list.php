@@ -23,7 +23,7 @@
             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                 <div class="modal-content bg-custom3" style="width:1000px;">
                     <div class="modal-header" style="width:1000px;">
-                        
+
                     </div>
                     <div class="card-body bg-custom3">
                         <!-- Nested Row within Card Body -->
@@ -55,7 +55,7 @@
                                                 </div>
 
                                             </div>
-                                         
+
                                             <div class="form-group row">
                                                 <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="material_name" id="material_name" placeholder="Material">
@@ -196,7 +196,38 @@
                 </div>
 
                 <div class="form-group row">
-                    
+
+                </div>
+            </div>
+        </div>
+
+
+        <div id="no_data" class="card-body bg-custom3" style="display:none">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="card bg-custom3">
+                        <div class="card-header bg-custom1">
+                            <h1 class="h4">Billing Details</h1>
+                        </div>
+
+                        <div class="card-body">
+                            <h5>No Data Available</h5>
+                        </div>
+                        <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
+                            <div class="form-group row my-2 justify-content-center">
+                                <div class="col-sm-4">
+                                    <input type="hidden" name="project_id_selected" id="project_id_selected">
+                                    <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill">
+                                        <i class="fas fa-plus"></i>
+                                        Add new Running Bill
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -210,64 +241,63 @@
                         <div class="card-header bg-custom1">
                             <h1 class="h4">Billing Details</h1>
                         </div>
-                        
+
                         <div class="card-body">
-                             <div id="table_div">
-                                 <?php if (count($project_bills) > 0) { ?>
-                                     <table id="datatable" class="table table-striped" style="color:black">
-                                         <thead>
-                                             <tr>
-                                                 <th scope="col">#</th>
-                                                 <th scope="col">Bill Date</th>
-                                                 <th scope="col">Bill No.</th>
-                                                 <th scope="col">Gross Work Done</th>
-                                                 <th scope="col">WD in Bill</th>
-                                                 <th scope="col">R/M Deducted</th>
-                                                 <th scope="col">Payment Made</th>
-                                                 <th scope="col">Cheque No.</th>
-                                                 <th scope="col">IT Deducted</th>
-                                                 <th scope="col">Edit/Update Quantity</th>
-                                                 <th scope="col">View Details</th>
+                            <div id="table_div">
+                                <?php if (count($project_bills) > 0) { ?>
+                                    <table id="datatable" class="table table-striped" style="color:black;font-size:smaller;white-space:nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Bill Date</th>
+                                                <th scope="col">Bill No.</th>
+                                                <th scope="col">Gross Work Done</th>
+                                                <th scope="col">WD in Bill</th>
+                                                <th scope="col">R/M Deducted</th>
+                                                <th scope="col">Payment Made</th>
+                                                <th scope="col">Cheque No.</th>
+                                                <th scope="col">IT Deducted</th>
+                                                <th scope="col">Edit</th>
+                                                <th scope="col">View</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table_rows">
+                                            <!-- <?php $count = 0;
+                                                    foreach ($project_bills as $data) { ?>
+                                                <tr>
+                                                    <td scope="row"><?= ++$count; ?></td>
+                                                    <td id="material<?= $data['id']; ?>" scope="row"><?= $data['date_added']; ?></td>
+                                                    <td id="quant<?= $data['id']; ?>" class="quant" scope="row"><?= $data['bill_name']; ?></td>
+                                                    <td scope="row">PKR <?= $data['gross_work_done']; ?></td>
+                                                    <td scope="row">PKR <?= $data['wd_in_bill']; ?></td>
+                                                    <td scope="row">PKR <?= $data['rm_deducted']; ?></td>
+                                                    <td scope="row">PKR <?= $data['payment_made']; ?></td>
+                                                    <td scope="row"><?= $data['cheque_no']; ?></td>
+                                                    <td scope="row">PKR <?= $data['it_deducted']; ?></td>
+                                                    <td type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i class="fas fa-edit"></i></td>
+                                                    <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['id']; ?>" style="color:black"><i class="fas fa-eye"></i></a></td>
 
-                                             </tr>
-                                         </thead>
-                                         <tbody id="table_rows">
-                                             <?php $count = 0;
-                                                foreach ($project_bills as $data) { ?>
-                                                 <tr>
-                                                     <td scope="row"><?= ++$count; ?></td>
-                                                     <td id="material<?= $data['id']; ?>" scope="row"><?= $data['date_added']; ?></td>
-                                                     <td id="quant<?= $data['id']; ?>" class="quant" scope="row"><?= $data['bill_name']; ?></td>
-                                                     <td scope="row">PKR. <?= $data['gross_work_done']; ?></td>
-                                                     <td scope="row">PKR.<?= $data['wd_in_bill']; ?></td>
-                                                     <td scope="row">PKR.<?= $data['rm_deducted']; ?></td>
-                                                     <td scope="row">PKR.<?= $data['payment_made']; ?></td>
-                                                     <td scope="row"><?= $data['cheque_no']; ?></td>
-                                                     <td scope="row">PKR.<?= $data['it_deducted']; ?></td>
-                                                     <td type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 70px;" class="fas fa-edit"></i></td>
-                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['id']; ?>" style="color:black"><i style="margin-left: 40px;" class="fas fa-eye"></i></a></td>
-
-                                                 </tr>
-                                             <?php } ?>
-                                         </tbody>
-                                     </table>
-                                 <?php } else { ?>
-                                     <a> No Data Available yet </a>
-                                 <?php } ?>
-                             </div>
-                         </div>
+                                                </tr>
+                                            <?php } ?> -->
+                                        </tbody>
+                                    </table>
+                                    <!-- <?php } else { ?>
+                                    <a> No Data Available yet </a>
+                                <?php } ?> -->
+                            </div>
+                        </div>
                     </div>
                     <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
-                         <div class="form-group row my-2 justify-content-center">
-                             <div class="col-sm-4">
+                        <div class="form-group row my-2 justify-content-center">
+                            <div class="col-sm-4">
                                 <input type="hidden" name="project_id_selected" id="project_id_selected">
-                                 <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill" >
-                                     <i class="fas fa-plus"></i>
-                                     Add new Running Bill
-                                 </button>
-                             </div>
-                         </div>
-                     </form>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill">
+                                    <i class="fas fa-plus"></i>
+                                    Add new Running Bill
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -284,11 +314,51 @@
         var validate = 0;
         var project_id = $('#project_id').val();
 
-        
-        if(project_id != '') {
-            $('#add_new').show();
+
+        if (project_id != '') {
+
+            $('#add_new').hide();
+            $('#no_data').hide();
             $('#project_id_selected').val(project_id);
-            
+
+            $.ajax({
+                url: '<?= base_url(); ?>SO_RECORD/get_running_bills_detail',
+                method: 'POST',
+                data: {
+                    'project_id': project_id,
+                },
+                success: function(data) {
+
+                    var result = jQuery.parseJSON(data);
+                    var len = data.length;
+
+                    if (len > 2) {
+                        $('#add_new').show();
+                        $('#table_rows').empty();
+                        for (var i = 0; i < len; i++) {
+                            $('#table_rows').append(` <tr>
+                                                    <td scope="row">${i+1}</td>
+                                                    <td id="material" scope="row">${result[i]['date_added']}</td>
+                                                    <td id="quant" class="quant" scope="row">${result[i]['bill_name']}</td>
+                                                    <td scope="row">PKR ${result[i]['gross_work_done']}</td>
+                                                    <td scope="row">PKR ${result[i]['wd_in_bill']}</td>
+                                                    <td scope="row">PKR ${result[i]['rm_deducted']}</td>
+                                                    <td scope="row">PKR ${result[i]['payment_made']}</td>
+                                                    <td scope="row">${result[i]['cheque_no']}</td>
+                                                    <td scope="row">PKR ${result[i]['it_deducted']}</td>
+                                                    <td type="button" id="edit" class="edit" scope="row"><i class="fas fa-edit"></i></td>
+                                                    <td id="view" class="view" scope="row"><i class="fas fa-eye"></i></td>
+
+                                                </tr>`);
+                        }
+                    } else {
+                        $('#no_data').show();
+                    }
+
+                },
+                async: true
+            });
+
         }
     });
 
