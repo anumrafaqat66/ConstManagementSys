@@ -120,14 +120,14 @@
                                        
                                             <div class="form-group row">
                                                 <div class="col-sm-4">
-                                                     <h6>&nbsp;Upladed Files:</h6> 
+                                                     <h6>Upladed Files:</h6> 
                                                 </div>
 
                                             </div>
 
                                             <div class="form-group row">
 
-                                                <div class="col-sm-4 mb-1" id="bill_detail" style="">
+                                                <div class="col-sm-4 mb-1" id="bill_detail" style="width:100%">
                                              
                                                 </div>
 
@@ -221,7 +221,7 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Bill Date</th>
+                                                <th scope="col">Date</th>
                                                 <th scope="col">Bill No.</th>
                                                 <th scope="col">Gross Work Done</th>
                                                 <th scope="col">WD in Bill</th>
@@ -230,7 +230,7 @@
                                                 <th scope="col">Cheque No.</th>
                                                 <th scope="col">IT Deducted</th>
                                                 <th scope="col">Edit</th>
-                                                <th scope="col">View</th>
+                                                <th scope="col">Files</th>
                                             </tr>
                                         </thead>
                                         <tbody id="table_rows">
@@ -320,7 +320,7 @@
                                                     <td scope="row">PKR ${result[i]['it_deducted']}</td>
 
                                                     <td type="button" id="edit" class="edit" scope="row"><i class="fas fa-edit"></i></td>
-                                                    <td id="view" class="view" scope="row" onclick="view_detail(${result[i]['id']})" class="btn btn-primary btn-user rounded-pill" data-toggle="modal" data-target="#view_detail"><i class="fas fa-eye"></i></td>
+                                                    <td id="view" style="cursor:pointer" class="view" scope="row" onclick="view_detail(${result[i]['id']})" class="btn btn-primary btn-user rounded-pill" data-toggle="modal" data-target="#view_detail"><i class="fas fa-eye"></i></td>
 
                                                 </tr>`);
                         }
@@ -390,7 +390,7 @@
                 if (len > 0) {
                     for (var i = 0; i < len; i++) {
                       
-                        $("#bill_detail").append(`<a href="<?=base_url();?>uploads/project_billing/${result[i]}" style="font-weight:bold;color:black;">
+                        $("#bill_detail").append(`<a href="<?=base_url();?>uploads/project_billing/${result[i]}" style="font-weight:bold;color:black;white-space:nowrap">
                              ${result[i]}</a>`);
                     }
                 } else {
