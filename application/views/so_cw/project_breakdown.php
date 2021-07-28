@@ -102,7 +102,8 @@
  <?php $this->load->view('common/footer'); ?>
 
  <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/jsgantt/jsgantt.css" /> -->
- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+ <script type="text/javascript" src="<?php echo base_url(); ?>assets/charts/loader.js"></script>
  <!-- <script language="javascript" src="<?php echo base_url(); ?>assets/jsgantt/jsgantt.js"></script> -->
 
  <script>
