@@ -86,6 +86,19 @@ class SO_RECORD extends CI_Controller
         }
     }
 
+    public function view_bill_detail()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $id = $_POST['id'];
+
+            $data['bill_detail'] =$this->db->where('id',$id)->get('project_bills')->row_array();
+           
+             $data['bill_uploaded']= explode("," ,  $data['bill_detail']['bill_file_attach_1']);
+            // print_r($data['bill_uploaded']);exit;
+            echo json_encode($data['bill_uploaded']);
+        }
+    }
+
     public function get_running_bills_detail(){
         $project_id = $_POST['project_id'];
 
@@ -116,7 +129,6 @@ class SO_RECORD extends CI_Controller
         $bill_no = $postData['bill_no'];
         $gross_work_done = $postData['gross_work'];
         $wd_in_bill = $postData['WD_bill'];
-
         $rm_deducted = $postData['RM_deducted'];
         $payment_made = $postData['payment_made'];
         $cheque_no = $postData['cheque_number'];

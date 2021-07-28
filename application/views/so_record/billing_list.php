@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="edit_material">
+        <div class="modal fade" id="view_detail">
             <!-- <div class="row"> -->
             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                 <div class="modal-content bg-custom3" style="width:1000px;">
@@ -113,56 +113,28 @@
 
                                 <div class="card">
                                     <div class="card-header bg-custom1">
-                                        <h1 class="h4">Update/Edit Material</h1>
+                                        <h1 class="h4">Uploaded Bills</h1>
                                     </div>
 
                                     <div class="card-body bg-custom3">
-                                        <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>SO_STORE/edit_inventory">
+                                       
                                             <div class="form-group row">
                                                 <div class="col-sm-4">
-                                                    <h6>&nbsp;Material:</h6>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <h6>&nbsp;Add Quantity:</h6>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <h6>&nbsp;New Price:</h6>
+                                                     <h6>&nbsp;Upladed Files:</h6> 
                                                 </div>
 
                                             </div>
 
                                             <div class="form-group row">
 
-                                                <div class="col-sm-4 mb-1" style="display:none">
-                                                    <input type="text" class="form-control form-control-user" name="id_edit" id="id_edit" placeholder="id" readonly="readonly" style="color:black; font-size:medium; background-color:lightgray; border:1px solid black;">
-                                                </div>
-
-                                                <div class="col-sm-4 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="material_name_edit" id="material_name_edit" placeholder="Material" readonly="readonly" style="color:black; font-size:medium; background-color:lightgray; border:1px solid black;">
-                                                </div>
-
-                                                <div class="col-sm-4 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="new_quantity" id="new_quantity" placeholder="Add Quantity">
-                                                </div>
-
-                                                <div class="col-sm-4 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="new_price" id="new_price" placeholder="New Price">
+                                                <div class="col-sm-4 mb-1" id="bill_detail" style="">
+                                             
                                                 </div>
 
                                             </div>
 
-                                            <div class="form-group row justify-content-center">
-                                                <div class="col-sm-4">
-                                                    <button type="button" class="btn btn-primary btn-user btn-block" id="edit_btn">
-                                                        <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                        Update Material
-                                                    </button>
-                                                    <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
-                                                </div>
-                                            </div>
-                                        </form>
+                                       
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -346,8 +318,9 @@
                                                     <td scope="row">PKR ${result[i]['payment_made']}</td>
                                                     <td scope="row">${result[i]['cheque_no']}</td>
                                                     <td scope="row">PKR ${result[i]['it_deducted']}</td>
+
                                                     <td type="button" id="edit" class="edit" scope="row"><i class="fas fa-edit"></i></td>
-                                                    <td id="view" class="view" scope="row"><i class="fas fa-eye"></i></td>
+                                                    <td id="view" class="view" scope="row" onclick="view_detail(${result[i]['id']})" class="btn btn-primary btn-user rounded-pill" data-toggle="modal" data-target="#view_detail"><i class="fas fa-eye"></i></td>
 
                                                 </tr>`);
                         }
@@ -400,4 +373,31 @@
             async: true
         });
     });
+
+     function view_detail(id) {
+        // alert('cadet id: ' + id);
+        $.ajax({
+            url: '<?= base_url(); ?>SO_RECORD/view_bill_detail',
+            method: 'POST',
+            data: {
+                'id': id
+            },
+            success: function(data) {
+                var result = jQuery.parseJSON(data);
+                var len = result.length;
+
+                $("#bill_detail").empty();
+                if (len > 0) {
+                    for (var i = 0; i < len; i++) {
+                      
+                        $("#bill_detail").append(`<a href="<?=base_url();?>uploads/project_billing/${result[i]}" style="font-weight:bold;color:black;">
+                             ${result[i]}</a>`);
+                    }
+                } else {
+                    $("#bill_detail").append(`<label>No Bill Uploaded</label> `);
+                }
+            },
+            async: true
+        });
+    }
 </script>

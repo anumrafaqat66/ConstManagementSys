@@ -243,7 +243,7 @@
 
                                             <div class="form-group row">
                                                 <div class="col-sm-4 mb-1">
-                                                    <input type="file" id="your_btn" multiple="multiple" name="project_billing[]">
+                                                    <input type="file" id="your_btn" multiple="multiple" name="project_billing[]" id="project_billing">
                                                 </div>
                                               <!--   <div class="col-sm-4 mb-1">
                                                     <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
@@ -255,7 +255,7 @@
 
                                             <div class="form-group row justify-content-center">
                                                 <div class="col-sm-4">
-                                                    <button type="submit" class="btn btn-primary btn-user btn-block" name="file_upload" id="file_upload">
+                                                    <button type="button" class="btn btn-primary btn-user btn-block" name="file_upload" id="file_upload">
                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
                                                         Save Bill Data
                                                     </button>
@@ -284,42 +284,83 @@
 <script>
     $('#file_upload').on('click', function() {
         //alert('javascript working');
-        $('#add_btn').attr('disabled', true);
+        $('#file_upload').attr('disabled', true);
         var validate = 0;
 
-        var rcvd_date = $('#rcvd_date').val();
-        var dispatch_date = $('#dispatch_date').val();
-        var officer_name = $('#officer_name').val();
-        var project_id = $('#project_id').val();
-        var project_allotment_letter = $('#your_btn').val();
+        var bill_no = $('#bill_no').val();
+        var gross_work = $('#gross_work').val();
+        var WD_bill = $('#WD_bill').val();
+        var RM_deducted = $('#RM_deducted').val();
+        var payment_made = $('#payment_made').val();
 
-        if (rcvd_date == '') {
+           var cheque_number = $('#cheque_number').val();
+        var date = $('#date').val();
+        var it_deducted = $('#it_deducted').val();
+        var contract_amt = $('#contract_amt').val();
+
+         var last_bill_paid = $('#last_bill_paid').val();
+        var verify_amt = $('#verify_amt').val();
+        var claim_amt = $('#claim_amt').val();
+        
+
+        if (bill_no == '') {
             validate = 1;
-            $('#rcvd_date').addClass('red-border');
+            $('#bill_no').addClass('red-border');
         }
-        if (dispatch_date == '') {
+        if (gross_work == '') {
             validate = 1;
-            $('#dispatch_date').addClass('red-border');
+            $('#gross_work').addClass('red-border');
         }
-        if (officer_name == '') {
+        if (WD_bill == '') {
             validate = 1;
-            $('#officer_name').addClass('red-border');
+            $('#WD_bill').addClass('red-border');
         }
-        if (project_id == '') {
+        if (RM_deducted == '') {
             validate = 1;
-            $('#project_id').addClass('red-border');
+            $('#RM_deducted').addClass('red-border');
         }
 
-        if (project_allotment_letter == '') {
+        if (payment_made == '') {
             validate = 1;
-            $('#your_btn').addClass('red-border');
+            $('#payment_made').addClass('red-border');
+        }
+
+    if (cheque_number == '') {
+            validate = 1;
+            $('#cheque_number').addClass('red-border');
+        }
+        if (date == '') {
+            validate = 1;
+            $('#date').addClass('red-border');
+        }
+        if (it_deducted == '') {
+            validate = 1;
+            $('#it_deducted').addClass('red-border');
+        }
+        if (last_bill_paid == '') {
+            validate = 1;
+            $('#last_bill_paid').addClass('red-border');
+        }
+
+        if (contract_amt == '') {
+            validate = 1;
+            $('#contract_amt').addClass('red-border');
+        }
+
+            if (verify_amt == '') {
+            validate = 1;
+            $('#verify_amt').addClass('red-border');
+        }
+        if (claim_amt == '') {
+            validate = 1;
+            $('#claim_amt').addClass('red-border');
         }
 
         if (validate == 0) {
-            $('#add_drawing_form')[0].submit();
+            $('#add_bill_form')[0].submit();
             //  $('#show_error_new').hide();
         } else {
-            $('#add_btn').removeAttr('disabled');
+            $('#file_upload').removeAttr('disabled');
             //  $('#show_error_new').show();
         }
     });
