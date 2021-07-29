@@ -101,6 +101,7 @@ class SO_RECORD extends CI_Controller
 
     public function get_running_bills_detail(){
         $project_id = $_POST['project_id'];
+        $this->session->set_userdata('project_id',$project_id);
 
         if ($this->session->userdata('acct_type') != 'admin_super') {
             $project_bills = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->result_array();
@@ -117,6 +118,21 @@ class SO_RECORD extends CI_Controller
 
             $data['project_id'] = $_POST['project_id_selected'];
             $this->load->view('so_record/add_new_bill', $data);
+        }
+    }
+
+       public function edit_bill($project_id = null)
+    {
+        if ($this->session->has_userdata('user_id')) {
+
+            //$data['project_id'] = $_POST['project_id_selected'];
+             if ($this->session->userdata('acct_type') != 'admin_super') {
+            $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->row_array();
+        } else {
+            $data['project_bills'] = $this->db->where('project_id', $project_id)->get('project_bills')->row_array();
+        }
+        //print_r($data['project_bills']);exit;
+            $this->load->view('so_record/edit_bill', $data);
         }
     }
 
@@ -175,6 +191,95 @@ class SO_RECORD extends CI_Controller
 
         if (!empty($insert)) {
             $this->session->set_flashdata('success', 'Project Billing added successfully');
+            redirect('SO_RECORD/show_bills');
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            redirect('SO_RECORD/show_bills');
+        }
+    }
+
+     public function edit_project_bill()
+    {
+        $postData = $this->security->xss_clean($this->input->post());
+
+
+        $project_id = $postData['project_id_selected'];
+        $bill_no = $postData['bill_no'];
+        $gross_work_done = $postData['gross_work'];
+        $wd_in_bill = $postData['WD_bill'];
+        $rm_deducted = $postData['RM_deducted'];
+        $payment_made = $postData['payment_made'];
+        $cheque_no = $postData['cheque_number'];
+        $date = $postData['date'];
+
+        $it_deducted = $postData['it_deducted'];
+        $payment_made = $postData['payment_made'];
+        $cheque_no = $postData['cheque_number'];
+        $contract_amount = $postData['contract_amt'];
+
+        $paid_till_last_bill = $postData['last_bill_paid'];
+        $claim_amount = $postData['claim_amt'];
+        $verified_amount = $postData['verify_amt'];
+
+        //if($_FILES['project_billing'] != null)
+       if($_FILES['project_billing']['name'][0] !=null){
+        $upload1 = $this->upload_billing($_FILES['project_billing']);
+         if (count($upload1) > 1) {
+            $files = implode(',', $upload1);
+        } else {
+            $files = $upload1[0];
+        }
+
+         $update_array = array(
+
+           // 'project_id' => $project_id,
+            'bill_name' => $bill_no,
+            'gross_work_done' => $gross_work_done,
+            'wd_in_bill' => $wd_in_bill,
+            'rm_deducted' => $rm_deducted,
+            'date_added' => $date,
+            'it_deducted' => $it_deducted,
+            'payment_made' => $payment_made,
+            'cheque_no' => $cheque_no,
+            'contract_amount' => $contract_amount,
+            'paid_till_last_bill' => $paid_till_last_bill,
+            'claim_amount' => $claim_amount,
+            'verified_amount' => $verified_amount,
+            'bill_file_attach_1' => $files,
+            'region' => $this->session->userdata('region')
+        );
+    }else{
+ $update_array = array(
+
+           // 'project_id' => $project_id,
+            'bill_name' => $bill_no,
+            'gross_work_done' => $gross_work_done,
+            'wd_in_bill' => $wd_in_bill,
+            'rm_deducted' => $rm_deducted,
+            'date_added' => $date,
+            'it_deducted' => $it_deducted,
+            'payment_made' => $payment_made,
+            'cheque_no' => $cheque_no,
+            'contract_amount' => $contract_amount,
+            'paid_till_last_bill' => $paid_till_last_bill,
+            'claim_amount' => $claim_amount,
+            'verified_amount' => $verified_amount,
+            'region' => $this->session->userdata('region')
+        );
+    }
+
+       
+
+        $cond=['project_id'=>
+        $project_id];
+
+       
+        //print_r($insert_array);exit;
+        $this->db->where($cond);
+        $insert = $this->db->update('project_bills', $update_array);
+
+        if (!empty($insert)) {
+            $this->session->set_flashdata('success', 'Project Billing updated successfully');
             redirect('SO_RECORD/show_bills');
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
@@ -387,4 +492,43 @@ class SO_RECORD extends CI_Controller
             $this->load->view('so_record/inventory_detail', $data);
         }
     }
+
+    
+     public function bills_print($project_id=null)
+    {
+        if ($this->session->has_userdata('user_id')) {
+
+            require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $options->set('enable_html5_parser', TRUE);
+            $options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+            $dompdf = new Dompdf($options);
+            $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+            $id = $this->session->userdata('user_id');
+
+              if ($this->session->userdata('acct_type') != 'admin_super') {
+            $data['project_record'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->result_array();
+        } else {
+            $data['project_record'] = $this->db->where('project_id', $project_id)->get('project_bills')->result_array();
+        }
+
+
+            $html = $this->load->view('so_record/bill_report', $data, TRUE); //$graph, TRUE);
+
+            $dompdf->loadHtml($html);
+            $dompdf->render();
+
+            $output = $dompdf->output();
+            $doc_name = 'Project Bill Report.pdf';
+            file_put_contents($doc_name, $output);
+            redirect($doc_name);
+            //exit;
+        } else {
+            $this->load->view('userpanel/login');
+        }
+    }
+
 }
