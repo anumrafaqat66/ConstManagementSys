@@ -174,7 +174,7 @@
                                                     <h6>&nbsp;Cheque Number:</h6>
                                                 </div>
                                             </div>
-                                                 <input type="hidden" name="project_id_selected" id="project_id_selected" value="<?= $project_id; ?>">
+                                            <input type="hidden" name="project_id_selected" id="project_id_selected" value="<?= $project_id; ?>">
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-1">
                                                     <input type="number" class="form-control form-control-user" name="payment_made" id="payment_made" placeholder="Payment Made">
@@ -245,7 +245,7 @@
                                                 <div class="col-sm-4 mb-1">
                                                     <input type="file" id="your_btn" multiple="multiple" name="project_billing[]" id="project_billing">
                                                 </div>
-                                              <!--   <div class="col-sm-4 mb-1">
+                                                <!--   <div class="col-sm-4 mb-1">
                                                     <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
                                                 </div>
                                                 <div class="col-sm-4 mb-1">
@@ -292,16 +292,14 @@
         var WD_bill = $('#WD_bill').val();
         var RM_deducted = $('#RM_deducted').val();
         var payment_made = $('#payment_made').val();
-
-           var cheque_number = $('#cheque_number').val();
+        var cheque_number = $('#cheque_number').val();
         var date = $('#date').val();
         var it_deducted = $('#it_deducted').val();
         var contract_amt = $('#contract_amt').val();
-
-         var last_bill_paid = $('#last_bill_paid').val();
+        var last_bill_paid = $('#last_bill_paid').val();
         var verify_amt = $('#verify_amt').val();
         var claim_amt = $('#claim_amt').val();
-        
+
 
         if (bill_no == '') {
             validate = 1;
@@ -325,7 +323,7 @@
             $('#payment_made').addClass('red-border');
         }
 
-    if (cheque_number == '') {
+        if (cheque_number == '') {
             validate = 1;
             $('#cheque_number').addClass('red-border');
         }
@@ -347,7 +345,7 @@
             $('#contract_amt').addClass('red-border');
         }
 
-            if (verify_amt == '') {
+        if (verify_amt == '') {
             validate = 1;
             $('#verify_amt').addClass('red-border');
         }
@@ -364,9 +362,6 @@
             //  $('#show_error_new').show();
         }
     });
-
-
-
 
     $('#table_rows').find('tr').click(function() {
         var $columns = $(this).find('td');

@@ -175,7 +175,7 @@
 
 
         <div id="no_data" class="card-body bg-custom3" style="display:none">
-            <!-- Nested Row within Card Body -->
+            
             <div class="row">
                 <div class="col-lg-12">
 
@@ -187,17 +187,7 @@
                         <div class="card-body">
                             <h5>No Data Available</h5>
                         </div>
-                        <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
-                            <div class="form-group row my-2 justify-content-center">
-                                <div class="col-sm-4">
-                                    <input type="hidden" name="project_id_selected" id="project_id_selected">
-                                    <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill">
-                                        <i class="fas fa-plus"></i>
-                                        Add new Running Bill
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        
                     </div>
 
                 </div>
@@ -216,7 +206,7 @@
 
                         <div class="card-body">
                              <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_print/<?= $this->session->userdata('project_id') ?>'" style="float: right; margin-bottom: 10px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
-
+                                
                             <div id="table_div">
                                 <?php if (count($project_bills) > 0) { ?>
                                     <table id="datatable" class="table table-striped" style="color:black;font-size:smaller;white-space:nowrap">
@@ -255,12 +245,31 @@
                                             <?php } ?> -->
                                         </tbody>
                                     </table>
-                                    <!-- <?php } else { ?>
+                                    <?php } else { ?>
                                     <a> No Data Available yet </a>
-                                <?php } ?> -->
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
+                    <!-- <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
+                        <div class="form-group row my-2 justify-content-center">
+                            <div class="col-sm-4">
+                                <input type="hidden" name="project_id_selected" id="project_id_selected">
+                                <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill">
+                                    <i class="fas fa-plus"></i>
+                                    Add new Running Bill
+                                </button>
+                            </div>
+                        </div>
+                    </form> -->
+                </div>
+            </div>
+        </div>
+
+        <div id="show_add_new_button" class="card-body bg-custom3" style="display:none">
+            
+            <div class="row">
+                <div class="col-lg-12">
                     <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
                         <div class="form-group row my-2 justify-content-center">
                             <div class="col-sm-4">
@@ -293,8 +302,9 @@
 
             $('#add_new').hide();
             $('#no_data').hide();
+            $('#show_add_new_button').hide();
             $('#project_id_selected').val(project_id);
-
+            
             $.ajax({
                 url: '<?= base_url(); ?>SO_RECORD/get_running_bills_detail',
                 method: 'POST',
@@ -308,6 +318,7 @@
 
                     if (len > 2) {
                         $('#add_new').show();
+                        $('#show_add_new_button').show();
                         $('#table_rows').empty();
                         for (var i = 0; i < len; i++) {
                             $('#table_rows').append(` <tr>
@@ -328,6 +339,7 @@
                         }
                     } else {
                         $('#no_data').show();
+                        $('#show_add_new_button').show();
                     }
 
                 },

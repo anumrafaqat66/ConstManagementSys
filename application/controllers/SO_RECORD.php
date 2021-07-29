@@ -1,4 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class SO_RECORD extends CI_Controller
 {
     public function __construct()
@@ -91,17 +95,18 @@ class SO_RECORD extends CI_Controller
         if ($this->session->has_userdata('user_id')) {
             $id = $_POST['id'];
 
-            $data['bill_detail'] =$this->db->where('id',$id)->get('project_bills')->row_array();
-           
-             $data['bill_uploaded']= explode("," ,  $data['bill_detail']['bill_file_attach_1']);
+            $data['bill_detail'] = $this->db->where('id', $id)->get('project_bills')->row_array();
+
+            $data['bill_uploaded'] = explode(",",  $data['bill_detail']['bill_file_attach_1']);
             // print_r($data['bill_uploaded']);exit;
             echo json_encode($data['bill_uploaded']);
         }
     }
 
-    public function get_running_bills_detail(){
+    public function get_running_bills_detail()
+    {
         $project_id = $_POST['project_id'];
-        $this->session->set_userdata('project_id',$project_id);
+        $this->session->set_userdata('project_id', $project_id);
 
         if ($this->session->userdata('acct_type') != 'admin_super') {
             $project_bills = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->result_array();
@@ -121,17 +126,17 @@ class SO_RECORD extends CI_Controller
         }
     }
 
-       public function edit_bill($project_id = null)
+    public function edit_bill($project_id = null)
     {
         if ($this->session->has_userdata('user_id')) {
 
             //$data['project_id'] = $_POST['project_id_selected'];
-             if ($this->session->userdata('acct_type') != 'admin_super') {
-            $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->row_array();
-        } else {
-            $data['project_bills'] = $this->db->where('project_id', $project_id)->get('project_bills')->row_array();
-        }
-        //print_r($data['project_bills']);exit;
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->row_array();
+            } else {
+                $data['project_bills'] = $this->db->where('project_id', $project_id)->get('project_bills')->row_array();
+            }
+            //print_r($data['project_bills']);exit;
             $this->load->view('so_record/edit_bill', $data);
         }
     }
@@ -198,7 +203,7 @@ class SO_RECORD extends CI_Controller
         }
     }
 
-     public function edit_project_bill()
+    public function edit_project_bill()
     {
         $postData = $this->security->xss_clean($this->input->post());
 
@@ -222,58 +227,58 @@ class SO_RECORD extends CI_Controller
         $verified_amount = $postData['verify_amt'];
 
         //if($_FILES['project_billing'] != null)
-       if($_FILES['project_billing']['name'][0] !=null){
-        $upload1 = $this->upload_billing($_FILES['project_billing']);
-         if (count($upload1) > 1) {
-            $files = implode(',', $upload1);
+        if ($_FILES['project_billing']['name'][0] != null) {
+            $upload1 = $this->upload_billing($_FILES['project_billing']);
+            if (count($upload1) > 1) {
+                $files = implode(',', $upload1);
+            } else {
+                $files = $upload1[0];
+            }
+
+            $update_array = array(
+
+                // 'project_id' => $project_id,
+                'bill_name' => $bill_no,
+                'gross_work_done' => $gross_work_done,
+                'wd_in_bill' => $wd_in_bill,
+                'rm_deducted' => $rm_deducted,
+                'date_added' => $date,
+                'it_deducted' => $it_deducted,
+                'payment_made' => $payment_made,
+                'cheque_no' => $cheque_no,
+                'contract_amount' => $contract_amount,
+                'paid_till_last_bill' => $paid_till_last_bill,
+                'claim_amount' => $claim_amount,
+                'verified_amount' => $verified_amount,
+                'bill_file_attach_1' => $files,
+                'region' => $this->session->userdata('region')
+            );
         } else {
-            $files = $upload1[0];
+            $update_array = array(
+
+                // 'project_id' => $project_id,
+                'bill_name' => $bill_no,
+                'gross_work_done' => $gross_work_done,
+                'wd_in_bill' => $wd_in_bill,
+                'rm_deducted' => $rm_deducted,
+                'date_added' => $date,
+                'it_deducted' => $it_deducted,
+                'payment_made' => $payment_made,
+                'cheque_no' => $cheque_no,
+                'contract_amount' => $contract_amount,
+                'paid_till_last_bill' => $paid_till_last_bill,
+                'claim_amount' => $claim_amount,
+                'verified_amount' => $verified_amount,
+                'region' => $this->session->userdata('region')
+            );
         }
 
-         $update_array = array(
 
-           // 'project_id' => $project_id,
-            'bill_name' => $bill_no,
-            'gross_work_done' => $gross_work_done,
-            'wd_in_bill' => $wd_in_bill,
-            'rm_deducted' => $rm_deducted,
-            'date_added' => $date,
-            'it_deducted' => $it_deducted,
-            'payment_made' => $payment_made,
-            'cheque_no' => $cheque_no,
-            'contract_amount' => $contract_amount,
-            'paid_till_last_bill' => $paid_till_last_bill,
-            'claim_amount' => $claim_amount,
-            'verified_amount' => $verified_amount,
-            'bill_file_attach_1' => $files,
-            'region' => $this->session->userdata('region')
-        );
-    }else{
- $update_array = array(
 
-           // 'project_id' => $project_id,
-            'bill_name' => $bill_no,
-            'gross_work_done' => $gross_work_done,
-            'wd_in_bill' => $wd_in_bill,
-            'rm_deducted' => $rm_deducted,
-            'date_added' => $date,
-            'it_deducted' => $it_deducted,
-            'payment_made' => $payment_made,
-            'cheque_no' => $cheque_no,
-            'contract_amount' => $contract_amount,
-            'paid_till_last_bill' => $paid_till_last_bill,
-            'claim_amount' => $claim_amount,
-            'verified_amount' => $verified_amount,
-            'region' => $this->session->userdata('region')
-        );
-    }
-
-       
-
-        $cond=['project_id'=>
+        $cond = ['project_id' =>
         $project_id];
 
-       
+
         //print_r($insert_array);exit;
         $this->db->where($cond);
         $insert = $this->db->update('project_bills', $update_array);
@@ -493,8 +498,8 @@ class SO_RECORD extends CI_Controller
         }
     }
 
-    
-     public function bills_print($project_id=null)
+
+    public function bills_print($project_id = null)
     {
         if ($this->session->has_userdata('user_id')) {
 
@@ -508,17 +513,20 @@ class SO_RECORD extends CI_Controller
             $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
 
             $id = $this->session->userdata('user_id');
+            $data['project_name'] = $this->db->select('Name')->where('ID', $project_id)->get('projects')->row_array();
 
-              if ($this->session->userdata('acct_type') != 'admin_super') {
-            $data['project_record'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->result_array();
-        } else {
-            $data['project_record'] = $this->db->where('project_id', $project_id)->get('project_bills')->result_array();
-        }
-
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_record'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->result_array();
+            } else {
+                $data['project_record'] = $this->db->where('project_id', $project_id)->get('project_bills')->result_array();
+            }
 
             $html = $this->load->view('so_record/bill_report', $data, TRUE); //$graph, TRUE);
 
             $dompdf->loadHtml($html);
+            // $customPaper = array(0,0,360,360);
+            // $dompdf->set_paper($customPaper);
+            $dompdf->set_paper('A4', 'landscape');
             $dompdf->render();
 
             $output = $dompdf->output();
@@ -530,5 +538,4 @@ class SO_RECORD extends CI_Controller
             $this->load->view('userpanel/login');
         }
     }
-
 }
