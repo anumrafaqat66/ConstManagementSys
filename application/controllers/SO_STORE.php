@@ -26,25 +26,22 @@ class SO_STORE extends CI_Controller
         }
     }
 
-    public function add_inventory()
+    public function add_inventory($region = NULL)
     {
-
         if ($this->session->has_userdata('user_id')) {
-
             if ($this->session->userdata('acct_type') != 'admin_super') {
                 $data['inventory_records'] = $this->db->where('region', $this->session->userdata('region'))->get('inventory')->result_array();
             } else {
-                $data['inventory_records'] = $this->db->get('inventory')->result_array();
+                $data['inventory_records'] = $this->db->where('region', $region)->get('inventory')->result_array();
             }
+            $data['selected_region'] = $region;
             $this->load->view('so_store/inventory', $data);
         }
     }
 
     public function view_projects()
     {
-
         if ($this->session->has_userdata('user_id')) {
-
             if ($this->session->userdata('acct_type') != 'admin_super') {
                 $data['project_records'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
             } else {
@@ -408,10 +405,10 @@ class SO_STORE extends CI_Controller
         }
     }
 
-    public function report_inventory($inventory_id = NULL)
+    public function report_inventory($selected_region = NULL)
     {
         if ($this->session->has_userdata('user_id')) {
-
+            
             require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
 
             $options = new Options();
@@ -427,6 +424,8 @@ class SO_STORE extends CI_Controller
             $this->db->from('inventory');
             if ($this->session->userdata('acct_type') != 'admin_super') {
                 $this->db->where('region', $this->session->userdata('region'));
+            } else {
+                $this->db->where('region', $selected_region);
             }
             $data['inventory_record'] = $this->db->get()->result_array();
 

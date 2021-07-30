@@ -142,6 +142,21 @@ $route['SO_RECORD/edit_bill/update-notification'] = 'ChatController/update_notif
 $route['SO_RECORD/edit_bill/check-activity'] = 'ChatController/check_activity';
 $route['SO_RECORD/edit_bill/check-notification'] = 'ChatController/check_notification';
 
+$route['SO_STORE/add_inventory/update-activity'] = 'ChatController/update_activity';
+$route['SO_STORE/add_inventory/update-notification'] = 'ChatController/update_notification';
+$route['SO_STORE/add_inventory/check-activity'] = 'ChatController/check_activity';
+$route['SO_STORE/add_inventory/north/check-notification'] = 'ChatController/check_notification';
+
+$route['SO_STORE/add_inventory/north/update-activity'] = 'ChatController/update_activity';
+$route['SO_STORE/add_inventory/north/update-notification'] = 'ChatController/update_notification';
+$route['SO_STORE/add_inventory/north/check-activity'] = 'ChatController/check_activity';
+$route['SO_STORE/add_inventory/north/check-notification'] = 'ChatController/check_notification';
+
+$route['SO_STORE/add_inventory/south/update-activity'] = 'ChatController/update_activity';
+$route['SO_STORE/add_inventory/south/update-notification'] = 'ChatController/update_notification';
+$route['SO_STORE/add_inventory/south/check-activity'] = 'ChatController/check_activity';
+$route['SO_STORE/add_inventory/south/check-notification'] = 'ChatController/check_notification';
+
 $route['SO_STORE/update-activity'] = 'ChatController/update_activity';
 
 $route['check-notification'] = 'ChatController/check_notification';

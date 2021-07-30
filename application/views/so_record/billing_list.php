@@ -117,24 +117,24 @@
                                     </div>
 
                                     <div class="card-body bg-custom3">
-                                       
-                                            <div class="form-group row">
-                                                <div class="col-sm-4">
-                                                     <h6>Upladed Files:</h6> 
-                                                </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-4">
+                                                <h6>Upladed Files:</h6>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+
+                                            <div class="col-sm-4 mb-1" id="bill_detail" style="width:100%">
 
                                             </div>
 
-                                            <div class="form-group row">
+                                        </div>
 
-                                                <div class="col-sm-4 mb-1" id="bill_detail" style="width:100%">
-                                             
-                                                </div>
 
-                                            </div>
 
-                                       
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
 
 
         <div id="no_data" class="card-body bg-custom3" style="display:none">
-            
+
             <div class="row">
                 <div class="col-lg-12">
 
@@ -187,7 +187,7 @@
                         <div class="card-body">
                             <h5>No Data Available</h5>
                         </div>
-                        
+
                     </div>
 
                 </div>
@@ -205,8 +205,8 @@
                         </div>
 
                         <div class="card-body">
-                             <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_print/<?= $this->session->userdata('project_id') ?>'" style="float: right; margin-bottom: 10px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
-                                
+                            <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_print/<?= $this->session->userdata('project_id') ?>'" style="float: right; margin-bottom: 10px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
+
                             <div id="table_div">
                                 <?php if (count($project_bills) > 0) { ?>
                                     <table id="datatable" class="table table-striped" style="color:black;font-size:smaller;white-space:nowrap">
@@ -221,7 +221,14 @@
                                                 <th scope="col">Payment Made</th>
                                                 <th scope="col">Cheque No.</th>
                                                 <th scope="col">IT Deducted</th>
-                                                <th scope="col">Edit</th>
+                                                <?php $acct_type = $this->session->userdata('acct_type');
+                                                if ($acct_type != "admin_super") { ?>
+                                                    <?php if ($acct_type != "admin_north") { ?>
+                                                        <?php if ($acct_type != "admin_south") { ?>
+                                                            <th scope="col">Edit</th>
+                                                <?php }
+                                                    }
+                                                } ?>
                                                 <th scope="col">Files</th>
                                             </tr>
                                         </thead>
@@ -245,7 +252,7 @@
                                             <?php } ?> -->
                                         </tbody>
                                     </table>
-                                    <?php } else { ?>
+                                <?php } else { ?>
                                     <a> No Data Available yet </a>
                                 <?php } ?>
                             </div>
@@ -267,20 +274,27 @@
         </div>
 
         <div id="show_add_new_button" class="card-body bg-custom3" style="display:none">
-            
+
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
-                        <div class="form-group row my-2 justify-content-center">
-                            <div class="col-sm-4">
-                                <input type="hidden" name="project_id_selected" id="project_id_selected">
-                                <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill">
-                                    <i class="fas fa-plus"></i>
-                                    Add new Running Bill
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    <?php $acct_type = $this->session->userdata('acct_type');
+                    if ($acct_type != "admin_super") { ?>
+                        <?php if ($acct_type != "admin_north") { ?>
+                            <?php if ($acct_type != "admin_south") { ?>
+                                <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
+                                    <div class="form-group row my-2 justify-content-center">
+                                        <div class="col-sm-4">
+                                            <input type="hidden" name="project_id_selected" id="project_id_selected">
+                                            <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill">
+                                                <i class="fas fa-plus"></i>
+                                                Add new Running Bill
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            <?php } ?>
+                        <?php } ?>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -304,7 +318,7 @@
             $('#no_data').hide();
             $('#show_add_new_button').hide();
             $('#project_id_selected').val(project_id);
-            
+
             $.ajax({
                 url: '<?= base_url(); ?>SO_RECORD/get_running_bills_detail',
                 method: 'POST',
@@ -331,8 +345,14 @@
                                                     <td scope="row">PKR ${result[i]['payment_made']}</td>
                                                     <td scope="row">${result[i]['cheque_no']}</td>
                                                     <td scope="row">PKR ${result[i]['it_deducted']}</td>
-
+                                                    <?php $acct_type = $this->session->userdata('acct_type');
+                                                    if ($acct_type != "admin_super") { ?>
+                                                        <?php if ($acct_type != "admin_north") { ?>
+                                                            <?php if ($acct_type != "admin_south") { ?>
                                                     <td type="button" id="edit" class="edit" onclick="edit_bill(${result[i]['id']})" scope="row"><i class="fas fa-edit"></i></td>
+                                                            <?php } ?>
+                                                        <?php } ?>
+                                                    <?php } ?>
                                                     <td id="view" style="cursor:pointer" class="view" scope="row" onclick="view_detail(${result[i]['id']})" class="btn btn-primary btn-user rounded-pill" data-toggle="modal" data-target="#view_detail"><i class="fas fa-eye"></i></td>
 
                                                 </tr>`);
@@ -388,12 +408,12 @@
         });
     });
 
- function edit_bill(id) {
-       // alert('cadet id: ' + id);
-        location.href="<?= base_url()?>SO_RECORD/edit_bill/"+id;
+    function edit_bill(id) {
+        // alert('cadet id: ' + id);
+        location.href = "<?= base_url() ?>SO_RECORD/edit_bill/" + id;
     }
 
-     function view_detail(id) {
+    function view_detail(id) {
         // alert('cadet id: ' + id);
         $.ajax({
             url: '<?= base_url(); ?>SO_RECORD/view_bill_detail',
@@ -408,8 +428,8 @@
                 $("#bill_detail").empty();
                 if (len > 0) {
                     for (var i = 0; i < len; i++) {
-                      
-                        $("#bill_detail").append(`<a href="<?=base_url();?>uploads/project_billing/${result[i]}" style="font-weight:bold;color:black;white-space:nowrap">
+
+                        $("#bill_detail").append(`<a href="<?= base_url(); ?>uploads/project_billing/${result[i]}" style="font-weight:bold;color:black;white-space:nowrap">
                              ${result[i]}</a>`);
                     }
                 } else {

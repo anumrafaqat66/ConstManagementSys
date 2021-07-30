@@ -76,7 +76,7 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4 my-2">
         <h1 class="h3 mb-0 text-black-800"></h1>
-        <a onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
+        <a onclick="location.href='<?php echo base_url(); ?>SO_STORE/report_inventory/<?php echo $selected_region; ?>'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
     </div>
 
     <div class="card o-hidden my-4 border-0 shadow-lg">
