@@ -231,6 +231,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body" type="button" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/view_performance_security'">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                    Performance Security Letter</div>
+                                <div class="h6 mb-0 font-weight-bold text-gray-800">Total Letters: <?= $perform_letter_count['perform_letter_count'] ?></div>
+                            </div>
+                            <div class="col-auto">
+                                <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
+                                <i class="fas fa-file-alt fa-2x text-black-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 

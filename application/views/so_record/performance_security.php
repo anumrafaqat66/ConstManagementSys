@@ -225,6 +225,7 @@
                         </div>
 
                         <div class="card-body">
+                        <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/print_performance_security'" style="float: right; margin-bottom: 10px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
                             <div id="table_div">
                                 <?php if (count($letter_list) > 0) { ?>
                                     <table id="datatable" class="table table-striped" style="color:black;">
@@ -246,7 +247,6 @@
                                             <?php $count = 1;
                                             foreach ($letter_list as $data) { ?>
                                                 <tr>
-
                                                     <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                     <td scope="row" style="white-space:nowrap"><b><?= $data['Name']; ?></b></td>
                                                     <td scope="row" style="white-space:nowrap"><?= $data['amount']; ?></td>

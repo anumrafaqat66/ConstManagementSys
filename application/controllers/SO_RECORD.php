@@ -107,13 +107,11 @@ class SO_RECORD extends CI_Controller
     {
         $project_id = $_POST['project_id'];
         $this->session->set_userdata('project_id', $project_id);
-
         if ($this->session->userdata('acct_type') != 'admin_super') {
             $project_bills = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->result_array();
         } else {
             $project_bills = $this->db->where('project_id', $project_id)->get('project_bills')->result_array();
         }
-
         echo json_encode($project_bills);
     }
 
@@ -126,17 +124,14 @@ class SO_RECORD extends CI_Controller
         }
     }
 
-    public function edit_bill($project_id = null)
+    public function edit_bill($bill_id = null)
     {
         if ($this->session->has_userdata('user_id')) {
-
-            //$data['project_id'] = $_POST['project_id_selected'];
             if ($this->session->userdata('acct_type') != 'admin_super') {
-                $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->row_array();
+                $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('id', $bill_id)->get('project_bills')->row_array();
             } else {
-                $data['project_bills'] = $this->db->where('project_id', $project_id)->get('project_bills')->row_array();
+                $data['project_bills'] = $this->db->where('id', $bill_id)->get('project_bills')->row_array();
             }
-            //print_r($data['project_bills']);exit;
             $this->load->view('so_record/edit_bill', $data);
         }
     }
@@ -194,7 +189,50 @@ class SO_RECORD extends CI_Controller
         //print_r($insert_array);exit;
         $insert = $this->db->insert('project_bills', $insert_array);
 
+
         if (!empty($insert)) {
+
+            $project = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'add',
+                'activity_detail' => "Bill no: " . $bill_no . "  has been added against project: " . $project['Name'],
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s'),
+                'region' => $this->session->userdata('region')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            }
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no',
+                    'region' => $this->session->userdata('region')
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+            }
+
+
             $this->session->set_flashdata('success', 'Project Billing added successfully');
             redirect('SO_RECORD/show_bills');
         } else {
@@ -284,6 +322,47 @@ class SO_RECORD extends CI_Controller
         $insert = $this->db->update('project_bills', $update_array);
 
         if (!empty($insert)) {
+
+            $project = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'add',
+                'activity_detail' => "Bill no: " . $bill_no . "  has been updated against project: " . $project['Name'],
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s'),
+                'region' => $this->session->userdata('region')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            }
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no',
+                    'region' => $this->session->userdata('region')
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+            }
+
             $this->session->set_flashdata('success', 'Project Billing updated successfully');
             redirect('SO_RECORD/show_bills');
         } else {
@@ -317,6 +396,47 @@ class SO_RECORD extends CI_Controller
             }
         }
         if (!empty($insert)) {
+
+            $project = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'add',
+                'activity_detail' => "Allotment Letter has been added against project: " . $project['Name'],
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s'),
+                'region' => $this->session->userdata('region')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            }
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no',
+                    'region' => $this->session->userdata('region')
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+            }
+
             $this->session->set_flashdata('success', 'Allotment Record added successfully');
             redirect('SO_RECORD/show_letter_lists');
         } else {
@@ -351,6 +471,47 @@ class SO_RECORD extends CI_Controller
             }
         }
         if (!empty($insert)) {
+
+            $project = $this->db->where('ID', $project_id)->get('projects')->row_array();
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'add',
+                'activity_detail' => "Performance Security Letter has been added against project: " . $project['Name'],
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s'),
+                'region' => $this->session->userdata('region')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            }
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no',
+                    'region' => $this->session->userdata('region')
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+            }
+
             $this->session->set_flashdata('success', 'Performance Security Record added successfully');
             redirect('SO_RECORD/view_performance_security');
         } else {
@@ -482,9 +643,7 @@ class SO_RECORD extends CI_Controller
 
     public function view_inventory_detail($id = NULL)
     {
-
         if ($this->session->has_userdata('user_id')) {
-
             $this->db->select('id.id, i.Material_Name, id.Quantity, id.Price,i.Unit, id.stock_date, id.Status, id.cost_per_unit');
             $this->db->from('inventory i');
             $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
@@ -492,19 +651,15 @@ class SO_RECORD extends CI_Controller
             if ($this->session->userdata('acct_type') != 'admin_super') {
                 $this->db->where('i.region', $this->session->userdata('region'));
             }
-
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_record/inventory_detail', $data);
         }
     }
 
-
     public function bills_print($project_id = null)
     {
         if ($this->session->has_userdata('user_id')) {
-
             require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
-
             $options = new Options();
             $options->set('isRemoteEnabled', TRUE);
             $options->set('enable_html5_parser', TRUE);
@@ -524,9 +679,93 @@ class SO_RECORD extends CI_Controller
             $html = $this->load->view('so_record/bill_report', $data, TRUE); //$graph, TRUE);
 
             $dompdf->loadHtml($html);
-            // $customPaper = array(0,0,360,360);
-            // $dompdf->set_paper($customPaper);
             $dompdf->set_paper('A4', 'landscape');
+            $dompdf->render();
+
+            $output = $dompdf->output();
+            $doc_name = 'Project Bill Report.pdf';
+            file_put_contents($doc_name, $output);
+            redirect($doc_name);
+            //exit;
+        } else {
+            $this->load->view('userpanel/login');
+        }
+    }
+
+    public function print_performance_security()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $options->set('enable_html5_parser', TRUE);
+            $options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+            $dompdf = new Dompdf($options);
+            $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+            $id = $this->session->userdata('user_id');
+            // $data['project_name'] = $this->db->select('Name')->where('ID', $project_id)->get('projects')->row_array();
+
+            $this->db->select('psl.*,p.Name');
+            $this->db->from('project_performance_security_letter psl');
+            $this->db->join('projects p', 'p.ID = psl.project_id');
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('psl.region', $this->session->userdata('region'));
+            }
+            $data['project_record'] = $this->db->get()->result_array();
+            // if ($this->session->userdata('acct_type') != 'admin_super') {
+            //     $data['project_record'] = $this->db->where('region', $this->session->userdata('region'))->get('project_performance_security_letter')->result_array();
+            // } else {
+            //     $data['project_record'] = $this->db->get('project_performance_security_letter')->result_array();
+            // }
+
+            $html = $this->load->view('so_record/performance_security_report', $data, TRUE); //$graph, TRUE);
+
+            $dompdf->loadHtml($html);
+            // $dompdf->set_paper('A4', 'landscape');
+            $dompdf->render();
+
+            $output = $dompdf->output();
+            $doc_name = 'Performance Security letters.pdf';
+            file_put_contents($doc_name, $output);
+            redirect($doc_name);
+            //exit;
+        } else {
+            $this->load->view('userpanel/login');
+        }
+    }
+
+    public function print_allotment_letters()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $options->set('enable_html5_parser', TRUE);
+            $options->set('tempDir', $_SERVER['DOCUMENT_ROOT'] . '/pdf-export/tmp');
+            $dompdf = new Dompdf($options);
+            $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
+
+            $id = $this->session->userdata('user_id');
+            // $data['project_name'] = $this->db->select('Name')->where('ID', $project_id)->get('projects')->row_array();
+
+            $this->db->select('pal.*,p.Name');
+            $this->db->from('project_allotment_letter pal');
+            $this->db->join('projects p', 'p.ID = pal.project_id');
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $this->db->where('pal.region', $this->session->userdata('region'));
+            }
+            $data['project_record'] = $this->db->get()->result_array();
+            // if ($this->session->userdata('acct_type') != 'admin_super') {
+            //     $data['project_record'] = $this->db->where('region', $this->session->userdata('region'))->get('project_performance_security_letter')->result_array();
+            // } else {
+            //     $data['project_record'] = $this->db->get('project_performance_security_letter')->result_array();
+            // }
+
+            $html = $this->load->view('so_record/allotment_letter_report', $data, TRUE); //$graph, TRUE);
+
+            $dompdf->loadHtml($html);
+            // $dompdf->set_paper('A4', 'landscape');
             $dompdf->render();
 
             $output = $dompdf->output();

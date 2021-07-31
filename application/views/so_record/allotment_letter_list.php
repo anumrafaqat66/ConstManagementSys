@@ -234,6 +234,7 @@
                         </div>
 
                         <div class="card-body">
+                        <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/print_allotment_letters'" style="float: right; margin-bottom: 10px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
                             <div id="table_div">
                                 <?php if (count($letter_list) > 0) { ?>
                                     <table id="datatable" class="table table-striped" style="color:black;">

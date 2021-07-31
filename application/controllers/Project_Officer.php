@@ -308,7 +308,6 @@ class Project_Officer extends CI_Controller
                     $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
                 }
 
-
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
                         'activity_id' => $last_id,
@@ -317,6 +316,18 @@ class Project_Officer extends CI_Controller
                         'region' => $this->session->userdata('region')
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
                 }
 
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
@@ -401,8 +412,6 @@ class Project_Officer extends CI_Controller
             } else {
                 $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
             }
-            // print_r($query);exit;
-            // $user_count= $query->num_rows();
 
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
@@ -412,6 +421,18 @@ class Project_Officer extends CI_Controller
                     'region' => $this->session->userdata('region')
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
             }
 
             $this->session->set_flashdata('success', 'Record Updated successfully');
@@ -459,8 +480,6 @@ class Project_Officer extends CI_Controller
             } else {
                 $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
             }
-            // print_r($query);exit;
-            // $user_count= $query->num_rows();
 
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
@@ -471,6 +490,19 @@ class Project_Officer extends CI_Controller
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+            }
+
             $this->session->set_flashdata('success', 'Record Updated successfully');
             redirect('Project_Officer/add_contractors');
         } else {
@@ -548,6 +580,19 @@ class Project_Officer extends CI_Controller
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
+
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+                }
+
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
                 redirect('Project_Officer/add_projects');
             } else {

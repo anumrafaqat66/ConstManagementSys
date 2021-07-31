@@ -46,7 +46,7 @@ class SO_CW extends CI_Controller
         }
     }
 
-      public function report_project_schedule($project_id=null)
+    public function report_project_schedule($project_id = null)
     {
         if ($this->session->has_userdata('user_id')) {
 
@@ -64,7 +64,7 @@ class SO_CW extends CI_Controller
             $this->db->select('*');
             $this->db->from('project_schedule');
             $this->db->where('project_id', $project_id);
-           // $this->db->where('Created_by', $this->session->userdata('username'));
+            // $this->db->where('Created_by', $this->session->userdata('username'));
             if ($this->session->userdata('acct_type') != 'admin_super') {
                 $this->db->where('region', $this->session->userdata('region'));
             }
@@ -111,8 +111,8 @@ class SO_CW extends CI_Controller
         }
     }
 
-    
-       public function report_project_progress($project_id=null)
+
+    public function report_project_progress($project_id = null)
     {
         if ($this->session->has_userdata('user_id')) {
 
@@ -130,7 +130,7 @@ class SO_CW extends CI_Controller
             $this->db->select('*');
             $this->db->from('project_progress');
             $this->db->where('project_id', $project_id);
-           // $this->db->where('Created_by', $this->session->userdata('username'));
+            // $this->db->where('Created_by', $this->session->userdata('username'));
             if ($this->session->userdata('acct_type') != 'admin_super') {
                 $this->db->where('region', $this->session->userdata('region'));
             }
@@ -191,6 +191,18 @@ class SO_CW extends CI_Controller
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+            }
         }
 
         echo $success;
@@ -237,6 +249,18 @@ class SO_CW extends CI_Controller
                     'region' => $this->session->userdata('region')
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
             }
         }
 
@@ -353,6 +377,18 @@ class SO_CW extends CI_Controller
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
+
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+                }
             }
         }
     }
@@ -442,6 +478,18 @@ class SO_CW extends CI_Controller
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
+
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+                }
             }
 
             if (!empty($insert)) {
@@ -518,6 +566,18 @@ class SO_CW extends CI_Controller
                         'region' => $this->session->userdata('region')
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
                 }
             }
 
@@ -598,6 +658,18 @@ class SO_CW extends CI_Controller
                         'region' => $this->session->userdata('region')
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
                 }
             }
 

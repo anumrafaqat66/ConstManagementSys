@@ -20,34 +20,30 @@
   <div style="height:200px; text-align:center">
     <img class="img-logo" src="<?= base_url() ?>assets/img/navy_logo.png" alt="">
     <h1><strong>NHS PMS</strong></h1>
-    <h2><strong>Billing Detail of</strong></h2>
-    <h2><strong><?= $project_name['Name'] ?></strong></h2>
+    <h2><strong>Performance Security Letters</strong></h2>
+    <!-- <h2><strong><?= $project_name['Name'] ?></strong></h2> -->
     <hr style="border-top: 1px solid black">
   </div>
 </div>
 
-<p><br>Following are the Billing details of the project:</p>
+<p><br>Following are the List of performance Security Letters:</p>
 <hr>
 
 <div id="table_div">
   <?php if (count($project_record) > 0) { ?>
-    <table id="datatable" class="table table-bordered" style="color:black;font-size:xx-small;">
+    <table id="datatable" class="table table-bordered" style="color:black;font-size:small;">
       <thead style="background-color:lightgray">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Date</th>
-          <th scope="col">Bill No.</th>
-          <th scope="col">Gross Work Done</th>
-          <th scope="col">WD in Bill</th>
-          <th scope="col">R/M Deducted</th>
-          <th scope="col">Payment Made</th>
-          <th scope="col">Cheque No.</th>
-          <th scope="col">IT Deducted</th>
-          <th scope="col">Contract Amount</th>
-          <th scope="col">Paid Till Last Bill</th>
-          <th scope="col">Claim Amount</th>
-          <th scope="col">Verified Amount</th>
-          <!-- <th scope="col">Files</th> -->
+          <th scope="col">S.No.</th>
+          <th scope="col" style="white-space:nowrap">Project Name</th>
+          <th scope="col" style="white-space:nowrap">Amount</th>
+          <th scope="col" style="white-space:nowrap">Validity Date</th>
+          <th scope="col" style="white-space:nowrap">Issuing Authority</th>
+          <th scope="col">File Name</th>
+          <!-- <th scope="col">View</th> -->
+          <?php if ($this->session->userdata('acct_type') == "admin_super") { ?>
+            <th scope="col">Region</th>
+          <?php } ?>
         </tr>
       </thead>
       <tbody id="table_rows_project">
@@ -57,18 +53,15 @@
         ?>
           <tr>
             <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
-            <td scope="row" style='white-space: nowrap;'><?= $data['date_added']; ?></td>
-            <td scope="row" style='white-space: nowrap;'><?= $data['bill_name']; ?></td>
-            <td scope="row" style='white-space: nowrap;'>PKR. <?= $data['gross_work_done']; ?></td>
-            <td scope="row"><?= $data['wd_in_bill']; ?></td>
-            <td scope="row"><?= $data['rm_deducted']; ?></td>
-            <td scope="row"><?= $data['payment_made']; ?></td>
-            <td scope="row" style=""><?= $data['cheque_no']; ?></td>
-            <td scope="row"><?= $data['it_deducted']; ?></td>
-            <td scope="row"><?= $data['contract_amount']; ?></td>
-            <td scope="row"><?= $data['paid_till_last_bill']; ?></td>
-            <td scope="row"><?= $data['claim_amount']; ?></td>
-            <td scope="row"><?= $data['verified_amount']; ?></td>
+            <td scope="row" style="white-space:nowrap"><b><?= $data['Name']; ?></b></td>
+            <td scope="row" style="white-space:nowrap"><?= $data['amount']; ?></td>
+            <td scope="row" style="white-space:nowrap"><?= $data['validity_date']; ?></td>
+            <td scope="row" style="white-space:nowrap"><?= $data['issued_by']; ?></td>
+            <td scope="row"><?= $data['file_name']; ?></td>
+            <!-- <td type="button" class="edit" scope="row"><a style="color:black;" href="<?= base_url(); ?>uploads/performance_security_letter/<?= $data['file_name']; ?>"><i style="margin-left: 10px;" class="fas fa-eye"></i></a></td> -->
+            <?php if ($this->session->userdata('acct_type') == "admin_super") { ?>
+              <td scope="row"><?= $data['region']; ?></td>
+            <?php } ?>
           </tr>
         <?php
           $count++;

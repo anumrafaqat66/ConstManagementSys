@@ -158,6 +158,18 @@ class SO_STORE extends CI_Controller
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
 
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+                }
+
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
                 redirect('SO_STORE/add_inventory');
             } else {
@@ -226,6 +238,18 @@ class SO_STORE extends CI_Controller
                         'region' => $this->session->userdata('region')
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
                 }
 
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
@@ -336,6 +360,18 @@ class SO_STORE extends CI_Controller
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
 
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+            }
+
             $this->session->set_flashdata('success', 'Material Updated successfully');
             redirect('SO_STORE/add_inventory');
         } else {
@@ -408,7 +444,7 @@ class SO_STORE extends CI_Controller
     public function report_inventory($selected_region = NULL)
     {
         if ($this->session->has_userdata('user_id')) {
-            
+
             require_once APPPATH . 'third_party/dompdf/vendor/autoload.php';
 
             $options = new Options();

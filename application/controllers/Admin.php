@@ -20,6 +20,7 @@ class Admin extends CI_Controller
                 $data['price'] = $this->db->select('sum(Material_Total_Price) as sum_price')->get('inventory')->row_array();
                 $data['allot_letter_count'] = $this->db->select('count(*) as allotment_letter_count')->get('project_allotment_letter')->row_array();
                 $data['bill_count'] = $this->db->select('count(*) as bill_count')->get('project_bills')->row_array();
+                $data['perform_letter_count'] = $this->db->select('count(*) as perform_letter_count')->get('project_performance_security_letter')->row_array();
                 $data['projects_records'] = $this->db->get('projects')->result_array();
             } else {
                 $data['projects'] = $this->db->select('count(*) as total_project')->where('region',$region)->get('projects')->row_array();
@@ -28,6 +29,7 @@ class Admin extends CI_Controller
                 $data['price'] = $this->db->select('sum(Material_Total_Price) as sum_price')->where('region',$region)->get('inventory')->row_array();
                 $data['allot_letter_count'] = $this->db->select('count(*) as allotment_letter_count')->where('region',$region)->get('project_allotment_letter')->row_array();
                 $data['bill_count'] = $this->db->select('count(*) as bill_count')->where('region',$region)->get('project_bills')->row_array();
+                $data['perform_letter_count'] = $this->db->select('count(*) as perform_letter_count')->where('region',$region)->get('project_performance_security_letter')->row_array();
                 $data['projects_records'] = $this->db->where('region',$region)->get('projects')->result_array();
             }
             $this->load->view('Admin/admin', $data);

@@ -209,7 +209,7 @@
 
                             <div id="table_div">
                                 <?php if (count($project_bills) > 0) { ?>
-                                    <table id="datatable" class="table table-striped" style="color:black;font-size:smaller;white-space:nowrap">
+                                    <table id="datatable" class="table table-striped" style="color:black;font-size:x-small;">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
@@ -221,6 +221,10 @@
                                                 <th scope="col">Payment Made</th>
                                                 <th scope="col">Cheque No.</th>
                                                 <th scope="col">IT Deducted</th>
+                                                <th scope="col">Contract Amount</th>
+                                                <th scope="col">Paid till Last Bill</th>
+                                                <th scope="col">Claimed Amount</th>
+                                                <th scope="col">Verified Amount</th>
                                                 <?php $acct_type = $this->session->userdata('acct_type');
                                                 if ($acct_type != "admin_super") { ?>
                                                     <?php if ($acct_type != "admin_north") { ?>
@@ -337,7 +341,7 @@
                         for (var i = 0; i < len; i++) {
                             $('#table_rows').append(` <tr>
                                                     <td scope="row">${i+1}</td>
-                                                    <td id="material" scope="row">${result[i]['date_added']}</td>
+                                                    <td id="material" scope="row" style="white-space:nowrap">${result[i]['date_added']}</td>
                                                     <td id="quant" class="quant" scope="row">${result[i]['bill_name']}</td>
                                                     <td scope="row">PKR ${result[i]['gross_work_done']}</td>
                                                     <td scope="row">PKR ${result[i]['wd_in_bill']}</td>
@@ -345,6 +349,10 @@
                                                     <td scope="row">PKR ${result[i]['payment_made']}</td>
                                                     <td scope="row">${result[i]['cheque_no']}</td>
                                                     <td scope="row">PKR ${result[i]['it_deducted']}</td>
+                                                    <td scope="row">PKR ${result[i]['contract_amount']}</td>
+                                                    <td scope="row">PKR ${result[i]['paid_till_last_bill']}</td>
+                                                    <td scope="row">PKR ${result[i]['claim_amount']}</td>
+                                                    <td scope="row">PKR ${result[i]['verified_amount']}</td>
                                                     <?php $acct_type = $this->session->userdata('acct_type');
                                                     if ($acct_type != "admin_super") { ?>
                                                         <?php if ($acct_type != "admin_north") { ?>
@@ -394,11 +402,7 @@
         });
     }
 
-
-
-
     $('#notifications').focusout(function() {
-        // alert('notification clicked');
         $.ajax({
             url: '<?= base_url(); ?>ChatController/activity_seen',
             success: function(data) {
@@ -409,12 +413,10 @@
     });
 
     function edit_bill(id) {
-        // alert('cadet id: ' + id);
         location.href = "<?= base_url() ?>SO_RECORD/edit_bill/" + id;
     }
 
     function view_detail(id) {
-        // alert('cadet id: ' + id);
         $.ajax({
             url: '<?= base_url(); ?>SO_RECORD/view_bill_detail',
             method: 'POST',
