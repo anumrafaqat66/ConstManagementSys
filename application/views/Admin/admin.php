@@ -119,14 +119,14 @@
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body" type="button" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_projects'">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                            <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
                                 Projects
                             </div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Projects: <?= $projects['total_project'] ?></div>
+                            <!-- <div class="h6 mb-0 font-weight-bold text-gray-800">Total Projects: <?= $projects['total_project'] ?></div> -->
                         </div>
                         <div class="col-auto">
                             <!-- <i class="fas fa-calendar fa-2x text-gray-300"></i> -->
@@ -139,13 +139,13 @@
 
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body" type="button" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_contractors'">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                            <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
                                 Contractors</div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">Total Contractors: <?= $contractors['total_contractors'] ?></div>
+                            <!-- <div class="h6 mb-0 font-weight-bold text-gray-800">Total Contractors: <?= $contractors['total_contractors'] ?></div> -->
                         </div>
                         <div class="col-auto">
                             <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -157,7 +157,7 @@
         </div>
 
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <?php $acct_type = $this->session->userdata('acct_type');
                 if ($acct_type != "admin_super") { ?>
                     <div class="card-body" type="button" onclick="location.href='<?php echo base_url(); ?>SO_STORE/add_inventory'">
@@ -166,10 +166,10 @@
                         <?php } ?>
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
                                     Inventory
                                 </div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">Available: <?= $quantity['sum_qty']; ?></div>
+                                <!-- <div class="h6 mb-0 font-weight-bold text-gray-800">Available: <?= $quantity['sum_qty']; ?></div> -->
                             </div>
                             <div class="col-auto">
                                 <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -181,13 +181,13 @@
             </div>
 
             <div class="col-xl-4 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body" type="button" onclick="location.href='<?php echo base_url(); ?>SO_STORE/view_projects'">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
                                     Material Used</div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">Total Cost: PKR. <?= $price['sum_price']; ?></div>
+                                <!-- <div class="h6 mb-0 font-weight-bold text-gray-800">Total Cost: PKR. <?= $price['sum_price']; ?></div> -->
                             </div>
                             <div class="col-auto">
                                 <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -198,13 +198,13 @@
                 </div>
             </div>
             <div class="col-xl-4 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body" type="button" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_letter_lists'">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
                                     Allotment Records</div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">Total Letters: <?= $allot_letter_count['allotment_letter_count'] ?></div>
+                                <!-- <div class="h6 mb-0 font-weight-bold text-gray-800">Total Letters: <?= $allot_letter_count['allotment_letter_count'] ?></div> -->
                             </div>
                             <div class="col-auto">
                                 <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -215,13 +215,13 @@
                 </div>
             </div>
             <div class="col-xl-4 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body" type="button" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_bills'">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
                                     Finance Department</div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">Total Running Bills: <?= $bill_count['bill_count'] ?></div>
+                                <!-- <div class="h6 mb-0 font-weight-bold text-gray-800">Total Running Bills: <?= $bill_count['bill_count'] ?></div> -->
                             </div>
                             <div class="col-auto">
                                 <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -232,13 +232,13 @@
                 </div>
             </div>
             <div class="col-xl-4 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body" type="button" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/view_performance_security'">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
                                     Performance Security Letter</div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">Total Letters: <?= $perform_letter_count['perform_letter_count'] ?></div>
+                                <!-- <div class="h6 mb-0 font-weight-bold text-gray-800">Total Letters: <?= $perform_letter_count['perform_letter_count'] ?></div> -->
                             </div>
                             <div class="col-auto">
                                 <!-- <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> -->
@@ -248,9 +248,6 @@
                     </div>
                 </div>
             </div>
-
-
-
 
         </div>
 

@@ -104,7 +104,7 @@
                                                 <input type="date" class="form-control form-control-user" name="event_start_date" id="event_start_date" placeholder="Start Date" readonly>
                                             </div>
                                             <div class="col-sm-4 mb-1">
-                                                <input type="date" class="form-control form-control-user" name="event_end_date" id="event_end_date" placeholder="End Date" readonly>
+                                                <input type="date" class="form-control form-control-user" name="event_end_date" id="event_end_date" placeholder="End Date">
                                             </div>
 
                                         </div>
@@ -244,7 +244,6 @@
     <!-- <div class="col-md-12 img">
      </div> -->
 
-
     <!-- <div class="response"></div> -->
     <div class="col-lg-12">
         <div id="event_alert" class="alert alert-success" role="alert" style="display:none">
@@ -253,7 +252,6 @@
     </div>
 
     <div id='calendar'></div>
-
 
     <form class="user" role="form" method="post" id="add_form">
 
@@ -264,7 +262,6 @@
                         Task deleted successfully!!
                     </div>
                 </div>
-
 
                 <div class="col-lg-12">
 
@@ -421,6 +418,10 @@
             validate = 1;
             $('#add_event_desc').addClass('red-border');
         }
+        if (event_end == '') {
+            validate = 1;
+            $('#event_end_date').addClass('red-border');
+        }
 
         if (validate == 0) {
             $('#show_error_add').hide();
@@ -497,7 +498,7 @@
                     if (user == 'SO_CW') {
                         $('#new_schedule').modal('show');
                         $('#event_start_date').val(startDate);
-                        $('#event_end_date').val(endDate);
+                        // $('#event_end_date').val(endDate);
                     }
                 }
             },

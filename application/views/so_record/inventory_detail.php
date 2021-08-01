@@ -49,8 +49,8 @@
                                                 foreach ($inventory_detail_records as $data) { ?>
                                                  <tr>
                                                      <td scope="row"><?= ++$count ?></td>
-                                                     <td id="material<?= $data['id']; ?>" scope="row"><?= $data['Material_Name']; ?></td>
-                                                     <td id="quant<?= $data['id']; ?>" class="quant" scope="row"><?= $data['Quantity']; ?></td>
+                                                     <td id="material<?= $data['Material_id']; ?>" scope="row"><?= $data['Material_Name']; ?></td>
+                                                     <td id="quant<?= $data['Material_id']; ?>" class="quant" scope="row"><?= $data['Quantity_used']; ?></td>
                                                      <td scope="row">PKR. <?= $data['cost_per_unit']; ?></td>
                                                      <td scope="row">PKR. <?= $data['Price']; ?></td>
                                                      <td scope="row"><?= $data['Unit']; ?></td>

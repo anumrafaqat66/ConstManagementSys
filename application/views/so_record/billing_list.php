@@ -120,7 +120,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-sm-4">
-                                                <h6>Upladed Files:</h6>
+                                                <h6>Uploaded Files:</h6>
                                             </div>
 
                                         </div>
@@ -212,9 +212,9 @@
                                     <table id="datatable" class="table table-striped" style="color:black;font-size:x-small;">
                                         <thead>
                                             <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Date</th>
+                                                <!-- <th scope="col">#</th> -->
                                                 <th scope="col">Bill No.</th>
+                                                <th scope="col">Date</th>
                                                 <th scope="col">Gross Work Done</th>
                                                 <th scope="col">WD in Bill</th>
                                                 <th scope="col">R/M Deducted</th>
@@ -225,6 +225,7 @@
                                                 <th scope="col">Paid till Last Bill</th>
                                                 <th scope="col">Claimed Amount</th>
                                                 <th scope="col">Verified Amount</th>
+                                                <th scope="col">Material Used Cost</th>
                                                 <?php $acct_type = $this->session->userdata('acct_type');
                                                 if ($acct_type != "admin_super") { ?>
                                                     <?php if ($acct_type != "admin_north") { ?>
@@ -332,17 +333,17 @@
                 success: function(data) {
 
                     var result = jQuery.parseJSON(data);
-                    var len = data.length;
-
-                    if (len > 2) {
+                    var len = result.length;
+                
+                    if (len > 0) {
                         $('#add_new').show();
                         $('#show_add_new_button').show();
                         $('#table_rows').empty();
                         for (var i = 0; i < len; i++) {
                             $('#table_rows').append(` <tr>
-                                                    <td scope="row">${i+1}</td>
-                                                    <td id="material" scope="row" style="white-space:nowrap">${result[i]['date_added']}</td>
-                                                    <td id="quant" class="quant" scope="row">${result[i]['bill_name']}</td>
+                                                    <!-- <td scope="row">${i+1}</td> -->
+                                                    <td type="button" scope="row" style="font-weight:900;cursor:pointer" onclick="view_bill(${result[i]['id']})">${result[i]['bill_name']}</td>
+                                                    <td id="material" scope="row">${result[i]['date_added']}</td>
                                                     <td scope="row">PKR ${result[i]['gross_work_done']}</td>
                                                     <td scope="row">PKR ${result[i]['wd_in_bill']}</td>
                                                     <td scope="row">PKR ${result[i]['rm_deducted']}</td>
@@ -353,6 +354,7 @@
                                                     <td scope="row">PKR ${result[i]['paid_till_last_bill']}</td>
                                                     <td scope="row">PKR ${result[i]['claim_amount']}</td>
                                                     <td scope="row">PKR ${result[i]['verified_amount']}</td>
+                                                    <td scope="row">PKR ${result[i]['total_cost_material_used']}</td>
                                                     <?php $acct_type = $this->session->userdata('acct_type');
                                                     if ($acct_type != "admin_super") { ?>
                                                         <?php if ($acct_type != "admin_north") { ?>
@@ -414,6 +416,10 @@
 
     function edit_bill(id) {
         location.href = "<?= base_url() ?>SO_RECORD/edit_bill/" + id;
+    }
+
+    function view_bill(id) {
+        location.href = "<?= base_url() ?>SO_RECORD/view_bill/" + id;
     }
 
     function view_detail(id) {

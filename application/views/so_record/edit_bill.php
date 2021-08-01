@@ -236,23 +236,23 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-6">
                                                     <h6>&nbsp;Attach Bill Files:</h6>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <h6>&nbsp;Total Cost of Material Used:</h6>
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group row">
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-6 mb-1">
                                                     <input type="file" id="your_btn" multiple="multiple" name="project_billing[]" id="project_billing">
                                                 </div>
 
-                                              <!--   <div class="col-sm-4 mb-1">
-                                                    <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
+                                                <div class="col-sm-6 mb-1">
+                                                    <input type="number" class="form-control form-control-user" name="material_used" value="<?= $project_bills['total_cost_material_used'] ?>" id="material_used" placeholder="Verfied Amount">
                                                 </div>
-                                                <div class="col-sm-4 mb-1">
-                                                    <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
-                                                </div> -->
                                             </div>
                                               <label> <?= $project_bills['bill_file_attach_1'] ?> </label>
 
@@ -260,7 +260,7 @@
                                                 <div class="col-sm-4">
                                                     <button type="button" class="btn btn-primary btn-user btn-block" name="file_upload" id="file_upload">
                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                        Save Bill Data
+                                                        Update Bill Data
                                                     </button>
                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                 </div>

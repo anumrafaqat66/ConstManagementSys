@@ -118,8 +118,14 @@ class SO_RECORD extends CI_Controller
     public function add_new_bill($projectid = null)
     {
         if ($this->session->has_userdata('user_id')) {
-
             $data['project_id'] = $_POST['project_id_selected'];
+            $data['material_cost_used'] = $this->db->select('sum(Price) as total_cost')->where('Material_used_by_Project',$data['project_id'])->get('inventory_used')->row_array();
+            $data['material_cost_used_previous_bills'] = $this->db->select('sum(total_cost_material_used) as total_cost_billed')->where('project_id',$data['project_id'])->get('project_bills')->row_array();
+
+            $total_cost =  $data['material_cost_used']['total_cost'];
+            $total_cost_billed =  is_null($data['material_cost_used_previous_bills']['total_cost_billed']) ? 0 : $data['material_cost_used_previous_bills']['total_cost_billed'];
+
+            $data['remaining_total_cost_material_used'] = $total_cost - $total_cost_billed;
             $this->load->view('so_record/add_new_bill', $data);
         }
     }
@@ -133,6 +139,18 @@ class SO_RECORD extends CI_Controller
                 $data['project_bills'] = $this->db->where('id', $bill_id)->get('project_bills')->row_array();
             }
             $this->load->view('so_record/edit_bill', $data);
+        }
+    }
+
+    public function view_bill($bill_id = null)
+    {
+        if ($this->session->has_userdata('user_id')) {
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('id', $bill_id)->get('project_bills')->row_array();
+            } else {
+                $data['project_bills'] = $this->db->where('id', $bill_id)->get('project_bills')->row_array();
+            }
+            $this->load->view('so_record/view_bill', $data);
         }
     }
 
@@ -158,6 +176,7 @@ class SO_RECORD extends CI_Controller
         $paid_till_last_bill = $postData['last_bill_paid'];
         $claim_amount = $postData['claim_amt'];
         $verified_amount = $postData['verify_amt'];
+        $total_cost_of_material = $postData['material_used'];
 
 
         $upload1 = $this->upload_billing($_FILES['project_billing']);
@@ -169,7 +188,6 @@ class SO_RECORD extends CI_Controller
         }
 
         $insert_array = array(
-
             'project_id' => $project_id,
             'bill_name' => $bill_no,
             'gross_work_done' => $gross_work_done,
@@ -184,6 +202,7 @@ class SO_RECORD extends CI_Controller
             'claim_amount' => $claim_amount,
             'verified_amount' => $verified_amount,
             'bill_file_attach_1' => $files,
+            'total_cost_material_used' => $total_cost_of_material,
             'region' => $this->session->userdata('region')
         );
         //print_r($insert_array);exit;
@@ -644,12 +663,15 @@ class SO_RECORD extends CI_Controller
     public function view_inventory_detail($id = NULL)
     {
         if ($this->session->has_userdata('user_id')) {
-            $this->db->select('id.id, i.Material_Name, id.Quantity, id.Price,i.Unit, id.stock_date, id.Status, id.cost_per_unit');
-            $this->db->from('inventory i');
-            $this->db->join('inventory_detail id', 'i.ID = id.Material_ID');
-            $this->db->where('Material_id', $id);
+            // $this->db->select('id.Material_id, i.Material_Name, id.Quantity, id.Price,i.Unit, id.stock_date, id.Status, id.cost_per_unit');
+            $this->db->select('inventory_used.*,projects.*,inventory_detail.*,inventory.Material_Name, inventory_used.status as inv_used_status,inventory.Unit');
+            $this->db->from('inventory_used');
+            $this->db->join('projects', 'projects.ID = inventory_used.Material_used_by_Project');
+            $this->db->join('inventory', 'inventory.ID = inventory_used.Material_id');
+            $this->db->join('inventory_detail', 'inventory_detail.Material_ID = inventory_used.Material_id');
+            $this->db->where('Material_used_by_Project', $id);
             if ($this->session->userdata('acct_type') != 'admin_super') {
-                $this->db->where('i.region', $this->session->userdata('region'));
+                $this->db->where('inventory_used.region', $this->session->userdata('region'));
             }
             $data['inventory_detail_records'] = $this->db->get()->result_array();
             $this->load->view('so_record/inventory_detail', $data);
@@ -746,8 +768,7 @@ class SO_RECORD extends CI_Controller
             $dompdf = new Dompdf($options);
             $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
 
-            $id = $this->session->userdata('user_id');
-            // $data['project_name'] = $this->db->select('Name')->where('ID', $project_id)->get('projects')->row_array();
+            $id = $this->session->userdata('user_id'); 
 
             $this->db->select('pal.*,p.Name');
             $this->db->from('project_allotment_letter pal');
@@ -756,23 +777,13 @@ class SO_RECORD extends CI_Controller
                 $this->db->where('pal.region', $this->session->userdata('region'));
             }
             $data['project_record'] = $this->db->get()->result_array();
-            // if ($this->session->userdata('acct_type') != 'admin_super') {
-            //     $data['project_record'] = $this->db->where('region', $this->session->userdata('region'))->get('project_performance_security_letter')->result_array();
-            // } else {
-            //     $data['project_record'] = $this->db->get('project_performance_security_letter')->result_array();
-            // }
-
             $html = $this->load->view('so_record/allotment_letter_report', $data, TRUE); //$graph, TRUE);
-
             $dompdf->loadHtml($html);
-            // $dompdf->set_paper('A4', 'landscape');
             $dompdf->render();
-
             $output = $dompdf->output();
             $doc_name = 'Project Bill Report.pdf';
             file_put_contents($doc_name, $output);
             redirect($doc_name);
-            //exit;
         } else {
             $this->load->view('userpanel/login');
         }

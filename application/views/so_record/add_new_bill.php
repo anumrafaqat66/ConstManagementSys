@@ -236,21 +236,22 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-6">
                                                     <h6>&nbsp;Attach Bill Files:</h6>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <h6>&nbsp;Total Cost of Material Used:</h6>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-6 mb-1">
                                                     <input type="file" id="your_btn" multiple="multiple" name="project_billing[]" id="project_billing">
                                                 </div>
-                                                <!--   <div class="col-sm-4 mb-1">
-                                                    <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
+
+                                                <div class="col-sm-6 mb-1">
+                                                    <input type="number" class="form-control form-control-user" name="material_used" id="material_used" value=<?= $remaining_total_cost_material_used ?> placeholder="Cost of Material Used" readonly>
                                                 </div>
-                                                <div class="col-sm-4 mb-1">
-                                                    <input type="file" id="your_btn" multiple="multiple" name="project_allotment_letter[]">
-                                                </div> -->
                                             </div>
 
                                             <div class="form-group row justify-content-center">

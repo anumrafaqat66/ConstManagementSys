@@ -34,9 +34,9 @@
     <table id="datatable" class="table table-bordered" style="color:black;font-size:xx-small;">
       <thead style="background-color:lightgray">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Date</th>
+          <!-- <th scope="col">#</th> -->
           <th scope="col">Bill No.</th>
+          <th scope="col">Date</th>
           <th scope="col">Gross Work Done</th>
           <th scope="col">WD in Bill</th>
           <th scope="col">R/M Deducted</th>
@@ -47,6 +47,7 @@
           <th scope="col">Paid Till Last Bill</th>
           <th scope="col">Claim Amount</th>
           <th scope="col">Verified Amount</th>
+          <th scope="col">Material Used Cost</th>
           <!-- <th scope="col">Files</th> -->
         </tr>
       </thead>
@@ -56,9 +57,9 @@
           //$diff = date_diff(date_create($data['schedule_start_date']), date_create($data['schedule_end_date'])); 
         ?>
           <tr>
-            <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
-            <td scope="row" style='white-space: nowrap;'><?= $data['date_added']; ?></td>
+            <!-- <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td> -->
             <td scope="row" style='white-space: nowrap;'><?= $data['bill_name']; ?></td>
+            <td scope="row" style='white-space: nowrap;'><?= $data['date_added']; ?></td>
             <td scope="row" style='white-space: nowrap;'>PKR. <?= $data['gross_work_done']; ?></td>
             <td scope="row"><?= $data['wd_in_bill']; ?></td>
             <td scope="row"><?= $data['rm_deducted']; ?></td>
@@ -69,6 +70,7 @@
             <td scope="row"><?= $data['paid_till_last_bill']; ?></td>
             <td scope="row"><?= $data['claim_amount']; ?></td>
             <td scope="row"><?= $data['verified_amount']; ?></td>
+            <td scope="row"><?= $data['total_cost_material_used']; ?></td>
           </tr>
         <?php
           $count++;

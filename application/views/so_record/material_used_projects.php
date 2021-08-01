@@ -149,7 +149,7 @@
                                                  <!-- <th scope="col">Total Cost</th> -->
                                                  <th scope="col">Status</th>
                                                  <!-- <th scope="col">Add Material Record</th> -->
-                                                 <th scope="col">View Material Details</th>
+                                                 <th scope="col">View Material Used Details</th>
 
                                              </tr>
                                          </thead>
@@ -164,7 +164,7 @@
                                                      <!-- <td scope="row">PKR. <?= $data['Total_Cost']; ?></td> -->
                                                      <td scope="row"><?= $data['Status']; ?></td>
                                                      <!-- <td type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 75px;" class="fas fa-edit"></i></td> -->
-                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_RECORD/view_inventory_detail/<?= $data['ID'] ?>" style="color:black"><i style="margin-left: 65px;" class="fas fa-eye"></i></a></td>
+                                                     <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_RECORD/view_inventory_detail/<?= $data['ID'] ?>" style="color:black"><i style="margin-left: 85px;" class="fas fa-eye"></i></a></td>
 
                                                  </tr>
                                              <?php } ?>

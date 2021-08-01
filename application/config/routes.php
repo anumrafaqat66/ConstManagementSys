@@ -142,6 +142,11 @@ $route['SO_RECORD/edit_bill/update-notification'] = 'ChatController/update_notif
 $route['SO_RECORD/edit_bill/check-activity'] = 'ChatController/check_activity';
 $route['SO_RECORD/edit_bill/check-notification'] = 'ChatController/check_notification';
 
+$route['SO_RECORD/view_bill/update-activity'] = 'ChatController/update_activity';
+$route['SO_RECORD/view_bill/update-notification'] = 'ChatController/update_notification';
+$route['SO_RECORD/view_bill/check-activity'] = 'ChatController/check_activity';
+$route['SO_RECORD/view_bill/check-notification'] = 'ChatController/check_notification';
+
 $route['SO_STORE/add_inventory/update-activity'] = 'ChatController/update_activity';
 $route['SO_STORE/add_inventory/update-notification'] = 'ChatController/update_notification';
 $route['SO_STORE/add_inventory/check-activity'] = 'ChatController/check_activity';
