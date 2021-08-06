@@ -194,18 +194,18 @@
             </div>
         </div>
 
-        <div id="add_new" class="card-body bg-custom3" style="display:none">
+        <div id="add_new" class="card-body bg-custom3" style="display:none; padding:16px">
             <!-- Nested Row within Card Body -->
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12" style="padding:0px">
 
-                    <div class="card bg-custom3">
+                    <!-- <div class="card bg-custom3"> -->
                         <div class="card-header bg-custom1">
                             <h1 class="h4">Billing Details</h1>
                         </div>
 
-                        <div class="card-body">
-                            <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_print/<?= $this->session->userdata('project_id') ?>'" style="float: right; margin-bottom: 10px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
+                        <!-- <div class="card-body"> -->
+                            <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_print/<?= $this->session->userdata('project_id') ?>'" style="float: right; margin-bottom:6px; margin-top:5px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
 
                             <div id="table_div">
                                 <?php if (count($project_bills) > 0) { ?>
@@ -261,19 +261,8 @@
                                     <a> No Data Available yet </a>
                                 <?php } ?>
                             </div>
-                        </div>
-                    </div>
-                    <!-- <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill">
-                        <div class="form-group row my-2 justify-content-center">
-                            <div class="col-sm-4">
-                                <input type="hidden" name="project_id_selected" id="project_id_selected">
-                                <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill">
-                                    <i class="fas fa-plus"></i>
-                                    Add new Running Bill
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
