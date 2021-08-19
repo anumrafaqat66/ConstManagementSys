@@ -24,6 +24,7 @@
   .img-bg {
     background-image: url('<?= base_url() ?>assets/img/bg-image.jpg');
     background-size: cover;
+    width:100%;
   }
 
   .region {
@@ -41,8 +42,7 @@
   }
 </style>
 
-
-<body class="row img-bg" style="overflow: hidden;">
+<body class="row img-bg" >
 
   <div class="container">
 
@@ -55,20 +55,16 @@
                                                                                                                                           } else if ($this->session->userdata('region') == 'south') {
                                                                                                                                             echo "(South)";
                                                                                                                                           } ?></strong></h1>
-      <div class="col-xl-7 col-lg-2 col-md-3">
-
+      <div class="col-xl-7">
         <div class="card o-hidden border-0 shadow-lg my-5 region" style="height:390px; background: transparent !important;">
           <!-- <div class="card-body p-0" style=""> -->
           <!-- Nested Row within Card Body -->
-          <div class="row region">
+          <div class="row">
             <div class="col-lg-6 d-none d-lg-block bg-login-image "></div>
             <div class="col-lg-6">
             </div>
             <div class="col-lg-6">
               <div class="p-5">
-                <!-- <div class="text-center">
-                  <h1 class="h4 text-black-900"> Login </h1>
-                </div> -->
                 <form class="user" role="form" id="login_form" method="post" action="<?php echo base_url(); ?>User_Login/login_process">
                   <div class="form-group">
                     <input type="text" class="form-control form-control-user" name="username" id="username" placeholder="Enter Username...">
@@ -87,31 +83,6 @@
                       <option value="admin"></option>
                     </select>
                   </div>
-
-                  <!-- <label class="custom-control radio-inline small">
-                      <input type="radio" value="PO" name="optradio">
-                      <div style="float:right; margin-left:5px;">Project Officer</div>
-                    </label>
-
-                    <label class="custom-control radio-inline small">
-                      <input type="radio" value="SO_STORE" name="optradio">
-                      <div style="float:right; margin-left:5px;">SO Store</div>
-                    </label>
-
-                    <label class="custom-control radio-inline small">
-                      <input type="radio" value="SO_CW" name="optradio">
-                      <div style="float:right; margin-left:5px;">SO CW</div>
-                    </label>
-
-                    <label class="custom-control radio-inline small">
-                      <input type="radio" value="SO_RECORD" name="optradio">
-                      <div style="float:right; margin-left:5px;">SO Record</div>
-                    </label>
-                    <div style="float:right; margin-left:20px;"></div>
-                    <label class="custom-control radio-inline small">
-                      <input type="radio" value="admin" name="optradio">
-                      <div style="float:right; margin-left:5px;">Admin</div>
-                    </label> -->
 
                   <span style="color: red; display: none;font-size: 12px" id="Account_error">
                     *Please select Account type
@@ -136,7 +107,6 @@
             </div>
           </div>
 
-          <!-- till here -->
         </div>
         <!-- DIv 2 -->
 
