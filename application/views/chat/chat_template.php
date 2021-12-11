@@ -141,7 +141,7 @@
           <div class="col-md-4">
             <!-- USERS LIST -->
             <div class="box">
-              <div class="box-header with-border" style="background-color:#000154; color:white; border-top-left-radius:5px; border-top-right-radius:5px"">
+              <div class="box-header with-border" style="background-color:#000154; color:white; border-top-left-radius:5px; border-top-right-radius:5px">
                 <h3 class="box-title">Chat</h3>
 
                 <div class="box-tools pull-right">
