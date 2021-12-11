@@ -261,8 +261,8 @@
                                         <tbody id="table_rows_project">
                                             <?php $count = 1;
                                             foreach ($project_progress as $data) {
-                                                $diff = date_diff(date_create($data['schedule_start_date']), date_create($data['schedule_end_date'])); ?>
-                                                <tr>
+                                                $diff = date_diff(date_create($data['schedule_start_date']), date_create($data['schedule_end_date']));?>
+                                                <tr <?php if (date("Y-m-d") > $data['schedule_end_date']) { ?> class="bg-danger" <?php } ?>>
                                                     <td scope="row" style="display:none" id="cont<?= $count; ?>"><?= $data['id']; ?></td>
                                                     <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
                                                     <td scope="row" style="display:none"><?= $data['progress_date']; ?></td>
