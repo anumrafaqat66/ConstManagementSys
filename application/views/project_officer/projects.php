@@ -452,7 +452,7 @@
                                             <?php $count = 1;
                                             foreach ($project_records as $data) { ?>
                                                 <tr>
-                                                    <td scope="row" id="cont<?= $count; ?>"><?= $count; ?></td>
+                                                    <td scope="row" id="cont<?= $count; ?>"><?= $data['ID']; ?></td>
                                                     <td style="width:150px;" scope="row"><a style="color:black; font-weight:800;" href="<?= base_url() ?>Project_Officer/overview/<?= $data['ID'] ?>"><?= $data['Name']; ?></a></td>
                                                     <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Start_date']; ?></td>
                                                     <td scope="row"><?= $data['End_date']; ?></td>
@@ -532,6 +532,49 @@
     });
 
     $('#add_bids').on('click', function() {
+        var name = $('#project_name').val();
+        var code = $('#code').val();
+        if (name == '') {
+            validate = 1;
+            $('#project_name').addClass('red-border');
+            $('#show_project_name_error').show();
+        } else {
+            validate = 0;
+            $('#project_name').removeClass('red-border');
+            $('#show_project_name_error').hide();
+        }
+        if (code == '') {
+            validate = 1;
+            $('#code').addClass('red-border');
+        } else {
+            validate = 0;
+            $('#code').removeClass('red-border');
+        }
+
+        if (validate == 1) {
+
+        } else {
+            var btn = document.getElementById('add_bids');
+            btn.dataset.target = "#new_bids";
+
+            $.ajax({
+                url: '<?= base_url(); ?>Project_Officer/insert_project_initial',
+                method: 'POST',
+                data: {
+                    'project_name': name,
+                    'project_code': code
+                },
+                success: function(data) {
+                    document.getElementById("project_id_on_bid").value = data;
+                },
+                async: true
+            });
+
+        }
+
+    });
+
+    $('#add_btn').on('click', function() {
         var name = $('#project_name').val();
         var code = $('#code').val();
         if (name == '') {

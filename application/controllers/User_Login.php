@@ -96,7 +96,8 @@ class User_Login extends CI_Controller
 			$password = $postedData['password'];
 			// $status = $postedData['optradio'];
 
-			$status = $this->db->select('acct_type')->where('username', $username)->where('region', $region)->get('security_info')->row_array();
+			$status = $this->db->select('acct_type, full_name')->where('username', $username)->where('region', $region)->get('security_info')->row_array();
+
 			if (!empty($status)) {
 				$query = $this->db->where('username', $username)->where('acct_type', $status['acct_type'])->where('region', $region)->get('security_info')->row_array();
 				$hash = $query['password'];
@@ -105,6 +106,7 @@ class User_Login extends CI_Controller
 					if (password_verify($password, $hash)) {
 						$this->session->set_userdata('user_id', $query['id']);
 						$this->session->set_userdata('acct_type', $query['acct_type']);
+						$this->session->set_userdata('full_name', $query['full_name']);
 						$this->session->set_userdata('username', $query['username']);
 						$this->session->set_flashdata('success', 'Login successfully');
 

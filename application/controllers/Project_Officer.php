@@ -374,7 +374,7 @@ class Project_Officer extends CI_Controller
         $status = $_POST['status_edit'];
         $contractor_id = $_POST['contractor_edit'];
         $bid_id = $_POST['project_bid_edit'];
-
+ 
         $cond  = [
             'ID' => $id,
             'region' => $this->session->userdata('region')
@@ -522,9 +522,16 @@ class Project_Officer extends CI_Controller
             $assigned_bid = $postData['assign_bid'];
             $total_cost = $postData['total_cost'];
 
-            $data = $this->db->where('id', $assigned_bid)->where('region', $this->session->userdata('region'))->get('project_bids')->row_array();
-            $contractor = $this->db->where('region', $this->session->userdata('region'))->where('ID', $data['contractor_id'])->get('contractors')->row_array();
-            //echo $contractor['ID'];exit;
+            if ($assigned_bid == '') {
+                $assigned_bid = 0;
+            }
+
+            if ($assigned_bid != '') {
+                $data = $this->db->where('id', $assigned_bid)->where('region', $this->session->userdata('region'))->get('project_bids')->row_array();
+                $contractor = $this->db->where('region', $this->session->userdata('region'))->where('ID', $data['contractor_id'])->get('contractors')->row_array();
+            } else {
+                $contractor['ID'] = 0;
+            }
 
             $created_by = $postData['created_by'];
             $status = $postData['status'];
@@ -547,6 +554,7 @@ class Project_Officer extends CI_Controller
                 'bid_id' => $assigned_bid,
                 'status' => $status
             );
+            // print_r($update_array); exit;
             $this->db->where($cond);
             $insert = $this->db->update('projects', $update_array);
             //$last_id = $this->db->insert_id();
