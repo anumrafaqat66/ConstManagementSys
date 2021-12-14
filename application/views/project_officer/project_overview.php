@@ -213,8 +213,8 @@
              </div>
 
              <div class="col-sm-4">
-                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" data-toggle="modal" data-target="#project_bids">
-                     <h4 style="font-weight: bold;">Project Bids</h4>
+                 <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_bid_eval" onclick="location.href='<?php echo base_url(); ?>Project_Officer/bids_evaluation/<?= $id; ?>'">
+                     <h4 style="font-weight: bold;">Project Bids Evaluation</h4>
                  </button>
              </div>
 

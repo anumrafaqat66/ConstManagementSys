@@ -97,6 +97,11 @@ $route['Project_Officer/view_project_ganttchart/update-notification'] = 'ChatCon
 $route['Project_Officer/view_project_ganttchart/check-activity'] = 'ChatController/check_activity';
 $route['Project_Officer/view_project_ganttchart/check-notification'] = 'ChatController/check_notification';
 
+$route['Project_Officer/bids_evaluation/update-activity'] = 'ChatController/update_activity';
+$route['Project_Officer/bids_evaluation/update-notification'] = 'ChatController/update_notification';
+$route['Project_Officer/bids_evaluation/check-activity'] = 'ChatController/check_activity';
+$route['Project_Officer/bids_evaluation/check-notification'] = 'ChatController/check_notification';
+
 $route['Project_Officer/view_project_breakdown/update-activity'] = 'ChatController/update_activity';
 $route['Project_Officer/view_project_breakdown/update-notification'] = 'ChatController/update_notification';
 $route['Project_Officer/view_project_breakdown/check-activity'] = 'ChatController/check_activity';

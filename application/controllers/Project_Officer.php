@@ -185,6 +185,23 @@ class Project_Officer extends CI_Controller
             $this->load->view('project_officer/project_drawing', $data);
         }
     }
+
+    public function bids_evaluation($project_id = NULL)
+    {
+
+        if ($this->session->has_userdata('user_id')) {
+            $data['project'] = $project_id;
+
+            if ($this->session->userdata('acct_type') == 'admin_super') {
+                $data['contractor_name'] = $this->db->get('contractors')->result_array();
+            } else {
+                $data['contractor_name'] = $this->db->where('region', $this->session->userdata('region'))->get('contractors')->result_array();
+            }
+            
+            $this->load->view('project_officer/project_bid_eval', $data);
+        }
+    }
+
     public function upload_drawing()
     {
         $postData = $this->security->xss_clean($this->input->post());
@@ -374,7 +391,7 @@ class Project_Officer extends CI_Controller
         $status = $_POST['status_edit'];
         $contractor_id = $_POST['contractor_edit'];
         $bid_id = $_POST['project_bid_edit'];
- 
+
         $cond  = [
             'ID' => $id,
             'region' => $this->session->userdata('region')
