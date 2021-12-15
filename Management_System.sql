@@ -38,6 +38,22 @@ CREATE TABLE `project_bids` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `project_bids_evaluation`
+--
+
+CREATE TABLE `project_bids_evaluation` (
+  `id` bigint(20) NOT NULL,
+  `project_id` int(20) NOT NULL,
+  `contractor_id` int(20) NOT NULL,
+  `technical_score` decimal(16,2) NOT NULL,
+  `financial_score` decimal(16,2) NOT NULL,
+  `total_score` decimal(16,2) NOT NULL,
+  `bid_amount` decimal(16,2) DEFAULT NULL,
+  `recommendations` varchar(500) DEFAULT NULL,
+  `Status` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Dumping data for table `project_bids`
 --
 
@@ -356,6 +372,7 @@ ALTER TABLE inventory_used ADD COLUMN region varchar(15);
 ALTER TABLE projects ADD COLUMN region varchar(15);
 ALTER TABLE project_allotment_letter ADD COLUMN region varchar(15);
 ALTER TABLE project_bids ADD COLUMN region varchar(15);
+ALTER TABLE project_bids_evaluation ADD COLUMN region varchar(15);
 ALTER TABLE project_bills ADD COLUMN region varchar(15);
 ALTER TABLE project_drawing ADD COLUMN region varchar(15);
 ALTER TABLE project_progress ADD COLUMN region varchar(15);
@@ -420,6 +437,12 @@ ALTER TABLE `security_info`
 --
 ALTER TABLE `project_bids`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `project_bids_evaluation`
+--
+ALTER TABLE `project_bids_evaluation`
+  ADD PRIMARY KEY (`id`);  
   
 
 --
@@ -511,7 +534,13 @@ ALTER TABLE `security_info`
 --
 ALTER TABLE `project_bids`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-  
+
+--
+-- AUTO_INCREMENT for table `project_bids_evaluation`
+--
+ALTER TABLE `project_bids_evaluation`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 
 --
 -- AUTO_INCREMENT for table `project_progress`

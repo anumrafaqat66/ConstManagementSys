@@ -188,7 +188,6 @@ class Project_Officer extends CI_Controller
 
     public function bids_evaluation($project_id = NULL)
     {
-
         if ($this->session->has_userdata('user_id')) {
             $data['project'] = $project_id;
 
@@ -196,8 +195,21 @@ class Project_Officer extends CI_Controller
                 $data['contractor_name'] = $this->db->get('contractors')->result_array();
             } else {
                 $data['contractor_name'] = $this->db->where('region', $this->session->userdata('region'))->get('contractors')->result_array();
+
+                $this->db->select('eval.*,c.*');
+                $this->db->from('project_bids_evaluation eval');
+                $this->db->join('contractors c', 'c.ID = eval.contractor_id');
+                $this->db->where('eval.project_id', $project_id);
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $this->db->where('eval.region', $this->session->userdata('region'));
+                }
+                $data['project_bid_eval_data'] = $this->db->get()->result_array();
+                // $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bids_evaluation')->result_array();
+
+
+                $data['recommendation'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->select('recommendations')->get('project_bids_evaluation')->row_array();
             }
-            
+
             $this->load->view('project_officer/project_bid_eval', $data);
         }
     }
@@ -651,6 +663,91 @@ class Project_Officer extends CI_Controller
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
             redirect('Project_Officer/add_projects');
+        }
+    }
+
+    public function submit_bid_eval_form($project_id = NULL)
+    {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
+
+            $count = count($postData) / 5;
+            $count = (int)$count;
+
+            for ($x = 1; $x <= $count; $x++) {
+                $contractor_id = $postData['contractor_id' . $x];
+                $technical_score = $postData['txt_tech_score' . $x];
+                $financial_score = $postData['txt_fin_score' . $x];
+                $total_score = $postData['txt_total_score' . $x];
+                $bid_amount = $postData['txt_bid_amount' . $x];
+                $recommendations = $postData['txt_recommendation'];
+
+                $insert_array = array(
+                    'project_id' => $project_id,
+                    'contractor_id' => $contractor_id,
+                    'technical_score' => $technical_score,
+                    'financial_score' => $financial_score,
+                    'total_score' => $total_score,
+                    'bid_amount' => $bid_amount,
+                    'recommendations' => $recommendations,
+                    'Status' => 'Selected',
+                    'region' => $this->session->userdata('region')
+                );
+
+                $insert = $this->db->insert('project_bids_evaluation', $insert_array);
+            }
+
+            if (!empty($insert)) {
+
+                //Add to activity log
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'add',
+                    'activity_detail' => "User" . $this->session->userdata('username') . " has added project bid evaluation form against project id " . $project_id,
+                    'activity_by' => $this->session->userdata('username'),
+                    'activity_date' => date('Y-m-d H:i:s'),
+                    'region' => $this->session->userdata('region')
+                );
+
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+                } else {
+                    $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+                }
+
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no',
+                        'region' => $this->session->userdata('region')
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+
+                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query_both); $i++) {
+                    $insert_activity_seen_both = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query_both[$i]['id'],
+                        'seen' => 'no',
+                        'region' => 'both'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+                }
+
+                $this->session->set_flashdata('success', 'Bids Evaluation Data Submitted successfully');
+                redirect('Project_Officer/bids_evaluation/' . $project_id);
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+                redirect('Project_Officer/bids_evaluation/' . $project_id);
+            }
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+            redirect('Project_Officer/bids_evaluation/' . $project_id);
         }
     }
 
