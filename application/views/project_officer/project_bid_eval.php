@@ -50,10 +50,11 @@
 
             <div class="card-body" style="padding:0px !important">
                 <div id="table_div">
+
                     <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/submit_bid_eval_form/<?= $project; ?>">
                         <table id="datatable" class="table table-striped" style="color:black; white-space: nowrap;">
                             <thead>
-                                <tr>
+                                <tr style="display:none" id="table_header">
                                     <th scope="col">S. No.</th>
                                     <th scope="col">Contractor Name</th>
                                     <th scope="col">Technical Score</th>
@@ -66,56 +67,61 @@
                                 </tr>
                             </thead>
                             <tbody id="table_rows_bid_evaluation">
-                                <?php $count = 1;
-                                foreach ($project_bid_eval_data as $data) { ?>
-                                    <tr style="padding:20px">
-                                        <td style="padding:20px"> <?= $count; ?> </td>
-                                        <td scope="row">
-                                            <div class="form-group row">
-                                                <select class="form-control form-control-user rounded-pill" name="contractor_id1" id="contractor_id1" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px; padding:10px !important">
 
-                                                    <?php if (isset($data['contractor_id'])) { ?>
-                                                        <option class="form-control form-control-user" style="font-size: 0.8rem;" value="<?= $data['contractor_id']; ?>"><?= $data['Name']; ?></option>
-                                                    <?php } else { ?>
-                                                        <option class="form-control form-control-user" style="font-size: 0.8rem;" value="">Select Contractor</option>
-                                                        <?php foreach ($contractor_name as $contractor) { ?>
-                                                            <option class="form-control form-control-user" style="font-size: 0.8rem;" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
-                                                    <?php }
-                                                    } ?>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group row">
-                                                <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_tech_score1" id="txt_tech_score1" placeholder="Technical Score" value="<?= $data['technical_score']; ?>">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group row">
-                                                <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_fin_score1" id="txt_fin_score1" placeholder="Financial Score" value="<?= $data['financial_score']; ?>">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group row">
-                                                <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_total_score1" id="txt_total_score1" placeholder="Total Score" value="<?= $data['total_score']; ?>">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group row">
-                                                <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_bid_amount1" id="txt_bid_amount1" placeholder="Bid Amount" value="<?= $data['bid_amount']; ?>">
-                                            </div>
-                                        </td>
+                                <?php if (count($project_bid_eval_data) > 0) {
+                                    $count = 1;
+                                    foreach ($project_bid_eval_data as $data) { ?>
+                                        <tr style="padding:20px">
+                                            <td style="padding:20px"> <?= $count; ?> </td>
+                                            <td scope="row">
+                                                <div class="form-group row">
+                                                    <select class="form-control form-control-user rounded-pill" name="contractor_id<?=$count?>" id="contractor_id<?=$count?>" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px; padding:10px !important">
 
-                                        <td style="padding:20px">
-                                            <div class="form-check" style="text-align:center">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                </label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php $count++;
-                                } ?>
+                                                        <?php if (isset($data['contractor_id'])) { ?>
+                                                            <option class="form-control form-control-user" style="font-size: 0.8rem;" value="<?= $data['contractor_id']; ?>"><?= $data['Name']; ?></option>
+                                                        <?php } else { ?>
+                                                            <option class="form-control form-control-user" style="font-size: 0.8rem;" value="">Select Contractor</option>
+                                                            <?php foreach ($contractor_name as $contractor) { ?>
+                                                                <option class="form-control form-control-user" style="font-size: 0.8rem;" value="<?= $contractor['ID'] ?>"><?= $contractor['Name'] ?></option>
+                                                        <?php }
+                                                        } ?>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group row">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_tech_score<?=$count?>" id="txt_tech_score<?=$count?>" placeholder="Technical Score" value="<?= $data['technical_score']; ?>">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group row">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_fin_score<?=$count?>" id="txt_fin_score<?=$count?>" placeholder="Financial Score" value="<?= $data['financial_score']; ?>">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group row">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_total_score<?=$count?>" id="txt_total_score<?=$count?>" placeholder="Total Score" value="<?= $data['total_score']; ?>">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group row">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_bid_amount<?=$count?>" id="txt_bid_amount<?=$count?>" placeholder="Bid Amount" value="<?= $data['bid_amount']; ?>">
+                                                </div>
+                                            </td>
+
+                                            <td style="padding:20px">
+                                                <div class="form-check" style="text-align:center">
+                                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault<?=$count?>">
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php $count++;
+                                    }
+                                } else { ?>
+                                    <h4 style="text-align:center; padding:5px; color:red;" id="no_record_msg"> No Bid Evaluation form submitted. Press [Add new contractor] button. </h4>
+                                <?php } ?>
                             </tbody>
                         </table>
 
@@ -123,11 +129,11 @@
                         if ($acct_type != "admin_super") { ?>
                             <?php if ($acct_type != "admin_north") { ?>
                                 <?php if ($acct_type != "admin_south") { ?>
-                                    <div class="form-group row" style="padding:30px">
+                                    <div class="form-group row" style="padding:30px; display:none" id="recommendation_input">
                                         <h6 style="margin-bottom:5px">&nbsp;Final Recommendations:</h6>
-                                        <input type="text" class="form-control form-control-user rounded-pill" name="txt_recommendation" id="txt_recommendation" placeholder="Final Recommendations" value="<?php if(isset($recommendation['recommendations'])) {$recommendation['recommendations'];} else {'';}; ?>">
+                                        <input type="text" class="form-control form-control-user rounded-pill" name="txt_recommendation" id="txt_recommendation" placeholder="Final Recommendations" value="<?php if (isset($recommendation['recommendations'])) { echo $recommendation['recommendations'];} else { ''; } ?>">
                                     </div>
-                                    <div class="form-group row my-2 justify-content-center">
+                                    <div class="form-group row my-2 justify-content-center" style="display:none" id="save_eval_button">
                                         <div class="col-sm-4">
                                             <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn">
                                                 <!-- <i class="fas fa-plus"></i> -->
@@ -140,6 +146,7 @@
                             <?php } ?>
                         <?php } ?>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -177,14 +184,26 @@
         });
     });
 
-    //var loop = 1;
-    //  var row_count
+    $(document).ready(function() {
+        row_count = parseInt(document.getElementById('table_rows_bid_evaluation').childNodes.length - 1);
+        if (row_count > 0) {
+            $('#table_header').show();
+            $('#recommendation_input').show();
+            $('#save_eval_button').show();
+            $('#no_record_msg').hide();
+        }
+    });
 
     $("#add_new_row").click(function() {
-        loop = parseInt(document.getElementById('table_rows_bid_evaluation').childNodes.length - 1);
+        $('#table_header').show();
+        $('#recommendation_input').show();
+        $('#save_eval_button').show();
+        $('#no_record_msg').hide();
 
+        loop = parseInt(document.getElementById('table_rows_bid_evaluation').rows.length + 1);        
+        
         $("#table_rows_bid_evaluation").append(`<tr>
-                                <td style="padding:20px">${loop} </td>
+                                <td style="padding:25px">${loop} </td>
                                 <td scope="row">
                                     <div class="form-group row">
                                         <select class="form-control rounded-pill" name="contractor_id${loop}" id="contractor_id${loop}" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px; padding:10px !important">

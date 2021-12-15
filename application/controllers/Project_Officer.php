@@ -203,11 +203,9 @@ class Project_Officer extends CI_Controller
                 if ($this->session->userdata('acct_type') != 'admin_super') {
                     $this->db->where('eval.region', $this->session->userdata('region'));
                 }
-                $data['project_bid_eval_data'] = $this->db->get()->result_array();
-                // $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bids_evaluation')->result_array();
+                $data['project_bid_eval_data'] = $this->db->order_by("eval.id", "asc")->get()->result_array();
 
-
-                $data['recommendation'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->select('recommendations')->get('project_bids_evaluation')->row_array();
+                $data['recommendation'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->select('recommendations')->distinct()->get('project_bids_evaluation')->row_array();
             }
 
             $this->load->view('project_officer/project_bid_eval', $data);
@@ -671,8 +669,11 @@ class Project_Officer extends CI_Controller
         if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
 
-            $count = count($postData) / 5;
-            $count = (int)$count;
+            $count = count($postData)/4.8;
+            $count = (int)$count; 
+
+            $this->db->where('project_id', $project_id);
+            $this->db->delete('project_bids_evaluation');
 
             for ($x = 1; $x <= $count; $x++) {
                 $contractor_id = $postData['contractor_id' . $x];
@@ -681,7 +682,7 @@ class Project_Officer extends CI_Controller
                 $total_score = $postData['txt_total_score' . $x];
                 $bid_amount = $postData['txt_bid_amount' . $x];
                 $recommendations = $postData['txt_recommendation'];
-
+               
                 $insert_array = array(
                     'project_id' => $project_id,
                     'contractor_id' => $contractor_id,
