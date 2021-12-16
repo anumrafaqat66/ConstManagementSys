@@ -67,7 +67,6 @@
                                 </tr>
                             </thead>
                             <tbody id="table_rows_bid_evaluation">
-
                                 <?php if (count($project_bid_eval_data) > 0) {
                                     $count = 1;
                                     foreach ($project_bid_eval_data as $data) { ?>
@@ -76,7 +75,6 @@
                                             <td scope="row">
                                                 <div class="form-group row">
                                                     <select class="form-control form-control-user rounded-pill" name="contractor_id<?= $count ?>" id="contractor_id<?= $count ?>" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px; padding:10px !important">
-
                                                         <?php if (isset($data['contractor_id'])) { ?>
                                                             <option class="form-control form-control-user" style="font-size: 0.8rem;" value="<?= $data['contractor_id']; ?>"><?= $data['Name']; ?></option>
                                                         <?php } else { ?>
@@ -90,12 +88,12 @@
                                             </td>
                                             <td>
                                                 <div class="form-group row">
-                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_tech_score<?= $count ?>" id="txt_tech_score<?= $count ?>" placeholder="Technical Score" value="<?= $data['technical_score']; ?>">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" onchange="update_total_score(<?= $count ?>)" name="txt_tech_score<?= $count ?>" id="txt_tech_score<?= $count ?>" placeholder="Technical Score" value="<?= $data['technical_score']; ?>">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group row">
-                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_fin_score<?= $count ?>" id="txt_fin_score<?= $count ?>" placeholder="Financial Score" value="<?= $data['financial_score']; ?>">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" onchange="update_total_score(<?= $count ?>)" name="txt_fin_score<?= $count ?>" id="txt_fin_score<?= $count ?>" placeholder="Financial Score" value="<?= $data['financial_score']; ?>">
                                                 </div>
                                             </td>
                                             <td>
@@ -143,6 +141,8 @@
                                                 Save Evaluation Data
                                             </button>
                                             <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
+                                            <span id="show_error_radio" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please select radio button*</span>
+                                            <span id="show_error_same_contractor" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Two contractors cannot be same*</span>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -219,12 +219,12 @@
                                 </td>
                                 <td>
                                     <div class="form-group row">
-                                        <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_tech_score${loop}" id="txt_tech_score${loop}" placeholder="Technical Score">
+                                        <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" onchange="update_total_score(${loop})" name="txt_tech_score${loop}" id="txt_tech_score${loop}" placeholder="Technical Score">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group row">
-                                        <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_fin_score${loop}" id="txt_fin_score${loop}" placeholder="Financial Score">
+                                        <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" onchange="update_total_score(${loop})" name="txt_fin_score${loop}" id="txt_fin_score${loop}" placeholder="Financial Score">
                                     </div>
                                 </td>
                                 <td>
@@ -249,14 +249,17 @@
 
     });
 
+    function update_total_score(row){
+        var txt_tech_score = $('#txt_tech_score' + row).val();
+        var txt_fin_score = $('#txt_fin_score' + row).val();
+        $('#txt_total_score'+row).val(parseFloat(txt_tech_score) + parseFloat(txt_fin_score));
+    }
 
     $('#add_btn').on('click', function() {
-        //  alert('javascript working');
         $('#edit_btn').attr('disabled', true);
         var validate = 0;
 
         var rowCount = $('#table_rows_bid_evaluation tr').length;
-        // alert(rowCount);
 
         var contractor_id;
         var txt_tech_score;
@@ -264,12 +267,18 @@
         var txt_total_score;
         var txt_bid_amount;
 
+        var prev_contractor = '';
+
         for (let i = 1; i <= rowCount; i++) {
             contractor_id = $('#contractor_id' + i).val();
             txt_tech_score = $('#txt_tech_score' + i).val();
             txt_fin_score = $('#txt_fin_score' + i).val();
             txt_total_score = $('#txt_total_score' + i).val();
             txt_bid_amount = $('#txt_bid_amount' + i).val();
+
+            if (contractor_id == prev_contractor) {
+                validate = 3;
+            }
 
             if (contractor_id == '') {
                 validate = 1;
@@ -291,6 +300,8 @@
                 validate = 1;
                 $('#txt_bid_amount' + i).addClass('red-border');
             }
+
+            prev_contractor = contractor_id;
         }
 
         var txt_recommendation = $('#txt_recommendation').val();
@@ -300,16 +311,32 @@
             $('#txt_recommendation').addClass('red-border');
         }
 
-        var radio_val = $("input[name='flexRadioDefault']:checked").val();
-        if (typeof radio_val == 'undefined'){
-            validate = 1;
+        if (validate == 0) {
+            var radio_val = $("input[name='flexRadioDefault']:checked").val();
+            if (typeof radio_val == 'undefined') {
+                validate = 2;
+            }
         }
 
         if (validate == 0) {
             $('#add_form')[0].submit();
             $('#show_error_update').hide();
+            $('#show_error_same_contractor').hide();
+            $('#show_error_radio').hide();
+        } else if (validate == 2) {
+            $('#add_btn').removeAttr('disabled');
+            $('#show_error_update').hide();
+            $('#show_error_same_contractor').hide();
+            $('#show_error_radio').show();
+        } else if (validate == 3) {
+            $('#add_btn').removeAttr('disabled');
+            $('#show_error_radio').hide();
+            $('#show_error_update').hide();
+            $('#show_error_same_contractor').show();
         } else {
             $('#add_btn').removeAttr('disabled');
+            $('#show_error_same_contractor').hide();
+            $('#show_error_radio').hide();
             $('#show_error_update').show();
         }
     });
