@@ -75,7 +75,7 @@
                                             <td style="padding:20px"> <?= $count; ?> </td>
                                             <td scope="row">
                                                 <div class="form-group row">
-                                                    <select class="form-control form-control-user rounded-pill" name="contractor_id<?=$count?>" id="contractor_id<?=$count?>" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px; padding:10px !important">
+                                                    <select class="form-control form-control-user rounded-pill" name="contractor_id<?= $count ?>" id="contractor_id<?= $count ?>" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px; padding:10px !important">
 
                                                         <?php if (isset($data['contractor_id'])) { ?>
                                                             <option class="form-control form-control-user" style="font-size: 0.8rem;" value="<?= $data['contractor_id']; ?>"><?= $data['Name']; ?></option>
@@ -90,29 +90,28 @@
                                             </td>
                                             <td>
                                                 <div class="form-group row">
-                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_tech_score<?=$count?>" id="txt_tech_score<?=$count?>" placeholder="Technical Score" value="<?= $data['technical_score']; ?>">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_tech_score<?= $count ?>" id="txt_tech_score<?= $count ?>" placeholder="Technical Score" value="<?= $data['technical_score']; ?>">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group row">
-                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_fin_score<?=$count?>" id="txt_fin_score<?=$count?>" placeholder="Financial Score" value="<?= $data['financial_score']; ?>">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_fin_score<?= $count ?>" id="txt_fin_score<?= $count ?>" placeholder="Financial Score" value="<?= $data['financial_score']; ?>">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group row">
-                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_total_score<?=$count?>" id="txt_total_score<?=$count?>" placeholder="Total Score" value="<?= $data['total_score']; ?>">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_total_score<?= $count ?>" id="txt_total_score<?= $count ?>" placeholder="Total Score" value="<?= $data['total_score']; ?>">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group row">
-                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_bid_amount<?=$count?>" id="txt_bid_amount<?=$count?>" placeholder="Bid Amount" value="<?= $data['bid_amount']; ?>">
+                                                    <input type="number" class="form-control form-control-user rounded-pill" style="font-size: 0.8rem;" name="txt_bid_amount<?= $count ?>" id="txt_bid_amount<?= $count ?>" placeholder="Bid Amount" value="<?= $data['bid_amount']; ?>">
                                                 </div>
                                             </td>
-
                                             <td style="padding:20px">
                                                 <div class="form-check" style="text-align:center">
-                                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault<?=$count?>">
-                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                    <input class="form-check-input" type="radio" value="<?= $count ?>" name="flexRadioDefault" id="Radio" <?= $data['eval_Status'] == "Selected" ? "checked" : "" ?>>
+                                                    <!-- <label class="form-check-label" for="flexRadioDefault1"> -->
                                                     </label>
                                                 </div>
                                             </td>
@@ -131,7 +130,11 @@
                                 <?php if ($acct_type != "admin_south") { ?>
                                     <div class="form-group row" style="padding:30px; display:none" id="recommendation_input">
                                         <h6 style="margin-bottom:5px">&nbsp;Final Recommendations:</h6>
-                                        <input type="text" class="form-control form-control-user rounded-pill" name="txt_recommendation" id="txt_recommendation" placeholder="Final Recommendations" value="<?php if (isset($recommendation['recommendations'])) { echo $recommendation['recommendations'];} else { ''; } ?>">
+                                        <input type="text" class="form-control form-control-user rounded-pill" name="txt_recommendation" id="txt_recommendation" placeholder="Final Recommendations" value="<?php if (isset($recommendation['recommendations'])) {
+                                                                                                                                                                                                                echo $recommendation['recommendations'];
+                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                                '';
+                                                                                                                                                                                                            } ?>">
                                     </div>
                                     <div class="form-group row my-2 justify-content-center" style="display:none" id="save_eval_button">
                                         <div class="col-sm-4">
@@ -139,9 +142,9 @@
                                                 <!-- <i class="fas fa-plus"></i> -->
                                                 Save Evaluation Data
                                             </button>
+                                            <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                         </div>
                                     </div>
-
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>
@@ -200,8 +203,8 @@
         $('#save_eval_button').show();
         $('#no_record_msg').hide();
 
-        loop = parseInt(document.getElementById('table_rows_bid_evaluation').rows.length + 1);        
-        
+        loop = parseInt(document.getElementById('table_rows_bid_evaluation').rows.length + 1);
+
         $("#table_rows_bid_evaluation").append(`<tr>
                                 <td style="padding:25px">${loop} </td>
                                 <td scope="row">
@@ -237,7 +240,7 @@
                                 
                                 <td style="padding:20px">
                                     <div class="form-check" style="text-align:center">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="Radio${loop}">
+                                        <input class="form-check-input" type="radio" value="${loop}" name="flexRadioDefault" id="Radio">
                                         <label class="form-check-label" for="flexRadioDefault1">
                                         </label>
                                     </div>
@@ -295,6 +298,11 @@
         if (txt_recommendation == '') {
             validate = 1;
             $('#txt_recommendation').addClass('red-border');
+        }
+
+        var radio_val = $("input[name='flexRadioDefault']:checked").val();
+        if (typeof radio_val == 'undefined'){
+            validate = 1;
         }
 
         if (validate == 0) {

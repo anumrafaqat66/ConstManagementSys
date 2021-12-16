@@ -196,7 +196,7 @@ class Project_Officer extends CI_Controller
             } else {
                 $data['contractor_name'] = $this->db->where('region', $this->session->userdata('region'))->get('contractors')->result_array();
 
-                $this->db->select('eval.*,c.*');
+                $this->db->select('eval.*,c.*, eval.Status as eval_Status');
                 $this->db->from('project_bids_evaluation eval');
                 $this->db->join('contractors c', 'c.ID = eval.contractor_id');
                 $this->db->where('eval.project_id', $project_id);
@@ -675,6 +675,11 @@ class Project_Officer extends CI_Controller
             $this->db->where('project_id', $project_id);
             $this->db->delete('project_bids_evaluation');
 
+            if(isset($_POST['flexRadioDefault']))
+            {
+                $selected_row = $_POST['flexRadioDefault']; 
+            }
+           
             for ($x = 1; $x <= $count; $x++) {
                 $contractor_id = $postData['contractor_id' . $x];
                 $technical_score = $postData['txt_tech_score' . $x];
@@ -682,6 +687,12 @@ class Project_Officer extends CI_Controller
                 $total_score = $postData['txt_total_score' . $x];
                 $bid_amount = $postData['txt_bid_amount' . $x];
                 $recommendations = $postData['txt_recommendation'];
+
+                if ($x == $selected_row) {
+                    $value = 'Selected';
+                } else {
+                    $value = 'Not Selected';
+                }
                
                 $insert_array = array(
                     'project_id' => $project_id,
@@ -691,12 +702,27 @@ class Project_Officer extends CI_Controller
                     'total_score' => $total_score,
                     'bid_amount' => $bid_amount,
                     'recommendations' => $recommendations,
-                    'Status' => 'Selected',
+                    'Status' => $value,
                     'region' => $this->session->userdata('region')
                 );
 
                 $insert = $this->db->insert('project_bids_evaluation', $insert_array);
+                $last_id = $this->db->insert_id();
+
+                if ($x == $selected_row){
+                    $cond  = [
+                        'ID' => $project_id,
+                        'region' => $this->session->userdata('region')
+                    ];
+                    $data_update = [
+                        'contractor_id' => $contractor_id,
+                        'bid_id' => $last_id
+                    ];
+                    $this->db->where($cond);
+                    $this->db->update('projects', $data_update);
+                }
             }
+           
 
             if (!empty($insert)) {
 
