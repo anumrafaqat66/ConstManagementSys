@@ -147,7 +147,7 @@
             </div>
         </div>
 
-        <div class="card bg-custom3">
+        <!-- <div class="card bg-custom3">
             <div class="card-header bg-custom1">
                 <h1 class="h4">Running Bills</h1>
             </div>
@@ -171,7 +171,7 @@
 
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
         <div id="no_data" class="card-body bg-custom3" style="display:none">
@@ -181,7 +181,7 @@
 
                     <div class="card bg-custom3">
                         <div class="card-header bg-custom1">
-                            <h1 class="h4">Billing Details</h1>
+                            <h1 class="h4">Running Bill Detail</h1>
                         </div>
 
                         <div class="card-body">
@@ -194,77 +194,99 @@
             </div>
         </div>
 
-        <div id="add_new" class="card-body bg-custom3" style="display:none; padding:16px">
+        <div id="add_new" class="card-body bg-custom3" style="padding:16px">
             <!-- Nested Row within Card Body -->
             <div class="row">
                 <div class="col-lg-12" style="padding:0px">
 
                     <!-- <div class="card bg-custom3"> -->
-                        <div class="card-header bg-custom1">
-                            <h1 class="h4">Billing Details</h1>
-                        </div>
+                    <div class="card-header bg-custom1">
+                        <h1 class="h4">Running Bill Detail</h1>
+                    </div>
 
-                        <!-- <div class="card-body"> -->
-                            <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_print/<?= $this->session->userdata('project_id') ?>'" style="float: right; margin-bottom:6px; margin-top:5px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
+                    <!-- <div class="card-body"> -->
+                    <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_print/<?= $this->session->userdata('project_id') ?>'" style="float: right; margin-bottom:6px; margin-top:5px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
 
-                            <div id="table_div">
-                                <?php if (count($project_bills) > 0) { ?>
-                                    <table id="datatable" class="table table-striped" style="color:black;font-size:x-small;">
-                                        <thead>
-                                            <tr>
-                                                <!-- <th scope="col">#</th> -->
-                                                <th scope="col">Bill No.</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Gross Work Done</th>
-                                                <th scope="col">WD in Bill</th>
-                                                <th scope="col">R/M Deducted</th>
-                                                <th scope="col">Payment Made</th>
-                                                <th scope="col">Cheque No.</th>
-                                                <th scope="col">IT Deducted</th>
-                                                <th scope="col">Contract Amount</th>
-                                                <th scope="col">Paid till Last Bill</th>
-                                                <th scope="col">Claimed Amount</th>
-                                                <th scope="col">Verified Amount</th>
-                                                <th scope="col">Material Used Cost</th>
-                                                <?php $acct_type = $this->session->userdata('acct_type');
-                                                if ($acct_type != "admin_super") { ?>
-                                                    <?php if ($acct_type != "admin_north") { ?>
-                                                        <?php if ($acct_type != "admin_south") { ?>
-                                                            <th scope="col">Edit</th>
-                                                <?php }
-                                                    }
-                                                } ?>
-                                                <th scope="col">Files</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="table_rows">
-                                            <!-- <?php $count = 0;
-                                                    foreach ($project_bills as $data) { ?>
-                                                <tr>
-                                                    <td scope="row"><?= ++$count; ?></td>
-                                                    <td id="material<?= $data['id']; ?>" scope="row"><?= $data['date_added']; ?></td>
-                                                    <td id="quant<?= $data['id']; ?>" class="quant" scope="row"><?= $data['bill_name']; ?></td>
-                                                    <td scope="row">PKR <?= $data['gross_work_done']; ?></td>
-                                                    <td scope="row">PKR <?= $data['wd_in_bill']; ?></td>
-                                                    <td scope="row">PKR <?= $data['rm_deducted']; ?></td>
-                                                    <td scope="row">PKR <?= $data['payment_made']; ?></td>
-                                                    <td scope="row"><?= $data['cheque_no']; ?></td>
-                                                    <td scope="row">PKR <?= $data['it_deducted']; ?></td>
-                                                    <td type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i class="fas fa-edit"></i></td>
-                                                    <td id="view" class="view" scope="row"><a href="<?= base_url(); ?>SO_STORE/view_inventory_detail/<?= $data['id']; ?>" style="color:black"><i class="fas fa-eye"></i></a></td>
+                    <div id="table_div">
+                        <?php if (count($project_bills) > 0) { ?>
+                            <table id="datatable" class="table table-striped" style="color:black;font-size:x-small;">
+                                <thead>
+                                    <tr>
+                                        <!-- <th scope="col">#</th> -->
+                                        <th scope="col">Bill No.</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Gross Work Done</th>
+                                        <th scope="col">WD in Bill</th>
+                                        <th scope="col">R/M Deducted</th>
+                                        <th scope="col">Payment Made</th>
+                                        <th scope="col">Cheque No.</th>
+                                        <th scope="col">IT Deducted</th>
+                                        <th scope="col">Contract Amount</th>
+                                        <th scope="col">Paid till Last Bill</th>
+                                        <th scope="col">Claimed Amount</th>
+                                        <th scope="col">Verified Amount</th>
+                                        <th scope="col">Material Used Cost</th>
+                                        <?php $acct_type = $this->session->userdata('acct_type');
+                                        if ($acct_type != "admin_super") { ?>
+                                            <?php if ($acct_type != "admin_north") { ?>
+                                                <?php if ($acct_type != "admin_south") { ?>
+                                                    <th scope="col">Edit</th>
+                                        <?php }
+                                            }
+                                        } ?>
+                                        <th scope="col">Files</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table_rows">
+                                    <?php $count = 0;
+                                    foreach ($project_bills as $data) { ?>
+                                        <tr>
+                                            <!-- <td scope="row"><?= ++$count; ?></td> -->
+                                            <td type="button" scope="row" style="font-weight:900;cursor:pointer" onclick="view_bill(<?= $data['bill_name'] ?>)"><?= $data['bill_name'] ?></td>
+                                            <td id="material<?= $data['id']; ?>" scope="row"><?= $data['date_added']; ?></td>
+                                            <td scope="row">PKR <?= $data['gross_work_done']; ?></td>
+                                            <td scope="row">PKR <?= $data['wd_in_bill']; ?></td>
+                                            <td scope="row">PKR <?= $data['rm_deducted']; ?></td>
+                                            <td scope="row">PKR <?= $data['payment_made']; ?></td>
+                                            <td scope="row"><?= $data['cheque_no']; ?></td>
+                                            <td scope="row">PKR <?= $data['it_deducted']; ?></td>
+                                            <td scope="row">PKR <?= $data['contract_amount']; ?></td>
+                                            <td scope="row">PKR <?= $data['paid_till_last_bill']; ?></td>
+                                            <td scope="row">PKR <?= $data['claim_amount']; ?></td>
+                                            <td scope="row">PKR <?= $data['verified_amount']; ?></td>
+                                            <td scope="row">PKR <?= $data['total_cost_material_used']; ?></td>
+                                            <?php $acct_type = $this->session->userdata('acct_type');
+                                            if ($acct_type != "admin_super") { ?>
+                                                <?php if ($acct_type != "admin_north") { ?>
+                                                    <?php if ($acct_type != "admin_south") { ?>
+                                                        <td type="button" id="edit" class="edit" onclick="edit_bill(<?= $data['id'] ?>)" scope="row"><i class="fas fa-edit"></i></td>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            <?php } ?>
+                                            <td id="view" style="cursor:pointer" class="view" scope="row" onclick="view_detail(<?= $data['id'] ?>)" class="btn btn-primary btn-user rounded-pill" data-toggle="modal" data-target="#view_detail"><i class="fas fa-eye"></i></td>
 
-                                                </tr>
-                                            <?php } ?> -->
-                                        </tbody>
-                                    </table>
-                                <?php } else { ?>
-                                    <a> No Data Available yet </a>
-                                <?php } ?>
-                            </div>
-                        <!-- </div> -->
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        <?php } else { ?>
+                            <a> No Data Available yet </a>
+                        <?php } ?>
+                    </div>
+                    <!-- </div> -->
                     <!-- </div> -->
                 </div>
             </div>
+            <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/show_running_bills/<?php if(isset($project_id['project_id'])) { echo $project_id['project_id']; }?>">
+                <div class="form-group row my-2 justify-content-center">
+                    <div class="col-sm-4">
+                        <button type="submit" class="btn btn-primary btn-user btn-block" id="add_btn">
+                            <i class="fas fa-arrow-left"></i>
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
 
         <div id="show_add_new_button" class="card-body bg-custom3" style="display:none">
@@ -323,7 +345,7 @@
 
                     var result = jQuery.parseJSON(data);
                     var len = result.length;
-                
+
                     if (len > 0) {
                         $('#add_new').show();
                         $('#show_add_new_button').show();

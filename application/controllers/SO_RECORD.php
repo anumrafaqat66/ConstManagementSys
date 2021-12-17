@@ -70,6 +70,18 @@ class SO_RECORD extends CI_Controller
         }
     }
 
+    public function about_test()
+    {
+        //Get the value from the form.
+        $search = $this->input->post('hours');
+
+        //Put the value in an array to pass to the view. 
+        $view_data['search'] = $search;
+
+        //Pass to the value to the view. Access it as '$search' in the view.
+        $this->load->view("so_record/bill_select", $view_data);
+    }
+
 
 
     public function show_bills()
@@ -85,6 +97,60 @@ class SO_RECORD extends CI_Controller
                 $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->get('project_bills')->result_array();
             } else {
                 $data['project_bills'] = $this->db->get('project_bills')->result_array();
+            }
+
+            $value = $this->input->post('project_id');
+            if (isset($value)) {
+                if ($this->session->userdata('acct_type') != 'admin_super') {
+                    $data['project_detail'] = $this->db->where('region', $this->session->userdata('region'))->where('ID', $value)->get('projects')->row_array();
+                } else {
+                    $data['project_detail'] = $this->db->get('projects')->where('ID', $value)->row_array();
+                }
+            }
+            $this->load->view('so_record/bill_select', $data);
+        }
+    }
+
+    public function show_running_bills($project_id = NULL)
+    {
+        // echo $project_id; exit;
+        if ($this->session->has_userdata('user_id')) {
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id',$project_id )->get('project_bills')->result_array();
+            } else {
+                $data['project_bills'] = $this->db->where('project_id',$project_id )->get('project_bills')->result_array();
+            }
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['projects'] = $this->db->where('region', $this->session->userdata('region'))->where('ID',$project_id )->get('projects')->row_array();
+            } else {
+                $data['projects'] = $this->db->where('ID',$project_id )->get('projects')->row_array();
+            }
+
+        
+            $this->load->view('so_record/billing_list_running', $data);
+        }
+    }
+
+    public function show_running_bill_detail($project_id = NULL)
+    {
+        if ($this->session->has_userdata('user_id')) {
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['projects'] = $this->db->where('region', $this->session->userdata('region'))->get('projects')->result_array();
+            } else {
+                $data['projects'] = $this->db->get('projects')->result_array();
+            }
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('id', $project_id)->get('project_bills')->result_array();
+            } else {
+                $data['project_bills'] = $this->db->where('id', $project_id)->get('project_bills')->result_array();
+            }
+
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $data['project_id'] = $this->db->where('region', $this->session->userdata('region'))->where('id', $project_id)->distinct()->get('project_bills')->row_array();
+            } else {
+                $data['project_id'] = $this->db->where('id', $project_id)->distinct()->get('project_bills')->row_array();
             }
             $this->load->view('so_record/billing_list', $data);
         }
@@ -119,8 +185,8 @@ class SO_RECORD extends CI_Controller
     {
         if ($this->session->has_userdata('user_id')) {
             $data['project_id'] = $_POST['project_id_selected'];
-            $data['material_cost_used'] = $this->db->select('sum(Price) as total_cost')->where('Material_used_by_Project',$data['project_id'])->get('inventory_used')->row_array();
-            $data['material_cost_used_previous_bills'] = $this->db->select('sum(total_cost_material_used) as total_cost_billed')->where('project_id',$data['project_id'])->get('project_bills')->row_array();
+            $data['material_cost_used'] = $this->db->select('sum(Price) as total_cost')->where('Material_used_by_Project', $data['project_id'])->get('inventory_used')->row_array();
+            $data['material_cost_used_previous_bills'] = $this->db->select('sum(total_cost_material_used) as total_cost_billed')->where('project_id', $data['project_id'])->get('project_bills')->row_array();
 
             $total_cost =  $data['material_cost_used']['total_cost'];
             $total_cost_billed =  is_null($data['material_cost_used_previous_bills']['total_cost_billed']) ? 0 : $data['material_cost_used_previous_bills']['total_cost_billed'];
@@ -768,7 +834,7 @@ class SO_RECORD extends CI_Controller
             $dompdf = new Dompdf($options);
             $dompdf->set_base_path($_SERVER['DOCUMENT_ROOT'] . '');
 
-            $id = $this->session->userdata('user_id'); 
+            $id = $this->session->userdata('user_id');
 
             $this->db->select('pal.*,p.Name');
             $this->db->from('project_allotment_letter pal');
