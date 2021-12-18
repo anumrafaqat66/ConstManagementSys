@@ -276,6 +276,7 @@ CREATE TABLE `project_bills` (
   `id` bigint(20) NOT NULL ,
   `project_id` int(20) NOT NULL,
   `bill_name` varchar(500) DEFAULT NULL,
+  `bill_description` varchar(500) DEFAULT NULL,
   `date_added` DATE DEFAULT NULL,
   `gross_work_done` decimal(16,2) NULL,
   `wd_in_bill` decimal(16,2) NULL,
@@ -289,6 +290,20 @@ CREATE TABLE `project_bills` (
   `verified_amount` decimal(16,2) NULL,
   `bill_file_attach_1` varchar(500) NULL,
   `total_cost_material_used` decimal(16,2) NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
+-- Table structure for table `officer_record`
+--
+CREATE TABLE `officer_record` (
+ `officer_id` int(11) NOT NULL,
+ `officer_name` varchar(250) NULL,
+ `officer_cnic` varchar(250) NULL,
+ `officer_rank` varchar(250) NULL,
+ `payment_last_month` decimal(16,2) NULL,
+ `total_payment` decimal(16,2) NULL,
+ `file_attach` varchar(500) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

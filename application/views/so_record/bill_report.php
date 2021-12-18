@@ -21,7 +21,7 @@
     <img class="img-logo" src="<?= base_url() ?>assets/img/navy_logo.png" alt="">
     <h1><strong>NHS PMS</strong></h1>
     <h2><strong>Billing Detail of</strong></h2>
-    <h2><strong><?= $project_name['Name'] ?></strong></h2>
+    <h2><strong><?= $projects['Name'] ?></strong></h2>
     <hr style="border-top: 1px solid black">
   </div>
 </div>

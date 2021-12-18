@@ -24,7 +24,7 @@
   .img-bg {
     background-image: url('<?= base_url() ?>assets/img/bg-image.jpg');
     background-size: cover;
-    width:100%;
+    width: 100%;
   }
 
   .region {
@@ -42,7 +42,7 @@
   }
 </style>
 
-<body class="row img-bg" >
+<body class="row img-bg">
 
   <div class="container">
 

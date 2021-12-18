@@ -150,6 +150,18 @@
                                             </div>
 
                                             <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <h6>&nbsp;Bill Description:</h6>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-12 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="bill_desc" id="bill_desc" placeholder="Enter Bill Description">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <h6>&nbsp;WD in the Bill:</h6>
                                                 </div>
@@ -290,6 +302,7 @@
 
         var bill_no = $('#bill_no').val();
         var gross_work = $('#gross_work').val();
+        var bill_desc = $('#bill_desc').val();
         var WD_bill = $('#WD_bill').val();
         var RM_deducted = $('#RM_deducted').val();
         var payment_made = $('#payment_made').val();
@@ -300,8 +313,12 @@
         var last_bill_paid = $('#last_bill_paid').val();
         var verify_amt = $('#verify_amt').val();
         var claim_amt = $('#claim_amt').val();
+        var your_btn = $('#your_btn').val();
 
-
+        if (your_btn == '') {
+            validate = 1;
+            $('#your_btn').addClass('red-border');
+        }
         if (bill_no == '') {
             validate = 1;
             $('#bill_no').addClass('red-border');
@@ -309,6 +326,10 @@
         if (gross_work == '') {
             validate = 1;
             $('#gross_work').addClass('red-border');
+        }
+        if (bill_desc == '') {
+            validate = 1;
+            $('#bill_desc').addClass('red-border');
         }
         if (WD_bill == '') {
             validate = 1;

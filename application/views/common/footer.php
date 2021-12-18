@@ -42,10 +42,11 @@
             <i class="fas fa-angle-up"></i>
         </a>
         <!-- Code begins here -->
-
+        <?php if ($this->session->has_userdata('user_id')) { ?>
         <a href="<?= base_url(); ?>ChatController?sender_id=" class="float">
             <i class="fas fa-comment-dots my-float"></i>
         </a>
+        <?php } ?>
 
 
         <!-- Logout Modal-->

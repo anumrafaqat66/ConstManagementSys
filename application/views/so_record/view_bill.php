@@ -65,6 +65,18 @@
                                 </div>
 
                                 <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <h6>&nbsp;Bill Description:</h6>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-12 mb-1">
+                                        <input type="text" class="form-control form-control-user" name="bill_desc" id="bill_desc" value="<?= $project_bills['bill_description'] ?>" placeholder="Enter Bill Description" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <div class="col-sm-6">
                                         <h6>&nbsp;WD in the Bill:</h6>
                                     </div>

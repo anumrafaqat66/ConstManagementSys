@@ -14,6 +14,12 @@
     .red-border {
         border: 1px solid red !important;
     }
+
+    table,
+    th,
+    td {
+        border: 1px solid black !important;
+    }
 </style>
 
 <div class="container">
@@ -201,72 +207,66 @@
 
                     <!-- <div class="card bg-custom3"> -->
                     <div class="card-header bg-custom1">
-                        <h1 class="h4">Running Bill Detail</h1>
+                        <h1 class="h4">Bills Summary</h1>
                     </div>
-                    
+
+                    <h1 class="h3" style="text-decoration:underline; text-align:center;margin-top:10px"><strong><?= $projects['Name']; ?></strong></h1>
+                    <h1 class="h3" style="text-decoration:underline; text-align:center;margin-top:10px"><strong>Summary</strong></h1>
+
                     <!-- <div class="card-body"> -->
-                    <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_print/<?= $bill_id ?>'" style="float: right; margin-bottom:6px; margin-top:5px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
+                    <a onclick="location.href='<?php echo base_url(); ?>SO_RECORD/bills_summary_print/<?= $projects['ID']; ?>'" style="float: right; margin-bottom:6px; margin-top:5px" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
 
                     <div id="table_div">
-                        <?php if (count($project_bills) > 0) { ?>
-                            <table id="datatable" class="table table-striped" style="color:black;font-size:x-small;">
+                        <?php $total_contract_amount = 0;
+                              $total_paid_till_last_bill = 0;
+                              $total_payment_made = 0;
+                              $total_claim_amount = 0;
+                              $total_verified_amount = 0;
+                              $total_total_verified_amount = 0;
+                        if (count($project_bills) > 0) { ?>
+                            <table id="datatable" class="table" style="color:black;font-size:x-small;">
                                 <thead>
                                     <tr>
-                                        <!-- <th scope="col">#</th> -->
-                                        <th scope="col">Bill No.</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Gross Work Done</th>
-                                        <th scope="col">WD in Bill</th>
-                                        <th scope="col">R/M Deducted</th>
-                                        <th scope="col">Payment Made</th>
-                                        <th scope="col">Cheque No.</th>
-                                        <th scope="col">IT Deducted</th>
+                                        <th scope="col">S. No.</th>
+                                        <th scope="col">Description</th>
                                         <th scope="col">Contract Amount</th>
-                                        <th scope="col">Paid till Last Bill</th>
-                                        <th scope="col">Claimed Amount</th>
-                                        <th scope="col">Verified Amount</th>
-                                        <th scope="col">Material Used Cost</th>
-                                        <?php $acct_type = $this->session->userdata('acct_type');
-                                        if ($acct_type != "admin_super") { ?>
-                                            <?php if ($acct_type != "admin_north") { ?>
-                                                <?php if ($acct_type != "admin_south") { ?>
-                                                    <th scope="col">Edit</th>
-                                        <?php }
-                                            }
-                                        } ?>
-                                        <th scope="col">Files</th>
+                                        <th scope="col">Paid till Last Running Bill</th>
+                                        <th scope="col">Payment Made</th>
+                                        <th scope="col">Amount Claim in this Bill</th>
+                                        <th scope="col">Amount Verified in this Bill</th>
+                                        <th scope="col">Total Verified Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table_rows">
                                     <?php $count = 0;
-                                    foreach ($project_bills as $data) { ?>
+                                    foreach ($project_bills as $data) {
+                                        $total_contract_amount = $total_contract_amount +  $data['contract_amount']; 
+                                        $total_paid_till_last_bill = $total_paid_till_last_bill +  $data['paid_till_last_bill']; 
+                                        $total_payment_made = $total_payment_made +  $data['payment_made']; 
+                                        $total_claim_amount = $total_claim_amount +  $data['claim_amount']; 
+                                        $total_verified_amount = $total_verified_amount +  $data['verified_amount']; 
+                                        $total_total_verified_amount = $total_total_verified_amount +  $data['verified_amount']; 
+                                        ?>
                                         <tr>
-                                            <!-- <td scope="row"><?= ++$count; ?></td> -->
-                                            <td type="button" scope="row" style="font-weight:900;cursor:pointer" onclick="view_bill(<?= $data['id'] ?>)"><?= $data['bill_name'] ?></td>
-                                            <td id="material<?= $data['id']; ?>" scope="row"><?= $data['date_added']; ?></td>
-                                            <td scope="row">PKR <?php echo number_format($data['gross_work_done'],2); ?></td>
-                                            <td scope="row">PKR <?php echo number_format($data['wd_in_bill'],2); ?></td>
-                                            <td scope="row">PKR <?php echo number_format($data['rm_deducted'],2); ?></td>
-                                            <td scope="row">PKR <?php echo number_format($data['payment_made'],2); ?></td>
-                                            <td scope="row"><?= $data['cheque_no']; ?></td>
-                                            <td scope="row">PKR <?php echo number_format($data['it_deducted'],2); ?></td>
+                                            <td scope="row"><?= ++$count; ?></td>
+                                            <td scope="row"><?= $data['bill_description']; ?></td>
                                             <td scope="row">PKR <?php echo number_format($data['contract_amount'],2); ?></td>
                                             <td scope="row">PKR <?php echo number_format($data['paid_till_last_bill'],2); ?></td>
+                                            <td scope="row">PKR <?php echo number_format($data['payment_made'],2); ?></td>
                                             <td scope="row">PKR <?php echo number_format($data['claim_amount'],2); ?></td>
-                                            <td scope="row">PKR <?php echo number_format($data['verified_amount'],2); ?></td>
-                                            <td scope="row">PKR <?php echo number_format($data['total_cost_material_used'],2); ?></td>
-                                            <?php $acct_type = $this->session->userdata('acct_type');
-                                            if ($acct_type != "admin_super") { ?>
-                                                <?php if ($acct_type != "admin_north") { ?>
-                                                    <?php if ($acct_type != "admin_south") { ?>
-                                                        <td type="button" id="edit" class="edit" onclick="edit_bill(<?= $data['id'] ?>)" scope="row"><i class="fas fa-edit"></i></td>
-                                                    <?php } ?>
-                                                <?php } ?>
-                                            <?php } ?>
-                                            <td id="view" style="cursor:pointer" class="view" scope="row" onclick="view_detail(<?= $data['id'] ?>)" class="btn btn-primary btn-user rounded-pill" data-toggle="modal" data-target="#view_detail"><i class="fas fa-eye"></i></td>
-
+                                            <td scope="row"><?php echo number_format($data['verified_amount'],2); ?></td>
+                                            <td scope="row">PKR <?php echo number_format($total_verified_amount,2); ?></td>
                                         </tr>
                                     <?php } ?>
+                                    <tr>
+                                        <th scope="col" colspan="2">Total:</th>
+                                        <th scope="col">PKR. <?php echo number_format($total_contract_amount,2); ?></th>
+                                        <th scope="col">PKR. <?php echo number_format($total_paid_till_last_bill,2); ?></th>
+                                        <th scope="col">PKR. <?php echo number_format($total_payment_made,2); ?></th>
+                                        <th scope="col">PKR. <?php echo number_format($total_claim_amount,2); ?></th>
+                                        <th scope="col">PKR. <?php echo number_format($total_verified_amount,2); ?></th>
+                                        <th scope="col">PKR. <?php echo number_format($total_total_verified_amount,2); ?></th>
+                                    </tr>
                                 </tbody>
                             </table>
                         <?php } else { ?>
@@ -277,9 +277,7 @@
                     <!-- </div> -->
                 </div>
             </div>
-            <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/show_running_bills/<?php if (isset($project_id['project_id'])) {
-                                                                                                                                            echo $project_id['project_id'];
-                                                                                                                                        } ?>">
+            <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/show_bills/<?= $projects['ID']; ?>">
                 <div class="form-group row my-2 justify-content-center">
                     <div class="col-sm-4">
                         <button type="submit" class="btn btn-primary btn-user btn-block" id="add_btn">

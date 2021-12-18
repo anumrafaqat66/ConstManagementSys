@@ -50,7 +50,30 @@
     </div>
 </div>
 
-<form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/show_bills">
+<div class="row">
+    <div class="col-lg-12">
+        <?php $acct_type = $this->session->userdata('acct_type');
+        if ($acct_type != "admin_super") { ?>
+            <?php if ($acct_type != "admin_north") { ?>
+                <?php if ($acct_type != "admin_south") { ?>
+                    <form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/add_new_bill/<?= $projects['ID']; ?>">
+                        <div class="form-group row my-2 justify-content-center">
+                            <div class="col-sm-4">
+                                <input type="hidden" name="project_id_selected" id="project_id_selected" value="<?= $projects['ID']; ?>">
+                                <button type="submit" class="btn btn-primary btn-user btn-block" id="add_new_bill">
+                                    <i class="fas fa-plus"></i>
+                                    Add new Running Bill
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                <?php } ?>
+            <?php } ?>
+        <?php } ?>
+    </div>
+</div>
+
+<form class="user" role="form" method="post" id="add_form" action="<?php echo base_url(); ?>SO_RECORD/show_bills/<?= $projects['ID'];?>">
     <div class="form-group row my-2 justify-content-center">
         <div class="col-sm-4">
             <button type="submit" class="btn btn-primary btn-user btn-block" id="add_btn">

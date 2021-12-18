@@ -29,13 +29,7 @@
                         <h6>&nbsp;Select Project:</h6>
                     </div>
                     <div class="col-sm-6 mb-1">
-                        <!-- <form method="post" accept-charset="utf-8" action="<?php echo site_url("SO_RECORD/about_test"); ?>">
-                            <select name="hours" onchange="this.form.submit()">
-                                <option value="24">24</option>
-                                <option value="12">12</option>
-                                <option value="1">1</option>
-                            </select>
-                        </form> -->
+
                         <form method="post" accept-charset="utf-8" action="<?php echo site_url("SO_RECORD/show_bills"); ?>">
                             <select class="form-control rounded-pill" name="project_id" onchange="this.form.submit()" id="project_id" data-placeholder="Select Contractor" style="font-size: 0.8rem; height:50px;">
                                 <option class="form-control form-control-user" value="">Select Project Name</option>
@@ -49,32 +43,44 @@
 
             </div>
         </div>
-        
+
+        <!-- <?php echo $total_payment_made['total_payment']; ?>
+        <?php echo $total_verified_amount['total_verified']; ?> -->
+
         <?php if (isset($project_detail['Name'])) { ?>
-        <div class="card-body bg-custom3" id="show_buttons">
-            <div class="form-group row" >
-                <h2 id="project_heading" style="margin-left:15px;text-decoration:underline"><strong><?php if (isset($project_detail['Name'])) {
-                                                                                                echo $project_detail['Name'];
-                                                                                            } ?></strong></h2>
+            <div class="card-body bg-custom3" id="show_buttons">
+                <div class="form-group row">
+                    <h2 id="project_heading" style="margin-left:15px;text-decoration:underline"><strong><?php if (isset($project_detail['Name'])) {
+                                                                                                            echo $project_detail['Name'];
+                                                                                                        } ?></strong></h2>
+                </div>
+                <div class="form-group row justify-content-center" style="margin-top:50px;">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary rounded-pill btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_running_bills/<?php if (isset($project_detail['ID'])) {
+                                                                                                                                                                                                                                                                echo $project_detail['ID'];
+                                                                                                                                                                                                                                                            } ?>'">
+                            <h4 style="font-weight: bold;">Running Bills</h4>
+                        </button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary rounded-pill  btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_bills_summary/<?php if (isset($project_detail['ID'])) {
+                                                                                                                                                                                                                                                                echo $project_detail['ID'];
+                                                                                                                                                                                                                                                            } ?>'">
+                            <h4 style="font-weight: bold;">Bills Summary</h4>
+                        </button>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary rounded-pill  btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" >
+                            <h4 style="font-weight: bold;">Progress <?php if (isset($total_payment_made['total_payment']) && isset($total_verified_amount['total_verified'])) {
+                                                                        echo number_format(($total_payment_made['total_payment'] / $total_verified_amount['total_verified']) * 100, 2);
+                                                                    } else {
+                                                                        echo '0.00';
+                                                                    } ?>%</h4>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group row justify-content-center" style="margin-top:50px;">
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary rounded-pill btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_running_bills/<?php if (isset($project_detail['ID'])) { echo $project_detail['ID'];  } ?>'">
-                        <h4 style="font-weight: bold;">Running Bills</h4>
-                    </button>
-                </div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary rounded-pill  btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/'">
-                        <h4 style="font-weight: bold;">Bills Summary</h4>
-                    </button>
-                </div>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary rounded-pill  btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/'">
-                        <h4 style="font-weight: bold;">Progress</h4>
-                    </button>
-                </div>
-            </div>
-        </div>
         <?php } ?>
     </div>
 </div>
@@ -91,7 +97,7 @@
 
         // $('#project_heading').html('<strong>' + project_id + '</strong>');
         // $('#show_buttons').show();
-        
+
     });
 
     $('#table_rows').find('tr').click(function() {

@@ -125,7 +125,7 @@
 
                                 <div class="card bg-custom3">
                                     <div class="card-header bg-custom1">
-                                        <h1 class="h4">Add New Bill</h1>
+                                        <h1 class="h4">Edit Bill Details</h1>
                                     </div>
 
                                     <div class="card-body">
@@ -146,6 +146,18 @@
                                                 </div>
                                                 <div class="col-sm-6 mb-1">
                                                     <input type="number" class="form-control form-control-user" value="<?= $project_bills['gross_work_done'] ?>" name="gross_work" id="gross_work" placeholder="Gross Work Done">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <h6>&nbsp;Bill Description:</h6>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-12 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="bill_desc" id="bill_desc" value="<?= $project_bills['bill_description'] ?>" placeholder="Enter Bill Description">
                                                 </div>
                                             </div>
 
@@ -174,7 +186,7 @@
                                                     <h6>&nbsp;Cheque Number:</h6>
                                                 </div>
                                             </div>
-                                                 <input type="hidden" name="project_id_selected" id="project_id_selected" value="<?= $project_bills['project_id'] ?>">
+                                            <input type="hidden" name="project_id_selected" id="project_id_selected" value="<?= $project_bills['project_id'] ?>">
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-1">
                                                     <input type="number" class="form-control form-control-user" value="<?= $project_bills['payment_made'] ?>" name="payment_made" id="payment_made" placeholder="Payment Made">
@@ -254,7 +266,7 @@
                                                     <input type="number" class="form-control form-control-user" name="material_used" value="<?= $project_bills['total_cost_material_used'] ?>" id="material_used" placeholder="Verfied Amount">
                                                 </div>
                                             </div>
-                                              <label> <?= $project_bills['bill_file_attach_1'] ?> </label>
+                                            <label> <?= $project_bills['bill_file_attach_1'] ?> </label>
 
                                             <div class="form-group row justify-content-center">
                                                 <div class="col-sm-4">
@@ -296,15 +308,15 @@
         var RM_deducted = $('#RM_deducted').val();
         var payment_made = $('#payment_made').val();
 
-           var cheque_number = $('#cheque_number').val();
+        var cheque_number = $('#cheque_number').val();
         var date = $('#date').val();
         var it_deducted = $('#it_deducted').val();
         var contract_amt = $('#contract_amt').val();
 
-         var last_bill_paid = $('#last_bill_paid').val();
+        var last_bill_paid = $('#last_bill_paid').val();
         var verify_amt = $('#verify_amt').val();
         var claim_amt = $('#claim_amt').val();
-        
+
 
         if (bill_no == '') {
             validate = 1;
@@ -328,7 +340,7 @@
             $('#payment_made').addClass('red-border');
         }
 
-    if (cheque_number == '') {
+        if (cheque_number == '') {
             validate = 1;
             $('#cheque_number').addClass('red-border');
         }
@@ -350,7 +362,7 @@
             $('#contract_amt').addClass('red-border');
         }
 
-            if (verify_amt == '') {
+        if (verify_amt == '') {
             validate = 1;
             $('#verify_amt').addClass('red-border');
         }

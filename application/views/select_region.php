@@ -116,6 +116,9 @@
 
       </div>
     </div>
+    <a id="btn_officer_record" style="cursor: pointer; color:white; padding-top: 10px; display: block; text-decoration:underline; text-align:center" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/search_officer_record'">
+      Check NHS Officer Record
+    </a>
 
 
 
