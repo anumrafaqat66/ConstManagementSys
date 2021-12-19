@@ -60,7 +60,7 @@
     <thead>
       <tr>
         <th scope="col">Overall Progress</th>
-        <?php if($project_record['total_rows'] == 0) { $num = 1;} else {$num = $data['total_rows']; } ?>
+        <?php if($project_record['total_rows'] == 0) { $num = 1;} else {$num = $project_record['total_rows']; } ?>
         <td><?= round($project_record['total_percentage'] / $num, 2); ?>%</td>
       </tr>
     </thead>

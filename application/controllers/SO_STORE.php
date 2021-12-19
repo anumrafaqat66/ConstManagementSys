@@ -328,7 +328,7 @@ class SO_STORE extends CI_Controller
         );
 
         $insert_detail = $this->db->insert('inventory_detail', $insert_array_detail);
-
+        
         $this->update_inventory($id, $quantity, $price);
 
         if (!empty($insert_detail)) {

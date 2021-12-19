@@ -105,7 +105,7 @@ class SO_RECORD extends CI_Controller
                 if ($this->session->userdata('acct_type') != 'admin_super') {
                     $data['project_detail'] = $this->db->where('region', $this->session->userdata('region'))->where('ID', $value)->get('projects')->row_array();
                 } else {
-                    $data['project_detail'] = $this->db->get('projects')->where('ID', $value)->row_array();
+                    $data['project_detail'] = $this->db->where('ID', $value)->get('projects')->row_array();
                 }
 
                 $data['total_payment_made'] = $this->db->select('sum(payment_made) as total_payment')->where('project_id', $value)->get('project_bills')->row_array();

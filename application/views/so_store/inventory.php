@@ -307,7 +307,6 @@
                                                     if ($acct_type != "admin_super") {
                                                         if ($acct_type != "admin_north") {
                                                             if ($acct_type != "admin_south") { ?>
-
                                                                 <td type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 70px;" class="fas fa-edit"></i></td>
                                                     <?php }
                                                         }
@@ -316,6 +315,7 @@
                                                     <?php if ($acct_type == "admin_super") { ?>
                                                         <td scope="row"><?= $data['region']; ?></td>
                                                     <?php } ?>
+                                                    <td scope="row" style="display:none"><?= $data['ID']; ?></td>
 
                                                 </tr>
                                             <?php } ?>
@@ -487,7 +487,7 @@
     $('#table_rows').find('tr').click(function() {
         var $columns = $(this).find('td');
         $('#material_name_edit').val($columns[1].innerHTML);
-        $('#id_edit').val($columns[0].innerHTML);
+        $('#id_edit').val($columns[7].innerHTML);
     });
 </script>
 <!-- <script type="text/javascript">

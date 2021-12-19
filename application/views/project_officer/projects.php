@@ -683,13 +683,12 @@
     });
 
     $('#add_btn_bids').on('click', function() {
-        //alert('javascript working');
-        //  $('#add_btn_bids').attr('disabled', true);
+
         var validate = 0;
         elementClicked = true;
-        //  var name = $('#project_name_heading').val();
+
         var project_id = $('#project_id_on_bid').val();
-        //alert(project_id);
+
         var contractor = $('#contractor').val();
         var bid_amount = $('#bid_amount').val();
 
@@ -737,6 +736,7 @@
                     var result = jQuery.parseJSON(response);
                     var len = response.length;
 
+                    $("#assign_bid").empty();
                     $("#bid_amount").empty();
                     $('#bid_amount').removeAttr('disabled');
 
@@ -766,10 +766,8 @@
         }
     });
 
-
-
     $('#add_btn').on('click', function() {
-        //alert('javascript working');
+
         $('#add_btn').attr('disabled', true);
         var validate = 0;
 
@@ -778,7 +776,7 @@
         var start_date = $('#start_date').val();
         var end_date = $('#end_date').val();
         var assigned_bid = $('#assign_bid');
-        //var contractor_name = $('#contractor').val();
+
         var created_by = $('#created_by').val();
         var cost = $('#total_cost').val();
         var status = $('#status').val();
@@ -885,6 +883,7 @@
             $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
         }, 0);
     });
+
     $(document).on('hide.bs.modal', '#new_project', function() {
         var project_id = $('#project_id_on_bid').val();
         //alert(project_id);
@@ -901,18 +900,45 @@
         if (name == null || code == null || start_date == null || end_date == null ||
             assign_bid == null || created_by == null || cost == null || status == null) {
 
-            $.ajax({
-                url: '<?= base_url(); ?>Project_Officer/delete_project',
-                method: 'POST',
-                //  type:'json',
-                data: {
-                    'id': project_id
-                },
-                success: function(response) {
+            if (code != null) {
+                $.ajax({
+                    url: '<?= base_url(); ?>Project_Officer/delete_project_code',
+                    method: 'POST',
+                    //  type:'json',
+                    data: {
+                        // 'id': project_id
+                        'code': code
+                    },
+                    success: function(response) {
 
-                },
-                async: false
-            });
+                    },
+                    async: false
+                });
+            } else if (name != null) {
+                $.ajax({
+                    url: '<?= base_url(); ?>Project_Officer/delete_project_by_name',
+                    method: 'POST',
+                    data: {
+                        'name': name
+                    },
+                    success: function(response) {
+
+                    },
+                    async: false
+                });
+            } else {
+                $.ajax({
+                    url: '<?= base_url(); ?>Project_Officer/delete_project_id',
+                    method: 'POST',
+                    data: {
+                        'id': project_id
+                    },
+                    success: function(response) {
+
+                    },
+                    async: false
+                });
+            }
         } else {
             //alert('all okay');
         }

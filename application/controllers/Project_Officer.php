@@ -368,10 +368,28 @@ class Project_Officer extends CI_Controller
         }
     }
 
-    public function delete_project()
+    public function delete_project_id()
     {
         $id = $_POST['id'];
         $this->db->where('ID', $id);
+        $this->db->where('region', $this->session->userdata('region'));
+        $this->db->delete('projects');
+
+        $this->db->where('project_id', $id);
+        $this->db->delete('project_bids');
+
+    }
+    public function delete_project_code()
+    {
+        $project_code = $_POST['code'];
+        $this->db->where('Code', $project_code);
+        $this->db->where('region', $this->session->userdata('region'));
+        $this->db->delete('projects');
+    }
+    public function delete_project_by_name()
+    {
+        $project_name = $_POST['name'];
+        $this->db->where('Name', $project_name);
         $this->db->where('region', $this->session->userdata('region'));
         $this->db->delete('projects');
     }
@@ -388,7 +406,7 @@ class Project_Officer extends CI_Controller
             $this->db->where('project_bids.region', $this->session->userdata('region'));
         }
         $bids = $this->db->get()->result_array();
-        // print_r($bids);exit;
+
         echo json_encode($bids);
     }
 
@@ -648,6 +666,11 @@ class Project_Officer extends CI_Controller
             $name = $postData['project_name'];
             $code = $postData['project_code'];
 
+            //delete before inserting 
+            $this->db->where('Name', $name);
+            $this->db->where('Code', $code);
+            $this->db->delete('projects');
+
             $insert_array = array(
                 'Name' => $name,
                 'Code' => $code,
@@ -669,17 +692,16 @@ class Project_Officer extends CI_Controller
         if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
 
-            $count = count($postData)/4.8;
-            $count = (int)$count; 
+            $count = count($postData) / 4.8;
+            $count = (int)$count;
 
             $this->db->where('project_id', $project_id);
             $this->db->delete('project_bids_evaluation');
 
-            if(isset($_POST['flexRadioDefault']))
-            {
-                $selected_row = $_POST['flexRadioDefault']; 
+            if (isset($_POST['flexRadioDefault'])) {
+                $selected_row = $_POST['flexRadioDefault'];
             }
-           
+
             for ($x = 1; $x <= $count; $x++) {
                 $contractor_id = $postData['contractor_id' . $x];
                 $technical_score = $postData['txt_tech_score' . $x];
@@ -693,7 +715,7 @@ class Project_Officer extends CI_Controller
                 } else {
                     $value = 'Not Selected';
                 }
-               
+
                 $insert_array = array(
                     'project_id' => $project_id,
                     'contractor_id' => $contractor_id,
@@ -709,7 +731,7 @@ class Project_Officer extends CI_Controller
                 $insert = $this->db->insert('project_bids_evaluation', $insert_array);
                 $last_id = $this->db->insert_id();
 
-                if ($x == $selected_row){
+                if ($x == $selected_row) {
                     $cond  = [
                         'ID' => $project_id,
                         'region' => $this->session->userdata('region')
@@ -722,7 +744,7 @@ class Project_Officer extends CI_Controller
                     $this->db->update('projects', $data_update);
                 }
             }
-           
+
 
             if (!empty($insert)) {
 
@@ -782,13 +804,16 @@ class Project_Officer extends CI_Controller
     {
         if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
-
-            // $project_name = $postData['Name_of_Project'];
             $project_id = $postData['id'];
             $contractor = $postData['contractor'];
             $bid_amount = $postData['bid_amount'];
 
-            // $project = $this->db->where('Name', $project_name)->get('projects')->row_array();
+            for ($d = 0; $d < count($contractor); $d++) {
+                $this->db->where('project_id', $project_id - 1);
+                $this->db->where('contractor_id', $contractor[$d]);
+                $this->db->where('bid_amount', $bid_amount[$d]);
+                $this->db->delete('project_bids');
+            }
 
             for ($i = 0; $i < count($contractor); $i++) {
                 $insert_array = array(
@@ -800,7 +825,6 @@ class Project_Officer extends CI_Controller
                 );
                 $insert = $this->db->insert('project_bids', $insert_array);
             }
-            // redirect('Project_Officer/add_projects/');
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
             redirect('Project_Officer/add_projects');
