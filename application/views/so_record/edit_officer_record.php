@@ -46,12 +46,12 @@
 
                                 <div class="card bg-custom3">
                                     <div class="card-header bg-custom1">
-                                        <h1 class="h4">Add Officer NHS Payment Record</h1>
+                                        <h1 class="h4">Update Officer NHS Payment Record</h1>
                                     </div>
 
                                     <div class="card-body">
 
-                                        <form class="user" role="form" enctype="multipart/form-data" method="post" id="add_bill_form" action="<?= base_url(); ?>SO_RECORD/insert_officer_record">
+                                        <form class="user" role="form" enctype="multipart/form-data" method="post" id="add_bill_form" action="<?= base_url(); ?>SO_RECORD/update_officer_record">
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <h6>&nbsp;Officer ID:</h6>
@@ -63,14 +63,12 @@
 
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="officer_id" id="officer_id" placeholder="Officer ID">
+                                                    <input type="text" class="form-control form-control-user" name="officer_id" id="officer_id" value="<?= $officer_record['officer_id']; ?>" placeholder="Officer ID" readonly>
                                                 </div>
                                                 <div class="col-sm-6 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="officer_name" id="officer_name" placeholder="Officer Name">
+                                                    <input type="text" class="form-control form-control-user" name="officer_name" id="officer_name" value="<?= $officer_record['officer_name']; ?>" placeholder="Officer Name">
                                                 </div>
                                             </div>
-
-
 
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
@@ -83,10 +81,10 @@
 
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="CNIC" id="CNIC" placeholder="Enter CNIC">
+                                                    <input type="text" class="form-control form-control-user" name="CNIC" id="CNIC" value="<?= $officer_record['officer_cnic']; ?>" placeholder="Enter CNIC">
                                                 </div>
                                                 <div class="col-sm-6 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="Rank" id="Rank" placeholder="Enter Rank">
+                                                    <input type="text" class="form-control form-control-user" name="Rank" id="Rank" value="<?= $officer_record['officer_rank']; ?>" placeholder="Enter Rank">
                                                 </div>
                                             </div>
 
@@ -101,10 +99,10 @@
 
                                             <div class="form-group row">
                                                 <div class="col-sm-6 mb-1">
-                                                    <input type="number" class="form-control form-control-user" name="payment_last_month" id="payment_last_month" placeholder="Enter Payment Last Month">
+                                                    <input type="number" class="form-control form-control-user" name="payment_last_month" value="<?= $officer_record['payment_last_month']; ?>" id="payment_last_month" placeholder="Enter Payment Last Month">
                                                 </div>
                                                 <div class="col-sm-6 mb-1">
-                                                    <input type="number" class="form-control form-control-user" name="total_payment" id="total_payment" placeholder="Enter Total Payment">
+                                                    <input type="number" class="form-control form-control-user" name="total_payment" id="total_payment" value="<?= $officer_record['total_payment']; ?>" placeholder="Enter Total Payment">
                                                 </div>
                                             </div>
 
@@ -116,7 +114,8 @@
 
                                             <div class="form-group row">
                                                 <div class="col-sm-12 mb-1">
-                                                    <input type="file" id="your_btn" multiple="multiple" name="doc_attach[]" id="doc_attach">
+                                                    <input type="file" id="your_btn" multiple="multiple" value="<?= $officer_record['file_attach']; ?>" name="doc_attach[]" id="doc_attach">
+                                                    <label><strong>&nbsp;<?= $officer_record['file_attach']; ?></strong></label>
                                                 </div>
                                             </div>
 
@@ -124,7 +123,7 @@
                                                 <div class="col-sm-4">
                                                     <button type="button" class="btn btn-primary btn-user btn-block" name="file_upload" id="file_upload">
                                                         <!-- <i class="fab fa-google fa-fw"></i>  -->
-                                                        Save Record
+                                                        Update Record
                                                     </button>
                                                     <span id="show_error_new" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
                                                 </div>

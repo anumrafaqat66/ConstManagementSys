@@ -64,7 +64,7 @@
         </div>
         <div class="form-group row justify-content-center" style="margin-top:50px;">
             <div class="col-sm-12">
-                <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/add_officer_record'">
+                <button type="button" class="btn btn-primary btn-user btn-block" style="height:65px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>SO_RECORD/show_officer_record_list'">
                     <h4 style="font-weight: bold;">Add Officer Record</h4>
                 </button>
             </div>

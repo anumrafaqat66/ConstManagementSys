@@ -45,7 +45,13 @@
             </div>
         </div>
     </div>
-
+    <?php if (isset($isdata)) {
+        if ($isdata != 'Yes') { ?>
+            <div class="card-body bg-custom3">
+                <h3 style="padding:20px; color:brown"><strong>No record found. Please Enter the ID and try again.</strong></h3>
+            </div>
+    <?php }
+    } ?>
     <?php if (isset($officer_detail['officer_name'])) { ?>
         <div class="card-body bg-custom3" id="show_buttons">
             <form class="user" role="form" enctype="multipart/form-data" method="post" id="show_officer" action="">

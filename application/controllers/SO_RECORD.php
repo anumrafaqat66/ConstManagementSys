@@ -125,13 +125,17 @@ class SO_RECORD extends CI_Controller
         }
         if (isset($value)) {
             $data['officer_detail'] = $this->db->where('officer_id', $value)->get('officer_record')->row_array();
+            $data['isdata'] = 'Yes';
+        }
+        if(is_null($data['officer_detail'])) {
+            $data['isdata'] = 'No Data Found';
         }
         $this->load->view('so_record/search_officer_record', $data);
     }
 
     public function show_running_bills($project_id = NULL)
     {
-        
+
         if ($this->session->has_userdata('user_id')) {
             if ($this->session->userdata('acct_type') != 'admin_super') {
                 $data['project_bills'] = $this->db->where('region', $this->session->userdata('region'))->where('project_id', $project_id)->get('project_bills')->result_array();
@@ -241,8 +245,22 @@ class SO_RECORD extends CI_Controller
     public function add_officer_record()
     {
         if ($this->session->has_userdata('user_id')) {
-
             $this->load->view('so_record/add_officer_record');
+        }
+    }
+    public function edit_officer_record($officer_id = NULL)
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $data['officer_record'] = $this->db->where('officer_id', $officer_id)->get('officer_record')->row_array();
+            $this->load->view('so_record/edit_officer_record',$data);
+        }
+    }
+
+    public function show_officer_record_list()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $data['officer_record'] = $this->db->get('officer_record')->result_array();
+            $this->load->view('so_record/officer_records_list', $data);
         }
     }
 
@@ -465,6 +483,93 @@ class SO_RECORD extends CI_Controller
         } else {
             $this->session->set_flashdata('failure', 'Something went wrong, try again.');
             redirect('SO_RECORD/add_officer_record');
+        }
+    }
+
+    public function update_officer_record()
+    {
+        $postData = $this->security->xss_clean($this->input->post());
+
+
+        $officer_id = $postData['officer_id'];
+        $officer_name = $postData['officer_name'];
+        $CNIC = $postData['CNIC'];
+        $Rank = $postData['Rank'];
+        $payment_last_month = $postData['payment_last_month'];
+        $total_payment = $postData['total_payment'];
+
+        if (isset($_FILES['doc_attach'])) {
+            $upload1 = $this->upload_doc_attachment($_FILES['doc_attach']);
+        }
+
+        if (count($upload1) > 1) {
+            $files = implode(',', $upload1);
+        } else {
+            $files = $upload1[0];
+        }
+
+        $update_array = array(
+            'officer_name' => $officer_name,
+            'officer_cnic' => $CNIC,
+            'officer_rank' => $Rank,
+            'payment_last_month' => $payment_last_month,
+            'total_payment' => $total_payment,
+            'file_attach' => $files
+        );
+        
+        
+        $cond = [
+            'officer_id' => $officer_id
+        ];
+
+        $this->db->where($cond);
+        $insert = $this->db->update('officer_record', $update_array);
+
+        if (!empty($insert)) {
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'add',
+                'activity_detail' => "Officer : " . $officer_name . "  has been updated by : " . $this->session->userdata('username'),
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s'),
+                'region' => $this->session->userdata('region')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            if ($this->session->userdata('acct_type') != 'admin_super') {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            } else {
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
+            }
+
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no',
+                    'region' => $this->session->userdata('region')
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
+
+            for ($i = 0; $i < count($query_both); $i++) {
+                $insert_activity_seen_both = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query_both[$i]['id'],
+                    'seen' => 'no',
+                    'region' => 'both'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
+            }
+
+            $this->session->set_flashdata('success', 'Officer Record updated successfully');
+            redirect('SO_RECORD/show_officer_record_list');
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            redirect('SO_RECORD/show_officer_record_list');
         }
     }
 
