@@ -377,7 +377,6 @@ class Project_Officer extends CI_Controller
 
         $this->db->where('project_id', $id);
         $this->db->delete('project_bids');
-
     }
     public function delete_project_code()
     {
@@ -930,17 +929,18 @@ class Project_Officer extends CI_Controller
 
             $id = $this->session->userdata('user_id');
 
-            $this->db->select('p.*,c.Name as contractor_name, pb.bid_amount, sum(progress_percentage) as total_percentage, count(progress_percentage) as total_rows');
+            $this->db->select('p.*,c.Name as contractor_name, IFNULL(pb.bid_amount,0.00) as bid_amount, sum(progress_percentage) as total_percentage, count(progress_percentage) as total_rows');
             $this->db->from('projects p');
-            $this->db->join('contractors c', 'p.contractor_id = c.ID');
-            $this->db->join('project_bids pb',  'p.bid_id = pb.id', 'p.ID = pb.project_id');
+            $this->db->where('p.ID', $project_id);
+            $this->db->join('contractors c', 'p.contractor_id = c.ID', 'left');
+            $this->db->join('project_bids pb',  'p.bid_id = pb.id', 'p.ID = pb.project_id', 'left');
             $this->db->join('project_progress pp', 'p.ID = pp.project_id', 'left');
             $this->db->join('project_schedule ps', 'pp.task_id = ps.id', 'left');
-            $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
-            $this->db->where('p.ID', $project_id);
             if ($this->session->userdata('acct_type') != 'admin_super') {
                 $this->db->where('p.region', $this->session->userdata('region'));
             }
+            $this->db->group_by('p.Name, p.Code, p.Start_date, p.status');
+            // print_r($this->db);exit;
             $data['project_record'] = $this->db->get()->row_array();
 
 

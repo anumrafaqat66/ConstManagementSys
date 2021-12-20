@@ -26,45 +26,54 @@
     <h3><strong>Project Complete Report</strong></h3>
     <hr style="border-top: 1px solid black">
   </div>
+
   <table class="table table-bordered" style="color:black">
     <thead style="background-color:lightgray">
       <tr>
         <th scope="col">Project Name:</th>
-        <th><?= $project_record['Name'] ?></th>
+        <th><?php if(isset($project_record['Name'])) {echo $project_record['Name']; } else {echo '';} ?></th>
       </tr>
     </thead>
     <thead>
       <tr>
         <th scope="col">Project Start Date:</th>
-        <td><?= $project_record['Start_date'] ?></td>
+        <td><?php if(isset($project_record['Start_date'])) {echo $project_record['Start_date'];} else { echo ''; } ?></td>
       </tr>
     </thead>
     <thead>
       <tr>
         <th scope="col">Project Status</th>
-        <td><?= $project_record['Status'] ?></td>
+        <td><?php if(isset($project_record['Status'])) {echo $project_record['Status'];} else { echo ''; } ?></td>
       </tr>
     </thead>
     <thead>
       <tr>
         <th scope="col">Assigned Contractor</th>
-        <td><?= $project_record['contractor_name'] ?></td>
+        <td><?php if(isset($project_record['contractor_name'])) {echo $project_record['contractor_name'];} else { echo ''; } ?></td>
       </tr>
     </thead>
     <thead>
       <tr>
         <th scope="col">Assigned Bid</th>
-        <td>PKR. <?= $project_record['bid_amount'] ?>/-</td>
+        <td>PKR. <?php if(isset($project_record['bid_amount'])) {echo $project_record['bid_amount'];} else { echo '0.00'; } ?>/-</td>
       </tr>
     </thead>
     <thead>
       <tr>
         <th scope="col">Overall Progress</th>
-        <?php if($project_record['total_rows'] == 0) { $num = 1;} else {$num = $project_record['total_rows']; } ?>
-        <td><?= round($project_record['total_percentage'] / $num, 2); ?>%</td>
+
+        <?php if (isset($project_record['total_rows'])) {
+          if ($project_record['total_rows'] == 0) {
+            $num = 1;
+          } else {
+            $num = $project_record['total_rows'];
+          }
+        } ?>
+        <td><?php if(isset($project_record['total_percentage'])) {echo round($project_record['total_percentage'] / $num, 2);} else { echo '0.00'; } ?></td>
       </tr>
     </thead>
   </table>
+
 </div>
 
 <p><br>Following are the current progress details of the project:</p>

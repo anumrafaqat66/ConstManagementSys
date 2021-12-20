@@ -119,18 +119,26 @@ class SO_RECORD extends CI_Controller
 
     public function show_officer_record($officer_id = NULL)
     {
-        $value = $this->input->post('search_id');
-        if (isset($officer_id)) {
-            $value = $officer_id;
-        }
-        if (isset($value)) {
-            $data['officer_detail'] = $this->db->where('officer_id', $value)->get('officer_record')->row_array();
+        if (!empty($_POST) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+            $value = $this->input->post('search_id');
+
+            if (isset($officer_id)) {
+                $value = $officer_id;
+            }
+            if (isset($value)) {
+                $data['officer_detail'] = $this->db->where('officer_id', $value)->get('officer_record')->row_array();
+                $data['isdata'] = 'Yes';
+
+                if (is_null($data['officer_detail'])) {
+                    $data['isdata'] = 'No Data Found';
+                }
+            }
+
+            $this->load->view('so_record/search_officer_record', $data);
+        } else {
             $data['isdata'] = 'Yes';
+            $this->load->view('so_record/search_officer_record', $data);
         }
-        if(is_null($data['officer_detail'])) {
-            $data['isdata'] = 'No Data Found';
-        }
-        $this->load->view('so_record/search_officer_record', $data);
     }
 
     public function show_running_bills($project_id = NULL)
@@ -252,7 +260,7 @@ class SO_RECORD extends CI_Controller
     {
         if ($this->session->has_userdata('user_id')) {
             $data['officer_record'] = $this->db->where('officer_id', $officer_id)->get('officer_record')->row_array();
-            $this->load->view('so_record/edit_officer_record',$data);
+            $this->load->view('so_record/edit_officer_record', $data);
         }
     }
 
@@ -516,8 +524,8 @@ class SO_RECORD extends CI_Controller
             'total_payment' => $total_payment,
             'file_attach' => $files
         );
-        
-        
+
+
         $cond = [
             'officer_id' => $officer_id
         ];

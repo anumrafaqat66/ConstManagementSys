@@ -103,7 +103,8 @@
                         <input type="text" style="font-size:large; color:black; font-weight:900" class="form-control form-control-user" name="total_payment" id="total_payment" value="<?= $officer_detail['total_payment']; ?>" placeholder="Gross Work Done" readonly>
                     </div>
                     <div class="col-sm-4 mb-1">
-                        <input type="text" style="font-size:large; color:black; font-weight:900" class="form-control form-control-user" name="file_attach" id="file_attach" value="<?= $officer_detail['file_attach']; ?>" placeholder="File Attached" readonly>
+                        <!-- <input type="text" style="font-size:large; color:black; font-weight:900" class="form-control form-control-user" name="file_attach" id="file_attach" value="<?= $officer_detail['file_attach']; ?>" placeholder="File Attached" readonly> -->
+                        <a href="<?= base_url(); ?>uploads/officer_records/<?= $officer_detail['file_attach']; ?>" style="font-size:large; color:black; font-weight:900;white-space:nowrap"> <?= $officer_detail['file_attach']; ?></a>
                     </div>
                 </div>
             </form>
@@ -209,5 +210,9 @@
             },
             async: true
         });
+    }
+
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
     }
 </script>
